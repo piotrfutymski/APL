@@ -1,5 +1,7 @@
 package put.apl.Algorithms.Sorting.Implementation;
 
+import put.apl.Algorithms.Sorting.SortingResult;
+
 /**
  * Interface for all sorting algorithms in APL
  * If algorithm depends on params (for example pivot in quick sort) it should be configurable by constructor
@@ -8,5 +10,6 @@ package put.apl.Algorithms.Sorting.Implementation;
  */
 public interface SortingAlgorithm {
 
-    public void sort(int[] tab);
+    public SortingResult sort(int[] tab);
+
 }
