@@ -4,5 +4,5 @@ import put.apl.Algorithms.Sorting.Data.DataGeneratorConfig;
 
 public interface SortingDataGenerator {
 
-    int[] generate(DataGeneratorConfig config);
+    SortingData generate(DataGeneratorConfig config);
 }

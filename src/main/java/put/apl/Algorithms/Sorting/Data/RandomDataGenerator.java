@@ -4,11 +4,12 @@ import java.util.Random;
 
 public class RandomDataGenerator implements  SortingDataGenerator{
     @Override
-    public int[] generate(DataGeneratorConfig config) {
-        int[] res = new Random()
-                .ints(0, config.getMaxValue()+1)
+    public SortingData generate(DataGeneratorConfig config) {
+        int[] tab = new Random()
+                .ints(0, config.getMaxValue() + 1)
                 .limit(config.getN())
                 .toArray();
-        return res;
+
+        return new SortingData(tab);
     }
 }
