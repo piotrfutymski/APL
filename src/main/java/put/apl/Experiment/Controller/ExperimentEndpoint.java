@@ -1,31 +1,54 @@
 package put.apl.Experiment.Controller;
 
-import org.springframework.http.MediaType;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import put.apl.Experiment.Dto.ExperimentsResults;
+import put.apl.Experiment.Dto.GraphExperiment;
 import put.apl.Experiment.Dto.SortingExperiment;
+import put.apl.Experiment.Service.SchedulerService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/apl-api/experiment")
+@AllArgsConstructor
 public class ExperimentEndpoint {
 
+    SchedulerService schedulerService;
 
-   class Test{
-    public int x,y;
-    public Test(int x, int y){
-        this.x = x;
-        this.y = y;
+    @PostMapping("/sort")
+    public ResponseEntity<String> startSortingExperiments(@RequestBody List<SortingExperiment> experiments){
+        String id = schedulerService.scheduleSoritng(experiments);
+        if(id == null){
+            return ResponseEntity.badRequest()
+                    .body(null);
+        }else{
+            return ResponseEntity.ok()
+                    .body(id);
+        }
     }
-   }
 
-    @GetMapping
-    public Test Hello(){
-        return new Test(1,5);
+    @PostMapping("/graph")
+    public ResponseEntity<String> startGraphExperiments(@RequestBody List<GraphExperiment> experiments){
+        String id = schedulerService.scheduleGraph(experiments);
+        if(id == null){
+            return ResponseEntity.badRequest()
+                    .body(null);
+        }else{
+            return ResponseEntity.ok()
+                    .body(id);
+        }
     }
 
-    @PostMapping
-    public String startExperiments(@RequestBody List<SortingExperiment> experiments){
-       return "You want to make " + String.valueOf(experiments.size()) + " experiments";
+    @GetMapping("/{id}")
+    public ExperimentsResults getExperimentsResults(@PathVariable String id){
+        ExperimentsResults res = schedulerService.getExperimentsResults(id);
+        return res;
+    }
+
+    @DeleteMapping("/id")
+    public void deleteExperiments(@PathVariable String id){
+        schedulerService.deleteExperiments(id);
     }
 }
