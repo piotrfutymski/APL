@@ -1,5 +1,6 @@
 package put.apl.Algorithms.Sorting.Implementation;
 
+import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
 
 /**
@@ -10,6 +11,6 @@ import put.apl.Algorithms.Sorting.SortingResult;
  */
 public interface SortingAlgorithm {
 
-    public SortingResult sort(int[] tab);
+    public SortingResult sort(SortingData tab);
 
 }

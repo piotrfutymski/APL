@@ -1,29 +1,22 @@
 package put.apl.Algorithms.Sorting.Implementation;
 
+import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
 
 public class SelectionSort implements SortingAlgorithm {
     @Override
-    public SortingResult sort(int[] tab) {
-
-        Integer compNum = 0;
-        Integer swapNum = 0;
-
-        for (int i = 0; i < tab.length; i++) {
+    public SortingResult sort(SortingData tab) {
+        for (int i = 0; i < tab.length(); i++) {
             int index = i;
-            for (int j = i; j < tab.length; j++) {
-                compNum++;
-                if(tab[j] < tab[index])
+            for (int j = i; j < tab.length(); j++) {
+                if(tab.less(j,index))
                     index = j;
             }
-            swapNum++;
-            int tmp = tab[i];
-            tab[i] = tab[index];
-            tab[index] = tmp;
+            tab.swap(i, index);
         }
         return SortingResult.builder()
-                .comparisonCount(compNum)
-                .swapCount(swapNum)
+                .comparisonCount(tab.getCompCount())
+                .swapCount(tab.getSwapCount())
                 .build();
     }
 }
