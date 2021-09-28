@@ -9,6 +9,7 @@ import put.apl.Experiment.Dto.SortingExperiment;
 import put.apl.Experiment.Service.SchedulerService;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/apl-api/experiment")
@@ -42,7 +43,7 @@ public class ExperimentEndpoint {
     }
 
     @GetMapping("/{id}")
-    public ExperimentsResults getExperimentsResults(@PathVariable String id){
+    public ExperimentsResults getExperimentsResults(@PathVariable String id) throws ExecutionException, InterruptedException {
         ExperimentsResults res = schedulerService.getExperimentsResults(id);
         return res;
     }
