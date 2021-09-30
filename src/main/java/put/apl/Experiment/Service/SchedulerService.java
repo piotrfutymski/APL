@@ -2,31 +2,50 @@ package put.apl.Experiment.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import put.apl.Experiment.Dto.AlgorithmFuture;
 import put.apl.Experiment.Dto.ExperimentsResults;
 import put.apl.Experiment.Dto.GraphExperiment;
 import put.apl.Experiment.Dto.SortingExperiment;
 
+import java.time.Instant;
 import java.util.*;
-import java.util.function.Function;
+import java.util.concurrent.*;
 
 @Service
 public class SchedulerService {
 
-    List<AlgorithmTask> taskQueue;
+    Map<String, AlgorithmFuture> futures;
+
+    ExecutorService executorService;
 
     @Autowired
     SortingService sortingService;
 
     public SchedulerService(){
-        taskQueue = new ArrayList<>();
+        futures = new HashMap<>();
+        executorService = Executors.newFixedThreadPool(1);
     }
 
     public String scheduleSoritng(List<SortingExperiment> experiments) {
         if(experiments.size() == 0)
             return null;
         String id = UUID.randomUUID().toString();
-        AlgorithmTask task =  new AlgorithmTask(id, ()->sortingService.runExperiments(id, experiments));
-        taskQueue.add(task);
+        Future<List<Object>> future = executorService.submit(()->{
+            List<Object> res = sortingService.runExperiments(id,experiments);
+            futures.forEach((k, v)->v.setPosition(v.getPosition()-1));
+            return res;
+        });
+        Date now = Date.from(Instant.now());
+
+        AlgorithmFuture algorithmFuture = AlgorithmFuture
+                .builder()
+                .lastCallForResult(now)
+                .start(now)
+                .future(future)
+                .position(getTaskIndex())
+                .build();
+
+        futures.put(id, algorithmFuture);
         return id;
     }
 
@@ -34,49 +53,48 @@ public class SchedulerService {
         return null;
     }
 
-    public ExperimentsResults getExperimentsResults(String id) {
-        Integer index = findTaskPositionInQueue(id);
-        if(index == 0)
+    public ExperimentsResults getExperimentsResults(String id) throws ExecutionException, InterruptedException {
+        if(!futures.containsKey(id))
             return ExperimentsResults.builder()
-                    .queuePosition(0)
-                    .status(ExperimentsResults.ExperimentStatus.CALCULATING)
-                    .build();
-        if(index > 0)
-            return ExperimentsResults.builder()
-                    .queuePosition(index)
-                    .status(ExperimentsResults.ExperimentStatus.QUEUED)
+                    .status(ExperimentsResults.ExperimentStatus.REMOVED)
                     .build();
 
-        ExperimentsResults res = ExperimentsResults.builder()
-                .queuePosition(null)
-                .status(ExperimentsResults.ExperimentStatus.DONE)
-                .build();
-
-
-        List<Object> results = sortingService.getResults(id);
-        if(results != null)
-            res.setResults(results);
-
-        if(res.getResults() != null)
-            return res;
-
-        return ExperimentsResults.builder()
-                .status(ExperimentsResults.ExperimentStatus.REMOVED)
-                .build();
+        AlgorithmFuture algorithmFuture = futures.get(id);
+        if(!algorithmFuture.getFuture().isDone()){
+            algorithmFuture.setLastCallForResult(Date.from(Instant.now()));
+            if(algorithmFuture.getPosition() == 0L){
+                return ExperimentsResults.builder()
+                        .status(ExperimentsResults.ExperimentStatus.CALCULATING)
+                        .queuePosition(0L)
+                        .build();
+            }else{
+                return ExperimentsResults.builder()
+                        .status(ExperimentsResults.ExperimentStatus.QUEUED)
+                        .queuePosition(algorithmFuture.getPosition())
+                        .build();
+            }
+        }else{
+            futures.remove(id);
+            return ExperimentsResults.builder()
+                    .status(ExperimentsResults.ExperimentStatus.DONE)
+                    .results(algorithmFuture.getFuture().get())
+                    .build();
+        }
     }
 
     public void deleteExperiments(String id) {
+        if(futures.containsKey(id)){
+            futures.get(id).getFuture().cancel(true);
+            futures.remove(id);
+        }
     }
 
-    Integer findTaskPositionInQueue(String id){
-        AlgorithmTask task = taskQueue.stream()
-                .filter(e->e.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-        if(task == null)
-            return null;
-        else
-            return taskQueue.indexOf(task);
+    private long getTaskIndex(){
+        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executorService;
+        long taskCount = threadPoolExecutor.getTaskCount();
+        long completedTaskCount = threadPoolExecutor.getCompletedTaskCount();
+        long res = taskCount - completedTaskCount - 1;
+        return res;
     }
 
 }

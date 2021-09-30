@@ -17,5 +17,5 @@ public class ExperimentsResults {
 
     private ExperimentStatus status;
     private List<Object> results;
-    private Integer queuePosition;
+    private Long queuePosition;
 }

@@ -19,6 +19,6 @@ public class SortingExperiment {
     private Integer N;
     private Integer maxValue;
     //Result
-    private Integer timeInNano;
+    private Long timeInNano;
     private SortingResult sortingResult;
 }
