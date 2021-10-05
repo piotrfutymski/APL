@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class SortingResult {
 
-    protected Integer comparisonCount;
-    protected Integer swapCount;
+    protected Long comparisonCount;
+    protected Long swapCount;
     protected Integer recursionSize;
 }

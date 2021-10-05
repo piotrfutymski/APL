@@ -11,9 +11,9 @@ public class SortingData {
     @Getter
     private int[] tab;
     @Getter
-    private int compCount = 0;
+    private Long compCount = 0L;
     @Getter
-    private int swapCount = 0;
+    private Long swapCount = 0L;
 
     public boolean lessEqual(int i, int j){
         compCount++;

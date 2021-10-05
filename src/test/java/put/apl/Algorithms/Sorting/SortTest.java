@@ -1,14 +1,15 @@
 package put.apl.Algorithms.Sorting;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import put.apl.Algorithms.Sorting.Data.*;
 import put.apl.Algorithms.Sorting.Implementation.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class SortTest {
@@ -21,8 +22,7 @@ public class SortTest {
     private final InsertionSort insertionSort = new InsertionSort();
     private final BinaryInsertionSort binaryInsertionSort = new BinaryInsertionSort();
     private final ShellSort shellSort = new ShellSort();
-    private final ShellSortKnuthBase3 shellSortKnuthBase3 = new ShellSortKnuthBase3();
-    private final ShellSortKnuthBase2 shellSortKnuthBase2 = new ShellSortKnuthBase2();
+    private final ShellSortKnuth shellSortKnuth = new ShellSortKnuth();
     private final MergeSort mergeSort = new MergeSort();
     private final HeapSort heapSort = new HeapSort();
 
@@ -34,48 +34,62 @@ public class SortTest {
     @Test
     void selectionSortTest() {
         selectionSort.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
     void insertionSortTest() {
         insertionSort.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
     void binaryInsertionSortTest() {
         binaryInsertionSort.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
     void shellSortTest() {
         shellSort.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
-    }
-
-    @Test
-    void shellSortKnuthBase3Test() {
-        shellSortKnuthBase3.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
     void shellSortKnuthBase2Test() {
-        shellSortKnuthBase2.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+        Map<String,String> params = Map.of("k", "2");
+        shellSortKnuth.setParams(params);
+        shellSortKnuth.sort(numbers);
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
+    }
+
+    @Test
+    void shellSortKnuthBase3Test() {
+        Map<String,String> params = Map.of("k", "3");
+        shellSortKnuth.setParams(params);
+        shellSortKnuth.sort(numbers);
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
+    }
+
+    @Test
+    void shellSortKnuthException() {
+        try{
+            shellSortKnuth.sort(numbers);
+            fail();
+        }catch (IllegalStateException ignored){
+
+        }
     }
 
     @Test
     void mergeSortTest() {
         mergeSort.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
     void heapSortTest() {
         heapSort.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 }

@@ -1,8 +1,13 @@
 package put.apl.Algorithms.Sorting.Implementation;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
 
+import java.util.Map;
+
+@Component("mergeSort")
 public class MergeSort implements SortingAlgorithm {
 
     private void merge(SortingData tab, int leftIndex, int middleIndex, int rightIndex) {
@@ -52,5 +57,10 @@ public class MergeSort implements SortingAlgorithm {
                 .comparisonCount(tab.getCompCount())
                 .swapCount(tab.getSwapCount())
                 .build();
+    }
+
+    @Override
+    public void setParams(Map<String, String> params) {
+
     }
 }

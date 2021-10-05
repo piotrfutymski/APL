@@ -19,8 +19,11 @@ public class ExperimentEndpoint {
     SchedulerService schedulerService;
 
     @PostMapping("/sort")
-    public ResponseEntity<String> startSortingExperiments(@RequestBody List<SortingExperiment> experiments){
-        String id = schedulerService.scheduleSoritng(experiments);
+    public ResponseEntity<String> startSortingExperiments(
+            @RequestBody List<SortingExperiment> experiments,
+            @RequestParam(name = "finite", defaultValue = "true") boolean finite
+    ){
+        String id = schedulerService.scheduleSoritng(experiments, finite);
         if(id == null){
             return ResponseEntity.badRequest()
                     .body(null);
@@ -31,8 +34,11 @@ public class ExperimentEndpoint {
     }
 
     @PostMapping("/graph")
-    public ResponseEntity<String> startGraphExperiments(@RequestBody List<GraphExperiment> experiments){
-        String id = schedulerService.scheduleGraph(experiments);
+    public ResponseEntity<String> startGraphExperiments(
+            @RequestBody List<GraphExperiment> experiments,
+            @RequestParam(name = "finite", defaultValue = "true") boolean finite
+    ){
+        String id = schedulerService.scheduleGraph(experiments, true);
         if(id == null){
             return ResponseEntity.badRequest()
                     .body(null);
@@ -43,12 +49,12 @@ public class ExperimentEndpoint {
     }
 
     @GetMapping("/{id}")
-    public ExperimentsResults getExperimentsResults(@PathVariable String id) throws ExecutionException, InterruptedException {
+    public ExperimentsResults getExperimentsResults(@PathVariable String id) {
         ExperimentsResults res = schedulerService.getExperimentsResults(id);
         return res;
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public void deleteExperiments(@PathVariable String id){
         schedulerService.deleteExperiments(id);
     }

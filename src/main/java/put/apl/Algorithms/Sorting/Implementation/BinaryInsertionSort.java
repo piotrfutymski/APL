@@ -1,8 +1,13 @@
 package put.apl.Algorithms.Sorting.Implementation;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
 
+import java.util.Map;
+
+@Component("binaryInsertionSort")
 public class BinaryInsertionSort implements SortingAlgorithm {
     @Override
     public SortingResult sort(SortingData tab) {
@@ -30,5 +35,10 @@ public class BinaryInsertionSort implements SortingAlgorithm {
                 .comparisonCount(tab.getCompCount())
                 .swapCount(tab.getSwapCount())
                 .build();
+    }
+
+    @Override
+    public void setParams(Map<String, String> params) {
+
     }
 }

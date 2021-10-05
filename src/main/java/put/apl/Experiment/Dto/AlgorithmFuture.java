@@ -12,8 +12,14 @@ import java.util.concurrent.Future;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AlgorithmFuture {
+
+    public static int DEFAULT_TIMEOUT_MS = 60000;
+    public static int INFINITE_TIMEOUT = -1;
+
     Future<List<Object>> future;
     Date start;
     Date lastCallForResult;
     Long position;
+    boolean expired;
+    int timeout;
 }
