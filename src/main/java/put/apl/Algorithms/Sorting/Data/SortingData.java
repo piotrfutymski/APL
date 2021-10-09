@@ -11,8 +11,10 @@ public class SortingData {
     @Getter
     private int[] tab;
     @Getter
+    @Setter
     private int compCount = 0;
     @Getter
+    @Setter
     private int swapCount = 0;
 
     public boolean lessEqual(int i, int j){
