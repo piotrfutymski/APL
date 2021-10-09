@@ -17,7 +17,9 @@ public class RandomExponentialDataGenerator implements SortingDataGenerator {
                 .toArray();
         for (int i = 0; i < config.getN(); i++) {
             tab[i] = (int) (Math.log(1 - domain[i]) / (-lambda));
-            tab[i] = Math.max(0, tab[i]);
+            while (tab[i] > config.getMaxValue()) {
+                tab[i] = (int) (Math.log(1 - new Random().nextDouble()) / (-lambda));
+            }
         }
         return new SortingData(tab);
     }
