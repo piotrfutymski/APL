@@ -2,5 +2,5 @@ package put.apl.Algorithms.Sorting.Data;
 
 public interface SortingDataGenerator {
 
-    SortingData generate(DataGeneratorConfig config);
+    SortingData generate(DataGeneratorConfig config) throws InterruptedException;
 }

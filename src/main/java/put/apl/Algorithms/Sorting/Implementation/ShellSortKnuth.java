@@ -13,7 +13,7 @@ public class ShellSortKnuth implements SortingAlgorithm{
     Integer k_param = null;
 
     @Override
-    public SortingResult sort(SortingData tab) {
+    public SortingResult sort(SortingData tab) throws InterruptedException {
         if(k_param == null)
             throw new IllegalStateException("Parameter k must be set for ShellSortKnuth");
 

@@ -10,7 +10,7 @@ import java.util.Map;
 @Component("binaryInsertionSort")
 public class BinaryInsertionSort implements SortingAlgorithm {
     @Override
-    public SortingResult sort(SortingData tab) {
+    public SortingResult sort(SortingData tab) throws InterruptedException {
         // Sorted part of an array <beginIndex; endIndex)
         int beginIndex;
         int endIndex;

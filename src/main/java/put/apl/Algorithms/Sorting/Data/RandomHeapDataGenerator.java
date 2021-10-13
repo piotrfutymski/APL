@@ -1,12 +1,14 @@
 package put.apl.Algorithms.Sorting.Data;
 
+import org.springframework.stereotype.Component;
 import put.apl.Utility.HeapUtility;
 
 import java.util.Random;
 
+@Component("randomHeapData")
 public class RandomHeapDataGenerator implements  SortingDataGenerator{
     @Override
-    public SortingData generate(DataGeneratorConfig config) {
+    public SortingData generate(DataGeneratorConfig config) throws InterruptedException {
         int[] heapData = new Random()
                 .ints(0, config.getMaxValue() + 1)
                 .limit(config.getN())

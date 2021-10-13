@@ -22,7 +22,10 @@ public class SortingData {
         return tab[i] <= tab[j];
     }
 
-    public boolean less(int i, int j){
+    public boolean less(int i, int j) throws InterruptedException {
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
+        }
         compCount++;
         return tab[i] < tab[j];
     }

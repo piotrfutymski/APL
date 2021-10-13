@@ -25,7 +25,7 @@ public class SortTest {
     private final ShellSortKnuth shellSortKnuth = new ShellSortKnuth();
     private final MergeSort mergeSort = new MergeSort();
     private final HeapSort heapSort = new HeapSort();
-    private final CountingSort countingSort = new CountingSort(9);
+    private final CountingSort countingSort = new CountingSort();
 
     @BeforeEach
     void initAll() {
@@ -33,31 +33,31 @@ public class SortTest {
     }
 
     @Test
-    void selectionSortTest() {
+    void selectionSortTest() throws InterruptedException {
         selectionSort.sort(numbers);
         assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
-    void insertionSortTest() {
+    void insertionSortTest() throws InterruptedException {
         insertionSort.sort(numbers);
         assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
-    void binaryInsertionSortTest() {
+    void binaryInsertionSortTest() throws InterruptedException {
         binaryInsertionSort.sort(numbers);
         assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
-    void shellSortTest() {
+    void shellSortTest() throws InterruptedException {
         shellSort.sort(numbers);
         assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
-    void shellSortKnuthBase2Test() {
+    void shellSortKnuthBase2Test() throws InterruptedException {
         Map<String,String> params = Map.of("k", "2");
         shellSortKnuth.setParams(params);
         shellSortKnuth.sort(numbers);
@@ -65,7 +65,7 @@ public class SortTest {
     }
 
     @Test
-    void shellSortKnuthBase3Test() {
+    void shellSortKnuthBase3Test() throws InterruptedException {
         Map<String,String> params = Map.of("k", "3");
         shellSortKnuth.setParams(params);
         shellSortKnuth.sort(numbers);
@@ -73,29 +73,31 @@ public class SortTest {
     }
 
     @Test
-    void shellSortKnuthException() {
+    void shellSortKnuthException() throws InterruptedException {
         try{
             shellSortKnuth.sort(numbers);
             fail();
-        }catch (IllegalStateException ignored){
+        }catch (IllegalStateException e){
 
         }
     }
 
     @Test
-    void mergeSortTest() {
+    void mergeSortTest() throws InterruptedException {
         mergeSort.sort(numbers);
         assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
-    void heapSortTest() {
+    void heapSortTest() throws InterruptedException {
         heapSort.sort(numbers);
         assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
-    void countingSortTest() {
+    void countingSortTest() throws InterruptedException {
+        Map<String,String> params = Map.of("maxValue", "9");
+        countingSort.setParams(params);
         countingSort.sort(numbers);
         assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
     }

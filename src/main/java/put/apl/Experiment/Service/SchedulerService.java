@@ -23,7 +23,7 @@ public class SchedulerService {
 
     ExecutorService executorServiceFinite;
 
-    public static int ACCEPTED_TIME_FROM_LAST_CALL_MS = 10000;
+    public static int ACCEPTED_TIME_FROM_LAST_CALL_MS = 10*60*1000;     // 10 min
 
     @Autowired
     SortingService sortingService;
@@ -34,6 +34,22 @@ public class SchedulerService {
         executorServiceFinite = Executors.newFixedThreadPool(1);
     }
 
+    public static void moveOnePositionInQueue(Map<String, AlgorithmFuture> futures, int timeout){
+        if(!Thread.interrupted())
+            futures.values()
+                .stream()
+                .filter(e->e.getTimeout() == timeout)
+                .forEach(v->v.setPosition(v.getPosition()-1));
+    }
+
+    public static void setStartTime(Map<String, AlgorithmFuture> futures, int timeout){
+        futures.values()
+                .stream()
+                .filter(e->e.getPosition() == 0)
+                .filter(e->e.getTimeout() == timeout)
+                .forEach(v->v.setPosition(v.getPosition()-1));
+    }
+
     public String scheduleSoritng(List<SortingExperiment> experiments, boolean finite) {
         if(experiments.size() == 0)
             return null;
@@ -42,19 +58,13 @@ public class SchedulerService {
         int timeout = finite ? AlgorithmFuture.DEFAULT_TIMEOUT_MS : AlgorithmFuture.INFINITE_TIMEOUT;
         Future<List<Object>> future = executorService.submit(()->{
             List<Object> res = sortingService.runExperiments(experiments);
-            futures
-                    .values()
-                    .stream()
-                    .filter(e->e.getTimeout() == timeout)
-                    .forEach(v->v.setPosition(v.getPosition()-1));
+            moveOnePositionInQueue(futures, timeout);
             return res;
         });
         Date now = Date.from(Instant.now());
-
         AlgorithmFuture algorithmFuture = AlgorithmFuture
                 .builder()
                 .lastCallForResult(now)
-                .start(now)
                 .future(future)
                 .expired(false)
                 .timeout(timeout)
@@ -109,8 +119,16 @@ public class SchedulerService {
 
     public void deleteExperiments(String id) {
         if(futures.containsKey(id)){
-            futures.get(id).getFuture().cancel(true);
+            cancel(futures.get(id));
             futures.remove(id);
+        }
+    }
+
+    void cancel(AlgorithmFuture future){
+        boolean isDone = future.getFuture().isDone();
+        if(!isDone){
+            future.getFuture().cancel(true);
+            moveOnePositionInQueue(futures, future.getTimeout());
         }
     }
 
@@ -121,14 +139,20 @@ public class SchedulerService {
                 .removeIf(entry -> {
                     if((now.getTime() - entry.getValue().getLastCallForResult().getTime()) > ACCEPTED_TIME_FROM_LAST_CALL_MS)
                     {
-                        entry.getValue().getFuture().cancel(true);
+                        cancel(entry.getValue());
                         return true;
                     }
                     return false;
                 });
         futures.forEach((key, value) -> {
-            if (now.getTime() - value.getStart().getTime() > value.getTimeout() && value.getTimeout() != AlgorithmFuture.INFINITE_TIMEOUT) {
-                value.getFuture().cancel(true);
+            if(value.getPosition() == 0 && value.getStart()==null)
+                value.setStart(Date.from(Instant.now()));
+            if (
+                    value.getTimeout() != AlgorithmFuture.INFINITE_TIMEOUT &&
+                    value.getStart() != null &&
+                    now.getTime() - value.getStart().getTime() > value.getTimeout()
+            ) {
+                cancel(value);
                 value.setExpired(true);
             }
         });

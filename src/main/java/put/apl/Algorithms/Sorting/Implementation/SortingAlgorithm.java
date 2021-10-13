@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public interface SortingAlgorithm {
 
-    SortingResult sort(SortingData tab);
+    SortingResult sort(SortingData tab) throws InterruptedException;
 
     void setParams(Map<String, String> params);
 

@@ -10,7 +10,7 @@ import java.util.Map;
 @Component("selectionSort")
 public class SelectionSort implements SortingAlgorithm {
     @Override
-    public SortingResult sort(SortingData tab) {
+    public SortingResult sort(SortingData tab) throws InterruptedException {
         for (int i = 0; i < tab.length(); i++) {
             int index = i;
             for (int j = i; j < tab.length(); j++) {

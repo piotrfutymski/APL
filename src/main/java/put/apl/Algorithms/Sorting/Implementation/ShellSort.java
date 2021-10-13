@@ -10,7 +10,7 @@ import java.util.Map;
 @Component("shellSort")
 public class ShellSort implements SortingAlgorithm {
     @Override
-    public SortingResult sort(SortingData tab) {
+    public SortingResult sort(SortingData tab) throws InterruptedException {
         for (int k = tab.length() / 2; k > 0; k /= 2) {
             for (int i = 0; i < tab.length(); i += k) {
                 for (int j = i - k; j >= 0; j -= k) {
