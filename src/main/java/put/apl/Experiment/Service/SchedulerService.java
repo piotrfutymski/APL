@@ -42,14 +42,6 @@ public class SchedulerService {
                 .forEach(v->v.setPosition(v.getPosition()-1));
     }
 
-    public static void setStartTime(Map<String, AlgorithmFuture> futures, int timeout){
-        futures.values()
-                .stream()
-                .filter(e->e.getPosition() == 0)
-                .filter(e->e.getTimeout() == timeout)
-                .forEach(v->v.setPosition(v.getPosition()-1));
-    }
-
     public String scheduleSoritng(List<SortingExperiment> experiments, boolean finite) {
         if(experiments.size() == 0)
             return null;
@@ -85,7 +77,7 @@ public class SchedulerService {
         AlgorithmFuture algorithmFuture = futures.get(id);
         if(!algorithmFuture.getFuture().isDone()){
             algorithmFuture.setLastCallForResult(Date.from(Instant.now()));
-            if(algorithmFuture.getPosition() == 0L){
+            if(algorithmFuture.getPosition() <= 0L){
                 return ExperimentsResults.builder()
                         .status(ExperimentsResults.ExperimentStatus.CALCULATING)
                         .queuePosition(0L)
