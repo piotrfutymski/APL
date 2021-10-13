@@ -1,7 +1,11 @@
 package put.apl.Algorithms.Sorting.Data;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import java.util.Random;
 
+@Component("randomGaussianData")
 public class RandomGaussianDataGenerator implements SortingDataGenerator {
     @Override
     public SortingData generate(DataGeneratorConfig config) {

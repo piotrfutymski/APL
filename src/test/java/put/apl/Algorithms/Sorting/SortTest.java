@@ -1,14 +1,15 @@
 package put.apl.Algorithms.Sorting;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import put.apl.Algorithms.Sorting.Data.*;
 import put.apl.Algorithms.Sorting.Implementation.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class SortTest {
@@ -21,11 +22,10 @@ public class SortTest {
     private final InsertionSort insertionSort = new InsertionSort();
     private final BinaryInsertionSort binaryInsertionSort = new BinaryInsertionSort();
     private final ShellSort shellSort = new ShellSort();
-    private final ShellSortKnuthBase3 shellSortKnuthBase3 = new ShellSortKnuthBase3();
-    private final ShellSortKnuthBase2 shellSortKnuthBase2 = new ShellSortKnuthBase2();
+    private final ShellSortKnuth shellSortKnuth = new ShellSortKnuth();
     private final MergeSort mergeSort = new MergeSort();
     private final HeapSort heapSort = new HeapSort();
-    private final CountingSort countingSort = new CountingSort(9);
+    private final CountingSort countingSort = new CountingSort();
 
     @BeforeEach
     void initAll() {
@@ -33,55 +33,71 @@ public class SortTest {
     }
 
     @Test
-    void selectionSortTest() {
+    void selectionSortTest() throws InterruptedException {
         selectionSort.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
-    void insertionSortTest() {
+    void insertionSortTest() throws InterruptedException {
         insertionSort.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
-    void binaryInsertionSortTest() {
+    void binaryInsertionSortTest() throws InterruptedException {
         binaryInsertionSort.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
-    void shellSortTest() {
+    void shellSortTest() throws InterruptedException {
         shellSort.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
-    void shellSortKnuthBase3Test() {
-        shellSortKnuthBase3.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+    void shellSortKnuthBase2Test() throws InterruptedException {
+        Map<String,String> params = Map.of("k", "2");
+        shellSortKnuth.setParams(params);
+        shellSortKnuth.sort(numbers);
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
-    void shellSortKnuthBase2Test() {
-        shellSortKnuthBase2.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+    void shellSortKnuthBase3Test() throws InterruptedException {
+        Map<String,String> params = Map.of("k", "3");
+        shellSortKnuth.setParams(params);
+        shellSortKnuth.sort(numbers);
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
-    void mergeSortTest() {
+    void shellSortKnuthException() throws InterruptedException {
+        try{
+            shellSortKnuth.sort(numbers);
+            fail();
+        }catch (IllegalStateException e){
+
+        }
+    }
+
+    @Test
+    void mergeSortTest() throws InterruptedException {
         mergeSort.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
-    void heapSortTest() {
+    void heapSortTest() throws InterruptedException {
         heapSort.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 
     @Test
-    void countingSortTest() {
+    void countingSortTest() throws InterruptedException {
+        Map<String,String> params = Map.of("maxValue", "9");
+        countingSort.setParams(params);
         countingSort.sort(numbers);
         assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
     }

@@ -1,11 +1,16 @@
 package put.apl.Algorithms.Sorting.Implementation;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
 
+import java.util.Map;
+
+@Component("mergeSort")
 public class MergeSort implements SortingAlgorithm {
 
-    private void merge(SortingData tab, int leftIndex, int middleIndex, int rightIndex) {
+    private void merge(SortingData tab, int leftIndex, int middleIndex, int rightIndex) throws InterruptedException {
         SortingData mergedPart = new SortingData(new int[rightIndex - leftIndex]);
         int iterator1 = leftIndex;
         int iterator2 = middleIndex;
@@ -34,8 +39,7 @@ public class MergeSort implements SortingAlgorithm {
         System.arraycopy(mergedPart.getTab(), 0, tab.getTab(), leftIndex, rightIndex - leftIndex);
     }
 
-    private void mergeSort(SortingData tab, int leftIndex, int rightIndex)
-    {
+    private void mergeSort(SortingData tab, int leftIndex, int rightIndex) throws InterruptedException {
         if (leftIndex < rightIndex - 1) {
             int middleIndex = (leftIndex + rightIndex) / 2;
             mergeSort(tab, leftIndex, middleIndex);
@@ -46,11 +50,16 @@ public class MergeSort implements SortingAlgorithm {
 
 
     @Override
-    public SortingResult sort(SortingData tab) {
+    public SortingResult sort(SortingData tab) throws InterruptedException {
         mergeSort(tab, 0, tab.length());
         return SortingResult.builder()
                 .comparisonCount(tab.getCompCount())
                 .swapCount(tab.getSwapCount())
                 .build();
+    }
+
+    @Override
+    public void setParams(Map<String, String> params) {
+
     }
 }

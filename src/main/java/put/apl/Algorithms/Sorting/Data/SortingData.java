@@ -12,17 +12,20 @@ public class SortingData {
     private int[] tab;
     @Getter
     @Setter
-    private int compCount = 0;
+    private Long compCount = 0L;
     @Getter
     @Setter
-    private int swapCount = 0;
+    private Long swapCount = 0L;
 
     public boolean lessEqual(int i, int j){
         compCount++;
         return tab[i] <= tab[j];
     }
 
-    public boolean less(int i, int j){
+    public boolean less(int i, int j) throws InterruptedException {
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
+        }
         compCount++;
         return tab[i] < tab[j];
     }
