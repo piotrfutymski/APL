@@ -25,6 +25,7 @@ public class SortTest {
     private final ShellSortKnuthBase2 shellSortKnuthBase2 = new ShellSortKnuthBase2();
     private final MergeSort mergeSort = new MergeSort();
     private final HeapSort heapSort = new HeapSort();
+    private final CountingSort countingSort = new CountingSort(9);
 
     @BeforeEach
     void initAll() {
@@ -76,6 +77,12 @@ public class SortTest {
     @Test
     void heapSortTest() {
         heapSort.sort(numbers);
+        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+    }
+
+    @Test
+    void countingSortTest() {
+        countingSort.sort(numbers);
         assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
     }
 }
