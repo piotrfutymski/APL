@@ -22,4 +22,5 @@ public class ExperimentsResults {
     private ExperimentStatus status;
     private List<Object> results;
     private Long queuePosition;
+    private String errorCause;
 }

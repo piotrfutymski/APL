@@ -19,7 +19,8 @@ public class AlgorithmFuture {
     Future<List<Object>> future;
     Date start;
     Date lastCallForResult;
-    Long position;
-    boolean expired;
-    int timeout;
+    Boolean expired;
+    Integer timeout;
+    Long jobNumber;
+    Boolean finite;
 }
