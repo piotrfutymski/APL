@@ -1,8 +1,11 @@
 package put.apl.Algorithms.Sorting.Data;
 
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.Random;
 
+@Component("randomExponentialData")
 public class RandomExponentialDataGenerator implements SortingDataGenerator {
     @Override
     public SortingData generate(DataGeneratorConfig config) {
