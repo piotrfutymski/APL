@@ -1,12 +1,7 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
 const axios = require('axios');
-import  { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react'
 
 const App = () => {
-
-    const [ hello, setHello ] = useState("test");
-
 	useEffect(()=>{
 	    axios.get('/apl-api/experiment')
                   .then(function (response) {
@@ -16,11 +11,12 @@ const App = () => {
                     console.log(error);
                   });
 	},[]);
-	return (<>{hello}</>)
+	return (
+	<div>
+	    <h1>TEST</h1>
+	</div>
+	)
 
 }
 
-ReactDOM.render(
-    <App/>,
-  document.getElementById('react')
-);
+export default App
