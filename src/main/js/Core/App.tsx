@@ -1,10 +1,11 @@
 const axios = require('axios');
 import React, {useState, useEffect} from 'react'
+import { SortingForm } from '../Sorting/SortingForm';
 
 const App = () => {
 	return (
 	<div>
-	    <h1>TEST</h1>
+	    <SortingForm />
 	</div>
 	)
 

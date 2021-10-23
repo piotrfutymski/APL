@@ -106,4 +106,11 @@ public class SortingService {
     }
 
 
+    public String[] getPossibleSortingAlgorithms() {
+        return context.getBeanNamesForType(SortingAlgorithm.class);
+    }
+
+    public String[] getPossibleDataDistributions() {
+        return context.getBeanNamesForType(SortingDataGenerator.class);
+    }
 }
