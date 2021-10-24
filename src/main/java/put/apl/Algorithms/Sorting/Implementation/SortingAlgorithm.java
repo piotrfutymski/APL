@@ -3,6 +3,8 @@ package put.apl.Algorithms.Sorting.Implementation;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
 
+import java.util.Map;
+
 /**
  * Interface for all sorting algorithms in APL
  * If algorithm depends on params (for example pivot in quick sort) it should be configurable by constructor
@@ -11,6 +13,8 @@ import put.apl.Algorithms.Sorting.SortingResult;
  */
 public interface SortingAlgorithm {
 
-    public SortingResult sort(SortingData tab);
+    SortingResult sort(SortingData tab) throws InterruptedException;
+
+    void setParams(Map<String, String> params);
 
 }

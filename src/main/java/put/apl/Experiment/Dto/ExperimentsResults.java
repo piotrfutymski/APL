@@ -12,10 +12,15 @@ import java.util.List;
 public class ExperimentsResults {
 
     public enum ExperimentStatus{
-        QUEUED, CALCULATING, DONE, REMOVED
+        QUEUED, CALCULATING, DONE, REMOVED, EXPIRED, ERROR
+    }
+
+    public ExperimentsResults(ExperimentStatus status){
+        this.status = status;
     }
 
     private ExperimentStatus status;
     private List<Object> results;
-    private Integer queuePosition;
+    private Long queuePosition;
+    private String errorCause;
 }

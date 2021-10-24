@@ -1,7 +1,11 @@
 package put.apl.Algorithms.Sorting.Data;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import java.util.Random;
 
+@Component("randomGaussianData")
 public class RandomGaussianDataGenerator implements SortingDataGenerator {
     @Override
     public SortingData generate(DataGeneratorConfig config) {
@@ -15,10 +19,8 @@ public class RandomGaussianDataGenerator implements SortingDataGenerator {
         Random random = new Random();
         for(int i = 0; i < config.getN(); i++) {
             tab[i] = (int) (random.nextGaussian() * variance + mean);
-            if (tab[i] < 0) {
-                tab[i] = 0;
-            } else if (tab[i] > config.getMaxValue()) {
-                tab[i] = config.getMaxValue();
+            while (tab[i] < 0 || tab[i] > config.getMaxValue()) {
+                tab[i] = (int) (random.nextGaussian() * variance + mean);
             }
         }
         return new SortingData(tab);

@@ -7,17 +7,19 @@ import put.apl.Algorithms.Sorting.SortingResult;
 
 import java.util.Map;
 
-@Component("selectionSort")
-public class SelectionSort implements SortingAlgorithm {
+@Component("insertionSort")
+public class InsertionSort implements SortingAlgorithm {
     @Override
     public SortingResult sort(SortingData tab) throws InterruptedException {
-        for (int i = 0; i < tab.length(); i++) {
-            int index = i;
-            for (int j = i; j < tab.length(); j++) {
-                if(tab.less(j,index))
-                    index = j;
+        for (int i = 1; i < tab.length(); i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (tab.less(j + 1, j)) {
+                    tab.swap(j + 1, j);
+                }
+                else {
+                    break;
+                }
             }
-            tab.swap(i, index);
         }
         return SortingResult.builder()
                 .comparisonCount(tab.getCompCount())
