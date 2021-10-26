@@ -3,9 +3,11 @@ package put.apl.Algorithms.Sorting.Implementation;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
 
+import java.util.Map;
+
 public class BubbleSortAware implements SortingAlgorithm  {
     @Override
-    public SortingResult sort(SortingData tab) {
+    public SortingResult sort(SortingData tab) throws InterruptedException {
         for (int i = 0; i < tab.length() - 1; i++) {
             boolean sorted = true;
             for (int j = 0; j < tab.length() - i - 1; j++) {
@@ -23,5 +25,10 @@ public class BubbleSortAware implements SortingAlgorithm  {
                 .comparisonCount(tab.getCompCount())
                 .swapCount(tab.getSwapCount())
                 .build();
+    }
+
+    @Override
+    public void setParams(Map<String, String> params) {
+
     }
 }

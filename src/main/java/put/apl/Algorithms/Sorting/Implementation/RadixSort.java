@@ -3,6 +3,8 @@ package put.apl.Algorithms.Sorting.Implementation;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
 
+import java.util.Map;
+
 
 public class RadixSort implements SortingAlgorithm {
     @Override
@@ -15,6 +17,11 @@ public class RadixSort implements SortingAlgorithm {
                 .comparisonCount(tab.getCompCount())
                 .swapCount(tab.getSwapCount())
                 .build();
+    }
+
+    @Override
+    public void setParams(Map<String, String> params) {
+
     }
 
     int getMax(SortingData data)
