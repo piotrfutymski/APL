@@ -4,20 +4,18 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
+import put.apl.Utility.HeapUtility;
 
 import java.util.Map;
 
-@Component("selectionSort")
-public class SelectionSort implements SortingAlgorithm {
+@Component("heapSort")
+public class HeapSort implements SortingAlgorithm {
     @Override
     public SortingResult sort(SortingData tab) throws InterruptedException {
-        for (int i = 0; i < tab.length(); i++) {
-            int index = i;
-            for (int j = i; j < tab.length(); j++) {
-                if(tab.less(j,index))
-                    index = j;
-            }
-            tab.swap(i, index);
+        HeapUtility.buildHeap(tab, 0, tab.length());
+        for (int i = tab.length() - 1; i >= 0; i--) {
+            tab.swap(i, 0);
+            HeapUtility.buildHeap(tab, 0, i);
         }
         return SortingResult.builder()
                 .comparisonCount(tab.getCompCount())

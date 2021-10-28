@@ -1,82 +1,174 @@
 package put.apl.Experiment.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import put.apl.Experiment.Dto.AlgorithmFuture;
 import put.apl.Experiment.Dto.ExperimentsResults;
 import put.apl.Experiment.Dto.GraphExperiment;
 import put.apl.Experiment.Dto.SortingExperiment;
 
+import java.time.Instant;
 import java.util.*;
-import java.util.function.Function;
+import java.util.concurrent.*;
 
 @Service
+@EnableScheduling
 public class SchedulerService {
 
-    List<AlgorithmTask> taskQueue;
+    Map<String, AlgorithmFuture> futures;
+
+    ExecutorService executorServiceInfinite;
+    Long infiniteJobCounter = 0L;
+    Long infiniteJobDone = 0L;
+
+    ExecutorService executorServiceFinite;
+    Long finiteJobCounter = 0L;
+    Long finiteJobDone = 0L;
+
+    public static Long ACCEPTED_TIME_FROM_LAST_CALL_MS = 10L*60L*1000L;     // 10 min
 
     @Autowired
     SortingService sortingService;
 
     public SchedulerService(){
-        taskQueue = new ArrayList<>();
+        futures = new HashMap<>();
+        executorServiceInfinite = Executors.newFixedThreadPool(1);
+        executorServiceFinite = Executors.newFixedThreadPool(1);
     }
 
-    public String scheduleSoritng(List<SortingExperiment> experiments) {
-        if(experiments.size() == 0)
-            return null;
-        String id = UUID.randomUUID().toString();
-        AlgorithmTask task =  new AlgorithmTask(id, ()->sortingService.runExperiments(id, experiments));
-        taskQueue.add(task);
-        return id;
+    public String scheduleSoritng(List<SortingExperiment> experiments, Boolean finite) {
+        return scheduleOperation(experiments, finite, e->sortingService.runExperiments(e));
     }
 
-    public String scheduleGraph(List<GraphExperiment> experiments) {
-        return null;
+    public String scheduleGraph(List<GraphExperiment> experiments, boolean finite) {
+        //TODO
+        return scheduleOperation(experiments, finite, e->null);
     }
 
-    public ExperimentsResults getExperimentsResults(String id) {
-        Integer index = findTaskPositionInQueue(id);
-        if(index == 0)
-            return ExperimentsResults.builder()
-                    .queuePosition(0)
-                    .status(ExperimentsResults.ExperimentStatus.CALCULATING)
-                    .build();
-        if(index > 0)
-            return ExperimentsResults.builder()
-                    .queuePosition(index)
-                    .status(ExperimentsResults.ExperimentStatus.QUEUED)
-                    .build();
-
-        ExperimentsResults res = ExperimentsResults.builder()
-                .queuePosition(null)
-                .status(ExperimentsResults.ExperimentStatus.DONE)
-                .build();
-
-
-        List<Object> results = sortingService.getResults(id);
-        if(results != null)
-            res.setResults(results);
-
-        if(res.getResults() != null)
+    public ExperimentsResults getExperimentsResults(String id){
+        if(!futures.containsKey(id))
+            return new ExperimentsResults(ExperimentsResults.ExperimentStatus.REMOVED);
+        AlgorithmFuture algorithmFuture = futures.get(id);
+        if(!algorithmFuture.getFuture().isDone()){
+            algorithmFuture.setLastCallForResult(Date.from(Instant.now()));
+            if(getQueuePosition(algorithmFuture) <= 0L){
+                return ExperimentsResults.builder()
+                        .status(ExperimentsResults.ExperimentStatus.CALCULATING)
+                        .queuePosition(0L)
+                        .build();
+            }else{
+                return ExperimentsResults.builder()
+                        .status(ExperimentsResults.ExperimentStatus.QUEUED)
+                        .queuePosition(getQueuePosition(algorithmFuture))
+                        .build();
+            }
+        }else{
+            ExperimentsResults res;
+            if(algorithmFuture.getExpired())
+                res = new ExperimentsResults(ExperimentsResults.ExperimentStatus.EXPIRED);
+            else {
+                try{
+                    res = ExperimentsResults.builder()
+                            .status(ExperimentsResults.ExperimentStatus.DONE)
+                            .results(algorithmFuture.getFuture().get())
+                            .build();
+                }catch (Exception e){
+                    res = new ExperimentsResults(ExperimentsResults.ExperimentStatus.ERROR);
+                    res.setErrorCause(e.toString());
+                }
+            }
+            futures.remove(id);
             return res;
-
-        return ExperimentsResults.builder()
-                .status(ExperimentsResults.ExperimentStatus.REMOVED)
-                .build();
+        }
     }
 
     public void deleteExperiments(String id) {
+        if(futures.containsKey(id)){
+            cancel(futures.get(id));
+            futures.remove(id);
+        }
     }
 
-    Integer findTaskPositionInQueue(String id){
-        AlgorithmTask task = taskQueue.stream()
-                .filter(e->e.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-        if(task == null)
+    private  <T> String scheduleOperation(List<T> experiments, Boolean finite, CheckedFunction<List<T>, List<Object>> operation) {
+        if(experiments.size() == 0)
             return null;
-        else
-            return taskQueue.indexOf(task);
+        String id = UUID.randomUUID().toString();
+        ExecutorService executorService = finite ? executorServiceFinite : executorServiceInfinite;
+        Integer timeout = finite ? AlgorithmFuture.DEFAULT_TIMEOUT_MS : AlgorithmFuture.INFINITE_TIMEOUT;
+
+        AlgorithmFuture algorithmFuture = AlgorithmFuture
+                .builder()
+                .lastCallForResult(Date.from(Instant.now()))
+                .expired(false)
+                .timeout(timeout)
+                .finite(finite)
+                .jobNumber(finite ? infiniteJobCounter++ : finiteJobCounter)
+                .build();
+
+        Future<List<Object>> future = executorService.submit(()->{
+            algorithmFuture.setStart(Date.from(Instant.now()));
+            List<Object> res = operation.apply(experiments);
+            incrementJobDone(algorithmFuture);
+            return res;
+        });
+
+        algorithmFuture.setFuture(future);
+
+        futures.put(id, algorithmFuture);
+        return id;
     }
 
+    private void incrementJobDone(AlgorithmFuture future){
+        if(future.getFinite())
+            finiteJobDone++;
+        else
+            infiniteJobDone++;
+    }
+
+    private Long getQueuePosition(AlgorithmFuture future){
+        if(future.getFinite())
+            return future.getJobNumber() - finiteJobDone;
+        else
+            return future.getJobNumber() - infiniteJobDone;
+    }
+
+    private void cancel(AlgorithmFuture future){
+        boolean isDone = future.getFuture().isDone();
+        if(!isDone){
+            future.getFuture().cancel(true);
+            incrementJobDone(future);
+        }
+    }
+
+    @Scheduled(cron = "0/5 * * * * *")
+    private void clearTasks(){
+        Date now = Date.from(Instant.now());
+        futures.entrySet()
+                .removeIf(entry -> {
+                    if((now.getTime() - entry.getValue().getLastCallForResult().getTime()) > ACCEPTED_TIME_FROM_LAST_CALL_MS)
+                    {
+                        cancel(entry.getValue());
+                        return true;
+                    }
+                    return false;
+                });
+        futures.forEach((key, value) -> {
+            if (
+                    value.getTimeout() != AlgorithmFuture.INFINITE_TIMEOUT &&
+                    value.getStart() != null &&
+                    now.getTime() - value.getStart().getTime() > value.getTimeout()
+            ) {
+                cancel(value);
+                value.setExpired(true);
+            }
+        });
+
+    }
+
+    @FunctionalInterface
+    private interface CheckedFunction<T, R> {
+        R apply(T t) throws InterruptedException;
+    }
 }
