@@ -11,6 +11,7 @@ import put.apl.Algorithms.Sorting.SortingResult;
 import put.apl.Experiment.Dto.SortingExperiment;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SortingService {
 
-    private static final int REPEAT_COUNT = 8;
+    private static final int REPEAT_COUNT = 10;
 
     ApplicationContext context;
 
@@ -31,8 +32,6 @@ public class SortingService {
         List<List<SortingExperiment>> results = new ArrayList<>();
         for (int i = 0; i < REPEAT_COUNT; i++) {
             results.add(runExperimentsOnce(experiments));
-            System.gc();
-            Thread.sleep(50);
         }
         for (int i = 0; i < experiments.size(); i++) {
             List<SortingExperiment> resultsForIExperiment = new ArrayList<>();
@@ -45,11 +44,18 @@ public class SortingService {
     }
 
     public SortingExperiment averageExperiments(List<SortingExperiment> experiments){
+        experiments = experiments.stream().sorted(Comparator.comparing(SortingExperiment::getTimeInMillis)).collect(Collectors.toList());
+        experiments.remove(REPEAT_COUNT -1);
+        experiments.remove(REPEAT_COUNT -2);
+        experiments.remove(0);
+        experiments.remove(1);
+
         Long comparisonCount = experiments.stream().collect(Collectors.averagingLong(e->e.getSortingResult().getComparisonCount())).longValue();
         Long swapCount = experiments.stream().collect(Collectors.averagingLong(e->e.getSortingResult().getSwapCount())).longValue();
         Integer recursionSize = null;
         if(experiments.get(0).getSortingResult().getRecursionSize() != null)
             recursionSize = experiments.stream().collect(Collectors.averagingInt(e->e.getSortingResult().getRecursionSize())).intValue();
+
         Double timeInMillis = experiments.stream().collect(Collectors.averagingDouble(SortingExperiment::getTimeInMillis));
         return SortingExperiment
                 .builder()
