@@ -5,7 +5,7 @@ import put.apl.Algorithms.Sorting.Implementation.MergeSort;
 
 import java.util.Random;
 
-@Component("ascendingMaxData")
+@Component("Ascending Data With Max at Beginning")
 public class AscendingMaxDataGenerator implements  SortingDataGenerator{
     @Override
     public SortingData generate(DataGeneratorConfig config) throws InterruptedException {
@@ -23,6 +23,11 @@ public class AscendingMaxDataGenerator implements  SortingDataGenerator{
         tab.setCompCount(0L);
         tab.setSwapCount(0L);
         return tab;
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
     }
 }
 

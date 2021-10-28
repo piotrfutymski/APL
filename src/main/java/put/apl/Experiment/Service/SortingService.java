@@ -20,16 +20,19 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SortingService {
 
-    private static final int REPEAT_COUNT = 5;
+    private static final int REPEAT_COUNT = 8;
 
     ApplicationContext context;
 
     public List<Object> runExperiments(List<SortingExperiment> experiments) throws InterruptedException {
-
+        System.gc();
+        Thread.sleep(50);
         List<Object> res = new ArrayList<>();
         List<List<SortingExperiment>> results = new ArrayList<>();
         for (int i = 0; i < REPEAT_COUNT; i++) {
             results.add(runExperimentsOnce(experiments));
+            System.gc();
+            Thread.sleep(50);
         }
         for (int i = 0; i < experiments.size(); i++) {
             List<SortingExperiment> resultsForIExperiment = new ArrayList<>();
@@ -72,8 +75,10 @@ public class SortingService {
 
         for (List<SortingExperiment> groupedExperiment : groupedExperiments) {
             SortingData data = generateDataFor(groupedExperiment.get(0));
+            SortingData toSort = new SortingData((data.getTab().clone()));
             for (SortingExperiment sortingExperiment : groupedExperiment) {
-                res.add(runExperiment(sortingExperiment, new SortingData(data.getTab().clone())));
+                res.add(runExperiment(sortingExperiment, toSort));
+                toSort.restoreFromTemplate(data);
             }
         }
 

@@ -8,7 +8,7 @@ import put.apl.Utility.HeapUtility;
 
 import java.util.Map;
 
-@Component("heapSort")
+@Component("Heap Sort")
 public class HeapSort implements SortingAlgorithm {
     @Override
     public SortingResult sort(SortingData tab) throws InterruptedException {

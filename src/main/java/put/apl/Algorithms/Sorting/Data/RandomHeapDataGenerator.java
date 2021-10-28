@@ -5,7 +5,7 @@ import put.apl.Utility.HeapUtility;
 
 import java.util.Random;
 
-@Component("randomHeapData")
+@Component("Random Heap Data")
 public class RandomHeapDataGenerator implements  SortingDataGenerator{
     @Override
     public SortingData generate(DataGeneratorConfig config) throws InterruptedException {
@@ -16,5 +16,10 @@ public class RandomHeapDataGenerator implements  SortingDataGenerator{
         SortingData tab = new SortingData(heapData);
         HeapUtility.buildHeap(tab, 0, tab.length());
         return tab;
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
     }
 }

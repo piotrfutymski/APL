@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Random;
 
-@Component("randomExponentialData")
+@Component("Random Exponential Data")
 public class RandomExponentialDataGenerator implements SortingDataGenerator {
     @Override
     public SortingData generate(DataGeneratorConfig config) {
@@ -25,5 +25,10 @@ public class RandomExponentialDataGenerator implements SortingDataGenerator {
             }
         }
         return new SortingData(tab);
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
     }
 }

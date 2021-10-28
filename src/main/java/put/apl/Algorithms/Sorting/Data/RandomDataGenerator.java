@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
-@Component("randomData")
+@Component("Random Data")
 public class RandomDataGenerator implements  SortingDataGenerator{
     @Override
     public SortingData generate(DataGeneratorConfig config) {
@@ -15,5 +15,10 @@ public class RandomDataGenerator implements  SortingDataGenerator{
                 .toArray();
 
         return new SortingData(tab);
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
     }
 }

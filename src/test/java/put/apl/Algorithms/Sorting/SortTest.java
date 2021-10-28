@@ -14,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SortTest {
 
-    static SortingData TEST_NUMBERS = new SortingData(new int[]{8, 6, 9, 5, 3, 7, 1, 4, 2});
-    static SortingData SORTED_NUMBERS = new SortingData(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
+    static SortingData TEST_NUMBERS = new SortingData(new int[]{8, 6, 9, 5, 3, 7, 1, 4, 2, 1, 100, 100, 5});
+    static SortingData SORTED_NUMBERS = new SortingData(new int[]{1, 1, 2, 3, 4, 5, 5, 6, 7, 8, 9, 100, 100});
 
     private SortingData numbers = null;
     private final SelectionSort selectionSort = new SelectionSort();
@@ -96,7 +96,7 @@ public class SortTest {
 
     @Test
     void countingSortTest() throws InterruptedException {
-        Map<String,String> params = Map.of("maxValue", "9");
+        Map<String,String> params = Map.of("maxValue", "100");
         countingSort.setParams(params);
         countingSort.sort(numbers);
         assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
