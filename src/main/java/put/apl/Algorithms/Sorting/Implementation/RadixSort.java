@@ -1,12 +1,14 @@
 package put.apl.Algorithms.Sorting.Implementation;
 
+import org.springframework.stereotype.Component;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
 
 import java.util.Map;
 
-
+@Component("radixSort")
 public class RadixSort implements SortingAlgorithm {
+
     @Override
     public SortingResult sort(SortingData tab) {
         int m = getMax(tab);

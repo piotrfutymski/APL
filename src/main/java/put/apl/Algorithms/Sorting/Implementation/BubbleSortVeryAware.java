@@ -1,11 +1,12 @@
 package put.apl.Algorithms.Sorting.Implementation;
 
+import org.springframework.stereotype.Component;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
 
 import java.util.Map;
-
-public class BubbleSortSuperAware implements SortingAlgorithm  {
+@Component("bubbleSortVeryAware")
+public class BubbleSortVeryAware implements SortingAlgorithm  {
     @Override
     public SortingResult sort(SortingData tab) throws InterruptedException {
         int firstSortPosition = 0;
@@ -14,8 +15,7 @@ public class BubbleSortSuperAware implements SortingAlgorithm  {
             int temp=0;
             boolean sorted = true;
             for (int j = firstSortPosition; j < lastSortPosition; j++) {
-                if (tab.less(j+1, j))
-                {
+                if (tab.less(j+1, j)) {
                     tab.swap(j+1, j);
                     if (sorted)
                         firstSortPosition = j;

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import put.apl.Algorithms.Sorting.Data.*;
 import put.apl.Algorithms.Sorting.Implementation.*;
 
-import java.util.Arrays;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -139,8 +138,8 @@ public class SortTest {
     }
     @Test
     void bubbleSortSuperAwareTest() throws InterruptedException {
-        BubbleSortSuperAware bubbleSortSuperAware = new BubbleSortSuperAware();
-        fullSortingTests(bubbleSortSuperAware);
+        BubbleSortVeryAware bubbleSortVeryAware = new BubbleSortVeryAware();
+        fullSortingTests(bubbleSortVeryAware);
     }
     @Test
     void shakeSortTest() throws InterruptedException {

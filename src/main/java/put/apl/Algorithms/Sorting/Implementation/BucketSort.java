@@ -1,5 +1,6 @@
 package put.apl.Algorithms.Sorting.Implementation;
 
+import org.springframework.stereotype.Component;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
 
@@ -7,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Component("bucketSort")
 public class BucketSort implements SortingAlgorithm {
-
 
     @Override
     public SortingResult sort(SortingData tab) {
@@ -18,7 +19,8 @@ public class BucketSort implements SortingAlgorithm {
             max = Math.max(i, max);
         }
         List<List<Integer>> buckets = new ArrayList<>();
-        for(int i = 0; i < numberOfBuckets; i++) buckets.add(new ArrayList<>());
+        for(int i = 0; i < numberOfBuckets; i++)
+            buckets.add(new ArrayList<>());
         for (int i : tab.getTab()) {
             buckets.get(getBucket(i, max, numberOfBuckets)).add(i);
         }
