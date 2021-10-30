@@ -24,6 +24,7 @@ public class SortTest {
     private final ShellSort shellSort = new ShellSort();
     private final ShellSortKnuth shellSortKnuth = new ShellSortKnuth();
     private final MergeSort mergeSort = new MergeSort();
+    private final QuickSort quickSort = new QuickSort();
     private final HeapSort heapSort = new HeapSort();
     private final CountingSort countingSort = new CountingSort();
 
@@ -100,5 +101,48 @@ public class SortTest {
         countingSort.setParams(params);
         countingSort.sort(numbers);
         assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
+    }
+
+    @Test
+    void quickSortFirstTest() throws InterruptedException {
+        Map<String,String> params = Map.of("pivotStrategy", "First item");
+        quickSort.setParams(params);
+        quickSort.sort(numbers);
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
+    }
+    @Test
+    void quickSortMidTest() throws InterruptedException {
+        Map<String,String> params = Map.of("pivotStrategy", "Middle item");
+        quickSort.setParams(params);
+        quickSort.sort(numbers);
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
+    }
+    @Test
+    void quickSortLastTest() throws InterruptedException {
+        Map<String,String> params = Map.of("pivotStrategy", "Last item");
+        quickSort.setParams(params);
+        quickSort.sort(numbers);
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
+    }
+    @Test
+    void quickSortRandTest() throws InterruptedException {
+        Map<String,String> params = Map.of("pivotStrategy", "Random item");
+        quickSort.setParams(params);
+        quickSort.sort(numbers);
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
+    }
+    @Test
+    void quickSortMedOfThreeTest() throws InterruptedException {
+        Map<String,String> params = Map.of("pivotStrategy", "Median of three");
+        quickSort.setParams(params);
+        quickSort.sort(numbers);
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
+    }
+    @Test
+    void quickSortMedianTest() throws InterruptedException {
+        Map<String,String> params = Map.of("pivotStrategy", "Median" , "medianCount", "5");
+        quickSort.setParams(params);
+        quickSort.sort(numbers);
+        assertArrayEquals(numbers.getTab(), SORTED_NUMBERS.getTab());
     }
 }
