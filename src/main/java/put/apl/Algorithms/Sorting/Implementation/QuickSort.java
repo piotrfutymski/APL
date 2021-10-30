@@ -6,7 +6,7 @@ import put.apl.Algorithms.Sorting.SortingResult;
 
 import java.util.Map;
 
-@Component("quickSort")
+@Component("QuickSort")
 public class QuickSort implements SortingAlgorithm{
     String pivotStrategy = null;
     Integer medianCount = null;
