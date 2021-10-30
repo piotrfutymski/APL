@@ -7,6 +7,7 @@ import put.apl.Experiment.Dto.ExperimentsResults;
 import put.apl.Experiment.Dto.GraphExperiment;
 import put.apl.Experiment.Dto.SortingExperiment;
 import put.apl.Experiment.Service.SchedulerService;
+import put.apl.Experiment.Service.SortingService;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -17,6 +18,7 @@ import java.util.concurrent.ExecutionException;
 public class ExperimentEndpoint {
 
     SchedulerService schedulerService;
+    SortingService sortingService;
 
     @PostMapping("/sort")
     public ResponseEntity<String> startSortingExperiments(
@@ -57,5 +59,15 @@ public class ExperimentEndpoint {
     @DeleteMapping("/{id}")
     public void deleteExperiments(@PathVariable String id){
         schedulerService.deleteExperiments(id);
+    }
+
+    @GetMapping("/possibleSortingAlgorithms")
+    public String[] getPossibleSortingAlgorithms(){
+        return sortingService.getPossibleSortingAlgorithms();
+    }
+
+    @GetMapping("/possibleDataDistributions")
+    public String[] getPossibleDataDistributions(){
+        return sortingService.getPossibleDataDistributions();
     }
 }

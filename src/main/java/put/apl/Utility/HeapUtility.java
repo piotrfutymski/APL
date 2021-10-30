@@ -8,12 +8,6 @@ public class HeapUtility {
         int leftChildIndex = startIndex * 2 + 1;
         int rightChildIndex = startIndex * 2 + 2;
         int maxElement = startIndex;
-        if (leftChildIndex < lastIndex) {
-            buildHeap(tab, leftChildIndex, lastIndex);
-        }
-        if (rightChildIndex < lastIndex) {
-            buildHeap(tab, rightChildIndex, lastIndex);
-        }
         if (leftChildIndex < lastIndex && tab.less(startIndex, leftChildIndex))
         {
             maxElement = leftChildIndex;
@@ -22,7 +16,9 @@ public class HeapUtility {
         {
             maxElement = rightChildIndex;
         }
-        tab.swap(maxElement, startIndex);
+        if (maxElement != startIndex) {
+            tab.swap(maxElement, startIndex);
+            buildHeap(tab, maxElement, lastIndex);
+        }
     }
-
 }
