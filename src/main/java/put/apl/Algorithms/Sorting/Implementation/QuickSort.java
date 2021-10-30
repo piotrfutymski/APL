@@ -94,14 +94,14 @@ public class QuickSort implements SortingAlgorithm{
     private void quickSortWithMedian(SortingData tab, int l, int r) throws InterruptedException {
         if(l<r){
             int m = partitionWithMedian(tab, l, r);
-            quickSort(tab, l, m-1);
-            quickSort(tab, m+1, r);
+            quickSortWithMedian(tab, l, m-1);
+            quickSortWithMedian(tab, m+1, r);
         }
     }
 
     @Override
     public SortingResult sort(SortingData tab) throws InterruptedException {
-        if(pivotStrategy == "Median"){
+        if(pivotStrategy.equals("Median")){
             quickSortWithMedian(tab, 0, tab.length()-1);
         }
         else {
