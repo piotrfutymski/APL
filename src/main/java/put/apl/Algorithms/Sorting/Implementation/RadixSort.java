@@ -6,7 +6,7 @@ import put.apl.Algorithms.Sorting.SortingResult;
 
 import java.util.Map;
 
-@Component("radixSort")
+@Component("Radix Sort")
 public class RadixSort implements SortingAlgorithm {
 
     @Override

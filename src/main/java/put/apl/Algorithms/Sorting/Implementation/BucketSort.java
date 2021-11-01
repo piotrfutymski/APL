@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Component("bucketSort")
+@Component("Bucket Sort")
 public class BucketSort implements SortingAlgorithm {
 
     @Override

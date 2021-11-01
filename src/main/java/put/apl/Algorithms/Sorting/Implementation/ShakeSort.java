@@ -6,7 +6,7 @@ import put.apl.Algorithms.Sorting.SortingResult;
 
 import java.util.Map;
 
-@Component("shakeSort")
+@Component("Shake Sort")
 public class ShakeSort implements SortingAlgorithm {
 
     @Override
