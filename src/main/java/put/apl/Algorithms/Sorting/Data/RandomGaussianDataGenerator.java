@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
-@Component("randomGaussianData")
+@Component("Random Gaussian Data")
 public class RandomGaussianDataGenerator implements SortingDataGenerator {
     @Override
     public SortingData generate(DataGeneratorConfig config) {
@@ -24,5 +24,10 @@ public class RandomGaussianDataGenerator implements SortingDataGenerator {
             }
         }
         return new SortingData(tab);
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
     }
 }

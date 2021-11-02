@@ -11,6 +11,7 @@ import put.apl.Algorithms.Sorting.SortingResult;
 import put.apl.Experiment.Dto.SortingExperiment;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -20,12 +21,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SortingService {
 
-    private static final int REPEAT_COUNT = 5;
+    private static final int REPEAT_COUNT = 10;
 
     ApplicationContext context;
 
     public List<Object> runExperiments(List<SortingExperiment> experiments) throws InterruptedException {
-
+        System.gc();
+        Thread.sleep(50);
         List<Object> res = new ArrayList<>();
         List<List<SortingExperiment>> results = new ArrayList<>();
         for (int i = 0; i < REPEAT_COUNT; i++) {
@@ -42,11 +44,18 @@ public class SortingService {
     }
 
     public SortingExperiment averageExperiments(List<SortingExperiment> experiments){
+        experiments = experiments.stream().sorted(Comparator.comparing(SortingExperiment::getTimeInMillis)).collect(Collectors.toList());
+        experiments.remove(REPEAT_COUNT -1);
+        experiments.remove(REPEAT_COUNT -2);
+        experiments.remove(0);
+        experiments.remove(1);
+
         Long comparisonCount = experiments.stream().collect(Collectors.averagingLong(e->e.getSortingResult().getComparisonCount())).longValue();
         Long swapCount = experiments.stream().collect(Collectors.averagingLong(e->e.getSortingResult().getSwapCount())).longValue();
         Integer recursionSize = null;
         if(experiments.get(0).getSortingResult().getRecursionSize() != null)
             recursionSize = experiments.stream().collect(Collectors.averagingInt(e->e.getSortingResult().getRecursionSize())).intValue();
+
         Double timeInMillis = experiments.stream().collect(Collectors.averagingDouble(SortingExperiment::getTimeInMillis));
         return SortingExperiment
                 .builder()
@@ -72,8 +81,10 @@ public class SortingService {
 
         for (List<SortingExperiment> groupedExperiment : groupedExperiments) {
             SortingData data = generateDataFor(groupedExperiment.get(0));
+            SortingData toSort = new SortingData((data.getTab().clone()));
             for (SortingExperiment sortingExperiment : groupedExperiment) {
-                res.add(runExperiment(sortingExperiment, new SortingData(data.getTab().clone())));
+                res.add(runExperiment(sortingExperiment, toSort));
+                toSort.restoreFromTemplate(data);
             }
         }
 

@@ -7,7 +7,7 @@ import put.apl.Algorithms.Sorting.SortingResult;
 
 import java.util.Map;
 
-@Component("shellSort")
+@Component("Shell Sort")
 public class ShellSort implements SortingAlgorithm {
     @Override
     public SortingResult sort(SortingData tab) throws InterruptedException {

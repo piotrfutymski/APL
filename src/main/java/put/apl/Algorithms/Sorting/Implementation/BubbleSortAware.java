@@ -1,5 +1,4 @@
 package put.apl.Algorithms.Sorting.Implementation;
-
 import org.springframework.stereotype.Component;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
@@ -27,7 +26,7 @@ public class BubbleSortAware implements SortingAlgorithm  {
                 .swapCount(tab.getSwapCount())
                 .build();
     }
-
+  
     @Override
     public void setParams(Map<String, String> params) {
 
