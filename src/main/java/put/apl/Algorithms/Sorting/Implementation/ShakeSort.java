@@ -1,12 +1,11 @@
 package put.apl.Algorithms.Sorting.Implementation;
-
 import org.springframework.stereotype.Component;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
 
 import java.util.Map;
 
-@Component("shakeSort")
+@Component("Shake Sort")
 public class ShakeSort implements SortingAlgorithm {
 
     @Override
@@ -36,7 +35,6 @@ public class ShakeSort implements SortingAlgorithm {
 
             if (sorted)
                 break;
-
         }
         return SortingResult.builder()
                 .comparisonCount(tab.getCompCount())

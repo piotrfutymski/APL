@@ -1,11 +1,10 @@
 package put.apl.Algorithms.Sorting.Implementation;
-
 import org.springframework.stereotype.Component;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
 
 import java.util.Map;
-@Component("bubbleSortAware")
+@Component("Bubble Sort Aware")
 public class BubbleSortAware implements SortingAlgorithm  {
     @Override
     public SortingResult sort(SortingData tab) throws InterruptedException {
@@ -27,7 +26,7 @@ public class BubbleSortAware implements SortingAlgorithm  {
                 .swapCount(tab.getSwapCount())
                 .build();
     }
-
+  
     @Override
     public void setParams(Map<String, String> params) {
 

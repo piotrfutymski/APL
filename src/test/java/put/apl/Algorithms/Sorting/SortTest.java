@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import put.apl.Algorithms.Sorting.Data.*;
 import put.apl.Algorithms.Sorting.Implementation.*;
-
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -24,6 +24,7 @@ public class SortTest {
     private SortingData numbersVShape = null;
     private SortingData numbersSorted = null;
     private SortingData numbersConstant = null;
+
 
 
     @BeforeEach
@@ -195,7 +196,7 @@ public class SortTest {
     @Test
     void quickSortMedianTest() throws InterruptedException {
         QuickSort quickSort = new QuickSort();
-        Map<String,String> params = Map.of("pivotStrategy", "Median" , "medianCount", "5");
+        Map<String, String> params = Map.of("pivotStrategy", "Median", "medianCount", "5");
         quickSort.setParams(params);
         fullSortingTests(quickSort);
     }

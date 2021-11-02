@@ -1,5 +1,4 @@
 package put.apl.Algorithms.Sorting.Implementation;
-
 import org.springframework.stereotype.Component;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Component("bucketSort")
+@Component("Bucket Sort")
 public class BucketSort implements SortingAlgorithm {
 
     @Override

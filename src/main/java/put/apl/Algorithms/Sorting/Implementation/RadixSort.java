@@ -1,12 +1,11 @@
 package put.apl.Algorithms.Sorting.Implementation;
-
 import org.springframework.stereotype.Component;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
 
 import java.util.Map;
 
-@Component("radixSort")
+@Component("Radix Sort")
 public class RadixSort implements SortingAlgorithm {
 
     @Override
@@ -64,6 +63,4 @@ public class RadixSort implements SortingAlgorithm {
 
         System.arraycopy(sortedValues, 0, tab, 0, length);
     }
-
-
 }
