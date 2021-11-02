@@ -14,7 +14,9 @@ public class RandomHeapDataGenerator implements  SortingDataGenerator{
                 .limit(config.getN())
                 .toArray();
         SortingData tab = new SortingData(heapData);
-        HeapUtility.buildHeap(tab, 0, tab.length());
+        for (int i = tab.length()/2 - 1; i>= 0; i--) {
+            HeapUtility.buildHeap(tab, i, tab.length());
+        }
         return tab;
     }
 }
