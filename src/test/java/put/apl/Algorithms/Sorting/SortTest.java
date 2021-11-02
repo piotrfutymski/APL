@@ -196,15 +196,8 @@ public class SortTest {
     @Test
     void quickSortMedianTest() throws InterruptedException {
         QuickSort quickSort = new QuickSort();
-        Map<String,String> params = Map.of("pivotStrategy", "Median" , "medianCount", "5");
+        Map<String, String> params = Map.of("pivotStrategy", "Median", "medianCount", "5");
         quickSort.setParams(params);
         fullSortingTests(quickSort);
-    }
-
-    @Test
-    void bubbleSortTest(){
-        final BubbleSort bubbleSort = new BubbleSort();
-        bubbleSort.sort(numbers);
-        assertTrue(Arrays.equals(numbers.getTab(), SORTED_NUMBERS.getTab()));
     }
 }

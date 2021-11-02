@@ -26,4 +26,8 @@ public class DecreasingDataGenerator implements  SortingDataGenerator{
 
         return data;
     }
+    @Override
+    public String getDescription() {
+        return null;
+    }
 }

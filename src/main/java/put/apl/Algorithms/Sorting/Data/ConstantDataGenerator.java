@@ -14,4 +14,8 @@ public class ConstantDataGenerator implements  SortingDataGenerator{
 
         return new SortingData(tab);
     }
+    @Override
+    public String getDescription() {
+        return null;
+    }
 }

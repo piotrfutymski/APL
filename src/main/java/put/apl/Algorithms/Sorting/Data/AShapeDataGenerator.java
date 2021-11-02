@@ -37,4 +37,8 @@ public class AShapeDataGenerator implements  SortingDataGenerator{
             data_final[size_first+i] = data_second[size_second - i - 1];
         return new SortingData(data_final);
     }
+    @Override
+    public String getDescription() {
+        return null;
+    }
 }
