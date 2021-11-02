@@ -108,9 +108,15 @@ public class SchedulerService {
                 .build();
 
         Future<List<Object>> future = executorService.submit(()->{
-            algorithmFuture.setStart(Date.from(Instant.now()));
-            List<Object> res = operation.apply(experiments);
-            incrementJobDone(algorithmFuture);
+            List<Object> res = null;
+            try{
+                algorithmFuture.setStart(Date.from(Instant.now()));
+                res = operation.apply(experiments);
+                incrementJobDone(algorithmFuture);
+            }catch(Exception e){
+                incrementJobDone(algorithmFuture);
+                throw e;
+            }
             return res;
         });
 
@@ -138,7 +144,6 @@ public class SchedulerService {
         boolean isDone = future.getFuture().isDone();
         if(!isDone){
             future.getFuture().cancel(true);
-            incrementJobDone(future);
         }
     }
 
