@@ -19,12 +19,13 @@ public class SortTest {
     static SortingData TEST_NUMBERS_SORTED = new SortingData(new int[]{1,2,3,4,5,6,7,8,9});
     static SortingData TEST_NUMBERS_CONSTANT = new SortingData(new int[]{5,5,5,5,5,5,5,5,5});
     static SortingData SORTED_NUMBERS = new SortingData(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
-
+  
     private SortingData numbersRandom = null;
     private SortingData numbersAShape = null;
     private SortingData numbersVShape = null;
     private SortingData numbersSorted = null;
     private SortingData numbersConstant = null;
+
 
     @BeforeEach
     void initAll() {
@@ -157,4 +158,46 @@ public class SortTest {
         fullSortingTests(radixSort);
     }
 
+    @Test
+    void quickSortFirstTest() throws InterruptedException {
+        QuickSort quickSort = new QuickSort();
+        Map<String,String> params = Map.of("pivotStrategy", "First item");
+        quickSort.setParams(params);
+        fullSortingTests(quickSort);
+    }
+    @Test
+    void quickSortMidTest() throws InterruptedException {
+        QuickSort quickSort = new QuickSort();
+        Map<String,String> params = Map.of("pivotStrategy", "Middle item");
+        quickSort.setParams(params);
+        fullSortingTests(quickSort);
+    }
+    @Test
+    void quickSortLastTest() throws InterruptedException {
+        QuickSort quickSort = new QuickSort();
+        Map<String,String> params = Map.of("pivotStrategy", "Last item");
+        quickSort.setParams(params);
+        fullSortingTests(quickSort);
+    }
+    @Test
+    void quickSortRandTest() throws InterruptedException {
+        QuickSort quickSort = new QuickSort();
+        Map<String,String> params = Map.of("pivotStrategy", "Random item");
+        quickSort.setParams(params);
+        fullSortingTests(quickSort);
+    }
+    @Test
+    void quickSortMedOfThreeTest() throws InterruptedException {
+        QuickSort quickSort = new QuickSort();
+        Map<String,String> params = Map.of("pivotStrategy", "Median of three");
+        quickSort.setParams(params);
+        fullSortingTests(quickSort);
+    }
+    @Test
+    void quickSortMedianTest() throws InterruptedException {
+        QuickSort quickSort = new QuickSort();
+        Map<String,String> params = Map.of("pivotStrategy", "Median" , "medianCount", "5");
+        quickSort.setParams(params);
+        fullSortingTests(quickSort);
+    }
 }
