@@ -22,10 +22,7 @@ public class SortingData {
         return tab[i] <= tab[j];
     }
 
-    public boolean less(int i, int j) throws InterruptedException {
-        if (Thread.interrupted()) {
-            throw new InterruptedException();
-        }
+    public boolean less(int i, int j) {
         compCount++;
         return tab[i] < tab[j];
     }
@@ -46,6 +43,11 @@ public class SortingData {
         swapCount = 0L;
         for (int i = 0; i < tab.length; i++) {
             tab[i] = sortingData.tab[i];
+        }
+    }
+    public void escape() throws InterruptedException{
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
         }
     }
 

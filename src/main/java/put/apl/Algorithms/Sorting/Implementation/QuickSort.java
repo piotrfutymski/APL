@@ -39,6 +39,7 @@ public class QuickSort implements SortingAlgorithm{
     private int partition(SortingData tab, int l, int r, int p) throws InterruptedException {
         int i = l-1;
         for(int j = l; j <= r; j++) {
+            tab.escape();
             if (tab.less(j, p)) {
                 tab.swap(++i, j);
                 if(i==p){
@@ -62,6 +63,7 @@ public class QuickSort implements SortingAlgorithm{
 
         int p = -1;
         while(p != desiredp) {
+            tab.escape();
             p = partition(tab, tmpl, tmpr, tmpr);
             if(p < desiredp){
                 tmpl = p+1;
@@ -72,6 +74,7 @@ public class QuickSort implements SortingAlgorithm{
         }
         int i = p-1;
         for(int j = l+medianCount-1; j <= r; j++) {
+            tab.escape();
             if (tab.less(j, p)) {
                 tab.swap(++i, j);
                 if(i==p){

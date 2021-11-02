@@ -16,9 +16,11 @@ public class BinaryInsertionSort implements SortingAlgorithm {
         int endIndex;
         int index = 0;
         for (int i = 1; i < tab.length(); i++) {
+            tab.escape();
             beginIndex = 0;
             endIndex = i;
             while (endIndex - beginIndex > 0) {
+                tab.escape();
                 index = (endIndex + beginIndex) / 2;
                 if (tab.less(index, i)) {
                     beginIndex = index + 1;
@@ -28,6 +30,7 @@ public class BinaryInsertionSort implements SortingAlgorithm {
                 }
             }
             for (int j = i; j > beginIndex; j--) {
+                tab.escape();
                 tab.swap(j, j - 1);
             }
         }

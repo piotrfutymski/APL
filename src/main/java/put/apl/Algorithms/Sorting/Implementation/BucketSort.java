@@ -11,19 +11,25 @@ import java.util.Map;
 public class BucketSort implements SortingAlgorithm {
 
     @Override
-    public SortingResult sort(SortingData tab) {
+    public SortingResult sort(SortingData tab) throws InterruptedException {
         int max = Integer.MIN_VALUE;
         final int numberOfBuckets = (int) Math.sqrt(tab.length());
         for (int i : tab.getTab()){
+            tab.escape();
             max = Math.max(i, max);
         }
         List<List<Integer>> buckets = new ArrayList<>();
-        for(int i = 0; i < numberOfBuckets; i++)
+        for(int i = 0; i < numberOfBuckets; i++){
+            tab.escape();
             buckets.add(new ArrayList<>());
+        }
+
         for (int i : tab.getTab()) {
+            tab.escape();
             buckets.get(getBucket(i, max, numberOfBuckets)).add(i);
         }
         for(List<Integer> bucket  : buckets){
+            tab.escape();
             bucket.sort(null);
         }
         fillReturnTab(tab.getTab(), buckets);

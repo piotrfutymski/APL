@@ -16,6 +16,7 @@ public class MergeSort implements SortingAlgorithm {
         int iterator2 = middleIndex;
         int currentIndex = 0;
         while (iterator1 < middleIndex && iterator2 < rightIndex) {
+            tab.escape();
             if (tab.less(iterator1, iterator2)) {
                 mergedPart.getTab()[currentIndex] = tab.getTab()[iterator1];
                 iterator1++;
@@ -27,11 +28,13 @@ public class MergeSort implements SortingAlgorithm {
             currentIndex++;
         }
         while (iterator1 < middleIndex) {
+            tab.escape();
             mergedPart.getTab()[currentIndex] = tab.getTab()[iterator1];
             iterator1++;
             currentIndex++;
         }
         while (iterator2 < rightIndex) {
+            tab.escape();
             mergedPart.getTab()[currentIndex] = tab.getTab()[iterator2];
             iterator2++;
             currentIndex++;

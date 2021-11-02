@@ -13,6 +13,7 @@ public class InsertionSort implements SortingAlgorithm {
     public SortingResult sort(SortingData tab) throws InterruptedException {
         for (int i = 1; i < tab.length(); i++) {
             for (int j = i - 1; j >= 0; j--) {
+                tab.escape();
                 if (tab.less(j + 1, j)) {
                     tab.swap(j + 1, j);
                 }

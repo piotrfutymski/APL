@@ -9,11 +9,14 @@ import java.util.Map;
 public class RadixSort implements SortingAlgorithm {
 
     @Override
-    public SortingResult sort(SortingData tab) {
+    public SortingResult sort(SortingData tab) throws InterruptedException {
         int m = getMax(tab);
 
-        for (int exp = 1; m / exp > 0; exp *= 10)
+        for (int exp = 1; m / exp > 0; exp *= 10){
+            tab.escape();
             countSort(tab, exp);
+        }
+
         return SortingResult.builder()
                 .comparisonCount(tab.getCompCount())
                 .swapCount(tab.getSwapCount())
@@ -25,19 +28,20 @@ public class RadixSort implements SortingAlgorithm {
 
     }
 
-    int getMax(SortingData data)
-    {
+    int getMax(SortingData data) throws InterruptedException {
         int[] arr = data.getTab();
         int max = arr[0];
-        for (int i = 1; i < arr.length; i++)
+        for (int i = 1; i < arr.length; i++){
+            data.escape();
             if (arr[i] > max)
                 max = arr[i];
+        }
+
         return max;
     }
 
 
-    void countSort(SortingData data, int exp)
-    {
+    void countSort(SortingData data, int exp) throws InterruptedException {
         int range = 10;
 
         int length = data.length();
@@ -47,15 +51,18 @@ public class RadixSort implements SortingAlgorithm {
         int[] sortedValues = new int[length];
 
         for (int i = 0; i < length; i++) {
+            data.escape();
             int digit = (tab[i] / exp) % range;
             frequency[digit]++;
         }
 
         for (int i = 1; i < range; i++) {
+            data.escape();
             frequency[i] += frequency[i - 1];
         }
 
         for (int i = length - 1; i >= 0; i--) {
+            data.escape();
             int digit = (tab[i] / exp) % range;
             sortedValues[frequency[digit] - 1] = tab[i];
             frequency[digit]--;

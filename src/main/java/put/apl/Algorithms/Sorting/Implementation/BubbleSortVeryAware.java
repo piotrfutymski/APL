@@ -15,6 +15,7 @@ public class BubbleSortVeryAware implements SortingAlgorithm  {
             int temp=0;
             boolean sorted = true;
             for (int j = firstSortPosition; j < lastSortPosition; j++) {
+                tab.escape();
                 if (tab.less(j+1, j)) {
                     tab.swap(j+1, j);
                     if (sorted)

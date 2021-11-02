@@ -16,17 +16,13 @@ public class CountingSort implements SortingAlgorithm {
     public SortingResult sort(SortingData tab) throws InterruptedException {
         int[] counters = new int[this.maxValue + 1];
         for (int i = 0; i < tab.length(); i++) {
-            if (Thread.interrupted()) {
-                throw new InterruptedException();
-            }
+            tab.escape();
             counters[tab.getTab()[i]]++;
         }
         int j = 0;
         for (int i = 0; i < counters.length; i++) {
-            if (Thread.interrupted()) {
-                throw new InterruptedException();
-            }
             while (counters[i] > 0) {
+                tab.escape();
                 counters[i]--;
                 tab.getTab()[j++] = i;
             }

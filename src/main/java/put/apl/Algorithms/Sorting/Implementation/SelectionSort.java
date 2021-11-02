@@ -14,6 +14,7 @@ public class SelectionSort implements SortingAlgorithm {
         for (int i = 0; i < tab.length(); i++) {
             int index = i;
             for (int j = i; j < tab.length(); j++) {
+                tab.escape();
                 if(tab.less(j,index))
                     index = j;
             }

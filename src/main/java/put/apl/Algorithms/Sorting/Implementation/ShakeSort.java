@@ -16,6 +16,7 @@ public class ShakeSort implements SortingAlgorithm {
 
             boolean sorted = true;
             for (int j = i; j < tab.length() - i - 1; j++) {
+                tab.escape();
                 if (tab.less(j+1, j)) {
                     tab.swap(j+1, j);
                     sorted = false;
@@ -27,6 +28,7 @@ public class ShakeSort implements SortingAlgorithm {
             sorted = true;
 
             for (int j = tab.length() - i - 1; j > i; j--) {
+                tab.escape();
                 if (tab.less(j, j-1)) {
                     tab.swap(j, j-1);
                     sorted = false;

@@ -19,11 +19,13 @@ public class ShellSortKnuth implements SortingAlgorithm{
 
         int initialInterval = 1;
         for (int k = 2; k < Math.floor(Math.log(tab.length()) / Math.log(k_param)) - 1; k++) {
+            tab.escape();
             initialInterval = initialInterval * k_param + 1;
         }
         for (int k = initialInterval; k > 0; k = (k - 1) / k_param) {
             for (int i = 0; i < tab.length(); i += k) {
                 for (int j = i - k; j >= 0; j -= k) {
+                    tab.escape();
                     if (tab.less(j + k, j)) {
                         tab.swap(j + k, j);
                     }
