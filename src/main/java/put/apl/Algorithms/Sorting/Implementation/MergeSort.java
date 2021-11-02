@@ -7,7 +7,7 @@ import put.apl.Algorithms.Sorting.SortingResult;
 
 import java.util.Map;
 
-@Component("mergeSort")
+@Component("Merge Sort")
 public class MergeSort implements SortingAlgorithm {
 
     private void merge(SortingData tab, int leftIndex, int middleIndex, int rightIndex) throws InterruptedException {

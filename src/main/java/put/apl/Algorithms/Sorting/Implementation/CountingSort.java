@@ -7,7 +7,7 @@ import put.apl.Utility.HeapUtility;
 
 import java.util.Map;
 
-@Component("countingSort")
+@Component("Counting Sort")
 public class CountingSort implements SortingAlgorithm {
 
     private Integer maxValue = null;

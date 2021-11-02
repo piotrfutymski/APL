@@ -7,7 +7,7 @@ import put.apl.Algorithms.Sorting.SortingResult;
 
 import java.util.Map;
 
-@Component("binaryInsertionSort")
+@Component("Binary Insertion Sort")
 public class BinaryInsertionSort implements SortingAlgorithm {
     @Override
     public SortingResult sort(SortingData tab) throws InterruptedException {
