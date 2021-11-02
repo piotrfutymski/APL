@@ -1,24 +1,27 @@
 package put.apl.Algorithms.Sorting.Implementation;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import put.apl.Algorithms.Sorting.Data.SortingData;
 import put.apl.Algorithms.Sorting.SortingResult;
-import put.apl.Utility.HeapUtility;
 
 import java.util.Map;
-
-@Component("Heap Sort")
-public class HeapSort implements SortingAlgorithm {
+@Component("bubbleSortAware")
+public class BubbleSortAware implements SortingAlgorithm  {
     @Override
     public SortingResult sort(SortingData tab) throws InterruptedException {
-        for (int i = tab.length()/2 - 1; i>= 0; i--) {
-            HeapUtility.buildHeap(tab, i, tab.length());
+        for (int i = 0; i < tab.length() - 1; i++) {
+            boolean sorted = true;
+            for (int j = 0; j < tab.length() - i - 1; j++) {
+                if (tab.less(j+1, j))
+                {
+                    tab.swap(j+1, j);
+                    sorted = false;
+                }
+            }
+            if (sorted)
+                break;
         }
-        for (int i = tab.length() - 1; i >= 0; i--) {
-            tab.swap(i, 0);
-            HeapUtility.buildHeap(tab, 0, i);
-        }
+
         return SortingResult.builder()
                 .comparisonCount(tab.getCompCount())
                 .swapCount(tab.getSwapCount())
