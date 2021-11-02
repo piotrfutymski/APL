@@ -5,7 +5,7 @@ import put.apl.Algorithms.Sorting.Implementation.MergeSort;
 
 import java.util.Random;
 
-@Component("ascendingMinData")
+@Component("Ascending Data With Min On End")
 public class AscendingMinDataGenerator implements  SortingDataGenerator{
     @Override
     public SortingData generate(DataGeneratorConfig config) throws InterruptedException {
@@ -23,6 +23,11 @@ public class AscendingMinDataGenerator implements  SortingDataGenerator{
         tab.setCompCount(0L);
         tab.setSwapCount(0L);
         return tab;
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
     }
 }
 

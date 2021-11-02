@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class SortTest {
-
     static SortingData TEST_NUMBERS_RANDOM = new SortingData(new int[]{8, 6, 9, 5, 3, 7, 1, 4, 2});
     static SortingData TEST_NUMBERS_ASHAPE = new SortingData(new int[]{1,3,5,7,9,8,6,4,2});
     static SortingData TEST_NUMBERS_VSHAPE = new SortingData(new int[]{9,7,5,3,1,2,4,6,8});

@@ -41,5 +41,12 @@ public class SortingData {
         return tab.length;
     }
 
+    public void restoreFromTemplate(SortingData sortingData){
+        compCount = 0L;
+        swapCount = 0L;
+        for (int i = 0; i < tab.length; i++) {
+            tab[i] = sortingData.tab[i];
+        }
+    }
 
 }

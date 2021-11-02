@@ -7,7 +7,7 @@ import put.apl.Algorithms.Sorting.SortingResult;
 
 import java.util.Map;
 
-@Component("shellSortKnuth")
+@Component("Shell Sort Knuth")
 public class ShellSortKnuth implements SortingAlgorithm{
 
     Integer k_param = null;
