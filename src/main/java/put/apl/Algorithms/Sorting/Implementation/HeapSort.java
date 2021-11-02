@@ -12,7 +12,9 @@ import java.util.Map;
 public class HeapSort implements SortingAlgorithm {
     @Override
     public SortingResult sort(SortingData tab) throws InterruptedException {
-        HeapUtility.buildHeap(tab, 0, tab.length());
+        for (int i = tab.length()/2 - 1; i>= 0; i--) {
+            HeapUtility.buildHeap(tab, i, tab.length());
+        }
         for (int i = tab.length() - 1; i >= 0; i--) {
             tab.swap(i, 0);
             HeapUtility.buildHeap(tab, 0, i);
