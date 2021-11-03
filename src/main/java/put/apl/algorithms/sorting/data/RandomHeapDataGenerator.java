@@ -1,7 +1,7 @@
-package put.apl.Algorithms.Sorting.Data;
+package put.apl.algorithms.sorting.data;
 
 import org.springframework.stereotype.Component;
-import put.apl.Utility.HeapUtility;
+import put.apl.utility.HeapUtility;
 
 import java.util.Random;
 

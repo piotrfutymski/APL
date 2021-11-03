@@ -1,7 +1,7 @@
-package put.apl.Algorithms.Sorting.Implementation;
+package put.apl.algorithms.sorting.implementation;
 import org.springframework.stereotype.Component;
-import put.apl.Algorithms.Sorting.Data.SortingData;
-import put.apl.Algorithms.Sorting.SortingResult;
+import put.apl.algorithms.sorting.data.SortingData;
+import put.apl.algorithms.sorting.SortingResult;
 
 import java.util.ArrayList;
 import java.util.List;

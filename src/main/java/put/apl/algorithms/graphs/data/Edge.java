@@ -1,4 +1,4 @@
-package put.apl.Algorithms.Graphs.Data;
+package put.apl.algorithms.graphs.data;
 
 
 import lombok.*;

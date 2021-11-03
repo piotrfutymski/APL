@@ -1,7 +1,7 @@
-package put.apl.Algorithms.Sorting.Data;
+package put.apl.algorithms.sorting.data;
 
 import org.springframework.stereotype.Component;
-import put.apl.Algorithms.Sorting.Implementation.MergeSort;
+import put.apl.algorithms.sorting.implementation.MergeSort;
 
 import java.util.Random;
 

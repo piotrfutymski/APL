@@ -1,4 +1,4 @@
-package put.apl.Algorithms.Sorting;
+package put.apl.algorithms.sorting;
 
 import lombok.*;
 

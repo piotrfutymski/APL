@@ -1,20 +1,19 @@
-package put.apl.Experiment.Service;
+package put.apl.experiment.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
-import put.apl.Algorithms.Sorting.Data.DataGeneratorConfig;
-import put.apl.Algorithms.Sorting.Data.SortingData;
-import put.apl.Algorithms.Sorting.Data.SortingDataGenerator;
-import put.apl.Algorithms.Sorting.Implementation.SortingAlgorithm;
-import put.apl.Algorithms.Sorting.SortingResult;
-import put.apl.Experiment.Dto.SortingExperiment;
+import put.apl.algorithms.sorting.data.DataGeneratorConfig;
+import put.apl.algorithms.sorting.data.SortingData;
+import put.apl.algorithms.sorting.data.SortingDataGenerator;
+import put.apl.algorithms.sorting.implementation.SortingAlgorithm;
+import put.apl.algorithms.sorting.SortingResult;
+import put.apl.experiment.dto.SortingExperiment;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Service

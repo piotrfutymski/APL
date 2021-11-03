@@ -1,4 +1,4 @@
-package put.apl.Experiment.Dto;
+package put.apl.experiment.dto;
 
 import lombok.*;
 

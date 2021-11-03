@@ -1,7 +1,7 @@
-package put.apl.Experiment.Dto;
+package put.apl.experiment.dto;
 
 import lombok.*;
-import put.apl.Algorithms.Sorting.SortingResult;
+import put.apl.algorithms.sorting.SortingResult;
 
 import java.util.Map;
 

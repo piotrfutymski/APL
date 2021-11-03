@@ -1,6 +1,6 @@
-package put.apl.Algorithms.Graphs.Implementation;
+package put.apl.algorithms.graphs.implementation;
 
-import put.apl.Algorithms.Graphs.Data.GraphRepresentation;
+import put.apl.algorithms.graphs.data.GraphRepresentation;
 
 public interface GraphAlgorithm<T> {
 

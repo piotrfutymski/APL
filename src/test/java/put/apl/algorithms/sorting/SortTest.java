@@ -1,12 +1,11 @@
-package put.apl.Algorithms.Sorting;
+package put.apl.algorithms.sorting;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import put.apl.Algorithms.Sorting.Data.*;
-import put.apl.Algorithms.Sorting.Implementation.*;
-import java.util.Arrays;
-import java.util.HashMap;
+import put.apl.algorithms.sorting.data.*;
+import put.apl.algorithms.sorting.implementation.*;
+
 import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 

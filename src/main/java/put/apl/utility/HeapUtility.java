@@ -1,6 +1,6 @@
-package put.apl.Utility;
+package put.apl.utility;
 
-import put.apl.Algorithms.Sorting.Data.SortingData;
+import put.apl.algorithms.sorting.data.SortingData;
 
 public class HeapUtility {
 

@@ -1,8 +1,7 @@
-package put.apl.Algorithms.Sorting.Data;
+package put.apl.algorithms.sorting.data;
 
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Random;
 
 @Component("Random Exponential Data")

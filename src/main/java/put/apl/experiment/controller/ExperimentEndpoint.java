@@ -1,16 +1,15 @@
-package put.apl.Experiment.Controller;
+package put.apl.experiment.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import put.apl.Experiment.Dto.ExperimentsResults;
-import put.apl.Experiment.Dto.GraphExperiment;
-import put.apl.Experiment.Dto.SortingExperiment;
-import put.apl.Experiment.Service.SchedulerService;
-import put.apl.Experiment.Service.SortingService;
+import put.apl.experiment.dto.ExperimentsResults;
+import put.apl.experiment.dto.GraphExperiment;
+import put.apl.experiment.dto.SortingExperiment;
+import put.apl.experiment.service.SchedulerService;
+import put.apl.experiment.service.SortingService;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/apl-api/experiment")

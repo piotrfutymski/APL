@@ -1,13 +1,13 @@
-package put.apl.Experiment.Service;
+package put.apl.experiment.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import put.apl.Experiment.Dto.AlgorithmFuture;
-import put.apl.Experiment.Dto.ExperimentsResults;
-import put.apl.Experiment.Dto.GraphExperiment;
-import put.apl.Experiment.Dto.SortingExperiment;
+import put.apl.experiment.dto.AlgorithmFuture;
+import put.apl.experiment.dto.ExperimentsResults;
+import put.apl.experiment.dto.GraphExperiment;
+import put.apl.experiment.dto.SortingExperiment;
 
 import java.time.Instant;
 import java.util.*;

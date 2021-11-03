@@ -1,6 +1,5 @@
-package put.apl.Algorithms.Sorting.Data;
+package put.apl.algorithms.sorting.data;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
