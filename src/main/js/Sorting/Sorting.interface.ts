@@ -35,5 +35,10 @@ export interface SortingResultViewProps {
     experimentId: string;
 }
 
+export interface SortingChartProps {
+    experiments: SortingExperimentsResult;
+    dataLabel: string;
+}
+
 
 export type ExperimentStatus = "QUEUED" | "CALCULATING" | "DONE" | "REMOVED" | "EXPIRED" | "ERROR"
