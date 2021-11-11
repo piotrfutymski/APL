@@ -23,13 +23,19 @@ public class SortingService {
     private static final int REPEAT_COUNT = 10;
 
     ApplicationContext context;
+    GarbageCollectorFighter garbageCollectorFighter;
 
     public List<Object> runExperiments(List<SortingExperiment> experiments) throws InterruptedException {
         System.gc();
         Thread.sleep(50);
         List<Object> res = new ArrayList<>();
         List<List<SortingExperiment>> results = new ArrayList<>();
-        for (int i = 0; i < REPEAT_COUNT; i++) {
+        for (int i = 0; i < REPEAT_COUNT/2; i++) {
+            results.add(runExperimentsOnce(experiments));
+        }
+        System.gc();
+        Thread.sleep(50);
+        for (int i = 0; i < REPEAT_COUNT/2; i++) {
             results.add(runExperimentsOnce(experiments));
         }
         for (int i = 0; i < experiments.size(); i++) {
@@ -43,11 +49,6 @@ public class SortingService {
     }
 
     public SortingExperiment averageExperiments(List<SortingExperiment> experiments){
-        experiments = experiments.stream().sorted(Comparator.comparing(SortingExperiment::getTimeInMillis)).collect(Collectors.toList());
-        experiments.remove(REPEAT_COUNT -1);
-        experiments.remove(REPEAT_COUNT -2);
-        experiments.remove(0);
-        experiments.remove(1);
 
         Long comparisonCount = experiments.stream().collect(Collectors.averagingLong(e->e.getSortingResult().getComparisonCount())).longValue();
         Long swapCount = experiments.stream().collect(Collectors.averagingLong(e->e.getSortingResult().getSwapCount())).longValue();
@@ -55,7 +56,7 @@ public class SortingService {
         if(experiments.get(0).getSortingResult().getRecursionSize() != null)
             recursionSize = experiments.stream().collect(Collectors.averagingInt(e->e.getSortingResult().getRecursionSize())).intValue();
 
-        Double timeInMillis = experiments.stream().collect(Collectors.averagingDouble(SortingExperiment::getTimeInMillis));
+        Double timeInMillis = garbageCollectorFighter.getTime(experiments.stream().map(SortingExperiment::getTimeInMillis).collect(Collectors.toList()));
         return SortingExperiment
                 .builder()
                 .algorithmName(experiments.get(0).getAlgorithmName())

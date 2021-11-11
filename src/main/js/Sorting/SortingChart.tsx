@@ -86,7 +86,7 @@ export const SortingChart = (props: SortingChartProps) => {
                     onClick={changeScaleType}
                     variant="contained"
                 >
-                    {!logarithmScale ? `Logarithmic scale` : `Standard scale`}
+                    {!logarithmScale ? `Go to logarithmic scale` : `Go to standard scale`}
                 </Button>
             </ButtonStylizer>
             <LineChart width={1200} height={800} data={getRecalculatedDataTime()} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
