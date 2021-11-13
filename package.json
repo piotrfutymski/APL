@@ -1,7 +1,8 @@
 {
   "name": "apl",
   "version": "0.1.0",
-  "description": ":^)",
+  "description": "Algorithm experiment platform",
+  "private": true,
   "dependencies": {
     "@material-ui/core": "^4.12.3",
     "axios": "^0.21.4",
