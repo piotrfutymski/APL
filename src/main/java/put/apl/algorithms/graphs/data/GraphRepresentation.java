@@ -4,17 +4,21 @@ import java.util.Set;
 
 public interface GraphRepresentation {
 
-    public Set<Integer> getSuccessors(Integer id);
+    public int[] getSuccessors(Integer id);
 
-    public Integer getFirstSuccessor(Integer id);
+    public int getFirstSuccessor(Integer id);
 
-    public Set<Integer> getPredecessors(Integer id);
+    public int[] getPredecessors(Integer id);
 
-    public Integer getFirstPredecessor(Integer id);
+    public int getFirstPredecessor(Integer id);
 
-    public Set<Integer> getNonIncident(Integer id);
+    public int[] getNonIncident(Integer id);
 
-    public Set<Edge> getAllEdges();
+    public int[][] getAllEdges();
 
-    public Integer getMemoryOccupancy();
+    public int getMemoryOccupancy();
+
+    public String getRelationBetween(Integer id1, Integer id2);
+
+    public GraphRepresentation clone();
 }

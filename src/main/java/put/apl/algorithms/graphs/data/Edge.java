@@ -11,4 +11,6 @@ import lombok.*;
 public class Edge {
     Integer predecessor;
     Integer successor;
+    Integer toPredecessorWeight;
+    Integer toSuccessorWeight;
 }
