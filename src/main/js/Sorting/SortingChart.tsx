@@ -1,9 +1,10 @@
 import { Button } from "@material-ui/core"
-import { scaleLog } from "d3-scale"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts"
 import { ButtonStylizer } from "../Utility/Forms.styled"
-import { SortingChartProps } from "./Sorting.interface"
+import { ComplexityParameters, SortingChartProps } from "./Sorting.interface"
+import { addCalculatedComplexity, calculateComplexityParameters } from "./Sorting.utils"
+import { SortingForumla } from "./SortingFormula"
 
 
 export const SortingChart = (props: SortingChartProps) => {
@@ -12,7 +13,15 @@ export const SortingChart = (props: SortingChartProps) => {
 
     const [logarithmScale, setLogarithmScale] = useState(false);
 
-    const getRecalculatedDataTime = () => {
+    const [complexityParams, setComplexityParams] = useState<ComplexityParameters>(null);
+
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        recalculateDataTime()
+    }, [props, logarithmScale])
+
+    const recalculateDataTime = () => {
         const res: any[] = [];
         let names: number[] = [];
         for (let i = 0; i < props.experiments.results.length; i++) {
@@ -35,7 +44,15 @@ export const SortingChart = (props: SortingChartProps) => {
             })
             res.push(el);
         });
-        return res;
+
+        if(props.series){
+            let complexityInfo = calculateComplexityParameters(res, props.series)
+            setComplexityParams(complexityInfo)
+            setData(addCalculatedComplexity(res, props.series, complexityInfo))
+        }else{
+            setComplexityParams(null)
+            setData(res);
+        }    
     }
 
     const getDomainTab = () => {
@@ -63,15 +80,26 @@ export const SortingChart = (props: SortingChartProps) => {
             props.experiments.results.filter(v => v.n === names[0]).forEach(v => {
                 res.push(v.algorithmName + " : " + v.dataDistribution + " : " + v.maxValue.toString())
             })
+
+            if(props.series){
+                res.push(props.series + " --> trend")
+            }
         }
         return res;
     }
 
     const getLines = () => {
-        return getDataKeys().map((element, index) => {
-            return (
-                <Line type="monotone" dataKey={element} stroke={colors[index % colors.length]} />
-            )
+        return getDataKeys().map((element, index, array) => {
+            if(index != array.length - 1 || !props.series){
+                return (
+                    <Line type="monotone" dataKey={element} stroke={colors[index % colors.length]} />
+                )
+            }else{
+                return (
+                    <Line type="monotone" dataKey={element} stroke="#ff0000" />
+                )
+            }
+            
         })
     }
 
@@ -81,6 +109,7 @@ export const SortingChart = (props: SortingChartProps) => {
 
     return (
         <>
+            {complexityParams && <SortingForumla {...complexityParams}/>}
             <ButtonStylizer>
                 <Button
                     onClick={changeScaleType}
@@ -89,7 +118,7 @@ export const SortingChart = (props: SortingChartProps) => {
                     {!logarithmScale ? `Go to logarithmic scale` : `Go to standard scale`}
                 </Button>
             </ButtonStylizer>
-            <LineChart width={1200} height={800} data={getRecalculatedDataTime()} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+            <LineChart width={600} height={400} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 {logarithmScale ? <YAxis scale="log" domain={[Math.min(...getDomainTab())/2, Math.max(...getDomainTab())*2] }/> : <YAxis/>}

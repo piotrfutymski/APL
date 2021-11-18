@@ -38,7 +38,14 @@ export interface SortingResultViewProps {
 export interface SortingChartProps {
     experiments: SortingExperimentsResult;
     dataLabel: string;
+    series?: string;
 }
 
+export interface ComplexityParameters {
+    complexityType: ComplexityType
+    data: number[]
+}
+
+export type ComplexityType = "N^2" | "NlogN" | "N+K"
 
 export type ExperimentStatus = "QUEUED" | "CALCULATING" | "DONE" | "REMOVED" | "EXPIRED" | "ERROR"
