@@ -13,7 +13,8 @@ public class BreadthFirstSearch implements GraphAlgorithm<List<Integer>> {
     private List<Integer> path;
     private Queue<Integer> queue;
 
-    public List<Integer> run(GraphRepresentation graph) {
+    public List<Integer> run(GraphRepresentation graph, boolean... flags) {
+        boolean forceConnectedGraph = flags.length > 0 && flags[0];
         visited = new boolean[graph.getAllEdges().length];
         path =  new ArrayList<Integer>();
         queue = new LinkedList<Integer>();
@@ -21,10 +22,14 @@ public class BreadthFirstSearch implements GraphAlgorithm<List<Integer>> {
             visited[i] = false;
         }
         // For non-connected graphs BFS procedure will run multiple times
-        for (int i = 0; i < graph.getAllEdges().length; i++) {
-            if (!visited[i]) {
-                breadthFirstSearch(graph, i);
+        if (!forceConnectedGraph) {
+            for (int i = 0; i < graph.getAllEdges().length; i++) {
+                if (!visited[i]) {
+                    breadthFirstSearch(graph, i);
+                }
             }
+        } else {
+            breadthFirstSearch(graph, 0);
         }
         return path;
     }

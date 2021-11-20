@@ -10,17 +10,22 @@ public class DepthFirstSearch implements GraphAlgorithm<List<Integer>> {
     private boolean[] visited;
     private List<Integer> path;
 
-    public List<Integer> run(GraphRepresentation graph) {
+    public List<Integer> run(GraphRepresentation graph, boolean... flags) {
+        boolean forceConnectedGraph = flags.length > 0 && flags[0];
         visited = new boolean[graph.getAllEdges().length];
         path =  new ArrayList<Integer>();
         for (int i = 0; i < graph.getAllEdges().length; i++) {
             visited[i] = false;
         }
         // For non-connected graphs DFS procedure will run multiple times
-        for (int i = 0; i < graph.getAllEdges().length; i++) {
-            if (!visited[i]) {
-                depthFirstSearch(graph, i);
+        if (!forceConnectedGraph) {
+            for (int i = 0; i < graph.getAllEdges().length; i++) {
+                if (!visited[i]) {
+                    depthFirstSearch(graph, i);
+                }
             }
+        } else {
+            depthFirstSearch(graph, 0);
         }
         return path;
     }
