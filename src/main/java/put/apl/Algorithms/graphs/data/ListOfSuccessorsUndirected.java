@@ -33,19 +33,12 @@ public class ListOfSuccessorsUndirected implements GraphRepresentation {
     }
 
     public int[] getSuccessors(Integer id) {
-        for (int i = 0; i < edges.length; i++) {
-            if (i == id) {
-                return edges[i];
-            }
-        }
-        return null;
+        return edges[id];
     };
 
     public int getFirstSuccessor(Integer id) {
-        for (int i = 0; i < edges.length; i++) {
-            if (i == id) {
-                return edges[i][0];
-            }
+        if (edges[id].length > 0) {
+            return edges[id][0];
         }
         return -1;
     };
@@ -88,16 +81,10 @@ public class ListOfSuccessorsUndirected implements GraphRepresentation {
     };
 
     public String getRelationBetween(Integer id1, Integer id2) {
-        int[] predecessors = getPredecessors(id1);
         int[] successors = getSuccessors(id1);
-        for (int predecessor : predecessors) {
-            if (predecessor == id2) {
-                return "successor";
-            }
-        }
         for (int successor : successors) {
             if (successor == id2) {
-                return "predecessor";
+                return "incident";
             }
         }
         return "none";
