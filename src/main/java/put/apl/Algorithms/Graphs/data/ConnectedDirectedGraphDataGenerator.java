@@ -1,5 +1,6 @@
 package put.apl.algorithms.graphs.data;
 import org.springframework.stereotype.Component;
+import put.apl.algorithms.graphs.implementation.BreadthFirstSearch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,11 @@ public class ConnectedDirectedGraphDataGenerator implements GraphDataGenerator {
         for (int i = 0; i < numToDiscard; i++) {
             while (true) {
                 int removalId = random.nextInt(edges.size());
-                if (hasNeighborsAfterRemove(edges, removalId)) {
-                    edges.remove(removalId);
+                BreadthFirstSearch bfs = new BreadthFirstSearch();
+                List<ArrayList<Integer>> edgesCopy = new ArrayList<ArrayList<Integer>>(edges);
+                edgesCopy.remove(removalId);
+                List<Integer> path = bfs.run(new ListOfEdgesDirected((int[][]) edgesCopy.toArray()));
+                if (config.getNoOfVertices() == path.size()) {
                     break;
                 }
             }
@@ -49,29 +53,4 @@ public class ConnectedDirectedGraphDataGenerator implements GraphDataGenerator {
         }
         return graph;
     };
-
-    private boolean hasNeighborsAfterRemove(List<ArrayList<Integer>> edges, int id) {
-        int firstVertex = edges.get(id).get(0);
-        int secondVertex = edges.get(id).get(1);
-        boolean firstVertexHasNeighbour = false;
-        boolean secondVertexHasNeighbour = false;
-        for (int i = 0; i < edges.size(); i++) {
-            if (i == id) {
-                continue;
-            }
-            if (edges.get(i).get(0) == firstVertex || edges.get(i).get(1) == firstVertex) {
-                firstVertexHasNeighbour = true;
-                if (secondVertexHasNeighbour) {
-                    return true;
-                }
-            }
-            if (edges.get(i).get(0) == secondVertex || edges.get(i).get(1) == secondVertex) {
-                secondVertexHasNeighbour = true;
-                if (firstVertexHasNeighbour) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 }

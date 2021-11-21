@@ -3,6 +3,8 @@ package put.apl.experiment.dto;
 import lombok.*;
 import put.apl.algorithms.graphs.data.GraphRepresentation;
 
+import java.util.Map;
+
 @Getter
 @Setter
 @Builder
@@ -15,6 +17,7 @@ public class GraphExperiment {
     // CONNECTED, UNDIRECTED, DIRECTED, EULER, HAMILTIONIAN (also multiple types?)
     private String type;
     //Data
+    private Map<String, String> algorithmParams;
     private Integer noOfVertices;
     private Double density;
     //Result
@@ -33,6 +36,7 @@ public class GraphExperiment {
         return GraphExperiment.builder()
                 .algorithmName(algorithmName)
                 .graphRepresentation(graphRepresentation)
+                .algorithmParams(algorithmParams)
                 .type(type)
                 .noOfVertices(noOfVertices)
                 .density(density)

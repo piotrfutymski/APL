@@ -4,22 +4,24 @@ import put.apl.algorithms.graphs.data.GraphRepresentation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DepthFirstSearch implements GraphAlgorithm<List<Integer>> {
 
     private boolean[] visited;
+    private int noOfVertices;
     private List<Integer> path;
 
     public List<Integer> run(GraphRepresentation graph, boolean... flags) {
         boolean forceConnectedGraph = flags.length > 0 && flags[0];
-        visited = new boolean[graph.getAllEdges().length];
+        visited = new boolean[noOfVertices];
         path =  new ArrayList<Integer>();
-        for (int i = 0; i < graph.getAllEdges().length; i++) {
+        for (int i = 0; i < noOfVertices; i++) {
             visited[i] = false;
         }
         // For non-connected graphs DFS procedure will run multiple times
         if (!forceConnectedGraph) {
-            for (int i = 0; i < graph.getAllEdges().length; i++) {
+            for (int i = 0; i < noOfVertices; i++) {
                 if (!visited[i]) {
                     depthFirstSearch(graph, i);
                 }
@@ -39,5 +41,11 @@ public class DepthFirstSearch implements GraphAlgorithm<List<Integer>> {
                depthFirstSearch(graph, successors[i]);
            }
        }
+    }
+
+    @Override
+    public void setParams(Map<String, String> params) {
+        if (params.containsKey("noOfVertices"))
+            noOfVertices = Integer.parseInt(params.get("noOfVertices"));
     }
 }

@@ -2,28 +2,26 @@ package put.apl.algorithms.graphs.implementation;
 
 import put.apl.algorithms.graphs.data.GraphRepresentation;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class BreadthFirstSearch implements GraphAlgorithm<List<Integer>> {
 
     private boolean[] visited;
     private List<Integer> path;
+    private int noOfVertices;
     private Queue<Integer> queue;
 
     public List<Integer> run(GraphRepresentation graph, boolean... flags) {
         boolean forceConnectedGraph = flags.length > 0 && flags[0];
-        visited = new boolean[graph.getAllEdges().length];
+        visited = new boolean[noOfVertices];
         path =  new ArrayList<Integer>();
         queue = new LinkedList<Integer>();
-        for (int i = 0; i < graph.getAllEdges().length; i++) {
+        for (int i = 0; i < noOfVertices; i++) {
             visited[i] = false;
         }
         // For non-connected graphs BFS procedure will run multiple times
         if (!forceConnectedGraph) {
-            for (int i = 0; i < graph.getAllEdges().length; i++) {
+            for (int i = 0; i < noOfVertices; i++) {
                 if (!visited[i]) {
                     breadthFirstSearch(graph, i);
                 }
@@ -47,5 +45,11 @@ public class BreadthFirstSearch implements GraphAlgorithm<List<Integer>> {
                breadthFirstSearch(graph, nextId);
            }
        }
+    }
+
+    @Override
+    public void setParams(Map<String, String> params) {
+        if (params.containsKey("noOfVertices"))
+            noOfVertices = Integer.parseInt(params.get("noOfVertices"));
     }
 }

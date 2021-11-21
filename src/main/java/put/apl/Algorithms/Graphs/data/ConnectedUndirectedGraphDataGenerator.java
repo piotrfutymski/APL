@@ -1,5 +1,6 @@
 package put.apl.algorithms.graphs.data;
 import org.springframework.stereotype.Component;
+import put.apl.algorithms.graphs.implementation.BreadthFirstSearch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +33,12 @@ public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator
         for (int i = 0; i < numToDiscard / 2; i++) {
             while (true) {
                 int removalId = random.nextInt(edges.size() / 2);
-                if (hasNeighborsAfterRemove(edges, removalId)) {
-                    edges.remove(removalId);
+                BreadthFirstSearch bfs = new BreadthFirstSearch();
+                List<ArrayList<Integer>> edgesCopy = new ArrayList<ArrayList<Integer>>(edges);
+                edgesCopy.remove(removalId * 2);
+                edgesCopy.remove(removalId * 2);
+                List<Integer> path = bfs.run(new ListOfEdgesUndirected((int[][]) edgesCopy.toArray()));
+                if (config.getNoOfVertices() == path.size()) {
                     break;
                 }
             }
