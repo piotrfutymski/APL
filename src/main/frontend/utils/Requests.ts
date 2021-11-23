@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { SortingExperiment, SortingExperimentsResult } from "../Sorting/Sorting.interface";
+import { SortingExperiment, SortingExperimentsResult } from "../experiments/sorting/Sorting.interface";
 
 export const startSortingExperiments = (experiments: SortingExperiment[], finite: boolean, onResponse: (arg0: string)=>void) => {
     axios.post(`/apl-api/experiment/sort?finite=${finite}`, experiments)

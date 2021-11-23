@@ -1,0 +1,42 @@
+@use 'frontend/utils/variables' as *;
+
+.FormContainer{
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ControlContainerSpace{
+    width: 40%;
+}
+.ControlContainer{
+    position: fixed;
+    right: 0;
+
+    background: $form-control-bg;
+    height: 100%;
+    width: 40%;
+}
+
+.ExperimentContainer{
+    background: $form-card-container-bg;
+    height: 100%;
+    width: 60%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.AddButton {
+    font-weight: bold;
+    padding: 0.4rem;
+}

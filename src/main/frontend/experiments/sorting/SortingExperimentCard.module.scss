@@ -1,0 +1,76 @@
+@use 'frontend/utils/variables' as *;
+
+$radius: 16px;
+
+.Correct{
+    box-shadow: 0 0 10px $card-correct-color;
+}
+.Error{
+    box-shadow: 0 0 10px $card-error-color;
+}
+
+@mixin CardBase{
+    width: 80%;
+    background: $card-bg;
+    border-radius: $radius;
+
+    display: grid;
+    grid-template-columns: 45% 45% 10%;
+}
+.Card{
+    @include CardBase;
+
+    grid-template-rows: 100%;
+    grid-template-areas: 
+    "algorithm data deleteBtn"
+}
+.CardWithParams{
+    @include CardBase;
+    
+    grid-template-rows: 50%, 50%;
+    grid-template-areas: 
+    "algorithm data deleteBtn"
+    "params params deleteBtn"
+}
+
+@mixin flexColumnCentering{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.AlgorithmSelectContainer{
+    grid-area: algorithm;
+
+    @include flexColumnCentering;
+}
+
+.AlgorithmSelect{
+}
+
+.DataSelectContainer{
+    grid-area: data;
+    @include flexColumnCentering;
+}
+.DataSelect{
+}
+
+.ParamsSelectContainer{
+    grid-area: params;
+}
+
+.DeleteBtn{
+    @include flexColumnCentering;
+    margin: 0;
+    height: 100%;
+    border-radius: 0 $radius $radius 0;
+    grid-area: deleteBtn;
+    cursor: pointer;
+    &:hover{
+        background: $card-error-color;
+    }
+}

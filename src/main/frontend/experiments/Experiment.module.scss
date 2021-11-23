@@ -1,0 +1,39 @@
+@use 'frontend/utils/variables' as *;
+
+.ExperimentContents{
+    position: relative;
+    height: 100%;
+}
+
+.ExperimentSwitchLabel{
+    pointer-events: none;
+    position: absolute;
+    top: 20%;
+    width: 100%;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.ExperimentSwitch{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.ExperimentCard{
+    height: 100%;
+    width: 50%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    transition-duration: 0.4s;
+    &:hover{
+        background: $item-hover-bg;
+    }
+}
