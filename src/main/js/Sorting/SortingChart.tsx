@@ -17,9 +17,15 @@ export const SortingChart = (props: SortingChartProps) => {
 
     const [data, setData] = useState([])
 
+    const [ problematicAlgorithms, setProblematicAlgorithms ] = useState(false)
+
     useEffect(() => {
         recalculateDataTime()
     }, [props, logarithmScale])
+
+    useEffect(() => {
+        setProblematicAlgorithms( props.experiments.results.length != props.experiments.results.filter(v => v.timeInMillis > 0).length)
+    }, [props])
 
     const recalculateDataTime = () => {
         const res: any[] = [];
@@ -32,7 +38,8 @@ export const SortingChart = (props: SortingChartProps) => {
         names.forEach(name => {
             let el: any = {}
             el.name = name.toString();
-            props.experiments.results.filter(v => v.n === name).forEach(v => {
+            let pp = true;
+            props.experiments.results.filter(v => v.n === name).filter(v => v.timeInMillis > 0).forEach(v => {
                 if (props.dataLabel === "timeInMillis" && (!logarithmScale || v.timeInMillis != 0))
                     el[v.algorithmName + " : " + v.dataDistribution + " : " + v.maxValue.toString()] = v.timeInMillis;
                 if (props.dataLabel === "swapCount" && (!logarithmScale || v.sortingResult.swapCount != 0))
@@ -41,10 +48,11 @@ export const SortingChart = (props: SortingChartProps) => {
                     el[v.algorithmName + " : " + v.dataDistribution + " : " + v.maxValue.toString()] = v.sortingResult.recursionSize;
                 if (props.dataLabel === "comparisonCount" && (!logarithmScale || v.sortingResult.comparisonCount != 0))
                     el[v.algorithmName + " : " + v.dataDistribution + " : " + v.maxValue.toString()] = v.sortingResult.comparisonCount;
+                pp = false
             })
-            res.push(el);
+            if(!pp)
+                res.push(el);
         });
-
         if(props.series){
             let complexityInfo = calculateComplexityParameters(res, props.series)
             setComplexityParams(complexityInfo)
@@ -58,13 +66,13 @@ export const SortingChart = (props: SortingChartProps) => {
     const getDomainTab = () => {
         let tab: number[] = [];
         if (props.dataLabel === "timeInMillis")
-            tab = props.experiments.results.map(e => e.timeInMillis)
+            tab = props.experiments.results.filter(e=>e.timeInMillis > 0).map(e => e.timeInMillis)
         if (props.dataLabel === "swapCount")
-            tab = props.experiments.results.map(e => e.sortingResult.swapCount)
+            tab = props.experiments.results.filter(e=>e.timeInMillis > 0).map(e => e.sortingResult.swapCount)
         if (props.dataLabel === "recursionSize")
-            tab = props.experiments.results.map(e => e.sortingResult.recursionSize)
+            tab = props.experiments.results.filter(e=>e.timeInMillis > 0).map(e => e.sortingResult.recursionSize)
         if (props.dataLabel === "comparisonCount")
-            tab = props.experiments.results.map(e => e.sortingResult.comparisonCount)
+            tab = props.experiments.results.filter(e=>e.timeInMillis > 0).map(e => e.sortingResult.comparisonCount)
         
         return tab.filter(e=>e != 0);
     }
@@ -118,6 +126,7 @@ export const SortingChart = (props: SortingChartProps) => {
                     {!logarithmScale ? `Go to logarithmic scale` : `Go to standard scale`}
                 </Button>
             </ButtonStylizer>
+            {problematicAlgorithms && "Thera are some algorithms that was too long to calculate, showing partial results"}
             <LineChart width={600} height={400} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
