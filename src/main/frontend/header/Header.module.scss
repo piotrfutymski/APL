@@ -1,6 +1,6 @@
 @use 'frontend/utils/variables' as *;
 
-.HeaderContainer{
+.Header{
     display: flex;
     flex-direction: row;
 
@@ -24,9 +24,9 @@
 .HeaderLink{
     @include HeaderItem;
 
-    transition-duration: 0.4s;
+    transition-duration: $hover-trans-duration;
     &:hover{
-        background: $item-hover-bg;
+        background: $header-item-hover-bg;
     }
 }
 

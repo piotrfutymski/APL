@@ -41,6 +41,10 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
                     }
                 </select>
             </div>
+            <div className={styles.MaxValContainer}>
+                <label>Maximum possible value</label>
+                <input type="number" />
+            </div>
             <div className={styles.DeleteBtn} onClick={props.removeExperiment}>X</div>
         </div>
     )

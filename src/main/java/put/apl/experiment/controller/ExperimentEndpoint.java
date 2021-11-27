@@ -12,7 +12,7 @@ import put.apl.experiment.service.SortingService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/apl-api/experiment")
+@RequestMapping("/api/experiment")
 @AllArgsConstructor
 public class ExperimentEndpoint {
 

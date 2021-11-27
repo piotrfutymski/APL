@@ -7,7 +7,7 @@ import styles from './Header.module.scss';
 
 export const Header = (props: HeaderProps) => {
     return (
-    <div className={styles.HeaderContainer}>
+    <div className={styles.Header}>
         {
             props.showLogo === true ? <Link className={styles.HeaderLogo} to="/">APL</Link> : null
         }

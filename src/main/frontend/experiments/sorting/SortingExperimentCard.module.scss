@@ -10,7 +10,7 @@ $radius: 16px;
 }
 
 @mixin CardBase{
-    width: 80%;
+    width: 60%;
     background: $card-bg;
     border-radius: $radius;
 
@@ -19,52 +19,52 @@ $radius: 16px;
 }
 .Card{
     @include CardBase;
-
-    grid-template-rows: 100%;
     grid-template-areas: 
     "algorithm data deleteBtn"
+    "maxVal . deleteBtn"
 }
 .CardWithParams{
     @include CardBase;
-    
-    grid-template-rows: 50%, 50%;
     grid-template-areas: 
     "algorithm data deleteBtn"
-    "params params deleteBtn"
+    "maxVal params deleteBtn"
 }
 
-@mixin flexColumnCentering{
+@mixin flexCentering($direction){
     display: flex;
-    flex-direction: column;
+    flex-direction: $direction;
     justify-content: center;
     align-items: center;
 
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
 }
 
 .AlgorithmSelectContainer{
     grid-area: algorithm;
 
-    @include flexColumnCentering;
+    @include flexCentering(column);
 }
-
 .AlgorithmSelect{
-}
 
+}
 .DataSelectContainer{
     grid-area: data;
-    @include flexColumnCentering;
+    @include flexCentering(column);
 }
 .DataSelect{
-}
 
+}
+.MaxValContainer{
+    grid-area: maxVal;
+    @include flexCentering(column);
+}
 .ParamsSelectContainer{
     grid-area: params;
 }
 
 .DeleteBtn{
-    @include flexColumnCentering;
+    @include flexCentering(column);
     margin: 0;
     height: 100%;
     border-radius: 0 $radius $radius 0;

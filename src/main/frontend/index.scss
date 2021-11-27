@@ -10,14 +10,26 @@ a:link:active, a:visited:active {
   color: $text-color;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 button{
   display: inline-block;
   border: none;
-  background: $button-bg;
-  border-radius: 10%;
+  border-radius: 12px;
+  font-weight: bold;
+  padding: $def-font-size;
 
+  background: $button-bg;
   color: $text-color;
-  transition-duration: .2s;
+
+  transition-duration: $hover-trans-duration;
   &:hover{
     background: $button-hover-bg;
   }

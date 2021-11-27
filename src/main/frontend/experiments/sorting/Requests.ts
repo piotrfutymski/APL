@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 export const fetchSortingAlgorithms = (onResponse:(alg:string[])=>void) => {
-    axios.get('/apl-api/experiment/possibleSortingAlgorithms')
+    axios.get('/api/experiment/possibleSortingAlgorithms')
         .then((response: AxiosResponse)=>{
             onResponse(response.data)
         })
@@ -10,7 +10,7 @@ export const fetchSortingAlgorithms = (onResponse:(alg:string[])=>void) => {
 }
 
 export const fetchDataDistributions = (onResponse:(alg:string[])=>void) => {
-    axios.get('/apl-api/experiment/possibleDataDistributions')
+    axios.get('/api/experiment/possibleDataDistributions')
         .then((response: AxiosResponse)=>{
             onResponse(response.data)
         })

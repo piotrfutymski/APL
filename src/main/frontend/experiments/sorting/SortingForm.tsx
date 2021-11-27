@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'
-import { ControlForm } from './ControlForm'
 import { fetchDataDistributions, fetchSortingAlgorithms } from './Requests'
 
 import { SortingExperimentCard, SortingExperiment } from './SortingExperimentCard'
 import styles from './SortingForm.module.scss'
+import { SortingHeader } from './SortingHeader'
 
 export const SortingForm = () =>{
     //============================= fetch available options =============================
@@ -41,7 +41,7 @@ export const SortingForm = () =>{
         })
     }
 
-    const createExperimentsFromTemplates = () => {
+    /*const createExperimentsFromTemplates = () => {
         let res: SortingExperiment[] = []
         experiments.forEach(element => {
             for(let i = 0; i<seriesSize; i++){
@@ -54,30 +54,25 @@ export const SortingForm = () =>{
             }
         });
         return res;
-    }
+    }*/
     //==========================================================
     //============================= result =============================
     const [id, setId] = useState<string>("");
     //==========================================================
     return (
         <>
-        <div className={styles.ControlContainer}>
-            <ControlForm />
-        </div>
-        <div className={styles.FormContainer}>
-            <div className={styles.ExperimentContainer}>
-                {
-                    experiments.map((experiment, index) => {
-                        return <SortingExperimentCard experiment={experiment} 
-                            updateExperiment={(experiment)=>updateExperiment(index, experiment)} 
-                            removeExperiment={()=>removeExperiment(index)} 
-                            algorithmOptions={algorithmOptions}
-                            dataOptions={dataOptions}/>
-                    })
-                }
-                <button className={styles.AddButton} onClick={addExperiment}>Add Experiment</button>
-            </div>
-            <div className={styles.ControlContainerSpace}></div>
+        <SortingHeader />
+        <div className={styles.ExperimentList}>
+            {
+                experiments.map((experiment, index) => {
+                    return <SortingExperimentCard experiment={experiment} 
+                        updateExperiment={(experiment)=>updateExperiment(index, experiment)} 
+                        removeExperiment={()=>removeExperiment(index)} 
+                        algorithmOptions={algorithmOptions}
+                        dataOptions={dataOptions}/>
+                })
+            }
+            <button className={styles.AddButton} onClick={addExperiment}>Add Experiment</button>
         </div>
         </>
     )
