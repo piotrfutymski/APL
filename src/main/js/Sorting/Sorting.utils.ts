@@ -17,11 +17,11 @@ export const addCalculatedComplexity = (data: any[], series:string, calculatedIn
         let res = e;
         let n = parseInt(e.name)
         if(calculatedInfo.complexityType === "N^2"){
-            res[series + " --> trend"] = calculatedInfo.data[0]*n*n
+            res[series] = calculatedInfo.data[0]*n*n
         } else if(calculatedInfo.complexityType === "NlogN") {
-            res[series + " --> trend"] = calculatedInfo.data[0]*n*Math.log2(n)
+            res[series] = calculatedInfo.data[0]*n*Math.log2(n)
         } else {
-            res[series + " --> trend"] = calculatedInfo.data[0]*n + calculatedInfo.data[1]
+            res[series] = calculatedInfo.data[0]*n + calculatedInfo.data[1]
         }
         return res
     })
