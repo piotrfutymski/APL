@@ -65,8 +65,8 @@ public class ExperimentEndpoint {
         return sortingService.getPossibleSortingAlgorithms();
     }
 
-    @GetMapping("/possibleDataDistributions")
-    public String[] getPossibleDataDistributions(){
+    @GetMapping("/possibleSortingDataDistributions")
+    public String[] getPossibleSortingDataDistributions(){
         return sortingService.getPossibleDataDistributions();
     }
 }

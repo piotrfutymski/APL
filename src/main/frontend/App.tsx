@@ -6,6 +6,7 @@ import { Home } from './home/Home';
 import { Experiment } from './experiments/Experiment';
 
 import styles from './App.module.scss';
+import { CookiesProvider } from 'react-cookie';
 
 export const App = () => {
 	const subpages: Subpage[] = [
@@ -14,17 +15,19 @@ export const App = () => {
 	]
 
 	return (
-	<BrowserRouter>
-		<div className={styles.Header}>
-			<Header subpages={subpages} showLogo={true} />
-		</div>
-		<div className={styles.Content}>
-			<Routes>
-				<Route path="/" element={<Home />}/>
-				<Route path="/experiments/*" element={<Experiment />} />
-			</Routes>
-		</div>
-	</BrowserRouter>	
+		<CookiesProvider>
+			<BrowserRouter>
+				<div className={styles.Header}>
+					<Header subpages={subpages} showLogo={true} />
+				</div>
+				<div className={styles.Content}>
+					<Routes>
+						<Route path="/" element={<Home />}/>
+						<Route path="/experiments/*" element={<Experiment />} />
+					</Routes>
+				</div>
+			</BrowserRouter>
+		</CookiesProvider>
 	)
 
 }

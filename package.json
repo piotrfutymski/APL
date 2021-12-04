@@ -17,7 +17,8 @@
     "typescript-plugin-css-modules": "^3.4.0",
     "style-loader": "^3.3.1",
     "css-loader": "^6.5.1",
-    "classnames": "^2.3.1"
+    "classnames": "^2.3.1",
+    "react-cookie": "^4.1.1"
   },
   "scripts": {
     "watch": "webpack --watch -d --output ./target/classes/static/built/bundle.js"
