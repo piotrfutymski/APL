@@ -17,9 +17,11 @@ export const addCalculatedComplexity = (data: any[], series:string, calculatedIn
         let res = e;
         let n = parseInt(e.name)
         if(calculatedInfo.complexityType === "N^2"){
-            res[series + " --> trend"] = calculatedInfo.data[0]*n*n
+            res[series] = calculatedInfo.data[0]*n*n
+        } else if(calculatedInfo.complexityType === "NlogN") {
+            res[series] = calculatedInfo.data[0]*n*Math.log2(n)
         } else {
-            res[series + " --> trend"] = calculatedInfo.data[0]*n*Math.log2(n)
+            res[series] = calculatedInfo.data[0]*n + calculatedInfo.data[1]
         }
         return res
     })
@@ -35,16 +37,47 @@ export const calculateComplexityParameters = (data: any[], series:string): Compl
 
     let n_2_data = minf(n,t,fb_n_2_a)
     let n_log_n_data = minf(n,t,fb_log_n_a)
+    let n_k_data = linearRegresion(n, t)
 
     let n_2_res = fb_n_2(n_2_data[0], n, t)
     let n_log_n_res = fb_log_n(n_log_n_data[0], n, t)
+    let n_k_res = fb_n_k(n_k_data[0], n_k_data[1], n, t)
 
     if(n_2_res < n_log_n_res){
-        return {data: n_2_data, complexityType: "N^2"}
+        if(n_k_res < n_2_res){
+            return {data: n_k_data, complexityType: "N+K"}
+        }else{
+            return {data: n_2_data, complexityType: "N^2"}
+        }    
     }else{
-        return {data: n_log_n_data, complexityType: "NlogN"}
+        if(n_k_res < n_log_n_res){
+            return {data: n_k_data, complexityType: "N+K"}
+        }else{
+            return {data: n_log_n_data, complexityType: "NlogN"}
+        }
     }
 
+}
+
+const linearRegresion = (n:number[], t:number[]) => {
+    let data = []
+    let l = 0
+    let m = 0
+    let s_n = 0 
+    n.forEach(e => s_n += e)
+    s_n /= n.length
+    let s_t = 0
+    t.forEach(e => s_t += e)
+    s_t /= t.length
+    for (let i = 0; i < n.length; i++) {
+        l += (n[i] - s_n) * (t[i] - s_t)
+        m += (n[i] - s_n) * (n[i] - s_n)
+    }
+    let a = l/m
+    let b = s_t - a * s_n
+    data.push(a)
+    data.push(b)
+    return data
 }
 
 const minf = (n:number[], t:number[],  
@@ -73,6 +106,14 @@ const minf = (n:number[], t:number[],
     }   
     data.push(a)    
     return data;
+}
+
+const fb_n_k = (a:number, b:number, n:number[], t:number[]):number => {
+    let res = 0
+    for(let i = 0; i < n.length; i++){
+        res += Math.pow(t[i] - a*n[i] - b, 2)
+    }
+    return res
 }
 
 const fb_n_2 = (a:number, n:number[], t:number[]):number => {
