@@ -8,6 +8,7 @@ import put.apl.algorithms.sorting.data.SortingData;
 import put.apl.algorithms.sorting.data.SortingDataGenerator;
 import put.apl.algorithms.sorting.implementation.SortingAlgorithm;
 import put.apl.algorithms.sorting.SortingResult;
+import put.apl.experiment.dto.AlgorithmFuture;
 import put.apl.experiment.dto.SortingExperiment;
 
 import java.util.ArrayList;
@@ -30,26 +31,27 @@ public class SortingService {
         Thread.sleep(50);
         List<Object> res = new ArrayList<>();
         List<List<SortingExperiment>> results = new ArrayList<>();
-        for (int i = 0; i < REPEAT_COUNT/2; i++) {
-            results.add(runExperimentsOnce(experiments));
-        }
-        System.gc();
-        Thread.sleep(50);
-        for (int i = 0; i < REPEAT_COUNT/2; i++) {
-            results.add(runExperimentsOnce(experiments));
+        List<SortingExperiment> bannedExperiments = new ArrayList<>();
+        for (int i = 0; i < REPEAT_COUNT; i++) {
+            results.add(runExperimentsOnce(experiments, bannedExperiments));
         }
         for (int i = 0; i < experiments.size(); i++) {
             List<SortingExperiment> resultsForIExperiment = new ArrayList<>();
+            boolean t_is_minus = false;
             for (int j = 0; j < REPEAT_COUNT; j++) {
+                if(results.get(j).get(i).getTimeInMillis() < 0)
+                    t_is_minus = true;
                 resultsForIExperiment.add(results.get(j).get(i));
             }
-            res.add(averageExperiments(resultsForIExperiment));
+            if(!t_is_minus)
+                res.add(averageExperiments(resultsForIExperiment));
+            else
+                res.add(results.get(0).get(i));
         }
         return res;
     }
 
     public SortingExperiment averageExperiments(List<SortingExperiment> experiments){
-
         Long comparisonCount = experiments.stream().collect(Collectors.averagingLong(e->e.getSortingResult().getComparisonCount())).longValue();
         Long swapCount = experiments.stream().collect(Collectors.averagingLong(e->e.getSortingResult().getSwapCount())).longValue();
         Integer recursionSize = null;
@@ -73,17 +75,20 @@ public class SortingService {
                 .build();
     }
 
-    private List<SortingExperiment> runExperimentsOnce(List<SortingExperiment> experiments) throws InterruptedException {
+    private List<SortingExperiment> runExperimentsOnce(List<SortingExperiment> experiments, List<SortingExperiment> bannedExperiments) throws InterruptedException {
         List<SortingExperiment> res = new ArrayList<>();
 
         List<List<SortingExperiment>> groupedExperiments =
-                new ArrayList<>(experiments.stream().collect(Collectors.groupingBy(SortingExperiment::dataGeneratorGroupingString)).values());
-
+                new ArrayList<>(
+                        experiments.stream()
+                                .collect(Collectors.groupingBy(SortingExperiment::dataGeneratorGroupingString))
+                                .values()
+                );
         for (List<SortingExperiment> groupedExperiment : groupedExperiments) {
             SortingData data = generateDataFor(groupedExperiment.get(0));
             SortingData toSort = new SortingData((data.getTab().clone()));
             for (SortingExperiment sortingExperiment : groupedExperiment) {
-                res.add(runExperiment(sortingExperiment, toSort));
+                res.add(runExperiment(sortingExperiment, toSort, bannedExperiments));
                 toSort.restoreFromTemplate(data);
             }
         }
@@ -91,7 +96,18 @@ public class SortingService {
         return res;
     }
 
-    private SortingExperiment runExperiment(SortingExperiment e, SortingData data) throws InterruptedException {
+    private SortingExperiment runExperiment(SortingExperiment e, SortingData data, List<SortingExperiment> bannedExperiments) throws InterruptedException {
+        if(bannedExperiments.stream().anyMatch(
+                b->
+                        b.getAlgorithmName().equals(e.getAlgorithmName()) &&
+                        b.getMaxValue().equals(e.getMaxValue()) &&
+                        b.getDataDistribution().equals(e.getDataDistribution())
+
+        )){
+            SortingExperiment res = e.clone();
+            res.setTimeInMillis(-1.0);
+            return res;
+        }
         SortingAlgorithm algorithm = (SortingAlgorithm) context.getBean(e.getAlgorithmName());
         if(e.getAlgorithmParams() != null && !e.getAlgorithmParams().containsKey("maxValue"))
             e.getAlgorithmParams().putAll(Map.of("maxValue", e.getMaxValue().toString()));
@@ -101,9 +117,15 @@ public class SortingService {
         long start = System.nanoTime();
         SortingResult result = algorithm.sort(data);
         long end = System.nanoTime();
+        double t = (double)(end-start)/1000000.0;
         SortingExperiment res = e.clone();
         res.setSortingResult(result);
-        res.setTimeInMillis((double)(end-start)/1000000.0);
+        res.setTimeInMillis(t);
+        if(t > AlgorithmFuture.ONE_EXPERIMENT_TIMEOUT_MS / (float)REPEAT_COUNT){
+            bannedExperiments.add(e);
+            res.setTimeInMillis(-1.0);
+            return res;
+        }
         return res;
     }
 
