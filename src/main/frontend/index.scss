@@ -1,0 +1,48 @@
+@use 'frontend/utils/reset';
+@use 'frontend/utils/variables' as *;
+
+a:link, a:visited {
+  color: $text-color;
+  text-decoration: none;
+}
+
+a:link:active, a:visited:active {
+  color: $text-color;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+button{
+  display: inline-block;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  padding: $def-font-size;
+
+  background: $button-bg;
+  color: $text-color;
+
+  transition-duration: $hover-trans-duration;
+  &:hover{
+    background: $button-hover-bg;
+  }
+}
+
+body{
+    background-color: $bg;
+    color: $text-color;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: $def-font-size;
+}
+
+html, body, #root{
+  height: 100%;
+}

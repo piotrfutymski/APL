@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexController {
 
-    @RequestMapping("/apl")
+    @RequestMapping({"/", "/experiments", "experiments/sorting", "experiments/graph", "experiments/sorting/*", "experiments/graph/*"})
     public String index() {
         return "index";
     }

@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-    entry: './src/main/js/Core/index.tsx',
+    entry: './src/main/frontend/index.tsx',
     cache: true,
     mode: 'development',
     output: {
@@ -11,15 +11,20 @@ module.exports = {
     module: {
         rules: [
             {
-                test: path.join(__dirname, '.'),
-                exclude: /(node_modules)/,
-                use: [{
-                    loader: 'ts-loader'
-                }]
+                    test: /\.tsx?$/,
+                    use: 'ts-loader',
+                    exclude: /node_modules/,
+            },
+            {
+                    test: /\.s[ac]ss$/i,
+                    use: ["style-loader", "css-loader", "sass-loader"],
             }
         ]
     },
     resolve: {
+        alias: {
+            frontend: path.resolve(__dirname, 'src/main/frontend/')
+        },
         extensions: ['.tsx', '.ts', '.js']
     }
 };

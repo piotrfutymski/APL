@@ -1,13 +1,17 @@
 {
     "compilerOptions": {
+      "plugins": [
+        {"name": "typescript-plugin-css-modules" },
+        {"name":  "react-cookie"},
+      ],
       "outDir": "./dist/",
-     "sourceMap": true,
+      "sourceMap": true,
       "noImplicitAny": true,
       "module": "commonjs",
       "target": "es6",
       "jsx": "react",
       "allowJs": true,
       "moduleResolution": "node",
-      "esModuleInterop": true,
+      "esModuleInterop": true
     }
 }

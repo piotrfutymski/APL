@@ -1,54 +1,56 @@
 import React from "react"
-import { SortingExperimentsResult } from "./Sorting.interface"
-import { ResultViewTextContainer } from "./Sorting.styled"
+import { SortingExperimentsResult } from "../Sorting.interface"
+
+import styles from './SortingNotDoneView.module.scss'
 
 export const SortingNotDoneView = (props: SortingExperimentsResult) => {
 
     const NoExperiment = () => {
         return (
-            <ResultViewTextContainer>
+            <div className={styles.Message}>
                 Experiment doesn't exists
-            </ResultViewTextContainer>
+            </div>
         )
     }
 
     const ExperimentQueued = () => {
         return (
-            <ResultViewTextContainer>
+            <div className={styles.Message}>
                 {`Experiment queued at position: ${props.queuePosition}`}
-            </ResultViewTextContainer>
+            </div>
         )
     }
 
     const ExperimentCalculating = () => {
         return (
-            <ResultViewTextContainer>
+            <div className={styles.Message}>
                 Calculating your experiment
-            </ResultViewTextContainer>
+            </div>
         )
     }
 
     const ExperimentExpired = () => {
         return (
-            <ResultViewTextContainer>
+            <div className={styles.Message}>
                 Experiment too long - check option for longer experiments or try to change parameters for shorter calculation time
-            </ResultViewTextContainer>
+            </div>
         )
     }
 
     const ExperimentError = () => {
         return (
-            <ResultViewTextContainer>
+            <div className={styles.Message}>
                 {`There was an exception while calculating your experiment: ${props.errorCause}`}
-            </ResultViewTextContainer>
+            </div>
         )
     }
 
-    return (<>
+    return (
+    <div className={styles.Container}>
         {props.status === 'CALCULATING' && ExperimentCalculating()}
         {props.status === 'QUEUED' && ExperimentQueued()}
         {props.status === 'ERROR' && ExperimentError()}
         {props.status === 'EXPIRED' && ExperimentExpired()}
         {props.status === 'REMOVED' && NoExperiment()}
-    </>)
+    </div>)
 }
