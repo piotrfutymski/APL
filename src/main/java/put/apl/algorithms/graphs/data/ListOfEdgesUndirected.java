@@ -1,16 +1,23 @@
 package put.apl.algorithms.graphs.data;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 /*
-    Directed version
+    Undirected version
  */
+@Component("List Of Edges Undirected")
 public class ListOfEdgesUndirected implements GraphRepresentation {
     private final int[][] edges;
     // vertexNum is necessary for keeping number of vertices (used in getNonIncident)
     private int vertexNum;
+
+    public ListOfEdgesUndirected () {
+        edges = new int[0][];
+    }
 
     // Format: line number = vertex id, successors separated by comma
     public ListOfEdgesUndirected(String input) {
@@ -22,6 +29,10 @@ public class ListOfEdgesUndirected implements GraphRepresentation {
         int lineNumber = 0;
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
+            if (line.equals("")) {
+                lineNumber++;
+                continue;
+            }
             String[] split = line.split(",");
             for (String s : split) {
                 ArrayList<Integer> edge = new ArrayList<Integer>();

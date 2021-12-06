@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface GraphAlgorithm<T> {
 
-    T run(GraphRepresentation graph, boolean... flags);
+    T run(GraphRepresentation graph);
 
     void setParams(Map<String, String> params);
 }

@@ -4,10 +4,11 @@ import put.apl.algorithms.graphs.implementation.BreadthFirstSearch;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 
-@Component("connectedUndirectedData")
+@Component("Connected Undirected Graph Generator")
 public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator {
 
     @Override
@@ -37,6 +38,8 @@ public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator
                 List<ArrayList<Integer>> edgesCopy = new ArrayList<ArrayList<Integer>>(edges);
                 edgesCopy.remove(removalId * 2);
                 edgesCopy.remove(removalId * 2);
+                Map<String,String> params = Map.of("forceConnected", "true");
+                bfs.setParams(params);
                 List<Integer> path = bfs.run(new ListOfEdgesUndirected((int[][]) edgesCopy.toArray()));
                 if (config.getNoOfVertices() == path.size()) {
                     break;

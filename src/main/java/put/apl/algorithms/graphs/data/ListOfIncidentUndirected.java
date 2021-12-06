@@ -1,5 +1,7 @@
 package put.apl.algorithms.graphs.data;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,8 +10,13 @@ import java.util.Scanner;
 /*
     Undirected version
  */
+@Component("List Of Incident Undirected")
 public class ListOfIncidentUndirected implements GraphRepresentation {
     private final int[][] edges;
+
+    public ListOfIncidentUndirected () {
+        edges = new int[0][];
+    }
 
     // Format: line number = vertex id, successors separated by comma
     public ListOfIncidentUndirected(String input) {
@@ -23,6 +30,10 @@ public class ListOfIncidentUndirected implements GraphRepresentation {
         int lineNumber = 0;
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
+            if (line.equals("")) {
+                lineNumber++;
+                continue;
+            }
             String[] split = line.split(",");
             for (String s : split) {
                 edgesList.get(Integer.parseInt(s)).add(lineNumber);

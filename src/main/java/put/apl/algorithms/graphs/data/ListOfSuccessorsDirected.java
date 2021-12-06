@@ -1,12 +1,19 @@
 package put.apl.algorithms.graphs.data;
 
+import org.springframework.stereotype.Component;
+
 import java.util.*;
 
 /*
     Directed version
  */
+@Component("List Of Successors Directed")
 public class ListOfSuccessorsDirected implements GraphRepresentation {
     private final int[][] edges;
+
+    public ListOfSuccessorsDirected () {
+        edges = new int[0][];
+    }
 
     // Format: line number = vertex id, successors separated by comma
     public ListOfSuccessorsDirected(String input) {
@@ -16,6 +23,10 @@ public class ListOfSuccessorsDirected implements GraphRepresentation {
         int lineNumber = 0;
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
+            if (line.equals("")) {
+                lineNumber++;
+                continue;
+            }
             String[] split = line.split(",");
             edges[lineNumber] = new int[split.length];
             for (int i = 0; i < split.length; i++) {

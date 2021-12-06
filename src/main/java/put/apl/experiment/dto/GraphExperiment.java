@@ -20,8 +20,11 @@ public class GraphExperiment {
     private Map<String, String> algorithmParams;
     private Integer noOfVertices;
     private Double density;
+
+    private Boolean forceConnected;
+    private Boolean checkForCycles;
     //Result
-    private Double timeInNano;
+    private Double timeInMillis;
     private Integer memoryOccupancyInBytes;
     private Integer acyclicCount;
     private Integer hamiltonCyclesCount;
@@ -40,7 +43,9 @@ public class GraphExperiment {
                 .type(type)
                 .noOfVertices(noOfVertices)
                 .density(density)
-                .timeInNano(timeInNano)
+                .checkForCycles(checkForCycles)
+                .forceConnected(forceConnected)
+                .timeInMillis(timeInMillis)
                 .memoryOccupancyInBytes(memoryOccupancyInBytes)
                 .acyclicCount(acyclicCount)
                 .hamiltonCyclesCount(hamiltonCyclesCount)

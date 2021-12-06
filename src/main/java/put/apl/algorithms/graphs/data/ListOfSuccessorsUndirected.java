@@ -1,5 +1,7 @@
 package put.apl.algorithms.graphs.data;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -7,8 +9,13 @@ import java.util.Scanner;
 /*
     Undirected version
  */
+@Component("List Of Successors Undirected")
 public class ListOfSuccessorsUndirected implements GraphRepresentation {
     private final int[][] edges;
+
+    public ListOfSuccessorsUndirected () {
+        edges = new int[0][];
+    }
 
     // Format: line number = vertex id, successors separated by comma
     public ListOfSuccessorsUndirected(String input) {
@@ -18,6 +25,10 @@ public class ListOfSuccessorsUndirected implements GraphRepresentation {
         int lineNumber = 0;
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
+            if (line.equals("")) {
+                lineNumber++;
+                continue;
+            }
             String[] split = line.split(",");
             edges[lineNumber] = new int[split.length];
             for (int i = 0; i < split.length; i++) {

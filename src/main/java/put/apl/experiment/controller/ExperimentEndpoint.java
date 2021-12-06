@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import put.apl.experiment.dto.ExperimentsResults;
 import put.apl.experiment.dto.GraphExperiment;
 import put.apl.experiment.dto.SortingExperiment;
+import put.apl.experiment.service.GraphService;
 import put.apl.experiment.service.SchedulerService;
 import put.apl.experiment.service.SortingService;
 
@@ -18,6 +19,7 @@ public class ExperimentEndpoint {
 
     SchedulerService schedulerService;
     SortingService sortingService;
+    GraphService graphService;
 
     @PostMapping("/sort")
     public ResponseEntity<String> startSortingExperiments(
@@ -39,7 +41,7 @@ public class ExperimentEndpoint {
             @RequestBody List<GraphExperiment> experiments,
             @RequestParam(name = "finite", defaultValue = "true") boolean finite
     ){
-        String id = schedulerService.scheduleGraph(experiments, true);
+        String id = schedulerService.scheduleGraph(experiments, finite);
         if(id == null){
             return ResponseEntity.badRequest()
                     .body(null);
@@ -69,4 +71,13 @@ public class ExperimentEndpoint {
     public String[] getPossibleDataDistributions(){
         return sortingService.getPossibleDataDistributions();
     }
+
+    @GetMapping("/possibleGraphAlgorithms")
+    public String[] getPossibleGraphAlgorithms() { return graphService.getPossibleGraphAlgorithms(); }
+
+    @GetMapping("/possibleGraphGenerators")
+    public String[] getPossibleGraphGenerators() { return graphService.getPossibleGraphGenerators(); }
+
+    @GetMapping("/possibleGraphRepresentations")
+    public String[] getPossibleGraphRepresentations() { return graphService.getPossibleGraphRepresentations(); }
 }

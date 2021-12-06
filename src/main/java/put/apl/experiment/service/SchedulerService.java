@@ -31,6 +31,8 @@ public class SchedulerService {
 
     @Autowired
     SortingService sortingService;
+    @Autowired
+    GraphService graphService;
 
     public SchedulerService(){
         futures = new HashMap<>();
@@ -43,8 +45,7 @@ public class SchedulerService {
     }
 
     public String scheduleGraph(List<GraphExperiment> experiments, boolean finite) {
-        //TODO
-        return scheduleOperation(experiments, finite, e->null);
+        return scheduleOperation(experiments, finite, e->graphService.runExperiments(e));
     }
 
     public ExperimentsResults getExperimentsResults(String id){

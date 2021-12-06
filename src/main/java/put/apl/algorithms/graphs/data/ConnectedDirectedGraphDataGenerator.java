@@ -4,10 +4,11 @@ import put.apl.algorithms.graphs.implementation.BreadthFirstSearch;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 
-@Component("connectedDirectedData")
+@Component("Connected Directed Graph Generator")
 public class ConnectedDirectedGraphDataGenerator implements GraphDataGenerator {
 
     @Override
@@ -33,6 +34,8 @@ public class ConnectedDirectedGraphDataGenerator implements GraphDataGenerator {
                 BreadthFirstSearch bfs = new BreadthFirstSearch();
                 List<ArrayList<Integer>> edgesCopy = new ArrayList<ArrayList<Integer>>(edges);
                 edgesCopy.remove(removalId);
+                Map<String,String> params = Map.of("forceConnected", "true");
+                bfs.setParams(params);
                 List<Integer> path = bfs.run(new ListOfEdgesDirected((int[][]) edgesCopy.toArray()));
                 if (config.getNoOfVertices() == path.size()) {
                     break;

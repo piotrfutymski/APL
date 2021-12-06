@@ -1,5 +1,6 @@
 package put.apl.algorithms.graphs.implementation;
 
+import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.data.GraphRepresentation;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 // Returns empty list if cycle is not found
+@Component("All Hamiltonian Cycles")
 public class AllHamiltonianCycles implements GraphAlgorithm<List<ArrayList<Integer>>>  {
 
     private List<ArrayList<Integer>> paths;
@@ -14,8 +16,9 @@ public class AllHamiltonianCycles implements GraphAlgorithm<List<ArrayList<Integ
     private int noOfVertices;
     private GraphRepresentation graph;
 
-    public List<ArrayList<Integer>> run(GraphRepresentation graph, boolean... flags) {
+    public List<ArrayList<Integer>> run(GraphRepresentation graph) {
         currentPath = new ArrayList<Integer>();
+        paths = new ArrayList<ArrayList<Integer>>();
         this.graph = graph;
         currentPath.add(0);
         if (noOfVertices > 1) {
@@ -28,9 +31,9 @@ public class AllHamiltonianCycles implements GraphAlgorithm<List<ArrayList<Integ
         }
     }
 
-    private boolean hamiltonianCycle(int next) {
-        if (next == noOfVertices) {
-            int[] successors = graph.getSuccessors(next);
+    private boolean hamiltonianCycle(int pos) {
+        if (pos == noOfVertices) {
+            int[] successors = graph.getSuccessors(this.currentPath.get(pos-1));
             for (int s : successors) {
                 if (s == 0) {
                     ArrayList<Integer> newPath = new ArrayList<Integer>(currentPath);
@@ -41,10 +44,10 @@ public class AllHamiltonianCycles implements GraphAlgorithm<List<ArrayList<Integ
             return false;
         }
         for (int i = 1; i < noOfVertices; i++) {
-            if ((graph.getRelationBetween(i, next).equals("successor") ||
-                graph.getRelationBetween(i, next).equals("incident")) && !currentPath.contains(i)) {
+            if ((graph.getRelationBetween(i, currentPath.get(pos-1)).equals("successor") ||
+                graph.getRelationBetween(i, currentPath.get(pos-1)).equals("incident")) && !currentPath.contains(i)) {
                 currentPath.add(i);
-                if (hamiltonianCycle(next + 1)) {
+                if (hamiltonianCycle(pos + 1)) {
                     return true;
                 }
                 currentPath.remove(currentPath.size() - 1);
