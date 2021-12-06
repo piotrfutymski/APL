@@ -1,6 +1,7 @@
 package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
+import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.GraphRepresentation;
 
 import java.util.ArrayList;
@@ -9,24 +10,24 @@ import java.util.Map;
 
 // Returns empty list if cycle is not found
 @Component("Hamiltonian Cycle")
-public class HamiltonianCycle implements GraphAlgorithm<List<Integer>>  {
+public class HamiltonianCycle implements GraphAlgorithm  {
 
     private List<Integer> path;
     private int noOfVertices;
     private GraphRepresentation graph;
 
-    public List<Integer> run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentation graph) {
         this.path = new ArrayList<Integer>();
         this.graph = graph;
         this.path.add(0);
         if (noOfVertices > 1) {
             if (hamiltonianCycle(1)) {
-                return this.path;
+                return GraphResult.builder().path(path).build();
             }
-            return new ArrayList<Integer>();
+            return GraphResult.builder().path(new ArrayList<Integer>()).build();
         }
         else {
-            return this.path;
+            return GraphResult.builder().path(path).build();
         }
     }
 

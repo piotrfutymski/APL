@@ -60,29 +60,4 @@ public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator
         }
         return graph;
     };
-
-    private boolean hasNeighborsAfterRemove(List<ArrayList<Integer>> edges, int id) {
-        int firstVertex = edges.get(id * 2).get(0);
-        int secondVertex = edges.get(id * 2).get(1);
-        boolean firstVertexHasNeighbour = false;
-        boolean secondVertexHasNeighbour = false;
-        for (int i = 0; i < edges.size(); i++) {
-            if (i == id * 2 || i == id * 2 + 1) {
-                continue;
-            }
-            if (edges.get(i).get(0) == firstVertex || edges.get(i).get(1) == firstVertex) {
-                firstVertexHasNeighbour = true;
-                if (secondVertexHasNeighbour) {
-                    return true;
-                }
-            }
-            if (edges.get(i).get(0) == secondVertex || edges.get(i).get(1) == secondVertex) {
-                secondVertexHasNeighbour = true;
-                if (firstVertexHasNeighbour) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 }

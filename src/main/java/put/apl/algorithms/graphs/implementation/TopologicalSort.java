@@ -1,6 +1,7 @@
 package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
+import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.GraphRepresentation;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component("Topological Sort")
-public class TopologicalSort implements GraphAlgorithm<List<Integer>> {
+public class TopologicalSort implements GraphAlgorithm {
 
     private boolean[] visited;
     GraphRepresentation graph;
@@ -18,7 +19,7 @@ public class TopologicalSort implements GraphAlgorithm<List<Integer>> {
     private List<Integer> stack;
     private boolean checkForCycles = false;
 
-    public List<Integer> run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentation graph) {
         stack = new ArrayList<Integer>();
         this.graph = graph;
         visited = new boolean[noOfVertices];
@@ -34,7 +35,7 @@ public class TopologicalSort implements GraphAlgorithm<List<Integer>> {
         if (checkForCycles && checkCyclic()) {
             return null;
         }
-        return stack;
+        return GraphResult.builder().path(stack).build();
     }
 
     private void topologicalSort(int id) {

@@ -1,12 +1,13 @@
 package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
+import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.GraphRepresentation;
 
 import java.util.*;
 
 @Component("Breadth First Search")
-public class BreadthFirstSearch implements GraphAlgorithm<List<Integer>> {
+public class BreadthFirstSearch implements GraphAlgorithm {
 
     private boolean[] visited;
     private List<Integer> path;
@@ -14,7 +15,7 @@ public class BreadthFirstSearch implements GraphAlgorithm<List<Integer>> {
     private Queue<Integer> queue;
     private boolean forceConnectedGraph = false;
 
-    public List<Integer> run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentation graph) {
         visited = new boolean[noOfVertices];
         path =  new ArrayList<Integer>();
         queue = new LinkedList<Integer>();
@@ -31,7 +32,7 @@ public class BreadthFirstSearch implements GraphAlgorithm<List<Integer>> {
         } else {
             breadthFirstSearch(graph, 0);
         }
-        return path;
+        return GraphResult.builder().path(path).build();
     }
 
     private void breadthFirstSearch(GraphRepresentation graph, int id) {

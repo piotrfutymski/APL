@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import put.apl.algorithms.graphs.data.*;
+import put.apl.algorithms.graphs.implementation.AllHamiltonianCycles;
 import put.apl.algorithms.graphs.implementation.DepthFirstSearch;
 import put.apl.experiment.dto.AlgorithmFuture;
 import put.apl.algorithms.graphs.implementation.GraphAlgorithm;
@@ -58,11 +59,7 @@ public class GraphService {
                 .noOfVertices(experiments.get(0).getNoOfVertices())
                 .density(experiments.get(0).getDensity())
                 .timeInMillis(experiments.get(0).getTimeInMillis())
-                .memoryOccupancyInBytes(experiments.get(0).getMemoryOccupancyInBytes())
-                .acyclicCount(experiments.get(0).getAcyclicCount())
-                .hamiltonCyclesCount(experiments.get(0).getHamiltonCyclesCount())
-                .minimumSpanningTree(experiments.get(0).getMinimumSpanningTree())
-                .shortestPath(experiments.get(0).getShortestPath())
+                .graphResult(experiments.get(0).getGraphResult())
                 .build();
     }
 
@@ -122,7 +119,7 @@ public class GraphService {
             res.setTimeInMillis(-1.0);
             return res;
         }
-        GraphAlgorithm<GraphRepresentation> algorithm = (GraphAlgorithm<GraphRepresentation>) context.getBean(e.getAlgorithmName());
+        GraphAlgorithm algorithm = (GraphAlgorithm) context.getBean(e.getAlgorithmName());
         if(e.getAlgorithmParams() != null && !e.getAlgorithmParams().containsKey("forceConnected"))
             e.getAlgorithmParams().putAll(Map.of("forceConnected", e.getForceConnected().toString()));
         else
@@ -133,7 +130,7 @@ public class GraphService {
             e.setAlgorithmParams(Map.of("noOfVertices", e.getNoOfVertices().toString()));
         algorithm.setParams(e.getAlgorithmParams());
         long start = System.nanoTime();
-        algorithm.run(data);
+        e.setGraphResult(algorithm.run(data));
         long end = System.nanoTime();
         double t = (double)(end-start)/1000000.0;
         GraphExperiment res = e.clone();

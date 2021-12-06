@@ -1,6 +1,7 @@
 package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
+import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.GraphRepresentation;
 
 import java.util.ArrayList;
@@ -8,14 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 @Component("Depth First Search")
-public class DepthFirstSearch implements GraphAlgorithm<List<Integer>> {
+public class DepthFirstSearch implements GraphAlgorithm {
 
     private boolean[] visited;
     private int noOfVertices;
     private List<Integer> path;
     private boolean forceConnectedGraph = false;
 
-    public List<Integer> run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentation graph) {
         visited = new boolean[noOfVertices];
         path =  new ArrayList<Integer>();
         for (int i = 0; i < noOfVertices; i++) {
@@ -31,7 +32,7 @@ public class DepthFirstSearch implements GraphAlgorithm<List<Integer>> {
         } else {
             depthFirstSearch(graph, 0);
         }
-        return path;
+        return GraphResult.builder().path(path).build();
     }
 
     private void depthFirstSearch(GraphRepresentation graph, int id) {

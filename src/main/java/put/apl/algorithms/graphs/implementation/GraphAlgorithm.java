@@ -1,12 +1,13 @@
 package put.apl.algorithms.graphs.implementation;
 
+import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.GraphRepresentation;
 
 import java.util.Map;
 
-public interface GraphAlgorithm<T> {
+public interface GraphAlgorithm {
 
-    T run(GraphRepresentation graph);
+    GraphResult run(GraphRepresentation graph);
 
     void setParams(Map<String, String> params);
 }

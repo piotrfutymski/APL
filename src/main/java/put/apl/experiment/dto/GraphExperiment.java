@@ -1,8 +1,12 @@
 package put.apl.experiment.dto;
 
 import lombok.*;
+import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.sorting.SortingResult;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -23,13 +27,9 @@ public class GraphExperiment {
 
     private Boolean forceConnected;
     private Boolean checkForCycles;
-    //Result
+
     private Double timeInMillis;
-    private Integer memoryOccupancyInBytes;
-    private Integer acyclicCount;
-    private Integer hamiltonCyclesCount;
-    protected GraphRepresentation minimumSpanningTree;
-    protected GraphRepresentation shortestPath;
+    private GraphResult graphResult;
 
     public String dataGeneratorGroupingString(){
         return type+"_"+noOfVertices.toString()+"_"+density.toString();
@@ -45,12 +45,8 @@ public class GraphExperiment {
                 .density(density)
                 .checkForCycles(checkForCycles)
                 .forceConnected(forceConnected)
+                .graphResult(graphResult)
                 .timeInMillis(timeInMillis)
-                .memoryOccupancyInBytes(memoryOccupancyInBytes)
-                .acyclicCount(acyclicCount)
-                .hamiltonCyclesCount(hamiltonCyclesCount)
-                .minimumSpanningTree(minimumSpanningTree)
-                .shortestPath(shortestPath)
                 .build();
     }
 }
