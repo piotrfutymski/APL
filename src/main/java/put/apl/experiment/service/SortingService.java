@@ -84,6 +84,7 @@ public class SortingService {
                                 .collect(Collectors.groupingBy(SortingExperiment::dataGeneratorGroupingString))
                                 .values()
                 );
+        groupedExperiments = groupedExperiments.stream().sorted(Comparator.comparingInt(e -> e.get(0).getN() )).collect(Collectors.toList());
         for (List<SortingExperiment> groupedExperiment : groupedExperiments) {
             SortingData data = generateDataFor(groupedExperiment.get(0));
             SortingData toSort = new SortingData((data.getTab().clone()));
