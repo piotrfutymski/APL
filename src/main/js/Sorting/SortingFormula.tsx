@@ -4,16 +4,22 @@ import { ComplexityParameters } from "./Sorting.interface";
 
 export const SortingForumla = (props: ComplexityParameters) => {
 
-    if(props.complexityType == "N^2")
+    if(props.complexityType === "N^2")
     return (
         <>
-            time(n) = {props.data[0]} * N^2
+            time(n) = {props.data[0].toExponential()} * N^2
         </>
     )
-    else if(props.complexityType == "NlogN")
+    else if(props.complexityType === "NlogN")
     return (
         <>
-            time(n) = {props.data[0]} * N log_2(N)
+            time(n) = {props.data[0].toExponential()} * N log_2(N)
+        </>
+    )
+    else if(props.complexityType === "N+K")
+    return (
+        <>
+            time(n) = {props.data[0].toExponential()} * N + {props.data[1].toExponential()}
         </>
     )
 }

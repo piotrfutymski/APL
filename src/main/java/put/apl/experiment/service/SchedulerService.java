@@ -19,11 +19,11 @@ public class SchedulerService {
 
     Map<String, AlgorithmFuture> futures;
 
-    ExecutorService executorServiceInfinite;
+    ThreadPoolExecutor executorServiceInfinite;
     Long infiniteJobCounter = 0L;
     Long infiniteJobDone = 0L;
 
-    ExecutorService executorServiceFinite;
+    ThreadPoolExecutor executorServiceFinite;
     Long finiteJobCounter = 0L;
     Long finiteJobDone = 0L;
 
@@ -31,11 +31,13 @@ public class SchedulerService {
 
     @Autowired
     SortingService sortingService;
+    @Autowired
+    GraphService graphService;
 
     public SchedulerService(){
         futures = new HashMap<>();
-        executorServiceInfinite = Executors.newFixedThreadPool(1);
-        executorServiceFinite = Executors.newFixedThreadPool(1);
+        executorServiceInfinite = (ThreadPoolExecutor)Executors.newFixedThreadPool(1);
+        executorServiceFinite = (ThreadPoolExecutor)Executors.newFixedThreadPool(1);
     }
 
     public String scheduleSoritng(List<SortingExperiment> experiments, Boolean finite) {
@@ -43,8 +45,7 @@ public class SchedulerService {
     }
 
     public String scheduleGraph(List<GraphExperiment> experiments, boolean finite) {
-        //TODO
-        return scheduleOperation(experiments, finite, e->null);
+        return scheduleOperation(experiments, finite, e->graphService.runExperiments(e));
     }
 
     public ExperimentsResults getExperimentsResults(String id){
@@ -104,7 +105,7 @@ public class SchedulerService {
                 .expired(false)
                 .timeout(timeout)
                 .finite(finite)
-                .jobNumber(finite ? infiniteJobCounter++ : finiteJobCounter)
+                .jobNumber(finite ? infiniteJobCounter++ : finiteJobCounter++)
                 .build();
 
         Future<List<Object>> future = executorService.submit(()->{
@@ -169,6 +170,15 @@ public class SchedulerService {
                 value.setExpired(true);
             }
         });
+        if(executorServiceFinite.getCompletedTaskCount() == executorServiceFinite.getTaskCount()) {
+            finiteJobCounter = 0L;
+            finiteJobDone = 0L;
+        }
+        if(executorServiceInfinite.getCompletedTaskCount() == executorServiceInfinite.getTaskCount()) {
+            infiniteJobCounter = 0L;
+            infiniteJobDone = 0L;
+        }
+
 
     }
 

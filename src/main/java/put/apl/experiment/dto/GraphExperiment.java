@@ -1,7 +1,13 @@
 package put.apl.experiment.dto;
 
 import lombok.*;
+import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.sorting.SortingResult;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -15,15 +21,15 @@ public class GraphExperiment {
     // CONNECTED, UNDIRECTED, DIRECTED, EULER, HAMILTIONIAN (also multiple types?)
     private String type;
     //Data
+    private Map<String, String> algorithmParams;
     private Integer noOfVertices;
     private Double density;
-    //Result
-    private Double timeInNano;
-    private Integer memoryOccupancyInBytes;
-    private Integer acyclicCount;
-    private Integer hamiltonCyclesCount;
-    protected GraphRepresentation minimumSpanningTree;
-    protected GraphRepresentation shortestPath;
+
+    private Boolean forceConnected;
+    private Boolean checkForCycles;
+
+    private Double timeInMillis;
+    private GraphResult graphResult;
 
     public String dataGeneratorGroupingString(){
         return type+"_"+noOfVertices.toString()+"_"+density.toString();
@@ -33,15 +39,14 @@ public class GraphExperiment {
         return GraphExperiment.builder()
                 .algorithmName(algorithmName)
                 .graphRepresentation(graphRepresentation)
+                .algorithmParams(algorithmParams)
                 .type(type)
                 .noOfVertices(noOfVertices)
                 .density(density)
-                .timeInNano(timeInNano)
-                .memoryOccupancyInBytes(memoryOccupancyInBytes)
-                .acyclicCount(acyclicCount)
-                .hamiltonCyclesCount(hamiltonCyclesCount)
-                .minimumSpanningTree(minimumSpanningTree)
-                .shortestPath(shortestPath)
+                .checkForCycles(checkForCycles)
+                .forceConnected(forceConnected)
+                .graphResult(graphResult)
+                .timeInMillis(timeInMillis)
                 .build();
     }
 }

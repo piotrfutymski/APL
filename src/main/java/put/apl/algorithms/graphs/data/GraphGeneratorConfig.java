@@ -10,4 +10,5 @@ import lombok.Setter;
 public class GraphGeneratorConfig {
     private Integer noOfVertices;
     private Double density;
+    private String type;
 }

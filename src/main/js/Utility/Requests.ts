@@ -19,6 +19,15 @@ export const fetchSortingAlgorithms = (onResponse:(alg:string[])=>void) => {
         })
 }
 
+export const fetchGraphAlgorithms = (onResponse:(alg:string[])=>void) => {
+    axios.get('/apl-api/experiment/possibleGraphAlgorithms')
+        .then((response: AxiosResponse)=>{
+            onResponse(response.data)
+        })
+        .catch((error: AxiosError) =>{
+        })
+}
+
 export const fetchDataDistributions = (onResponse:(alg:string[])=>void) => {
     axios.get('/apl-api/experiment/possibleDataDistributions')
         .then((response: AxiosResponse)=>{
