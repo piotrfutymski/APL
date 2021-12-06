@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { SortingConfig, SortingHeaderProps } from './SortingHeader.interface'
+import { SortingConfig, SortingHeaderProps } from '../Sorting.interface'
 
 import styles from './SortingHeader.module.scss'
 
@@ -41,5 +41,3 @@ export const SortingHeader = (props: SortingHeaderProps) =>{
         </div>
     )
 }
-
-export * from './SortingHeader.interface';

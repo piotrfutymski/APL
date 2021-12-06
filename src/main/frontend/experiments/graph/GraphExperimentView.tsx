@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
-export const GraphForm = () =>{
+export const GraphExperimentView = () =>{
     return (
         <>
         </>

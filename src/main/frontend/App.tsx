@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { CookiesProvider } from 'react-cookie';
 
 import { Header, Subpage } from './header/Header';
 import { Home } from './home/Home';
-import { Experiment } from './experiments/Experiment';
+import { ExperimentView } from './experiments/ExperimentView';
 
 import styles from './App.module.scss';
-import { CookiesProvider } from 'react-cookie';
 
 export const App = () => {
 	const subpages: Subpage[] = [
@@ -23,7 +23,7 @@ export const App = () => {
 				<div className={styles.Content}>
 					<Routes>
 						<Route path="/" element={<Home />}/>
-						<Route path="/experiments/*" element={<Experiment />} />
+						<Route path="/experiments/*" element={<ExperimentView />} />
 					</Routes>
 				</div>
 			</BrowserRouter>

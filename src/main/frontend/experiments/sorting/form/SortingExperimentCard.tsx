@@ -1,17 +1,15 @@
 import classNames from 'classnames'
 import React, {useState, useEffect} from 'react'
-import { useParams } from 'react-router'
-import { getParamInfos } from './AlgorithmParamsService'
-
-import { SortingExperiment, SortingExperimentCardProps } from './SortingExperimentCard.interface'
 
 import styles from './SortingExperimentCard.module.scss'
+import { getParamInfos } from '../SortingServices'
+import { SortingExperiment, SortingExperimentCardProps } from '../Sorting.interface'
 
 export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
     //============================= onChangeHandlers =============================
     let experiment: SortingExperiment = {...props.experiment}
     const updateAlgorithm = (event: any) =>{
-        experiment.algorithm = event.target.value
+        experiment.algorithmName = event.target.value
         props.updateExperiment(experiment)
     }
     const updateData = (event: any) =>{
@@ -19,7 +17,7 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
         props.updateExperiment(experiment)
     }
     const updateMaxVal = (event: any) =>{
-        experiment.maxVal = +event.target.value
+        experiment.maxValue = +event.target.value
         props.updateExperiment(experiment)
     }
     //==========================================================
@@ -34,8 +32,7 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
             }>
             <div className={styles.AlgorithmSelectContainer}>
                 <label>Algorithm</label>
-                <select className={styles.AlgorithmSelect} value={experiment.algorithm} onChange={updateAlgorithm}>
-                    <option value=""></option>
+                <select className={styles.AlgorithmSelect} value={experiment.algorithmName} onChange={updateAlgorithm}>
                     {
                         props.algorithmOptions.map(name => <option value={name}>{name}</option>)
                     }
@@ -44,7 +41,6 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
             <div className={styles.DataSelectContainer}>
                 <label>Data Distribution</label>
                 <select className={styles.DataSelect} value={experiment.dataDistribution} onChange={updateData}>
-                    <option value=""></option>
                     {
                         props.dataOptions.map(name => <option value={name}>{name}</option>)
                     }
@@ -53,7 +49,7 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
             <div className={styles.MaxValContainer}>
                 <label>Maximum possible value</label>
                 <div>
-                    <input type="number" value={experiment.maxVal===0 ? "" : experiment.maxVal} onChange={updateMaxVal}/>
+                    <input type="number" value={experiment.maxValue===0 ? "" : experiment.maxValue} onChange={updateMaxVal}/>
                     <span className={props.maxValAsPercents ? styles.Percent : styles.Hide}>%</span>
                 </div>
             </div>
@@ -65,11 +61,6 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
                         props.updateExperiment(experiment)
                     }
                     let val = experiment.algorithmParams.get(param.name)
-                    if(param.isSelect === true){
-                        val = val || param.options.at(0)
-                    }else{
-                        val = val || ""
-                    }
                     return <div className={styles.Param}>
                         <label>{param.name}</label>
                         {
@@ -87,4 +78,3 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
         </div>
     )
 }
-export * from './SortingExperimentCard.interface';

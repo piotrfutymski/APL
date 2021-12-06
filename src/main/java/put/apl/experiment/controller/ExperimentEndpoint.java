@@ -19,7 +19,7 @@ public class ExperimentEndpoint {
     SchedulerService schedulerService;
     SortingService sortingService;
 
-    @PostMapping("/sort")
+    @PostMapping("/sorting")
     public ResponseEntity<String> startSortingExperiments(
             @RequestBody List<SortingExperiment> experiments,
             @RequestParam(name = "finite", defaultValue = "true") boolean finite
@@ -32,6 +32,15 @@ public class ExperimentEndpoint {
             return ResponseEntity.ok()
                     .body(id);
         }
+    }
+    @GetMapping("/sorting/algorithms")
+    public String[] getPossibleSortingAlgorithms(){
+        return sortingService.getPossibleSortingAlgorithms();
+    }
+
+    @GetMapping("/sorting/dataDistributions")
+    public String[] getPossibleSortingDataDistributions(){
+        return sortingService.getPossibleDataDistributions();
     }
 
     @PostMapping("/graph")
@@ -58,15 +67,5 @@ public class ExperimentEndpoint {
     @DeleteMapping("/{id}")
     public void deleteExperiments(@PathVariable String id){
         schedulerService.deleteExperiments(id);
-    }
-
-    @GetMapping("/possibleSortingAlgorithms")
-    public String[] getPossibleSortingAlgorithms(){
-        return sortingService.getPossibleSortingAlgorithms();
-    }
-
-    @GetMapping("/possibleSortingDataDistributions")
-    public String[] getPossibleSortingDataDistributions(){
-        return sortingService.getPossibleDataDistributions();
     }
 }
