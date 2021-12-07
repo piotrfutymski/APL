@@ -135,7 +135,7 @@ public class GraphService {
         double t = (double)(end-start)/1000000.0;
         GraphExperiment res = e.clone();
         res.setTimeInMillis(t);
-        if(t > AlgorithmFuture.ONE_EXPERIMENT_TIMEOUT_MS / (float)REPEAT_COUNT){
+        if(t > AlgorithmFuture.DEFAULT_TIMEOUT_MS  / (float)REPEAT_COUNT){
             bannedExperiments.add(e);
             res.setTimeInMillis(-1.0);
             return res;
