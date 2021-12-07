@@ -1,5 +1,7 @@
 package put.apl.algorithms.graphs.data;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -7,8 +9,13 @@ import java.util.Scanner;
 /*
     Undirected version
  */
+@Component("List Of Successors Undirected")
 public class ListOfSuccessorsUndirected implements GraphRepresentation {
     private final int[][] edges;
+
+    public ListOfSuccessorsUndirected () {
+        edges = new int[0][];
+    }
 
     // Format: line number = vertex id, successors separated by comma
     public ListOfSuccessorsUndirected(String input) {
@@ -18,6 +25,10 @@ public class ListOfSuccessorsUndirected implements GraphRepresentation {
         int lineNumber = 0;
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
+            if (line.equals("")) {
+                lineNumber++;
+                continue;
+            }
             String[] split = line.split(",");
             edges[lineNumber] = new int[split.length];
             for (int i = 0; i < split.length; i++) {
@@ -33,19 +44,12 @@ public class ListOfSuccessorsUndirected implements GraphRepresentation {
     }
 
     public int[] getSuccessors(Integer id) {
-        for (int i = 0; i < edges.length; i++) {
-            if (i == id) {
-                return edges[i];
-            }
-        }
-        return null;
+        return edges[id];
     };
 
     public int getFirstSuccessor(Integer id) {
-        for (int i = 0; i < edges.length; i++) {
-            if (i == id) {
-                return edges[i][0];
-            }
+        if (edges[id].length > 0) {
+            return edges[id][0];
         }
         return -1;
     };
@@ -88,16 +92,10 @@ public class ListOfSuccessorsUndirected implements GraphRepresentation {
     };
 
     public String getRelationBetween(Integer id1, Integer id2) {
-        int[] predecessors = getPredecessors(id1);
         int[] successors = getSuccessors(id1);
-        for (int predecessor : predecessors) {
-            if (predecessor == id2) {
-                return "successor";
-            }
-        }
         for (int successor : successors) {
             if (successor == id2) {
-                return "predecessor";
+                return "incident";
             }
         }
         return "none";

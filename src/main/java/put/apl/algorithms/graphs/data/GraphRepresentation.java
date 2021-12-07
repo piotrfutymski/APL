@@ -1,7 +1,5 @@
 package put.apl.algorithms.graphs.data;
 
-import java.util.Set;
-
 public interface GraphRepresentation {
 
     public int[] getSuccessors(Integer id);
