@@ -108,8 +108,14 @@ export const addCalculatedComplexity = (data: any[], series:string, calculatedIn
 
 export const calculateComplexityParameters = (data: any[], series:string): ComplexityParameters => {
     
-    let n = data.map(e=>parseInt(e.name))
-    let t = data.map(e=>e[series])
+    let n = []
+    let t = []
+    let i = 0
+    while(i < data.length && data[i][series] != undefined && data[i][series] > 0) {
+        n.push(parseInt(data[i].name))
+        t.push(data[i][series])
+        i++
+    }
 
     let n_2_data = minf(n,t,fb_n_2_a)
     let n_log_n_data = minf(n,t,fb_log_n_a)
