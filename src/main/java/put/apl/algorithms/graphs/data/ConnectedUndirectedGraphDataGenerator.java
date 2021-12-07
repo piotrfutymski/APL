@@ -40,7 +40,7 @@ public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator
                 edgesCopy.remove(removalId * 2);
                 Map<String,String> params = Map.of("forceConnected", "true");
                 bfs.setParams(params);
-                List<Integer> path = bfs.run(new ListOfEdgesUndirected((int[][]) edgesCopy.toArray()));
+                List<Integer> path = bfs.run(new ListOfEdgesUndirected((int[][]) edgesCopy.toArray())).getPath();
                 if (config.getNoOfVertices() == path.size()) {
                     break;
                 }
