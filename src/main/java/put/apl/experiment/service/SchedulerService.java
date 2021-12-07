@@ -27,7 +27,7 @@ public class SchedulerService {
     Long finiteJobCounter = 0L;
     Long finiteJobDone = 0L;
 
-    public static Long ACCEPTED_TIME_FROM_LAST_CALL_MS = 10L*60L*1000L;     // 10 min
+    public static Integer EXPERIMENTS_CACHED = 1000;
 
     @Autowired
     SortingService sortingService;
@@ -79,7 +79,6 @@ public class SchedulerService {
                     res.setErrorCause(e.toString());
                 }
             }
-            futures.remove(id);
             return res;
         }
     }
@@ -123,6 +122,15 @@ public class SchedulerService {
         algorithmFuture.setFuture(future);
 
         futures.put(id, algorithmFuture);
+        if(futures.size() > EXPERIMENTS_CACHED){
+            futures.entrySet()
+                    .stream()
+                    .filter(e->Objects.nonNull(e.getValue().getStart()))
+                    .sorted(Comparator.comparingLong(e->e.getValue().getStart().getTime()))
+                    .limit(futures.size() - EXPERIMENTS_CACHED)
+                    .map(Map.Entry::getKey)
+                    .forEach(e->futures.remove(e));
+        }
         return id;
     }
 
@@ -150,20 +158,12 @@ public class SchedulerService {
     @Scheduled(cron = "0/5 * * * * *")
     private void clearTasks(){
         Date now = Date.from(Instant.now());
-        futures.entrySet()
-                .removeIf(entry -> {
-                    if((now.getTime() - entry.getValue().getLastCallForResult().getTime()) > ACCEPTED_TIME_FROM_LAST_CALL_MS)
-                    {
-                        cancel(entry.getValue());
-                        return true;
-                    }
-                    return false;
-                });
         futures.forEach((key, value) -> {
             if (
                     value.getTimeout() != AlgorithmFuture.INFINITE_TIMEOUT &&
                     value.getStart() != null &&
-                    now.getTime() - value.getStart().getTime() > value.getTimeout()
+                    (now.getTime() - value.getStart().getTime() > value.getTimeout()) &&
+                    !value.getFuture().isDone()
             ) {
                 cancel(value);
                 value.setExpired(true);
