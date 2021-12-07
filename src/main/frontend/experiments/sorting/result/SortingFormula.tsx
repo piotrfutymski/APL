@@ -1,8 +1,8 @@
 import React from "react";
-import { ComplexityParameters } from "./Sorting.interface";
+import { ComplexityParameters } from "../Sorting.interface";
 
 
-export const SortingForumla = (props: ComplexityParameters) => {
+export const SortingFormula = (props: ComplexityParameters) => {
 
     if(props.complexityType === "N^2")
     return (

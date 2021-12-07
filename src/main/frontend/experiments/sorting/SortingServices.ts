@@ -1,5 +1,81 @@
-import { ComplexityParameters, ComplexityType, SortingExperiment } from "./Sorting.interface";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { ComplexityParameters, paramInfo, SortingConfig, SortingExperiment, SortingExperimentsResult } from "./Sorting.interface";
 
+export const getParamInfos = (experiment: SortingExperiment): paramInfo[]=>{
+    let res: paramInfo[] = []
+    if(experiment.algorithmName === "QuickSort"){
+        res.push({
+            algorithm: "QuickSort",
+            name: "pivotStrategy",
+            isSelect: true,
+            options: ["Median", "First item", "Middle item", "Last item", "Random item", "Median of three"]
+        })
+        if(experiment.algorithmParams.get("pivotStrategy") === "Median"){
+            res.push({
+                algorithm: "QuickSort",
+                name: "medianCount",
+                isSelect: false,
+                options: []
+            })
+        }
+    }else if(experiment.algorithmName === "Shell Sort Knuth"){
+        res.push({
+            algorithm: "Shell Sort Knuth",
+            name: "k",
+            isSelect: false,
+            options: []
+        })
+    }
+    return res
+}
+
+export const submitExperiments = (experiments: SortingExperiment[], config: SortingConfig, finite: boolean, onResponse: (arg0: string) => void) => {
+    let res: any[] = []
+    experiments.forEach(element => {
+        for(let i = 0; i < config.measureSeries; i++){
+            res.push({
+                algorithmName: element.algorithmName,
+                dataDistribution: element.dataDistribution,
+                algorithmParams: Object.fromEntries(element.algorithmParams),
+                maxValue: config.maxValAsPercent ? element.maxValue/100 * config.n : element.maxValue,
+                n: (config.n * (i+1)) / config.measureSeries
+            })
+        }
+    });
+    axios.post(`/api/experiment/sorting?finite=${finite}`, res)
+        .then((response: AxiosResponse)=>{
+            onResponse(response.data)
+        })
+        .catch((error: AxiosError) =>{
+    })
+}
+
+export const fetchAlgorithms = (onResponse:(alg:string[])=>void) => {
+    axios.get('/api/experiment/sorting/algorithms')
+        .then((response: AxiosResponse)=>{
+            onResponse(response.data)
+        })
+        .catch((error: AxiosError) =>{
+        })
+}
+
+export const fetchDataDistributions = (onResponse:(alg:string[])=>void) => {
+    axios.get('/api/experiment/sorting/dataDistributions')
+        .then((response: AxiosResponse)=>{
+            onResponse(response.data)
+        })
+        .catch((error: AxiosError) =>{
+        })
+}
+
+export const fetchSortingExperiments = (id:string, onResponse:(args: SortingExperimentsResult)=>void) => {
+    axios.get(`/api/experiment/${id}`)
+        .then((response: AxiosResponse)=>{
+            onResponse(response.data)
+        })
+        .catch((error: AxiosError) =>{
+        })
+}
 
 export const getNameForSortingExperiment = (v: SortingExperiment) => {
     let series = v.algorithmName + " : " + v.dataDistribution + " : " + v.maxValue.toString();
@@ -15,7 +91,7 @@ export const getNameForSortingExperiment = (v: SortingExperiment) => {
 export const addCalculatedComplexity = (data: any[], series:string, calculatedInfo:ComplexityParameters) => {
     data = data.map(e=> {
         let res = e;
-        let n = parseInt(e.name)
+        let n = parseInt(e.N)
         if(calculatedInfo.complexityType === "N^2"){
             res[series] = calculatedInfo.data[0]*n*n
         } else if(calculatedInfo.complexityType === "NlogN") {
@@ -32,8 +108,14 @@ export const addCalculatedComplexity = (data: any[], series:string, calculatedIn
 
 export const calculateComplexityParameters = (data: any[], series:string): ComplexityParameters => {
     
-    let n = data.map(e=>parseInt(e.name))
-    let t = data.map(e=>e[series])
+    let n = []
+    let t = []
+    let i = 0
+    while(i < data.length && data[i][series] != undefined && data[i][series] > 0) {
+        n.push(parseInt(data[i].N))
+        t.push(data[i][series])
+        i++
+    }
 
     let n_2_data = minf(n,t,fb_n_2_a)
     let n_log_n_data = minf(n,t,fb_log_n_a)

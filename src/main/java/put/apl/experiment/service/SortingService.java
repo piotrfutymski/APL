@@ -12,6 +12,7 @@ import put.apl.experiment.dto.AlgorithmFuture;
 import put.apl.experiment.dto.SortingExperiment;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,8 +27,6 @@ public class SortingService {
     GarbageCollectorFighter garbageCollectorFighter;
 
     public List<Object> runExperiments(List<SortingExperiment> experiments) throws InterruptedException {
-        System.gc();
-        Thread.sleep(50);
         List<Object> res = new ArrayList<>();
         List<List<SortingExperiment>> results = new ArrayList<>();
         List<SortingExperiment> bannedExperiments = new ArrayList<>();
@@ -76,6 +75,7 @@ public class SortingService {
 
     private List<SortingExperiment> runExperimentsOnce(List<SortingExperiment> experiments, List<SortingExperiment> bannedExperiments) throws InterruptedException {
         List<SortingExperiment> res = new ArrayList<>();
+        float experimentTimeout = (AlgorithmFuture.DEFAULT_TIMEOUT_MS * 2) / ((float)REPEAT_COUNT * experiments.size());
 
         List<List<SortingExperiment>> groupedExperiments =
                 new ArrayList<>(
@@ -83,11 +83,12 @@ public class SortingService {
                                 .collect(Collectors.groupingBy(SortingExperiment::dataGeneratorGroupingString))
                                 .values()
                 );
+        groupedExperiments = groupedExperiments.stream().sorted(Comparator.comparingInt(e -> e.get(0).getN() )).collect(Collectors.toList());
         for (List<SortingExperiment> groupedExperiment : groupedExperiments) {
             SortingData data = generateDataFor(groupedExperiment.get(0));
             SortingData toSort = new SortingData((data.getTab().clone()));
             for (SortingExperiment sortingExperiment : groupedExperiment) {
-                res.add(runExperiment(sortingExperiment, toSort, bannedExperiments));
+                res.add(runExperiment(sortingExperiment, toSort, bannedExperiments, experimentTimeout));
                 toSort.restoreFromTemplate(data);
             }
         }
@@ -95,7 +96,7 @@ public class SortingService {
         return res;
     }
 
-    private SortingExperiment runExperiment(SortingExperiment e, SortingData data, List<SortingExperiment> bannedExperiments) throws InterruptedException {
+    private SortingExperiment runExperiment(SortingExperiment e, SortingData data, List<SortingExperiment> bannedExperiments, float experimentTimeout) throws InterruptedException {
         if(bannedExperiments.stream().anyMatch(
                 b->
                         b.getAlgorithmName().equals(e.getAlgorithmName()) &&
@@ -120,7 +121,7 @@ public class SortingService {
         SortingExperiment res = e.clone();
         res.setSortingResult(result);
         res.setTimeInMillis(t);
-        if(t > AlgorithmFuture.ONE_EXPERIMENT_TIMEOUT_MS / (float)REPEAT_COUNT){
+        if(t > experimentTimeout){
             bannedExperiments.add(e);
             res.setTimeInMillis(-1.0);
             return res;

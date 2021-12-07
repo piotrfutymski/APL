@@ -1,0 +1,86 @@
+@use 'frontend/utils/variables' as *;
+
+$radius: 16px;
+
+.Correct{
+    box-shadow: 0 0 10px $card-correct-color;
+}
+.Error{
+    box-shadow: 0 0 10px $card-error-color;
+}
+
+.Hide{
+    display: none;
+}
+.Card{
+    width: 60%;
+    background: $card-bg;
+    border-radius: $radius;
+
+    display: grid;
+    grid-template-columns: 30% 60% 10%;
+    grid-template-areas: 
+    "algorithm data deleteBtn"
+    "maxVal params deleteBtn"
+}
+@mixin margins{
+    margin: 0.4rem;
+}
+@mixin flexCentering($direction){
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+}
+
+.AlgorithmSelectContainer{
+    grid-area: algorithm;
+
+    @include flexCentering(column);
+    @include margins;
+}
+.AlgorithmSelect{
+
+}
+.DataSelectContainer{
+    grid-area: data;
+    @include flexCentering(column);
+    @include margins;
+}
+.DataSelect{
+
+}
+
+.MaxValContainer{
+    grid-area: maxVal;
+    @include flexCentering(column);
+    @include margins;
+}
+.Percent{
+    display: inline-block;
+    pointer-events: none;
+    margin-left: -1rem;
+    color: grey;
+}
+
+.ParamsContainer{
+    grid-area: params;
+    @include flexCentering(row);
+}
+.Param{
+    @include flexCentering(column);
+    @include margins;
+
+}
+
+.DeleteBtn{
+    @include flexCentering(column);
+    margin: 0;
+    height: 100%;
+    border-radius: 0 $radius $radius 0;
+    grid-area: deleteBtn;
+    cursor: pointer;
+    &:hover{
+        background: $card-error-color;
+    }
+}

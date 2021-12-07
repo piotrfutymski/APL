@@ -13,7 +13,7 @@ import put.apl.experiment.service.SortingService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/apl-api/experiment")
+@RequestMapping("/api/experiment")
 @AllArgsConstructor
 public class ExperimentEndpoint {
 
@@ -21,7 +21,7 @@ public class ExperimentEndpoint {
     SortingService sortingService;
     GraphService graphService;
 
-    @PostMapping("/sort")
+    @PostMapping("/sorting")
     public ResponseEntity<String> startSortingExperiments(
             @RequestBody List<SortingExperiment> experiments,
             @RequestParam(name = "finite", defaultValue = "true") boolean finite
@@ -35,13 +35,22 @@ public class ExperimentEndpoint {
                     .body(id);
         }
     }
+    @GetMapping("/sorting/algorithms")
+    public String[] getPossibleSortingAlgorithms(){
+        return sortingService.getPossibleSortingAlgorithms();
+    }
+
+    @GetMapping("/sorting/dataDistributions")
+    public String[] getPossibleSortingDataDistributions(){
+        return sortingService.getPossibleDataDistributions();
+    }
 
     @PostMapping("/graph")
     public ResponseEntity<String> startGraphExperiments(
             @RequestBody List<GraphExperiment> experiments,
             @RequestParam(name = "finite", defaultValue = "true") boolean finite
     ){
-        String id = schedulerService.scheduleGraph(experiments, finite);
+        String id = schedulerService.scheduleGraph(experiments, true);
         if(id == null){
             return ResponseEntity.badRequest()
                     .body(null);
@@ -62,22 +71,12 @@ public class ExperimentEndpoint {
         schedulerService.deleteExperiments(id);
     }
 
-    @GetMapping("/possibleSortingAlgorithms")
-    public String[] getPossibleSortingAlgorithms(){
-        return sortingService.getPossibleSortingAlgorithms();
-    }
-
-    @GetMapping("/possibleDataDistributions")
-    public String[] getPossibleDataDistributions(){
-        return sortingService.getPossibleDataDistributions();
-    }
-
-    @GetMapping("/possibleGraphAlgorithms")
+    @GetMapping("/graph/possibleGraphAlg]torithms")
     public String[] getPossibleGraphAlgorithms() { return graphService.getPossibleGraphAlgorithms(); }
 
-    @GetMapping("/possibleGraphGenerators")
+    @GetMapping("/graph/possibleGraphGenerators")
     public String[] getPossibleGraphGenerators() { return graphService.getPossibleGraphGenerators(); }
 
-    @GetMapping("/possibleGraphRepresentations")
+    @GetMapping("/graph/possibleGraphRepresentations")
     public String[] getPossibleGraphRepresentations() { return graphService.getPossibleGraphRepresentations(); }
 }

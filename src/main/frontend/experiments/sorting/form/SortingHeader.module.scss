@@ -1,0 +1,40 @@
+@use 'frontend/utils/variables' as *;
+
+.SortingHeader{
+    background: $form-header-bg;
+
+    display: grid;
+    grid-template-columns: 15% 30% 30% 10% 15%;
+    grid-template-areas: 
+    ". sizeInput series submit ."
+    ". maxVal . submit ."
+}
+@mixin flexCentering($direction){
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
+}
+
+.SizeContainer{
+    grid-area: sizeInput;
+    @include flexCentering(column);
+}
+
+.SeriesContainer{
+    grid-area: series;
+    @include flexCentering(column);
+}
+
+.MaxValContainer{
+    grid-area: maxVal;
+    @include flexCentering(row);
+}
+
+.SubmitContainer{
+    grid-area: submit;
+    @include flexCentering(column);
+}
