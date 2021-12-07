@@ -38,11 +38,11 @@ export const SortingChart = (props: SortingChartProps) => {
                 names.push(props.experiments.results[i].n);
         }
         names = names.sort((a, b) => a - b)
-        headers.push({label: "name", key: "N"})
+        headers.push({label: "N", key: "N"})
         let i = 0
         names.forEach(name => {
             let el: any = {}
-            el.name = name.toString();
+            el.N = name.toString();
             let pp = true;
             props.experiments.results.filter(v => v.n === name).filter(v => v.timeInMillis > 0).forEach(v => {
                 const label = getNameForSortingExperiment(v)
@@ -132,11 +132,10 @@ export const SortingChart = (props: SortingChartProps) => {
         return data.map(line => {
             let toRes: any = {}
             for (const key in line){
-                if(typeof line[key] === "string")
-                    toRes[key] = line[key].replace(".", ",")
                 if(typeof line[key] === "number")
                     toRes[key] = line[key].toString().replace(".", ",")
-               
+                else
+                    toRes[key] = line[key]
             }
             return toRes
         })
@@ -151,7 +150,7 @@ export const SortingChart = (props: SortingChartProps) => {
             <ResponsiveContainer width={600} height={600} debounce={1}>
                 <LineChart data={data}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
+                    <XAxis dataKey="N" />
                     {logarithmScale ? <YAxis scale="log" domain={[Math.min(...getDomainTab())/2, Math.max(...getDomainTab())*2] }/> : <YAxis/>}
                     <Tooltip />
                     <Legend/>
