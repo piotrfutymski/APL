@@ -1,15 +1,13 @@
-package put.apl.algorithms.graphs.data;
+package put.apl.algorithms.graphs.data.generator;
 import org.springframework.stereotype.Component;
-import put.apl.algorithms.graphs.implementation.BreadthFirstSearch;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 
-@Component("Connected Directed Graph Generator")
-public class ConnectedDirectedGraphDataGenerator implements GraphDataGenerator {
+@Component("Directed Graph Generator")
+public class DirectedGraphDataGenerator implements GraphDataGenerator {
 
     @Override
     public String generate(GraphGeneratorConfig config) throws InterruptedException {
@@ -27,20 +25,9 @@ public class ConnectedDirectedGraphDataGenerator implements GraphDataGenerator {
                 edges.add(newEdge);
             }
         }
-        // Randomly delete edges (check if deletion breaks connectivity of the graph)
+        // Randomly delete edges
         for (int i = 0; i < numToDiscard; i++) {
-            while (true) {
-                int removalId = random.nextInt(edges.size());
-                BreadthFirstSearch bfs = new BreadthFirstSearch();
-                List<ArrayList<Integer>> edgesCopy = new ArrayList<ArrayList<Integer>>(edges);
-                edgesCopy.remove(removalId);
-                Map<String,String> params = Map.of("forceConnected", "true");
-                bfs.setParams(params);
-                List<Integer> path = bfs.run(new ListOfEdgesDirected((int[][]) edgesCopy.toArray()));
-                if (config.getNoOfVertices() == path.size()) {
-                    break;
-                }
-            }
+            edges.remove(random.nextInt(edges.size()));
         }
         // To string
         int prevVertex = 0;

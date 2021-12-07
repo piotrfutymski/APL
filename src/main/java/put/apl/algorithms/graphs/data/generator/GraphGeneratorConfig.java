@@ -1,4 +1,4 @@
-package put.apl.algorithms.graphs.data;
+package put.apl.algorithms.graphs.data.generator;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,14 +1,13 @@
 package put.apl.algorithms.graphs.implementation;
 
+import org.springframework.stereotype.Component;
+import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.GraphRepresentation;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
-public class DijkstraAlgorithm  implements GraphAlgorithm<List<Integer>>  {
-
-    static int DISTANCE_TBR = 1;
+@Component("Dijkstra Algorithm")
+public class DijkstraAlgorithm  implements GraphAlgorithm {
 
     PriorityQueue<Integer> queue;
 
@@ -19,9 +18,9 @@ public class DijkstraAlgorithm  implements GraphAlgorithm<List<Integer>>  {
     int[] dist;
 
     @Override
-    public List<Integer> run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentation graph) {
         this.graph = graph;
-        int verticesSize = graph.getAllEdges().length;
+        int verticesSize = graph.getVerticesNumber();
         dist = new int[verticesSize];
         visited = new HashSet<Integer>();
         queue = new PriorityQueue<>();
@@ -35,11 +34,10 @@ public class DijkstraAlgorithm  implements GraphAlgorithm<List<Integer>>  {
         while (visited.size() != verticesSize)
         {
             int vertice = queue.remove();
-
             visited.add(vertice);
             propagateNeighbours(vertice);
         }
-        return null;
+        return GraphResult.builder().path(new ArrayList<>(visited)).build();
     }
 
     private void propagateNeighbours(int vertice)
@@ -48,14 +46,15 @@ public class DijkstraAlgorithm  implements GraphAlgorithm<List<Integer>>  {
         {
             if (!visited.contains(node))
             {
-                int distance = dist[vertice] + graph.getAllEdges()[vertice][node];
+                int distance = dist[vertice] + graph.getEdge(vertice, node);
 
                 if (distance < dist[node])
                     dist[node] = distance;
-
                 queue.add(node);
-
             }
         }
+    }
+    @Override
+    public void setParams(Map<String, String> params) {
     }
 }

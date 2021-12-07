@@ -1,22 +1,22 @@
-package put.apl.algorithms.graphs.data;
+package put.apl.algorithms.graphs.data.generator;
 import org.springframework.stereotype.Component;
-import put.apl.algorithms.graphs.implementation.BreadthFirstSearch;
+import put.apl.algorithms.graphs.data.generator.GraphDataGenerator;
+import put.apl.algorithms.graphs.data.generator.GraphGeneratorConfig;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 
-@Component("Connected Undirected Graph Generator")
-public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator {
+@Component("Undirected Graph Generator")
+public class UndirectedGraphDataGenerator implements GraphDataGenerator {
 
     @Override
     public String generate(GraphGeneratorConfig config) throws InterruptedException {
         List<ArrayList<Integer>> edges = new ArrayList<ArrayList<Integer>>();
         Random random = new Random();
         // n(n-1) - g•n(n-1)/2
-        int numToDiscard = (int) (config.getNoOfVertices() * (config.getNoOfVertices() - 1)
+        int numToDiscard = (int) (config.getNoOfVertices() * (config.getNoOfVertices() - 1) / 2
                 - (config.getDensity() * config.getNoOfVertices() * (config.getNoOfVertices() - 1) / 2));
         for (int i = 0; i < config.getNoOfVertices(); i++) {
             for (int j = i + 1; j < config.getNoOfVertices(); j++) {
@@ -30,21 +30,12 @@ public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator
                 edges.add(newEdgeMirrored);
             }
         }
-        // Randomly delete edges (check if deletion breaks connectivity of the graph)
+        // Randomly delete edges
         for (int i = 0; i < numToDiscard / 2; i++) {
-            while (true) {
-                int removalId = random.nextInt(edges.size() / 2);
-                BreadthFirstSearch bfs = new BreadthFirstSearch();
-                List<ArrayList<Integer>> edgesCopy = new ArrayList<ArrayList<Integer>>(edges);
-                edgesCopy.remove(removalId * 2);
-                edgesCopy.remove(removalId * 2);
-                Map<String,String> params = Map.of("forceConnected", "true");
-                bfs.setParams(params);
-                List<Integer> path = bfs.run(new ListOfEdgesUndirected((int[][]) edgesCopy.toArray()));
-                if (config.getNoOfVertices() == path.size()) {
-                    break;
-                }
-            }
+            int removeId = random.nextInt(edges.size() / 2);
+            // We remove twice at the same ID so both edges x->y and y->x are removed
+            edges.remove(random.nextInt(removeId * 2));
+            edges.remove(random.nextInt(removeId * 2));
         }
         // To string
         int prevVertex = 0;

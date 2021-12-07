@@ -1,10 +1,13 @@
 package put.apl.algorithms.graphs.data;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+@Component("Adjacency Matrix Undirected")
 public class AdjacencyMatrixUndirected extends AdjacencyMatrix {
 
     private final static int START=1;

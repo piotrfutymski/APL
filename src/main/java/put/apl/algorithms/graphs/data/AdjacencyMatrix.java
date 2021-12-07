@@ -6,7 +6,8 @@ import java.util.Scanner;
 
 public abstract class AdjacencyMatrix implements GraphRepresentation {
     protected final int[][] matrix;
-    int verticesSize;
+    int verticesNumber;
+    int edgesNumber;
 
     public abstract void fillEdge(int start, int end);
     public abstract boolean checkIfSTART(int number);
@@ -14,35 +15,43 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
 
     public AdjacencyMatrix(String input) {
 
-        verticesSize = input.split(System.getProperty("line.separator")).length;
-        matrix = new int[verticesSize][];
+        verticesNumber = input.split(System.getProperty("line.separator")).length;
+        matrix = new int[verticesNumber][];
         Scanner scanner = new Scanner(input);
 
         scanner.close();
         scanner = new Scanner(input);
-        int verticeNumber=0;
+        int vertice=0;
         while (scanner.hasNextLine()) {
-            matrix[verticeNumber] = new int[verticesSize];
+            matrix[vertice] = new int[verticesNumber];
             String line = scanner.nextLine();
             String[] edges = line.split(",");
             for (String edge : edges)
             {
-                fillEdge(verticeNumber, Integer.parseInt(edge));
+                fillEdge(vertice, Integer.parseInt(edge));
+                edgesNumber+=1;
             }
-            verticeNumber+=1;
+            vertice+=1;
         }
         scanner.close();
     }
 
     public AdjacencyMatrix(int[][] matrix) {
-        verticesSize = matrix.length;
+        verticesNumber = matrix.length;
         this.matrix = matrix;
+        edgesNumber = 0;
+        for (var row : this.matrix)
+        {
+            for (var edge : row)
+                if (checkIfSTART(edge))
+                    edgesNumber+=1;
+        }
     }
 
     @Override
     public int[] getSuccessors(Integer id) {
         List<Integer> result = new ArrayList<>();
-        for (int i=0; i<verticesSize;i++)
+        for (int i = 0; i< verticesNumber; i++)
         {
             if (checkIfSTART(matrix[id][i]))
                 result.add(i);
@@ -52,7 +61,7 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
 
     @Override
     public int getFirstSuccessor(Integer id) {
-        for (int i=0; i<verticesSize;i++)
+        for (int i = 0; i< verticesNumber; i++)
         {
             if (checkIfSTART(matrix[id][i]))
                 return i;
@@ -63,7 +72,7 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
     @Override
     public int[] getPredecessors(Integer id) {
         List<Integer> result = new ArrayList<>();
-        for (int i=0; i<verticesSize;i++)
+        for (int i = 0; i< verticesNumber; i++)
         {
             if (checkIfEND(matrix[id][i]))
                 result.add(i);
@@ -73,7 +82,7 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
 
     @Override
     public int getFirstPredecessor(Integer id) {
-        for (int i=0; i<verticesSize;i++)
+        for (int i = 0; i< verticesNumber; i++)
         {
             if (checkIfEND(matrix[id][i]))
                 return i;
@@ -83,13 +92,13 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
 
     @Override
     public int[] getNonIncident(Integer id) {
-        boolean[] vertices = new boolean[verticesSize];
+        boolean[] vertices = new boolean[verticesNumber];
         List<Integer> result = new ArrayList<>();
-        for (int i=0; i<verticesSize;i++)
+        for (int i = 0; i< verticesNumber; i++)
             if (matrix[id][i] != 0)
                 vertices[i]=true;
 
-        for (int i=0;i<verticesSize;i++)
+        for (int i = 0; i< verticesNumber; i++)
             if (!vertices[i])
                 result.add(i);
 
@@ -97,22 +106,29 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
     }
 
     @Override
-    public int[][] getAllEdges() {
+    public int[][] getRepresentation() {
         return matrix;
     }
 
     @Override
     public int getMemoryOccupancy() {
-        return verticesSize * verticesSize  * Integer.BYTES;
+        return verticesNumber * verticesNumber * Integer.BYTES;
     }
 
     @Override
-    public String getRelationBetween(Integer id1, Integer id2) {
-        if ((checkIfSTART(matrix[id1][id2])))
-            return "predecessor";
-        else if ((checkIfEND(matrix[id1][id2])))
-            return "successor";
-        return "none";
+    public int getEdge(Integer id1, Integer id2) {
+        return matrix[id1][id2];
     }
+
+    @Override
+    public int getVerticesNumber()
+    {
+        return verticesNumber;
+    }
+    public int getEdgesNumber()
+    {
+        return verticesNumber;
+    }
+
 
 }

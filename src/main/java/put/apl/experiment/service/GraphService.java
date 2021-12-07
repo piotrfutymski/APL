@@ -4,11 +4,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import put.apl.algorithms.graphs.data.*;
-import put.apl.algorithms.graphs.implementation.AllHamiltonianCycles;
-import put.apl.algorithms.graphs.implementation.DepthFirstSearch;
+import put.apl.algorithms.graphs.data.generator.GraphDataGenerator;
+import put.apl.algorithms.graphs.data.generator.GraphGeneratorConfig;
 import put.apl.experiment.dto.AlgorithmFuture;
 import put.apl.algorithms.graphs.implementation.GraphAlgorithm;
-import put.apl.algorithms.sorting.implementation.SortingAlgorithm;
 import put.apl.experiment.dto.GraphExperiment;
 
 import java.util.ArrayList;

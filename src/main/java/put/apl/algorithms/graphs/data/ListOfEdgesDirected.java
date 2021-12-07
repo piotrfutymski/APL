@@ -125,7 +125,7 @@ public class ListOfEdgesDirected implements GraphRepresentation {
         return nonIncidentIds.stream().mapToInt(i->i).toArray();
     };
 
-    public int[][] getAllEdges() {
+    public int[][] getRepresentation() {
         return edges;
     };
 
@@ -133,7 +133,7 @@ public class ListOfEdgesDirected implements GraphRepresentation {
         return Integer.BYTES * edges.length * 2;
     };
 
-    public String getRelationBetween(Integer id1, Integer id2) {
+    public int getEdge(Integer id1, Integer id2) {
         for (int[] edge : edges) {
             if (edge[0] == id1 && edge[1] == id2) {
                 return "predecessor";

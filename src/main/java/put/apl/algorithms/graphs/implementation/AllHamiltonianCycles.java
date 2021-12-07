@@ -45,8 +45,8 @@ public class AllHamiltonianCycles implements GraphAlgorithm  {
             return false;
         }
         for (int i = 1; i < noOfVertices; i++) {
-            if ((graph.getRelationBetween(i, currentPath.get(pos-1)).equals("successor") ||
-                graph.getRelationBetween(i, currentPath.get(pos-1)).equals("incident")) && !currentPath.contains(i)) {
+            if ((graph.getEdge(i, currentPath.get(pos-1)).equals("successor") ||
+                graph.getEdge(i, currentPath.get(pos-1)).equals("incident")) && !currentPath.contains(i)) {
                 currentPath.add(i);
                 if (hamiltonianCycle(pos + 1)) {
                     return true;

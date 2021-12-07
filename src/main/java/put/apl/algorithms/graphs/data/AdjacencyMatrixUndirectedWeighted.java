@@ -1,16 +1,16 @@
 package put.apl.algorithms.graphs.data;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import org.springframework.stereotype.Component;
 
+import java.util.Random;
+
+@Component("Weighted Adjacency Matrix Undirected")
 public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix {
 
     @Override
     public void fillEdge(int start, int end) {
         Random rand = new Random();
-        int random = rand.nextInt(verticesSize);
+        int random = rand.nextInt(verticesNumber);
         matrix[start][end] = random;
         matrix[end][start] = random;
     }

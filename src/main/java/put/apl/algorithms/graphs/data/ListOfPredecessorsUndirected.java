@@ -92,7 +92,7 @@ public class ListOfPredecessorsUndirected implements GraphRepresentation {
         return nonIncidentIds.stream().mapToInt(i->i).toArray();
     };
 
-    public int[][] getAllEdges() {
+    public int[][] getRepresentation() {
         return edges;
     };
 
@@ -100,7 +100,7 @@ public class ListOfPredecessorsUndirected implements GraphRepresentation {
         return Integer.BYTES * edges.length * edges[0].length;
     };
 
-    public String getRelationBetween(Integer id1, Integer id2) {
+    public int getEdge(Integer id1, Integer id2) {
         int[] predecessors = getPredecessors(id1);
         for (int predecessor : predecessors) {
             if (predecessor == id2) {

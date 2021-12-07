@@ -1,12 +1,13 @@
 package put.apl.algorithms.graphs.implementation;
 
+import org.springframework.stereotype.Component;
+import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.GraphRepresentation;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.Map;
 
-public class PrimAlgorithm implements GraphAlgorithm<List<Integer>>  {
+@Component("Prim Algorithm")
+public class PrimAlgorithm implements GraphAlgorithm  {
 
     GraphRepresentation graph;
 
@@ -19,10 +20,9 @@ public class PrimAlgorithm implements GraphAlgorithm<List<Integer>>  {
     int verticesSize;
 
     @Override
-    public List<Integer> run(GraphRepresentation graph) {
-        final int CONSTANT_COST = 1;
+    public GraphResult run(GraphRepresentation graph) {
         this.graph = graph;
-        verticesSize = graph.getAllEdges().length;
+        verticesSize = graph.getVerticesNumber();
         key = new int[verticesSize];
         MST = new int[verticesSize];
         visited = new boolean[verticesSize];
@@ -42,17 +42,15 @@ public class PrimAlgorithm implements GraphAlgorithm<List<Integer>>  {
             visited[u] = true;
             for (int v : graph.getSuccessors(u))
             {
-                if (!visited[v] && graph.getAllEdges()[u][v] < key[v])
+                if (!visited[v] && graph.getEdge(u,v) < key[v])
                 {
                     MST[v] = u;
-                    key[v] = graph.getAllEdges()[u][v];
+                    key[v] = graph.getEdge(u,v);
                 }
-
             }
         }
         return null;
     }
-
     private int findKey()
     {
         // Initialize min value
@@ -65,4 +63,10 @@ public class PrimAlgorithm implements GraphAlgorithm<List<Integer>>  {
             }
         return min_index;
     }
+
+    @Override
+    public void setParams(Map<String, String> params) {
+
+    }
+
 }

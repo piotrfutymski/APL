@@ -1,13 +1,15 @@
 package put.apl.algorithms.graphs.implementation;
 
+import org.springframework.stereotype.Component;
+import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.GraphRepresentation;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.Map;
 
-public class EulerCycleAlgorithm implements GraphAlgorithm<List<Integer>>  {
+@Component("Euler Cycle Finding Algorithm")
+public class EulerCycleAlgorithm implements GraphAlgorithm  {
 
 
 
@@ -16,9 +18,9 @@ public class EulerCycleAlgorithm implements GraphAlgorithm<List<Integer>>  {
     List<Integer> stack;
 
     @Override
-    public List<Integer> run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentation graph) {
         this.graph = graph;
-        int verticesSize = graph.getAllEdges().length;
+        int verticesSize = graph.getVerticesNumber();
         stack = new ArrayList<Integer>();
         visitedEdges = new boolean[verticesSize][];
         for (int i=0; i<verticesSize; i++)
@@ -28,8 +30,9 @@ public class EulerCycleAlgorithm implements GraphAlgorithm<List<Integer>>  {
                 visitedEdges[i][j] = false;
         }
         DFSEuler(0);
-        return stack;
+        return GraphResult.builder().path(stack).build();
     }
+
     private void DFSEuler(int vertex)
     {
         for (int i : graph.getSuccessors(vertex))
@@ -41,5 +44,10 @@ public class EulerCycleAlgorithm implements GraphAlgorithm<List<Integer>>  {
             }
         }
         stack.add(vertex);
+    }
+
+    @Override
+    public void setParams(Map<String, String> params) {
+
     }
 }

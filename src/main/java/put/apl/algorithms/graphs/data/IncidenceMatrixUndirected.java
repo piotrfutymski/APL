@@ -159,7 +159,7 @@ public class IncidenceMatrixUndirected implements GraphRepresentation {
     }
 
     @Override
-    public int[][] getAllEdges() {
+    public int[][] getRepresentation() {
         return matrix;
     }
 
@@ -169,14 +169,24 @@ public class IncidenceMatrixUndirected implements GraphRepresentation {
     }
 
     @Override
-    public String getRelationBetween(Integer id1, Integer id2) {
+    public int getEdge(Integer id1, Integer id2) {
         for (int i=0; i<edgesSize;i++) {
             if (matrix[id1][i] != 0) {
                 if (matrix[id2][i] == START)
-                    return "incident";
+                    return 1;
             }
         }
-        return "none";
+        return 0;
+    }
+
+    @Override
+    public int getVerticesNumber() {
+        return verticesSize;
+    }
+
+    @Override
+    public int getEdgesNumber() {
+        return edgesSize;
     }
 
     @Override
