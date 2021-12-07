@@ -91,7 +91,7 @@ export const getNameForSortingExperiment = (v: SortingExperiment) => {
 export const addCalculatedComplexity = (data: any[], series:string, calculatedInfo:ComplexityParameters) => {
     data = data.map(e=> {
         let res = e;
-        let n = parseInt(e.name)
+        let n = parseInt(e.N)
         if(calculatedInfo.complexityType === "N^2"){
             res[series] = calculatedInfo.data[0]*n*n
         } else if(calculatedInfo.complexityType === "NlogN") {
@@ -112,7 +112,7 @@ export const calculateComplexityParameters = (data: any[], series:string): Compl
     let t = []
     let i = 0
     while(i < data.length && data[i][series] != undefined && data[i][series] > 0) {
-        n.push(parseInt(data[i].name))
+        n.push(parseInt(data[i].N))
         t.push(data[i][series])
         i++
     }
