@@ -74,7 +74,7 @@ export const SortingForm = () =>{
             }else{
                 tmp=newConfig.n/100
             }
-            let newExperiments = experiments.map(e => {return {...e, maxVal: e.maxValue*tmp}})
+            let newExperiments = experiments.map(e => {return {...e, maxValue: e.maxValue*tmp}})
             setExperiments(newExperiments)
         }
         setConfig(newConfig)
