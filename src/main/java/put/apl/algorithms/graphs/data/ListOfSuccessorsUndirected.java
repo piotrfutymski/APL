@@ -95,10 +95,10 @@ public class ListOfSuccessorsUndirected implements GraphRepresentation {
         int[] successors = getSuccessors(id1);
         for (int successor : successors) {
             if (successor == id2) {
-                return "incident";
+                return 1;
             }
         }
-        return "none";
+        return 0;
     }
 
     @Override

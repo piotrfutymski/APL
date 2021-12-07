@@ -102,7 +102,7 @@ public class GraphTest {
         DepthFirstSearch dfs = new DepthFirstSearch();
         Map<String,String> params = Map.of("noOfVertices", "6");
         dfs.setParams(params);
-        List<Integer> path = dfs.run(TEST_LIST_SUCCESSORS_DIRECTED);
+        List<Integer> path = dfs.run(TEST_LIST_SUCCESSORS_DIRECTED).getPath();
         assertArrayEquals(path.toArray(), DFS_RESULT.toArray());
     }
 
@@ -111,7 +111,7 @@ public class GraphTest {
         BreadthFirstSearch bfs = new BreadthFirstSearch();
         Map<String,String> params = Map.of("noOfVertices", "6");
         bfs.setParams(params);
-        List<Integer> path = bfs.run(TEST_LIST_SUCCESSORS_DIRECTED);
+        List<Integer> path = bfs.run(TEST_LIST_SUCCESSORS_DIRECTED).getPath();
         assertArrayEquals(path.toArray(), BFS_RESULT.toArray());
     }
 
@@ -120,7 +120,7 @@ public class GraphTest {
         HamiltonianCycle hc = new HamiltonianCycle();
         Map<String,String> params = Map.of("noOfVertices", "5");
         hc.setParams(params);
-        List<Integer> path = hc.run(TEST_HAMILTONIAN_GRAPH);
+        List<Integer> path = hc.run(TEST_HAMILTONIAN_GRAPH).getPath();
         assertArrayEquals(path.toArray(), HAMILTONIAN_RESULT.toArray());
     }
 
@@ -129,7 +129,7 @@ public class GraphTest {
         AllHamiltonianCycles hc = new AllHamiltonianCycles();
         Map<String,String> params = Map.of("noOfVertices", "5");
         hc.setParams(params);
-        List<ArrayList<Integer>> path = hc.run(TEST_HAMILTONIAN_GRAPH);
+        List<ArrayList<Integer>> path = hc.run(TEST_HAMILTONIAN_GRAPH).getMultiplePaths();
         assertArrayEquals(path.toArray(), ALL_HAMILTONIAN_RESULT.toArray());
     }
 
@@ -138,7 +138,7 @@ public class GraphTest {
         TopologicalSort ts = new TopologicalSort();
         Map<String,String> params = Map.of("noOfVertices", "6");
         ts.setParams(params);
-        List<Integer> sortResult = ts.run(TEST_TOPO_SORT);
+        List<Integer> sortResult = ts.run(TEST_TOPO_SORT).getPath();
         assertArrayEquals(sortResult.toArray(), TOPO_SORT_RESULT.toArray());
     }
 }

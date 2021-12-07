@@ -106,13 +106,12 @@ public class ListOfIncidentUndirected implements GraphRepresentation {
 
     public int getEdge(Integer id1, Integer id2) {
         int[] predecessors = getPredecessors(id1);
-        int[] successors = getSuccessors(id1);
         for (int predecessor : predecessors) {
             if (predecessor == id2) {
-                return "incident";
+                return 1;
             }
         }
-        return "none";
+        return 0;
     }
 
     @Override

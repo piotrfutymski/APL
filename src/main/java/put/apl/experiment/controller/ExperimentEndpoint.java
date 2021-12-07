@@ -50,7 +50,7 @@ public class ExperimentEndpoint {
             @RequestBody List<GraphExperiment> experiments,
             @RequestParam(name = "finite", defaultValue = "true") boolean finite
     ){
-        String id = schedulerService.scheduleGraph(experiments, true);
+        String id = schedulerService.scheduleGraph(experiments, finite);
         if(id == null){
             return ResponseEntity.badRequest()
                     .body(null);

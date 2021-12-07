@@ -104,10 +104,10 @@ public class ListOfPredecessorsUndirected implements GraphRepresentation {
         int[] predecessors = getPredecessors(id1);
         for (int predecessor : predecessors) {
             if (predecessor == id2) {
-                return "incident";
+                return 1;
             }
         }
-        return "none";
+        return 0;
     }
 
     @Override

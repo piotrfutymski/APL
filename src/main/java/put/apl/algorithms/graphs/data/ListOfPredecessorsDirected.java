@@ -128,15 +128,15 @@ public class ListOfPredecessorsDirected implements GraphRepresentation {
         int[] successors = getSuccessors(id1);
         for (int predecessor : predecessors) {
             if (predecessor == id2) {
-                return "successor";
+                return -1;
             }
         }
         for (int successor : successors) {
             if (successor == id2) {
-                return "predecessor";
+                return 1;
             }
         }
-        return "none";
+        return 0;
     }
 
     @Override

@@ -136,13 +136,13 @@ public class ListOfEdgesDirected implements GraphRepresentation {
     public int getEdge(Integer id1, Integer id2) {
         for (int[] edge : edges) {
             if (edge[0] == id1 && edge[1] == id2) {
-                return "predecessor";
+                return 1;
             }
             if (edge[1] == id1 && edge[0] == id2) {
-                return "successor";
+                return -1;
             }
         }
-        return "none";
+        return 0;
     }
 
     @Override

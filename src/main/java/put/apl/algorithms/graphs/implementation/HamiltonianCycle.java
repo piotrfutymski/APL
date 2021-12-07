@@ -42,8 +42,7 @@ public class HamiltonianCycle implements GraphAlgorithm  {
             return false;
         }
         for (int i = 1; i < noOfVertices; i++) {
-            if ((graph.getEdge(i, this.path.get(pos-1)).equals("successor") ||
-                graph.getEdge(i, this.path.get(pos-1)).equals("incident")) && !path.contains(i)) {
+            if (graph.getEdge(i, this.path.get(pos-1)) != 0 && !path.contains(i)) {
                 path.add(i);
                 if (hamiltonianCycle(pos + 1)) {
                     return true;
