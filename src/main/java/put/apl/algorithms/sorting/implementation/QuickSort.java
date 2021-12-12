@@ -98,7 +98,6 @@ public class QuickSort implements SortingAlgorithm{
     }
     private void quickSortWithMedian(SortingData tab, int l, int r) throws InterruptedException {
         if(l<r){
-            tab.shuffle();
             int m = partitionWithMedian(tab, l, r);
             quickSortWithMedian(tab, l, m-1);
             quickSortWithMedian(tab, m+1, r);
@@ -108,7 +107,7 @@ public class QuickSort implements SortingAlgorithm{
     @Override
     public SortingResult sort(SortingData tab) throws InterruptedException {
         if(pivotStrategy.equals("Median")){
-            Collections.shuffle(Arrays.asList(tab.getTab()));
+            tab.shuffle();
             quickSortWithMedian(tab, 0, tab.length()-1);
         }
         else {
