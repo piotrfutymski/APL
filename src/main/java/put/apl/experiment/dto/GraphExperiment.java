@@ -32,7 +32,7 @@ public class GraphExperiment {
     private GraphResult graphResult;
 
     public String dataGeneratorGroupingString(){
-        return type+"_"+noOfVertices.toString()+"_"+density.toString();
+        return algorithmName+"_"+type+"_"+graphRepresentation+"_"+noOfVertices.toString()+"_"+density.toString();
     }
 
     public GraphExperiment clone() {

@@ -13,16 +13,16 @@ $radius: 16px;
     display: none;
 }
 .Card{
-    width: 60%;
+    width: 70%;
     background: $card-bg;
     border-radius: $radius;
     padding: 20px 0 20px 0;
 
     display: grid;
-    grid-template-columns: 30% 60% 10%;
+    grid-template-columns: 30% 30% 30% 10%;
     grid-template-areas: 
-    "algorithm data deleteBtn"
-    "maxVal params deleteBtn"
+    "algorithm data representation deleteBtn"
+    "vertices density params deleteBtn"
 }
 @mixin margins{
     margin: 0.4rem;
@@ -52,11 +52,30 @@ $radius: 16px;
 
 }
 
-.MaxValContainer{
-    grid-area: maxVal;
+.RepresentationSelectContainer{
+    grid-area: representation;
+
     @include flexCentering(column);
     @include margins;
 }
+.RepresentationSelect{
+
+}
+
+.VerticesContainer{
+    grid-area: vertices;
+
+    @include flexCentering(column);
+    @include margins;
+}
+
+.DensityContainer{
+    grid-area: density;
+
+    @include flexCentering(column);
+    @include margins;
+}
+
 .Percent{
     display: inline-block;
     pointer-events: none;
