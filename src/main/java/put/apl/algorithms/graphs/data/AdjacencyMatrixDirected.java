@@ -13,6 +13,15 @@ public class AdjacencyMatrixDirected extends AdjacencyMatrix {
     private final static int START=1;
     private final static int END=-1;
 
+    public AdjacencyMatrixDirected(String input) {
+
+        super(input);
+    }
+
+    public AdjacencyMatrixDirected(int[][] matrix) {
+        super(matrix);
+    }
+
     @Override
     public void fillEdge(int start, int end) {
         matrix[start][end] = START;
@@ -29,14 +38,7 @@ public class AdjacencyMatrixDirected extends AdjacencyMatrix {
         return number==END;
     }
 
-    public AdjacencyMatrixDirected(String input) {
 
-        super(input);
-    }
-
-    public AdjacencyMatrixDirected(int[][] matrix) {
-        super(matrix);
-    }
 
 
     @Override

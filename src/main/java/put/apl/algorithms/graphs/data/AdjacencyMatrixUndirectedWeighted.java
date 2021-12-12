@@ -7,6 +7,14 @@ import java.util.Random;
 @Component("Weighted Adjacency Matrix Undirected")
 public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix {
 
+    public AdjacencyMatrixUndirectedWeighted(String input) {
+        super(input);
+    }
+
+    public AdjacencyMatrixUndirectedWeighted(int[][] matrix) {
+        super(matrix);
+    }
+
     @Override
     public void fillEdge(int start, int end) {
         Random rand = new Random();
@@ -24,13 +32,7 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix {
     public boolean checkIfEND(int number) {
         return number > 0;
     }
-    public AdjacencyMatrixUndirectedWeighted(String input) {
-        super(input);
-    }
 
-    public AdjacencyMatrixUndirectedWeighted(int[][] matrix) {
-        super(matrix);
-    }
 
     @Override
     public GraphRepresentation clone() {

@@ -10,6 +10,14 @@ import java.util.Scanner;
 @Component("Adjacency Matrix Undirected")
 public class AdjacencyMatrixUndirected extends AdjacencyMatrix {
 
+    public AdjacencyMatrixUndirected(String input) {
+        super(input);
+    }
+
+    public AdjacencyMatrixUndirected(int[][] matrix) {
+        super(matrix);
+    }
+
     private final static int START=1;
     private final static int END=1;
 
@@ -29,13 +37,7 @@ public class AdjacencyMatrixUndirected extends AdjacencyMatrix {
         return number==END;
     }
 
-    public AdjacencyMatrixUndirected(String input) {
-        super(input);
-    }
 
-    public AdjacencyMatrixUndirected(int[][] matrix) {
-        super(matrix);
-    }
 
 
     @Override

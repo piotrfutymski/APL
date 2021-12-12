@@ -8,6 +8,14 @@ import java.util.Random;
 public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix {
 
 
+    public AdjacencyMatrixDirectedWeighted(String input) {
+        super(input);
+    }
+
+    public AdjacencyMatrixDirectedWeighted(int[][] matrix) {
+        super(matrix);
+    }
+
     @Override
     public void fillEdge(int start, int end) {
         Random rand = new Random();
@@ -26,13 +34,7 @@ public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix {
         return number < 0;
     }
 
-    public AdjacencyMatrixDirectedWeighted(String input) {
-        super(input);
-    }
 
-    public AdjacencyMatrixDirectedWeighted(int[][] matrix) {
-        super(matrix);
-    }
 
     @Override
     public GraphRepresentation clone() {
