@@ -2,6 +2,10 @@ package put.apl.algorithms.sorting.data;
 
 import lombok.*;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Random;
+
 public class SortingData {
 
     public SortingData(int[] tab){
@@ -16,6 +20,17 @@ public class SortingData {
     @Getter
     @Setter
     private Long swapCount = 0L;
+
+    public void shuffle(){
+        Random rgen = new Random();  // Random number generator
+
+        for (int i=0; i<tab.length; i++) {
+            int randomPosition = rgen.nextInt(tab.length);
+            int temp = tab[i];
+            tab[i] = tab[randomPosition];
+            tab[randomPosition] = temp;
+        }
+    }
 
     public boolean lessEqual(int i, int j){
         compCount++;
