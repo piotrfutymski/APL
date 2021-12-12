@@ -21,16 +21,16 @@ export const SortingForm = () =>{
     }, [])
     //==========================================================
     //============================= handle cookies =============================
-    const [cookies, setCookie] = useCookies(['experiments', 'config']);
+    const [cookies, setCookie] = useCookies(['SortingExperiments', 'SortingConfig']);
 
-    const experiments = (cookies.experiments || []).map( (e: any)=> { return {...e, algorithmParams: new Map<string,string>(Object.entries(e.algorithmParams))} }) as SortingExperiment[] 
+    const experiments = (cookies.SortingExperiments || []).map( (e: any)=> { return {...e, algorithmParams: new Map<string,string>(Object.entries(e.algorithmParams))} }) as SortingExperiment[] 
     const setExperiments = (newExperiments: SortingExperiment[]) =>{
-        setCookie('experiments', newExperiments.map( (e: any)=> { return {...e, algorithmParams: Object.fromEntries(e.algorithmParams)} }), {path: '/'})
+        setCookie('SortingExperiments', newExperiments.map( (e: any)=> { return {...e, algorithmParams: Object.fromEntries(e.algorithmParams)} }), {path: '/'})
     }
 
-    const config = (cookies.config || {n: 1000, measureSeries: 10, maxValAsPercent: true}) as SortingConfig
+    const config = (cookies.SortingConfig || {n: 1000, measureSeries: 10, maxValAsPercent: true}) as SortingConfig
     const setConfig = (newConfig: SortingConfig) =>{
-        setCookie('config', newConfig, {path: '/'})
+        setCookie('SortingConfig', newConfig, {path: '/'})
     }
     //==========================================================
     //============================= experiments =============================
@@ -39,21 +39,31 @@ export const SortingForm = () =>{
         if(config.maxValAsPercent){
             defMaxVal = 100
         }
-        setExperiments([...experiments, {algorithmName: algorithmOptions[0], dataDistribution: dataOptions[0], algorithmParams: new Map<string, string>(), maxValue: defMaxVal, check: false}])
+        let newExperiment: SortingExperiment = {algorithmName: algorithmOptions[0], dataDistribution: dataOptions[0], algorithmParams: new Map<string, string>(), maxValue: defMaxVal, check: false}
+        if(experiments.length > 0){
+            newExperiment = experiments.at(experiments.length-1)
+        }
+        prepareExperimentParams(newExperiment)
+        setExperiments([...experiments, newExperiment])
+    }
+    const prepareExperimentParams = (experiment: SortingExperiment) =>{
+        const paramInfos = getParamInfos(experiment)
+        let newParams = new Map<string, string>()
+        paramInfos.forEach(param => newParams.set(param.name, param.isSelect === true ? param.options.at(0) : "") )
+
+        experiment.algorithmParams.forEach( (value, name) => {
+            if(newParams.has(name)){
+                newParams.set(name, value)
+            }
+        })
+        experiment.algorithmParams = newParams
     }
     const checkExperiment = (experiment: SortingExperiment): boolean =>{
         return experiment.algorithmName !== "" && experiment.dataDistribution !== ""
     }
     const updateExperiment = (key: number, newExperiment: SortingExperiment) =>{
         newExperiment.check = checkExperiment(newExperiment)
-        if(experiments.at(key).algorithmName !== newExperiment.algorithmName){
-            const paramInfos = getParamInfos(newExperiment)
-            if(paramInfos.length > 0)
-            {
-                newExperiment.algorithmParams.clear()
-                paramInfos.forEach(param => newExperiment.algorithmParams.set(param.name, param.isSelect === true ? param.options.at(0) : "") )
-            }
-        }
+        prepareExperimentParams(newExperiment)
         setExperiments(experiments.map((experiment, i) => {
                 if(i === key){
                     return newExperiment
