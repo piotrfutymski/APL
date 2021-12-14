@@ -37,7 +37,7 @@ public class ConnectedDirectedGraphDataGenerator implements GraphDataGenerator {
                 edgesCopy.remove(removalId);
                 Map<String,String> params = Map.of("forceConnected", "true");
                 bfs.setParams(params);
-                List<Integer> path = bfs.run(new ListOfEdgesDirected((int[][]) edgesCopy.toArray()));
+                List<Integer> path = bfs.run(new ListOfEdgesDirected((int[][]) edgesCopy.toArray())).getPath();
                 if (config.getNoOfVertices() == path.size()) {
                     break;
                 }

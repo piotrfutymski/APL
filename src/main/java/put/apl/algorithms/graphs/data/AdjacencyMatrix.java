@@ -8,13 +8,14 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
     protected final int[][] matrix;
     int verticesNumber;
     int edgesNumber;
+    int operations;
 
     public abstract void fillEdge(int start, int end);
     public abstract boolean checkIfSTART(int number);
     public abstract boolean checkIfEND(int number);
 
     public AdjacencyMatrix(String input) {
-
+        edgesNumber = 0;
         verticesNumber = input.split(System.getProperty("line.separator")).length;
         matrix = new int[verticesNumber][];
         Scanner scanner = new Scanner(input);
@@ -37,6 +38,7 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
     }
 
     public AdjacencyMatrix(int[][] matrix) {
+        operations = 0;
         verticesNumber = matrix.length;
         this.matrix = matrix;
         edgesNumber = 0;
@@ -51,9 +53,10 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
     @Override
     public int[] getSuccessors(Integer id) {
         List<Integer> result = new ArrayList<>();
+
         for (int i = 0; i< verticesNumber; i++)
         {
-            if (checkIfSTART(matrix[id][i]))
+            if (checkIfSTART(getEdge(id,i)))
                 result.add(i);
         }
         return result.stream().mapToInt(i->i).toArray();
@@ -63,7 +66,7 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
     public int getFirstSuccessor(Integer id) {
         for (int i = 0; i< verticesNumber; i++)
         {
-            if (checkIfSTART(matrix[id][i]))
+            if (checkIfSTART(getEdge(id,i)))
                 return i;
         }
         return -1;
@@ -74,7 +77,7 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i< verticesNumber; i++)
         {
-            if (checkIfEND(matrix[id][i]))
+            if (checkIfSTART(getEdge(i,id)))
                 result.add(i);
         }
         return result.stream().mapToInt(i->i).toArray();
@@ -84,7 +87,7 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
     public int getFirstPredecessor(Integer id) {
         for (int i = 0; i< verticesNumber; i++)
         {
-            if (checkIfEND(matrix[id][i]))
+            if (checkIfSTART(getEdge(i,id)))
                 return i;
         }
         return -1;
@@ -92,14 +95,9 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
 
     @Override
     public int[] getNonIncident(Integer id) {
-        boolean[] vertices = new boolean[verticesNumber];
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i< verticesNumber; i++)
-            if (matrix[id][i] != 0)
-                vertices[i]=true;
-
-        for (int i = 0; i< verticesNumber; i++)
-            if (!vertices[i])
+            if (getEdge(id,i) != 0)
                 result.add(i);
 
         return result.stream().mapToInt(i->i).toArray();
@@ -117,6 +115,7 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
 
     @Override
     public int getEdge(Integer id1, Integer id2) {
+        operations+=1;
         return matrix[id1][id2];
     }
 
@@ -125,10 +124,19 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
     {
         return verticesNumber;
     }
+
+    @Override
     public int getEdgesNumber()
     {
-        return verticesNumber;
+        return edgesNumber;
     }
 
-
+    @Override
+    public int getOperations() {
+        return operations;
+    }
+    @Override
+    public void setOperations(int operations) {
+        this.operations=operations;
+    }
 }

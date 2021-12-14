@@ -82,15 +82,9 @@ public class GraphService {
                     data = new ListOfIncidentUndirected(generateDataFor(groupedExperiment.get(0)));
                     break;
                 case "List Of Predecessors Directed":
-                    data = new ListOfPredecessorsUndirected(generateDataFor(groupedExperiment.get(0)));
-                    break;
-                case "List Of Predecessors Undirected":
-                    data = new ListOfPredecessorsUndirected(generateDataFor(groupedExperiment.get(0)));
+                    data = new ListOfPredecessorsDirected(generateDataFor(groupedExperiment.get(0)));
                     break;
                 case "List Of Successors Directed":
-                    data = new ListOfSuccessorsDirected(generateDataFor(groupedExperiment.get(0)));
-                    break;
-                case "List Of Successors Undirected":
                     data = new ListOfSuccessorsDirected(generateDataFor(groupedExperiment.get(0)));
                     break;
                 default:

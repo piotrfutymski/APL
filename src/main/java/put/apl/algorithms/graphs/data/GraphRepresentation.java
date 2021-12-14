@@ -23,5 +23,9 @@ public interface GraphRepresentation {
 
     public int getEdgesNumber();
 
+    public int getOperations();
+
+    public void setOperations(int operations);
+
     public GraphRepresentation clone();
 }

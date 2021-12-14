@@ -1,6 +1,5 @@
 package put.apl.algorithms.graphs.data.generator;
 import org.springframework.stereotype.Component;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
 import put.apl.algorithms.graphs.data.ListOfEdgesDirected;
 import put.apl.algorithms.graphs.implementation.BreadthFirstSearch;
 
@@ -15,14 +14,9 @@ public class EulerDirectedGraphDataGenerator implements GraphDataGenerator {
 
     @Override
     public String generate(GraphGeneratorConfig config) throws InterruptedException {
-        int [][] matrix = new int[config.getNoOfVertices()][];
+        List<ArrayList<Integer>> edges = new ArrayList<ArrayList<Integer>>();
         Random random = new Random();
         // n(n-1) - g•n(n-1)/2
-        // 10 * 9
-        // 90
-        //70%
-        // czyli teoretycznie powinnismy miec 90 * 0.7 = 63 krawedzie
-        // 90 - 0.7 * 90 / 2 = 90 - 31.5 = 58?
         int numToDiscard = (int) (config.getNoOfVertices() * (config.getNoOfVertices() - 1)
                 - (config.getDensity() * config.getNoOfVertices() * (config.getNoOfVertices() - 1) / 2));
         for (int i = 0; i < config.getNoOfVertices(); i++) {
@@ -34,7 +28,6 @@ public class EulerDirectedGraphDataGenerator implements GraphDataGenerator {
                 edges.add(newEdge);
             }
         }
-        GraphRepresentation graph = new ListOfEdgesDirected();
         // Randomly delete edges (check if deletion breaks connectivity of the graph)
         for (int i = 0; i < numToDiscard; i++) {
             while (true) {
@@ -44,38 +37,12 @@ public class EulerDirectedGraphDataGenerator implements GraphDataGenerator {
                 edgesCopy.remove(removalId);
                 Map<String,String> params = Map.of("forceConnected", "true");
                 bfs.setParams(params);
-                graph = new ListOfEdgesDirected((int[][]) edgesCopy.toArray());
-                List<Integer> path = bfs.run(graph).getPath();
+                List<Integer> path = bfs.run(new ListOfEdgesDirected((int[][]) edgesCopy.toArray())).getPath();
                 if (config.getNoOfVertices() == path.size()) {
                     break;
                 }
             }
         }
-        //we  have connected graph with good amount of edges
-        List<Integer> vertices = new ArrayList<Integer>();
-        int balanceSum = 0;
-        for (int i=0;i<config.getNoOfVertices();i++)
-        {
-            int edgesBalance = graph.getSuccessors(i).length - graph.getPredecessors(i).length;
-            balanceSum += edgesBalance;
-            vertices.add(edgesBalance);
-        }
-        if (balanceSum % 2 == 0)
-        {
-            //teoretycznie mozemy przejsc
-            for (int i=0; i<config.getNoOfVertices();i++)
-            {
-                while (vertices.get(i) > 0)
-                {
-
-                }
-            }
-        }
-        else
-        {
-
-        }
-
         // To string
         int prevVertex = 0;
         String graph = "";

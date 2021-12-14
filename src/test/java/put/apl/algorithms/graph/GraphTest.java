@@ -2,10 +2,7 @@ package put.apl.algorithms.graph;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
-import put.apl.algorithms.graphs.data.ListOfPredecessorsDirected;
-import put.apl.algorithms.graphs.data.ListOfSuccessorsDirected;
-import put.apl.algorithms.graphs.data.ListOfSuccessorsUndirected;
+import put.apl.algorithms.graphs.data.*;
 import put.apl.algorithms.graphs.implementation.*;
 
 import java.util.ArrayList;
@@ -41,7 +38,7 @@ public class GraphTest {
             /* 5  */ "0,2";
 
     static GraphRepresentation TEST_LIST_SUCCESSORS_DIRECTED = new ListOfSuccessorsDirected(DIRECTED_GRAPH);
-    static GraphRepresentation TEST_HAMILTONIAN_GRAPH = new ListOfSuccessorsUndirected(UNDIRECTED_CONNECTED_HAMILTONIAN_GRAPH);
+    static GraphRepresentation TEST_HAMILTONIAN_GRAPH = new ListOfIncidentUndirected(UNDIRECTED_CONNECTED_HAMILTONIAN_GRAPH);
     static GraphRepresentation TEST_TOPO_SORT = new ListOfSuccessorsDirected(DIRECTED_CONNECTED_GRAPH);
     static List<Integer> DFS_RESULT = new ArrayList<Integer>();
     static List<Integer> BFS_RESULT = new ArrayList<Integer>();

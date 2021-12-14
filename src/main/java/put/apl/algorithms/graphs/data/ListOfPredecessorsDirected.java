@@ -12,6 +12,9 @@ import java.util.Scanner;
 @Component("List Of Predecessors Directed")
 public class ListOfPredecessorsDirected implements GraphRepresentation {
     private final int[][] edges;
+    private int vertexNum;
+    private int edgeNum;
+    private int observations;
 
     public ListOfPredecessorsDirected () {
         edges = new int[0][];
@@ -19,12 +22,13 @@ public class ListOfPredecessorsDirected implements GraphRepresentation {
 
     // Format: line number = vertex id, successors separated by comma
     public ListOfPredecessorsDirected(String input) {
-        int numOfLines = input.split(System.getProperty("line.separator")).length;
+        vertexNum = input.split(System.getProperty("line.separator")).length;
+        edgeNum = 0;
         List<ArrayList<Integer>> edgesList = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i < numOfLines; i++) {
+        for (int i = 0; i < vertexNum; i++) {
             edgesList.add(new ArrayList<Integer>());
         }
-        edges  = new int[numOfLines][];
+        edges  = new int[vertexNum][];
         Scanner scanner = new Scanner(input);
         int lineNumber = 0;
         while (scanner.hasNextLine()) {
@@ -36,6 +40,7 @@ public class ListOfPredecessorsDirected implements GraphRepresentation {
             String[] split = line.split(",");
             for (String s : split) {
                 edgesList.get(Integer.parseInt(s)).add(lineNumber);
+                edgeNum+=1;
             }
             lineNumber++;
         }
@@ -137,6 +142,30 @@ public class ListOfPredecessorsDirected implements GraphRepresentation {
             }
         }
         return 0;
+    }
+    private int getEdgeInner(int index1, int index2)
+    {
+        observations+=1;
+        return edges[index1][index2];
+    }
+    @Override
+    public int getVerticesNumber() {
+        return 0;
+    }
+
+    @Override
+    public int getEdgesNumber() {
+        return 0;
+    }
+
+    @Override
+    public int getOperations() {
+        return 0;
+    }
+
+    @Override
+    public void setOperations(int operations) {
+
     }
 
     @Override

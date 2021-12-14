@@ -21,7 +21,7 @@ public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix {
         Random rand = new Random();
         int random = rand.nextInt(verticesNumber);
         matrix[start][end] = random;
-        matrix[end][start] = -1 * random;
+        //matrix[end][start] = -1 * random;
     }
 
     @Override

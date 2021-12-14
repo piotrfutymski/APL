@@ -22,23 +22,23 @@ public class EulerUndirectedGraphDataGenerator implements GraphDataGenerator {
         for (int i = 0; i < config.getNoOfVertices(); i++) {
             for (int j = i + 1; j < config.getNoOfVertices(); j++) {
                 ArrayList<Integer> newEdge = new ArrayList<Integer>();
-                ArrayList<Integer> newEdgeMirrored = new ArrayList<Integer>();
+                //ArrayList<Integer> newEdgeMirrored = new ArrayList<Integer>();
                 newEdge.add(i);
                 newEdge.add(j);
-                newEdgeMirrored.add(j);
-                newEdgeMirrored.add(i);
+                //newEdgeMirrored.add(j);
+                //newEdgeMirrored.add(i);
                 edges.add(newEdge);
-                edges.add(newEdgeMirrored);
+                //edges.add(newEdgeMirrored);
             }
         }
         // Randomly delete edges (check if deletion breaks connectivity of the graph)
         for (int i = 0; i < numToDiscard / 2; i++) {
             while (true) {
-                int removalId = random.nextInt(edges.size() / 2);
+                int removalId = random.nextInt(edges.size());
                 BreadthFirstSearch bfs = new BreadthFirstSearch();
                 List<ArrayList<Integer>> edgesCopy = new ArrayList<ArrayList<Integer>>(edges);
                 edgesCopy.remove(removalId * 2);
-                edgesCopy.remove(removalId * 2);
+                //edgesCopy.remove(removalId * 2);
                 Map<String,String> params = Map.of("forceConnected", "true");
                 bfs.setParams(params);
                 List<Integer> path = bfs.run(new ListOfEdgesUndirected((int[][]) edgesCopy.toArray())).getPath();
