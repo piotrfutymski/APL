@@ -5,6 +5,9 @@ $radius: 16px;
 .Correct{
     box-shadow: 0 0 10px $card-correct-color;
 }
+.Warning{
+    box-shadow: 0 0 10px $card-warning-color;
+}
 .Error{
     box-shadow: 0 0 10px $card-error-color;
 }
@@ -22,6 +25,7 @@ $radius: 16px;
     grid-template-areas: 
     "algorithm data deleteBtn"
     "maxVal params deleteBtn"
+    "msgs msgs deleteBtn"
 }
 @mixin margins{
     margin: 0.4rem;
@@ -62,7 +66,6 @@ $radius: 16px;
     margin-left: -1rem;
     color: grey;
 }
-
 .ParamsContainer{
     grid-area: params;
     @include flexCentering(row);
@@ -71,6 +74,19 @@ $radius: 16px;
     @include flexCentering(column);
     @include margins;
 
+}
+
+.MessagesContainer{
+    grid-area: msgs;
+    @include flexCentering(column);
+    border-radius: 0 0 0 $radius;
+    
+}
+.WarningMsg{
+    color: $card-warning-color
+}
+.ErrorMsg{
+    color: $card-error-color
 }
 
 .DeleteBtn{

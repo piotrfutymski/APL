@@ -8,12 +8,24 @@ export interface SortingExperiment {
     algorithmParams: Map<string, string>;
     dataDistribution: string;
     maxValue: number;
-    check?: boolean;
+    check?: SortingExperimentCheck;
 
     n?: number;
     timeInMillis?: number;
     sortingResult?: SortingResult;
 }
+export type CheckStatus = "CORRECT" | "WARNING" | "ERROR" 
+export interface CheckResult {
+    msg?: string
+    status: CheckStatus
+}
+export interface SortingExperimentCheck{
+    maxValue: CheckResult
+    algorithmParams: Map<string, CheckResult>;
+    warningFlag: boolean;
+    errorFlag: boolean;
+}
+
 
 export interface paramInfo{
     algorithm: string;

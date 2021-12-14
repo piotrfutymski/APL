@@ -2,13 +2,13 @@ import React, {useState, useEffect} from 'react'
 import { useCookies } from 'react-cookie'
 import { Navigate } from 'react-router-dom'
 
-import { fetchAlgorithms, fetchDataDistributions, getParamInfos, submitExperiments } from '../SortingServices'
+import { checkExperiment, fetchAlgorithms, fetchDataDistributions, getParamInfos, submitExperiments } from '../SortingServices'
 
 import { SortingExperimentCard} from './SortingExperimentCard'
 import { SortingHeader } from './SortingHeader'
 
 import styles from './SortingForm.module.scss'
-import { SortingConfig, SortingExperiment } from '../Sorting.interface'
+import { CheckResult, SortingConfig, SortingExperiment } from '../Sorting.interface'
 
 export const SortingForm = () =>{
     const [id, setId] = useState<string>("");
@@ -23,9 +23,19 @@ export const SortingForm = () =>{
     //============================= handle cookies =============================
     const [cookies, setCookie] = useCookies(['SortingExperiments', 'SortingConfig']);
 
-    const experiments = (cookies.SortingExperiments || []).map( (e: any)=> { return {...e, algorithmParams: new Map<string,string>(Object.entries(e.algorithmParams))} }) as SortingExperiment[] 
+    const experiments = (cookies.SortingExperiments || []).map( (cookieExperiment: any)=> { 
+        let e: SortingExperiment= {...cookieExperiment}
+        e.algorithmParams = new Map<string,string>(Object.entries(cookieExperiment.algorithmParams))
+        e.check.algorithmParams = new Map<string,CheckResult>(Object.entries(cookieExperiment.check.algorithmParams))
+        return e
+    }) as SortingExperiment[] 
     const setExperiments = (newExperiments: SortingExperiment[]) =>{
-        setCookie('SortingExperiments', newExperiments.map( (e: any)=> { return {...e, algorithmParams: Object.fromEntries(e.algorithmParams)} }), {path: '/'})
+        setCookie('SortingExperiments', newExperiments.map(e => { 
+            let cookieExperiment: any = {...e}
+            cookieExperiment.algorithmParams = Object.fromEntries(e.algorithmParams)
+            cookieExperiment.check.algorithmParams =  Object.fromEntries(e.check.algorithmParams)
+            return cookieExperiment
+        }), {path: '/'})
     }
 
     const config = (cookies.SortingConfig || {n: 1000, measureSeries: 10, maxValAsPercent: true}) as SortingConfig
@@ -39,11 +49,12 @@ export const SortingForm = () =>{
         if(config.maxValAsPercent){
             defMaxVal = 100
         }
-        let newExperiment: SortingExperiment = {algorithmName: algorithmOptions[0], dataDistribution: dataOptions[0], algorithmParams: new Map<string, string>(), maxValue: defMaxVal, check: false}
+        let newExperiment: SortingExperiment = {algorithmName: algorithmOptions[0], dataDistribution: dataOptions[0], algorithmParams: new Map<string, string>(), maxValue: defMaxVal}
         if(experiments.length > 0){
             newExperiment = experiments.at(experiments.length-1)
         }
         prepareExperimentParams(newExperiment)
+        newExperiment.check = checkExperiment(newExperiment, config)
         setExperiments([...experiments, newExperiment])
     }
     const prepareExperimentParams = (experiment: SortingExperiment) =>{
@@ -58,12 +69,9 @@ export const SortingForm = () =>{
         })
         experiment.algorithmParams = newParams
     }
-    const checkExperiment = (experiment: SortingExperiment): boolean =>{
-        return experiment.algorithmName !== "" && experiment.dataDistribution !== ""
-    }
     const updateExperiment = (key: number, newExperiment: SortingExperiment) =>{
-        newExperiment.check = checkExperiment(newExperiment)
         prepareExperimentParams(newExperiment)
+        newExperiment.check = checkExperiment(newExperiment, config)
         setExperiments(experiments.map((experiment, i) => {
                 if(i === key){
                     return newExperiment

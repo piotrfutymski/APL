@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { ComplexityParameters, paramInfo, SortingConfig, SortingExperiment, SortingExperimentsResult } from "./Sorting.interface";
+import { CheckResult, ComplexityParameters, paramInfo, SortingConfig, SortingExperiment, SortingExperimentCheck, SortingExperimentsResult } from "./Sorting.interface";
 
 export const getParamInfos = (experiment: SortingExperiment): paramInfo[]=>{
     let res: paramInfo[] = []
@@ -27,6 +27,61 @@ export const getParamInfos = (experiment: SortingExperiment): paramInfo[]=>{
         })
     }
     return res
+}
+
+export const checkExperiment = (experiment: SortingExperiment, config: SortingConfig): SortingExperimentCheck => {
+    const paramInfos = getParamInfos(experiment)
+    let result:SortingExperimentCheck = { warningFlag: false, errorFlag: false, maxValue: {status: "CORRECT"}, algorithmParams: new Map<string, CheckResult>() }
+    if(experiment.maxValue <= 0)
+    {
+        result.maxValue.status="ERROR"
+        result.maxValue.msg="Maximum possible value must be a number greater than 0"
+        result.errorFlag=true
+    }else{
+        let maxValPercent = experiment.maxValue
+        if(!config.maxValAsPercent){
+            maxValPercent = experiment.maxValue/config.n*100
+        }
+        if(maxValPercent<10){
+            result.maxValue.status="WARNING"
+            result.maxValue.msg="Small value range, consider changing maximum possible value"
+            result.warningFlag=true
+        }
+    }
+    switch (experiment.algorithmName) {
+        case "Shell Sort Knuth":
+            let kCheck: CheckResult = {status: "CORRECT"}
+            let k = +experiment.algorithmParams.get("k")
+            if(k <= 1){
+                kCheck.status="ERROR"
+                kCheck.msg="Shell Sort Knuth's k parameter must be a number greater than 1"
+                result.errorFlag=true
+            }
+            result.algorithmParams.set("k", kCheck)
+            break;
+        case "Quick Sort":
+            result.algorithmParams.set("pivotStrategy", {status: "CORRECT"})
+            if(experiment.algorithmParams.get("pivotStrategy")==="Median"){
+                let medianCountCheck: CheckResult = {status: "CORRECT"}
+                let medianCount = +experiment.algorithmParams.get("medianCount")
+                if(medianCount <= 0)
+                {
+                    medianCountCheck.status="ERROR"
+                    medianCountCheck.msg="Quick Sort's median count parameter must be a number greater than 0"
+                    result.errorFlag=true
+                }else if(medianCount > config.n){
+                    medianCountCheck.status="WARNING"
+                    medianCountCheck.msg="Quick Sort's median count parameter will be limited to the largest instance size value (N)"
+                    result.warningFlag=true
+                }
+                result.algorithmParams.set("Median", medianCountCheck)
+            }
+            break;
+        default:
+            break;
+    }
+
+    return result
 }
 
 export const submitExperiments = (experiments: SortingExperiment[], config: SortingConfig, finite: boolean, onResponse: (arg0: string) => void) => {
