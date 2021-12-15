@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { useCookies } from 'react-cookie'
 import { Navigate } from 'react-router-dom'
 
-import { checkExperiment, fetchAlgorithms, fetchDataDistributions, getParamInfos, submitExperiments } from '../SortingServices'
+import { checkConfig, checkExperiment, fetchAlgorithms, fetchDataDistributions, getParamInfos, submitExperiments } from '../SortingServices'
 
 import { SortingExperimentCard} from './SortingExperimentCard'
 import { SortingHeader } from './SortingHeader'
@@ -98,6 +98,9 @@ export const SortingForm = () =>{
     //==========================================================
     //============================= check =============================
     const experimentCheckInfos = experiments.map(e=> checkExperiment(e, config))
+    const configCheckInfo = checkConfig(config)
+    let allowSubmit=true
+    experimentCheckInfos.forEach(e=>e.errorFlag? allowSubmit=false:"")
     //==========================================================
     //============================= submitting =============================
     const submit = () =>{
@@ -107,7 +110,7 @@ export const SortingForm = () =>{
     return (
         <>
         { id !== "" ? <Navigate to={`/experiments/sorting/${id}`} /> : null}
-        <SortingHeader config={config} updateConfig={updateConfig} submit={submit}/>
+        <SortingHeader config={config} allowSubmit={allowSubmit} configCheckInfo={configCheckInfo} updateConfig={updateConfig} submit={submit}/>
         <div className={styles.ExperimentList}>
             {
                 experiments.map((experiment, index) => {

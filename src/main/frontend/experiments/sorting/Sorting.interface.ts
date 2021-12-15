@@ -24,6 +24,12 @@ export interface SortingExperimentCheck{
     warningFlag: boolean;
     errorFlag: boolean;
 }
+export interface SortingConfigCheck{
+    n: CheckResult;
+    measureSeries: CheckResult;
+    warningFlag: boolean;
+    errorFlag: boolean;
+}
 
 
 export interface paramInfo{
@@ -51,7 +57,9 @@ export interface SortingConfig {
 }
 
 export interface SortingHeaderProps{
-    config: SortingConfig
+    config: SortingConfig;
+    configCheckInfo: SortingConfigCheck;
+    allowSubmit: boolean;
     submit: ()=>void;
     updateConfig: (conf: SortingConfig)=>void;
 }

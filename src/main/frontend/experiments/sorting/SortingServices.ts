@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { CheckResult, ComplexityParameters, paramInfo, SortingConfig, SortingExperiment, SortingExperimentCheck, SortingExperimentsResult } from "./Sorting.interface";
+import { CheckResult, ComplexityParameters, paramInfo, SortingConfig, SortingConfigCheck, SortingExperiment, SortingExperimentCheck, SortingExperimentsResult } from "./Sorting.interface";
 
 export const getParamInfos = (experiment: SortingExperiment): paramInfo[]=>{
     let res: paramInfo[] = []
@@ -27,6 +27,21 @@ export const getParamInfos = (experiment: SortingExperiment): paramInfo[]=>{
         })
     }
     return res
+}
+
+export const checkConfig = (config: SortingConfig): SortingConfigCheck => {
+    let result:SortingConfigCheck = {warningFlag: false, errorFlag: false, n: {status: "CORRECT"}, measureSeries: {status: "CORRECT"}}
+    if(config.n<=0){
+        result.n.status="ERROR"
+        result.n.msg="Size of the largest instance (N) must be a number greater than 0"
+        result.errorFlag=true
+    }
+    if(config.measureSeries <= 0){
+        result.measureSeries.status="ERROR"
+        result.measureSeries.msg="Number of measure series must be a number greater than 0"
+        result.errorFlag=true
+    }
+    return result
 }
 
 export const checkExperiment = (experiment: SortingExperiment, config: SortingConfig): SortingExperimentCheck => {
