@@ -184,4 +184,8 @@ public abstract class ListOfEdges implements GraphRepresentation {
         this.operations=operations;
     }
 
+    @Override
+    public abstract GraphRepresentation clone();
+
+
 }

@@ -203,9 +203,13 @@ public abstract class IncidenceMatrix implements GraphRepresentation {
     public int getOperations() {
         return operations;
     }
+
     @Override
     public void setOperations(int operations) {
         this.operations=operations;
     }
+
+    @Override
+    public abstract GraphRepresentation clone();
 
 }
