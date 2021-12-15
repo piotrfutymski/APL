@@ -26,14 +26,12 @@ export const SortingForm = () =>{
     const experiments = (cookies.SortingExperiments || []).map( (cookieExperiment: any)=> { 
         let e: SortingExperiment= {...cookieExperiment}
         e.algorithmParams = new Map<string,string>(Object.entries(cookieExperiment.algorithmParams))
-        e.check.algorithmParams = new Map<string,CheckResult>(Object.entries(cookieExperiment.check.algorithmParams))
         return e
     }) as SortingExperiment[] 
     const setExperiments = (newExperiments: SortingExperiment[]) =>{
         setCookie('SortingExperiments', newExperiments.map(e => { 
             let cookieExperiment: any = {...e}
             cookieExperiment.algorithmParams = Object.fromEntries(e.algorithmParams)
-            cookieExperiment.check.algorithmParams =  Object.fromEntries(e.check.algorithmParams)
             return cookieExperiment
         }), {path: '/'})
     }
@@ -54,7 +52,6 @@ export const SortingForm = () =>{
             newExperiment = experiments.at(experiments.length-1)
         }
         prepareExperimentParams(newExperiment)
-        newExperiment.check = checkExperiment(newExperiment, config)
         setExperiments([...experiments, newExperiment])
     }
     const prepareExperimentParams = (experiment: SortingExperiment) =>{
@@ -68,10 +65,11 @@ export const SortingForm = () =>{
             }
         })
         experiment.algorithmParams = newParams
+        if(getParamInfos(experiment).length !== paramInfos.length)
+            prepareExperimentParams(experiment)
     }
     const updateExperiment = (key: number, newExperiment: SortingExperiment) =>{
         prepareExperimentParams(newExperiment)
-        newExperiment.check = checkExperiment(newExperiment, config)
         setExperiments(experiments.map((experiment, i) => {
                 if(i === key){
                     return newExperiment
@@ -98,6 +96,9 @@ export const SortingForm = () =>{
         setConfig(newConfig)
     }
     //==========================================================
+    //============================= check =============================
+    const experimentCheckInfos = experiments.map(e=> checkExperiment(e, config))
+    //==========================================================
     //============================= submitting =============================
     const submit = () =>{
         submitExperiments(experiments, config, true, (id: string) => {setId(id)})
@@ -105,7 +106,7 @@ export const SortingForm = () =>{
     //==========================================================
     return (
         <>
-        { id !== "" ? <Navigate to={`/experiments/sorting/${id}`} /> : <></>}
+        { id !== "" ? <Navigate to={`/experiments/sorting/${id}`} /> : null}
         <SortingHeader config={config} updateConfig={updateConfig} submit={submit}/>
         <div className={styles.ExperimentList}>
             {
@@ -115,7 +116,8 @@ export const SortingForm = () =>{
                         removeExperiment={()=>removeExperiment(index)} 
                         algorithmOptions={algorithmOptions}
                         dataOptions={dataOptions}
-                        maxValAsPercents={config.maxValAsPercent}/>
+                        maxValAsPercents={config.maxValAsPercent}
+                        experimentCheckInfo={experimentCheckInfos[index]}/>
                 })
             }
             <button className={styles.AddButton} onClick={addExperiment}>Add Experiment</button>

@@ -59,7 +59,7 @@ export const checkExperiment = (experiment: SortingExperiment, config: SortingCo
             }
             result.algorithmParams.set("k", kCheck)
             break;
-        case "Quick Sort":
+        case "QuickSort":
             result.algorithmParams.set("pivotStrategy", {status: "CORRECT"})
             if(experiment.algorithmParams.get("pivotStrategy")==="Median"){
                 let medianCountCheck: CheckResult = {status: "CORRECT"}
@@ -74,7 +74,7 @@ export const checkExperiment = (experiment: SortingExperiment, config: SortingCo
                     medianCountCheck.msg="Quick Sort's median count parameter will be limited to the largest instance size value (N)"
                     result.warningFlag=true
                 }
-                result.algorithmParams.set("Median", medianCountCheck)
+                result.algorithmParams.set("medianCount", medianCountCheck)
             }
             break;
         default:

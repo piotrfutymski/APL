@@ -8,7 +8,6 @@ export interface SortingExperiment {
     algorithmParams: Map<string, string>;
     dataDistribution: string;
     maxValue: number;
-    check?: SortingExperimentCheck;
 
     n?: number;
     timeInMillis?: number;
@@ -40,6 +39,7 @@ export interface SortingExperimentCardProps {
 
     experiment: SortingExperiment;
     maxValAsPercents: boolean;
+    experimentCheckInfo: SortingExperimentCheck;
     updateExperiment: (newExp :SortingExperiment)=>void;
     removeExperiment: ()=>void;
 }

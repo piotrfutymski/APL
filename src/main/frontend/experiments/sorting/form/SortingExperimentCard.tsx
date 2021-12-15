@@ -23,15 +23,15 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
     //==========================================================
     //============================= Check =============================
     const getCheckBasedStyles = (check: CheckResult) => check.status === "ERROR" ? styles.Error : check.status === "WARNING" ? styles.Warning : ""
-    const checkMsgs = [experiment.check.maxValue, ...experiment.check.algorithmParams.values()].filter(e => e.msg !== undefined)
+    const checkMsgs = [props.experimentCheckInfo.maxValue, ...props.experimentCheckInfo.algorithmParams.values()].filter(e => e.msg !== undefined)
     //==========================================================
     const paramInfos = getParamInfos(experiment)
     return (
         <div className={
             classNames(
                 styles.Card, 
-                experiment.check.errorFlag === true ? styles.Error :
-                experiment.check.warningFlag === true ? styles.Warning : styles.Correct
+                props.experimentCheckInfo.errorFlag === true ? styles.Error :
+                props.experimentCheckInfo.warningFlag === true ? styles.Warning : styles.Correct
                 )
             }>
             <div className={styles.AlgorithmSelectContainer}>
@@ -53,7 +53,7 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
             <div className={styles.MaxValContainer}>
                 <label>Maximum possible value</label>
                 <div>
-                    <input className={getCheckBasedStyles(experiment.check.maxValue)} 
+                    <input className={getCheckBasedStyles(props.experimentCheckInfo.maxValue)} 
                         type="number" 
                         value={experiment.maxValue===0 ? "" : experiment.maxValue} 
                         onChange={updateMaxVal}
@@ -70,7 +70,7 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
                         props.updateExperiment(experiment)
                     }
                     let val = experiment.algorithmParams.get(param.name)
-                    const checkStyle = getCheckBasedStyles(experiment.check.algorithmParams.get(param.name))
+                    const checkStyle = getCheckBasedStyles(props.experimentCheckInfo.algorithmParams.get(param.name))
                     return <div className={styles.Param}>
                         <label>{param.name}</label>
                         {
@@ -78,7 +78,7 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
                                 <select className={checkStyle} value={val} onChange={onChange}> 
                                     { param.options.map(name => <option value={name}>{name}</option>) } 
                                 </select> :
-                                <input className={checkStyle} type="number" value={val} onChange={onChange}/>
+                                <input className={checkStyle} type="number" value={+val === 0 ? "" : val} onChange={onChange}/>
                         }
                     </div>
                 })
