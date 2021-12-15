@@ -9,11 +9,23 @@ export const GraphHeader = (props: GraphHeaderProps) =>{
         config.measureSeries = +event.target.value
         props.updateConfig(config)
     }
+    const updateMeasureByDensity = (event: any) =>{
+        config.measureByDensity = event.target.checked
+        props.updateConfig(config)
+    }
     return (
         <div className={styles.GraphHeader}>
             <div className={styles.SeriesContainer}>
                 <label>Number of measure series</label>
                 <input type="number" value={config.measureSeries===0 ? "" : config.measureSeries} onChange={updateMeasureSeries}/>
+            </div>
+            <div className={styles.MeasureByDensityContainer}>
+            <label>Measure By Density</label>
+                {
+                    config.measureByDensity ? 
+                    <input type="checkbox" id="measureByDensity" onChange={updateMeasureByDensity} checked/> : 
+                    <input type="checkbox" id="measureByDensity" onChange={updateMeasureByDensity} />
+                }
             </div>
             <div className={styles.SubmitContainer}>
                 <button onClick={props.submit}>Submit</button>

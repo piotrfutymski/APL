@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class ListOfEdgesUndirected implements GraphRepresentation {
     private final int[][] edges;
     // vertexNum is necessary for keeping number of vertices (used in getNonIncident)
-    private int vertexNum;
+    private int numberOfVertices;
 
     public ListOfEdgesUndirected () {
         edges = new int[0][];
@@ -22,7 +22,7 @@ public class ListOfEdgesUndirected implements GraphRepresentation {
     // Format: line number = vertex id, successors separated by comma
     public ListOfEdgesUndirected(String input) {
         int numOfLines = input.split(System.getProperty("line.separator")).length;
-        vertexNum = numOfLines;
+        numberOfVertices = numOfLines;
         List<ArrayList<Integer>> edgesList = new ArrayList<ArrayList<Integer>>();
         //edges  = new int[numOfLines][];
         Scanner scanner = new Scanner(input);
@@ -63,7 +63,7 @@ public class ListOfEdgesUndirected implements GraphRepresentation {
                 highestEdgeId = edge[1];
             }
         }
-        vertexNum = highestEdgeId;
+        numberOfVertices = highestEdgeId;
     }
 
     public int[] getSuccessors(Integer id) {
@@ -105,7 +105,7 @@ public class ListOfEdgesUndirected implements GraphRepresentation {
     };
 
     public int[] getNonIncident(Integer id) {
-        boolean[] nonIncident = new boolean[vertexNum];
+        boolean[] nonIncident = new boolean[numberOfVertices];
         List<Integer> nonIncidentIds = new ArrayList<Integer>();
         for(int i = 0; i < edges.length; i++) {
             nonIncident[i] = true;
@@ -143,6 +143,11 @@ public class ListOfEdgesUndirected implements GraphRepresentation {
             }
         }
         return "none";
+    }
+
+    public int getNumberOfVertices()
+    {
+        return numberOfVertices;
     }
 
     @Override

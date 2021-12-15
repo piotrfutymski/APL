@@ -16,10 +16,10 @@ public class ConnectedDirectedGraphDataGenerator implements GraphDataGenerator {
         List<ArrayList<Integer>> edges = new ArrayList<ArrayList<Integer>>();
         Random random = new Random();
         // n(n-1) - g•n(n-1)/2
-        int numToDiscard = (int) (config.getNoOfVertices() * (config.getNoOfVertices() - 1)
-                - (config.getDensity() * config.getNoOfVertices() * (config.getNoOfVertices() - 1) / 2));
-        for (int i = 0; i < config.getNoOfVertices(); i++) {
-            for (int j = 0; j < config.getNoOfVertices(); j++) {
+        int numToDiscard = (int) (config.getNumberOfVertices() * (config.getNumberOfVertices() - 1)
+                - (config.getDensity() * config.getNumberOfVertices() * (config.getNumberOfVertices() - 1) / 2));
+        for (int i = 0; i < config.getNumberOfVertices(); i++) {
+            for (int j = 0; j < config.getNumberOfVertices(); j++) {
                 if (i == j) continue;
                 ArrayList<Integer> newEdge = new ArrayList<Integer>();
                 newEdge.add(i);
@@ -37,7 +37,7 @@ public class ConnectedDirectedGraphDataGenerator implements GraphDataGenerator {
                 Map<String,String> params = Map.of("forceConnected", "true");
                 bfs.setParams(params);
                 List<Integer> path = bfs.run(new ListOfEdgesDirected((int[][]) edgesCopy.toArray())).getPath();
-                if (config.getNoOfVertices() == path.size()) {
+                if (config.getNumberOfVertices() == path.size()) {
                     break;
                 }
             }

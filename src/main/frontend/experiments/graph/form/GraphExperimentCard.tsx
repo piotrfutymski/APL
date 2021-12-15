@@ -21,11 +21,11 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
         props.updateExperiment(experiment)
     }
     const updateNumberOfVertices = (event: any) =>{
-        experiment.numberOfVertices = event.target.value
+        experiment.numberOfVertices = +event.target.value
         props.updateExperiment(experiment)
     }
     const updateDensity = (event: any) =>{
-        experiment.density = event.target.value
+        experiment.density = +event.target.value
         props.updateExperiment(experiment)
     }
     //==========================================================

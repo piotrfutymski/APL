@@ -22,15 +22,17 @@ export const submitExperiments = (experiments: GraphExperiment[], config: GraphC
                 algorithmName: element.algorithmName,
                 dataGenerator: element.dataGenerator,
                 representation: element.representation,
-                numberOfVertices: element.numberOfVertices,
-                density: element.density,
+                numberOfVertices: (config.measureByDensity) ? element.numberOfVertices : ((+element.numberOfVertices * (i+1)) / config.measureSeries),
+                density: (config.measureByDensity) ? ((+element.density * (i+1)) / config.measureSeries) : +element.density,
                 algorithmParams: Object.fromEntries(element.algorithmParams),
             })
         }
     });
+    console.log("posting")
     axios.post(`/api/experiment/graph?finite=${finite}`, res)
         .then((response: AxiosResponse)=>{
             onResponse(response.data)
+            console.log("response")
         })
         .catch((error: AxiosError) =>{
     })
@@ -74,8 +76,10 @@ export const fetchGraphExperiments = (id:string, onResponse:(args: GraphExperime
 
 export const getNameForGraphExperiment = (v: GraphExperiment) => {
     let series = v.algorithmName + " : " + v.dataGenerator + " : " + v.representation + " : " + v.numberOfVertices + " : " + v.density;
-    for (let [key, val] of Object.entries(v.algorithmParams)) {
-        series += " : [ " +key + " - " + val + " ]"
+    if (v.algorithmParams) {
+        for (let [key, val] of Object.entries(v.algorithmParams)) {
+            series += " : [ " +key + " - " + val + " ]"
+        }
     }
     return series
 }

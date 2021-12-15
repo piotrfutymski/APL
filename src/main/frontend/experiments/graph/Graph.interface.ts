@@ -33,6 +33,7 @@ export interface GraphExperimentCardProps {
 
 export interface GraphConfig {
     measureSeries: number;
+    measureByDensity: boolean;
 }
 
 export interface GraphHeaderProps{

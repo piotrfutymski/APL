@@ -13,6 +13,8 @@ import java.util.Scanner;
 public class ListOfSuccessorsUndirected implements GraphRepresentation {
     private final int[][] edges;
 
+    private int numberOfVertices;
+
     public ListOfSuccessorsUndirected () {
         edges = new int[0][];
     }
@@ -21,6 +23,7 @@ public class ListOfSuccessorsUndirected implements GraphRepresentation {
     public ListOfSuccessorsUndirected(String input) {
         int numOfLines = input.split(System.getProperty("line.separator")).length;
         edges  = new int[numOfLines][];
+        numberOfVertices = numOfLines;
         Scanner scanner = new Scanner(input);
         int lineNumber = 0;
         while (scanner.hasNextLine()) {
@@ -99,6 +102,10 @@ public class ListOfSuccessorsUndirected implements GraphRepresentation {
             }
         }
         return "none";
+    }
+
+    public int getNumberOfVertices() {
+        return numberOfVertices;
     }
 
     @Override

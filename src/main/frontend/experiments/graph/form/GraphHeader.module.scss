@@ -7,7 +7,7 @@
     display: grid;
     grid-template-columns: 15% 30% 30% 10% 15%;
     grid-template-areas: 
-    ". series . submit ."
+    ". series measure-density submit ."
     ". . . submit ."
 }
 @mixin flexCentering($direction){
@@ -22,6 +22,11 @@
 
 .SeriesContainer{
     grid-area: series;
+    @include flexCentering(column);
+}
+
+.MeasureByDensityContainer{
+    grid-area: measure-density;
     @include flexCentering(column);
 }
 
