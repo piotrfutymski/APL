@@ -28,7 +28,7 @@ public class SeleniumTests {
     WebDriverWait normalWait;
     WebDriverWait experimentWait;
 
-    String DRIVER_LOCATION = "chromedriver";
+    String DRIVER_LOCATION = "/usr/local/bin/chromedriver";
     //String DRIVER_LOCATION = "msedgedriver.exe"; // on Windows
 
     @LocalServerPort
