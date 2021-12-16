@@ -2,10 +2,10 @@ language: Java
 sudo: true
 dist: trusty
 jdk: oraclejdk11
-addons:
-  chrome: beta
+addons: # get google-chrome-stable
+  chrome: stable
 install:
-  - wget -N https://chromedriver.storage.googleapis.com/96.0.4664.45/chromedriver_linux64.zip -P ~/
+  - wget -N http://chromedriver.storage.googleapis.com/2.30/chromedriver_linux64.zip -P ~/
   - unzip ~/chromedriver_linux64.zip -d ~/
   - rm ~/chromedriver_linux64.zip
   - sudo mv -f ~/chromedriver /usr/local/share/

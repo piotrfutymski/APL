@@ -43,6 +43,7 @@ public class SeleniumTests {
         chromeOptions.addArguments("no-sandbox");
         chromeOptions.addArguments("disable-extensions");
         chromeOptions.addArguments("disable-dev-shm-usage");
+        chromeOptions.addArguments("disable-gpu");
         driver = new ChromeDriver(chromeOptions);
         normalWait = new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds());
         experimentWait = new WebDriverWait(driver, Duration.ofSeconds(40).getSeconds());
