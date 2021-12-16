@@ -36,7 +36,7 @@ public class SeleniumTests {
 
     @BeforeAll
     void initAll() {
-        System.setProperty("webdriver.chrome.driver",DRIVER_LOCATION);
+        System.setProperty("webdriver.chrome.driver", DRIVER_LOCATION);
         driver = new ChromeDriver();
         normalWait = new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds());
         experimentWait = new WebDriverWait(driver, Duration.ofSeconds(40).getSeconds());
