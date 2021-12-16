@@ -30,7 +30,7 @@ public class SeleniumTests {
     WebDriverWait experimentWait;
 
     String DRIVER_LOCATION = "/usr/local/bin/chromedriver";
-    //String DRIVER_LOCATION = "msedgedriver.exe"; // on Windows
+    //String DRIVER_LOCATION = "chromedriver.exe"; // on Windows
 
     @LocalServerPort
     private int port;
@@ -43,7 +43,7 @@ public class SeleniumTests {
         chromeOptions.addArguments("no-sandbox");
         chromeOptions.addArguments("disable-extensions");
         chromeOptions.addArguments("disable-dev-shm-usage");
-        driver = new ChromeDriver();
+        driver = new ChromeDriver(chromeOptions);
         normalWait = new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds());
         experimentWait = new WebDriverWait(driver, Duration.ofSeconds(40).getSeconds());
     }
