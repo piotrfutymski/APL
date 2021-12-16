@@ -29,8 +29,8 @@ public class SeleniumTests {
     WebDriverWait normalWait;
     WebDriverWait experimentWait;
 
-    //String DRIVER_LOCATION = "/usr/local/bin/chromedriver";
-    String DRIVER_LOCATION = "chromedriver.exe"; // on Windows
+    String DRIVER_LOCATION = "/usr/local/bin/chromedriver";
+    //String DRIVER_LOCATION = "chromedriver.exe"; // on Windows
 
     @LocalServerPort
     private int port;
