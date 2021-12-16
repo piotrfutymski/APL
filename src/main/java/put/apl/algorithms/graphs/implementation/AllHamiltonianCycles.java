@@ -19,16 +19,17 @@ public class AllHamiltonianCycles implements GraphAlgorithm  {
 
     public GraphResult run(GraphRepresentation graph) {
         currentPath = new ArrayList<Integer>();
+        noOfVertices = graph.getNumberOfVertices();
         paths = new ArrayList<ArrayList<Integer>>();
         this.graph = graph;
         currentPath.add(0);
         if (noOfVertices > 1) {
             hamiltonianCycle(1);
-            return GraphResult.builder().multiplePaths(paths).build();
+            return GraphResult.builder().multiplePaths(paths).memoryOccupancyInBytes(graph.getMemoryOccupancy()).build();
         }
         else {
             paths.add(currentPath);
-            return GraphResult.builder().multiplePaths(paths).build();
+            return GraphResult.builder().multiplePaths(paths).memoryOccupancyInBytes(graph.getMemoryOccupancy()).build();
         }
     }
 
@@ -59,7 +60,5 @@ public class AllHamiltonianCycles implements GraphAlgorithm  {
 
     @Override
     public void setParams(Map<String, String> params) {
-        if (params.containsKey("noOfVertices"))
-            noOfVertices = Integer.parseInt(params.get("noOfVertices"));
     }
 }

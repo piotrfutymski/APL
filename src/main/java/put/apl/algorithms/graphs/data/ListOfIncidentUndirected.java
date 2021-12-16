@@ -14,6 +14,8 @@ import java.util.Scanner;
 public class ListOfIncidentUndirected implements GraphRepresentation {
     private final int[][] edges;
 
+    private int numberOfVertices;
+
     public ListOfIncidentUndirected () {
         edges = new int[0][];
     }
@@ -26,6 +28,7 @@ public class ListOfIncidentUndirected implements GraphRepresentation {
             edgesList.add(new ArrayList<Integer>());
         }
         edges  = new int[numOfLines][];
+        numberOfVertices = numOfLines;
         Scanner scanner = new Scanner(input);
         int lineNumber = 0;
         while (scanner.hasNextLine()) {
@@ -113,6 +116,10 @@ public class ListOfIncidentUndirected implements GraphRepresentation {
             }
         }
         return "none";
+    }
+
+    public int getNumberOfVertices() {
+        return numberOfVertices;
     }
 
     @Override

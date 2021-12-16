@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class GraphGeneratorConfig {
-    private Integer noOfVertices;
+    private Integer numberOfVertices;
     private Double density;
     private String type;
 }

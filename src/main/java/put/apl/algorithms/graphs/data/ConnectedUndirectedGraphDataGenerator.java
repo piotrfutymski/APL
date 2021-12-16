@@ -16,10 +16,10 @@ public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator
         List<ArrayList<Integer>> edges = new ArrayList<ArrayList<Integer>>();
         Random random = new Random();
         // n(n-1) - g•n(n-1)/2
-        int numToDiscard = (int) (config.getNoOfVertices() * (config.getNoOfVertices() - 1)
-                - (config.getDensity() * config.getNoOfVertices() * (config.getNoOfVertices() - 1) / 2));
-        for (int i = 0; i < config.getNoOfVertices(); i++) {
-            for (int j = i + 1; j < config.getNoOfVertices(); j++) {
+        int numToDiscard = (int) (config.getNumberOfVertices() * (config.getNumberOfVertices() - 1)
+                - (config.getDensity() * config.getNumberOfVertices() * (config.getNumberOfVertices() - 1) / 2));
+        for (int i = 0; i < config.getNumberOfVertices(); i++) {
+            for (int j = i + 1; j < config.getNumberOfVertices(); j++) {
                 ArrayList<Integer> newEdge = new ArrayList<Integer>();
                 ArrayList<Integer> newEdgeMirrored = new ArrayList<Integer>();
                 newEdge.add(i);
@@ -41,7 +41,7 @@ public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator
                 Map<String,String> params = Map.of("forceConnected", "true");
                 bfs.setParams(params);
                 List<Integer> path = bfs.run(new ListOfEdgesUndirected((int[][]) edgesCopy.toArray())).getPath();
-                if (config.getNoOfVertices() == path.size()) {
+                if (config.getNumberOfVertices() == path.size()) {
                     break;
                 }
             }

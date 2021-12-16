@@ -13,6 +13,8 @@ import java.util.Scanner;
 public class ListOfPredecessorsDirected implements GraphRepresentation {
     private final int[][] edges;
 
+    private int numberOfVertices;
+
     public ListOfPredecessorsDirected () {
         edges = new int[0][];
     }
@@ -25,6 +27,7 @@ public class ListOfPredecessorsDirected implements GraphRepresentation {
             edgesList.add(new ArrayList<Integer>());
         }
         edges  = new int[numOfLines][];
+        numberOfVertices = numOfLines;
         Scanner scanner = new Scanner(input);
         int lineNumber = 0;
         while (scanner.hasNextLine()) {
@@ -137,6 +140,10 @@ public class ListOfPredecessorsDirected implements GraphRepresentation {
             }
         }
         return "none";
+    }
+
+    public int getNumberOfVertices() {
+        return numberOfVertices;
     }
 
     @Override

@@ -11,14 +11,17 @@ import java.util.*;
 public class ListOfSuccessorsDirected implements GraphRepresentation {
     private final int[][] edges;
 
+    private int numberOfVertices;
+
     public ListOfSuccessorsDirected () {
         edges = new int[0][];
     }
 
     // Format: line number = vertex id, successors separated by comma
     public ListOfSuccessorsDirected(String input) {
-        int numOfLines = input.split(System.getProperty("line.separator")).length;
+        int numOfLines = input.split("\n").length;
         edges  = new int[numOfLines][];
+        numberOfVertices = numOfLines;
         Scanner scanner = new Scanner(input);
         int lineNumber = 0;
         while (scanner.hasNextLine()) {
@@ -126,6 +129,10 @@ public class ListOfSuccessorsDirected implements GraphRepresentation {
             }
         }
         return "none";
+    }
+
+    public int getNumberOfVertices() {
+        return numberOfVertices;
     }
 
     @Override

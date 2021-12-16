@@ -16,6 +16,8 @@ public interface GraphRepresentation {
 
     public int getMemoryOccupancy();
 
+    public int getNumberOfVertices();
+
     public String getRelationBetween(Integer id1, Integer id2);
 
     public GraphRepresentation clone();
