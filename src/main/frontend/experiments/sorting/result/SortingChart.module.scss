@@ -8,17 +8,34 @@
 }
 
 .Container{
-    @include flexCentering(row);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: stretch;
+    margin-bottom: 1rem;
+    width: 30vw;
+    min-width: 480px;
 }
+
+.Label{
+    width: 100%;
+    padding-bottom: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .ButtonsContainer{
-    @include flexCentering(column);
-    justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
     a{
         @include flexCentering(column);
         display: inline-block;
         border: none;
-        border-radius: 12px;
+        border-radius: 6px;
         font-weight: bold;
         padding: $def-font-size;
       
@@ -30,8 +47,13 @@
           background: $button-hover-bg;
         }
     }
+    button{
+        margin-left: 0.8rem 
+    }
 }
 .Chart{
     @include flexCentering(column);
     grid-area: chart;
+    height: 70vh;
+    padding: 1rem;
 }
