@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -27,7 +28,7 @@ public class SeleniumTests {
     WebDriverWait normalWait;
     WebDriverWait experimentWait;
 
-    String DRIVER_LOCATION = "msedgedriver";
+    String DRIVER_LOCATION = "chromedriver";
     //String DRIVER_LOCATION = "msedgedriver.exe"; // on Windows
 
     @LocalServerPort
@@ -35,8 +36,8 @@ public class SeleniumTests {
 
     @BeforeAll
     void initAll() {
-        System.setProperty("webdriver.edge.driver",DRIVER_LOCATION);
-        driver = new EdgeDriver();
+        System.setProperty("webdriver.chrome.driver",DRIVER_LOCATION);
+        driver = new ChromeDriver();
         normalWait = new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds());
         experimentWait = new WebDriverWait(driver, Duration.ofSeconds(40).getSeconds());
     }
