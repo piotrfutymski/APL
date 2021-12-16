@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { ComplexityParameters, SortingChartProps } from "../Sorting.interface"
 import { SortingFormula } from "./SortingFormula"
 import { CSVLink } from "react-csv";
 import { addCalculatedComplexity, calculateComplexityParameters, getNameForSortingExperiment } from "../SortingServices"
 import styles from "./SortingChart.module.scss"
+import { useCurrentPng } from "recharts-to-png";
+import FileSaver from "file-saver";
 
 
 export const SortingChart = (props: SortingChartProps) => {
@@ -19,15 +21,11 @@ export const SortingChart = (props: SortingChartProps) => {
 
     const [headers, setHeaders] = useState([])
 
-    const [ problematicAlgorithms, setProblematicAlgorithms ] = useState(false)
+    const [getPng, { ref, isLoading }] = useCurrentPng();
 
     useEffect(() => {
         recalculateDataTime()
     }, [props, logarithmScale])
-
-    useEffect(() => {
-        setProblematicAlgorithms( props.experiments.results.length != props.experiments.results.filter(v => v.timeInMillis > 0).length)
-    }, [props])
 
     const recalculateDataTime = () => {
         const res: any[] = [];
@@ -74,6 +72,17 @@ export const SortingChart = (props: SortingChartProps) => {
             setData(res);
         }
         setHeaders(headers);
+    }
+
+    const dataLabelToLabel = () =>{
+        if (props.dataLabel === "timeInMillis")
+            return "Time in millis"
+        if (props.dataLabel === "swapCount")
+            return "Swap count"
+        if (props.dataLabel === "recursionSize")
+            return "Recursion Size"
+        if (props.dataLabel === "comparisonCount")
+            return "ComparisionCount"
     }
 
     const getDomainTab = () => {
@@ -139,29 +148,37 @@ export const SortingChart = (props: SortingChartProps) => {
             }
             return toRes
         })
-    } 
+    }
+
+    const handleDownload = useCallback(async () => {
+        const png = await getPng();
+        if (png) {
+          FileSaver.saveAs(png, props.dataLabel + '.png');
+        }
+      }, [getPng]);
 
     return (
         <div className={styles.Container}>
-            {problematicAlgorithms && "There were some algorithms that was too long to calculate, showing partial results"}
+            <div className={styles.Label}>{dataLabelToLabel()}</div>             
             <div className={styles.Chart}>
-            {complexityParams && <SortingFormula {...complexityParams}/>}
-            {problematicAlgorithms && "There were some algorithms that was too long to calculate, showing partial results"}
-            <ResponsiveContainer width={600} height={600} debounce={1}>
-                <LineChart data={data}>
+            <ResponsiveContainer width={"100%"} height={"100%"}>
+                <LineChart data={data} ref={ref}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="N" />
                     {logarithmScale ? <YAxis scale="log" domain={[Math.min(...getDomainTab())/2, Math.max(...getDomainTab())*2] }/> : <YAxis/>}
                     <Tooltip />
-                    <Legend/>
+                    <Legend layout="horizontal" verticalAlign="top" align="center"/>
                     {getLines()}
                 </LineChart>
             </ResponsiveContainer>
             </div>
             <div className={styles.ButtonsContainer}>
-                <button onClick={changeScaleType}>{!logarithmScale ? `Go to logarithmic scale` : `Go to standard scale`}</button>
                 <CSVLink data={prepareDataToCSV()} headers={headers} separator={";"} filename={`${props.dataLabel}.csv`}>Download CSV</CSVLink>
+                <button onClick={handleDownload}>{isLoading ? 'Downloading...' : 'Download Chart'}</button>
+                <button onClick={changeScaleType}>{!logarithmScale ? `Go to logarithmic scale` : `Go to standard scale`}</button>
+
             </div>
+            {complexityParams && <SortingFormula {...complexityParams}/>}
         </div>
     )
 }

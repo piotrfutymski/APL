@@ -10,6 +10,12 @@ export const SortingDoneView = (props: SortingExperimentsResult) => {
     const [series, setSeries] = useState<string[]>([]);
     const [choosedSeries, setChoosedSeries] = useState<string>("")
 
+    const [ problematicAlgorithms, setProblematicAlgorithms ] = useState(false)
+
+    useEffect(() => {
+        setProblematicAlgorithms( props.results.length != props.results.filter(v => v.timeInMillis > 0).length)
+    }, [props])
+
     useEffect(() => {
         let stoSet: string[] = [""]
         if(props.results.length > 0){
@@ -27,16 +33,20 @@ export const SortingDoneView = (props: SortingExperimentsResult) => {
 
     return (
     <div className={styles.Container}>
-        <label>Choose data series for more details</label>
-        <select className={styles.SeriesSelect} value={choosedSeries} onChange={handleChangeSeries}>
-            {
-                series.map((name) => <option key={name} value={name}> {name} </option>)
-            }
-        </select>
-
-        <SortingChart experiments={props} dataLabel="timeInMillis" series={choosedSeries}/>
-        <SortingChart experiments={props} dataLabel="swapCount"/>
-        <SortingChart experiments={props} dataLabel="comparisonCount"/>
+        <div className={styles.Header}>
+            <label>{problematicAlgorithms && "There were some algorithms that was too long to calculate, showing partial results"}</label>
+            <label>Choose data series for more details</label>
+            <select className={styles.SeriesSelect} value={choosedSeries} onChange={handleChangeSeries}>
+                {
+                    series.map((name) => <option key={name} value={name}> {name} </option>)
+                }
+            </select>
+        </div>
+        <div className={styles.ChartsContainer}>
+            <SortingChart experiments={props} dataLabel="timeInMillis" series={choosedSeries}/>
+            <SortingChart experiments={props} dataLabel="swapCount"/>
+            <SortingChart experiments={props} dataLabel="comparisonCount"/>
+        </div>
     </div>
     )
 }
