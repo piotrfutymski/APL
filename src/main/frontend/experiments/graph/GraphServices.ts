@@ -75,7 +75,7 @@ export const fetchGraphExperiments = (id:string, onResponse:(args: GraphExperime
 }
 
 export const getNameForGraphExperiment = (v: GraphExperiment) => {
-    let series = v.algorithmName + " : " + v.dataGenerator + " : " + v.representation + " : " + v.numberOfVertices + " : " + v.density;
+    let series = v.algorithmName + " : " + v.dataGenerator + " : " + v.representation + " : " + v.density;
     if (v.algorithmParams) {
         for (let [key, val] of Object.entries(v.algorithmParams)) {
             series += " : [ " +key + " - " + val + " ]"

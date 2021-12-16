@@ -10,8 +10,10 @@ import put.apl.experiment.dto.AlgorithmFuture;
 import put.apl.algorithms.graphs.implementation.GraphAlgorithm;
 import put.apl.algorithms.sorting.implementation.SortingAlgorithm;
 import put.apl.experiment.dto.GraphExperiment;
+import put.apl.experiment.dto.SortingExperiment;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -50,7 +52,7 @@ public class GraphService {
     }
 
     public GraphExperiment averageExperiments(List<GraphExperiment> experiments){
-        Double timeInMillis = experiments.stream().collect(Collectors.averagingDouble(GraphExperiment::getTimeInMillis));
+        Double timeInMillis = garbageCollectorFighter.getTime(experiments.stream().map(GraphExperiment::getTimeInMillis).collect(Collectors.toList()));
         return GraphExperiment
                 .builder()
                 .algorithmName(experiments.get(0).getAlgorithmName())
@@ -58,7 +60,7 @@ public class GraphService {
                 .dataGenerator(experiments.get(0).getDataGenerator())
                 .numberOfVertices(experiments.get(0).getNumberOfVertices())
                 .density(experiments.get(0).getDensity())
-                .timeInMillis(experiments.get(0).getTimeInMillis())
+                .timeInMillis(timeInMillis)
                 .graphResult(experiments.get(0).getGraphResult())
                 .build();
     }
@@ -70,6 +72,7 @@ public class GraphService {
         List<List<GraphExperiment>> groupedExperiments =
                 new ArrayList<>(experiments.stream().collect(Collectors.groupingBy(GraphExperiment::dataGeneratorGroupingString)).values());
 
+        groupedExperiments = groupedExperiments.stream().sorted(Comparator.comparingInt(e -> e.get(0).getNumberOfVertices() + e.get(0).getDensity().intValue() )).collect(Collectors.toList());
         for (List<GraphExperiment> groupedExperiment : groupedExperiments) {
             String representation = groupedExperiment.get(0).getRepresentation();
             GraphRepresentation data;
@@ -84,7 +87,7 @@ public class GraphService {
                     data = new ListOfIncidentUndirected(generateDataFor(groupedExperiment.get(0)));
                     break;
                 case "List Of Predecessors Directed":
-                    data = new ListOfPredecessorsUndirected(generateDataFor(groupedExperiment.get(0)));
+                    data = new ListOfPredecessorsDirected(generateDataFor(groupedExperiment.get(0)));
                     break;
                 case "List Of Predecessors Undirected":
                     data = new ListOfPredecessorsUndirected(generateDataFor(groupedExperiment.get(0)));
@@ -93,7 +96,7 @@ public class GraphService {
                     data = new ListOfSuccessorsDirected(generateDataFor(groupedExperiment.get(0)));
                     break;
                 case "List Of Successors Undirected":
-                    data = new ListOfSuccessorsDirected(generateDataFor(groupedExperiment.get(0)));
+                    data = new ListOfSuccessorsUndirected(generateDataFor(groupedExperiment.get(0)));
                     break;
                 default:
                     data = new ListOfSuccessorsDirected(generateDataFor(groupedExperiment.get(0)));

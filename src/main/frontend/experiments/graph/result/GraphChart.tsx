@@ -142,7 +142,7 @@ export const GraphChart = (props: GraphChartProps) => {
             <ResponsiveContainer width={600} height={600} debounce={1}>
                 <LineChart data={data}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="N" />
+                    <XAxis dataKey="Number Of Vertices" />
                     {logarithmScale ? <YAxis scale="log" domain={[Math.min(...getDomainTab())/2, Math.max(...getDomainTab())*2] }/> : <YAxis/>}
                     <Tooltip />
                     <Legend/>
