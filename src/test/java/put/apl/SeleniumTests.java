@@ -40,7 +40,8 @@ public class SeleniumTests {
         System.setProperty("webdriver.chrome.driver", DRIVER_LOCATION);
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless");
-        chromeOptions.addArguments("--no-sandbox");
+        chromeOptions.addArguments("no-sandbox");
+        chromeOptions.addArguments("--disable-extensions");
         chromeOptions.addArguments("--disable-dev-shm-usage");
         driver = new ChromeDriver();
         normalWait = new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds());
