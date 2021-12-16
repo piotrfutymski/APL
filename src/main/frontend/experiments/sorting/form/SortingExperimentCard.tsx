@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react'
 
 import styles from './SortingExperimentCard.module.scss'
 import { getParamInfos } from '../SortingServices'
-import { SortingExperiment, SortingExperimentCardProps } from '../Sorting.interface'
+import { CheckResult, SortingExperiment, SortingExperimentCardProps } from '../Sorting.interface'
 
 export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
     //============================= onChangeHandlers =============================
@@ -21,13 +21,17 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
         props.updateExperiment(experiment)
     }
     //==========================================================
+    //============================= Check =============================
+    const getCheckBasedStyles = (check: CheckResult) => check.status === "ERROR" ? styles.Error : check.status === "WARNING" ? styles.Warning : ""
+    const checkMsgs = [props.experimentCheckInfo.maxValue, ...props.experimentCheckInfo.algorithmParams.values()].filter(e => e.msg !== undefined)
+    //==========================================================
     const paramInfos = getParamInfos(experiment)
-    
     return (
         <div className={
             classNames(
                 styles.Card, 
-                experiment.check !== false ? styles.Correct : styles.Error 
+                props.experimentCheckInfo.errorFlag === true ? styles.Error :
+                props.experimentCheckInfo.warningFlag === true ? styles.Warning : styles.Correct
                 )
             }>
             <div className={styles.AlgorithmSelectContainer}>
@@ -49,7 +53,11 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
             <div className={styles.MaxValContainer}>
                 <label>Maximum possible value</label>
                 <div>
-                    <input type="number" value={experiment.maxValue===0 ? "" : experiment.maxValue} onChange={updateMaxVal}/>
+                    <input className={getCheckBasedStyles(props.experimentCheckInfo.maxValue)} 
+                        type="number" 
+                        value={experiment.maxValue===0 ? "" : experiment.maxValue} 
+                        onChange={updateMaxVal}
+                    />
                     <span className={props.maxValAsPercents ? styles.Percent : styles.Hide}>%</span>
                 </div>
             </div>
@@ -57,23 +65,36 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
             {
                 paramInfos.map(param =>{
                     const onChange = (event: any) => {
-                        experiment.algorithmParams.set(param.name, event.target.value)
+                        let stringORnumber = param.isSelect === true ? event.target.value : +event.target.value
+                        experiment.algorithmParams.set(param.name, stringORnumber)
                         props.updateExperiment(experiment)
                     }
                     let val = experiment.algorithmParams.get(param.name)
+                    const checkStyle = getCheckBasedStyles(props.experimentCheckInfo.algorithmParams.get(param.name))
                     return <div className={styles.Param}>
                         <label>{param.name}</label>
                         {
                             param.isSelect === true ?
-                                <select value={val} onChange={onChange}> 
+                                <select className={checkStyle} value={val} onChange={onChange}> 
                                     { param.options.map(name => <option value={name}>{name}</option>) } 
                                 </select> :
-                                <input type="number" value={val} onChange={onChange}/>
+                                <input className={checkStyle} type="number" value={+val === 0 ? "" : val} onChange={onChange}/>
                         }
                     </div>
                 })
             }
             </div>
+            {
+                checkMsgs.length > 0 ?
+                    <div className={styles.MessagesContainer}>
+                        {
+                            checkMsgs.map(check => 
+                            <p className={check.status === "ERROR" ? styles.ErrorMsg : check.status === "WARNING" ? styles.WarningMsg : ""}>
+                                {check.msg}
+                            </p>)
+                        }
+                    </div> : ""
+            }
             <div className={styles.DeleteBtn} onClick={props.removeExperiment}>X</div>
         </div>
     )

@@ -1,0 +1,36 @@
+@use 'frontend/utils/variables' as *;
+
+.GraphHeader{
+    background: $form-header-bg;
+    padding: 20px 0 20px 0;
+
+    display: grid;
+    grid-template-columns: 15% 30% 30% 10% 15%;
+    grid-template-areas: 
+    ". series measure-density submit ."
+    ". . . submit ."
+}
+@mixin flexCentering($direction){
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
+}
+
+.SeriesContainer{
+    grid-area: series;
+    @include flexCentering(column);
+}
+
+.MeasureByDensityContainer{
+    grid-area: measure-density;
+    @include flexCentering(column);
+}
+
+.SubmitContainer{
+    grid-area: submit;
+    @include flexCentering(column);
+}

@@ -2,12 +2,14 @@
 
 .SortingHeader{
     background: $form-header-bg;
+    padding: 20px 0 20px 0;
 
     display: grid;
     grid-template-columns: 15% 30% 30% 10% 15%;
     grid-template-areas: 
     ". sizeInput series submit ."
     ". maxVal . submit ."
+    ". msgs msgs submit ."
 }
 @mixin flexCentering($direction){
     display: flex;
@@ -37,4 +39,24 @@
 .SubmitContainer{
     grid-area: submit;
     @include flexCentering(column);
+}
+.BlockSubmit{
+}
+
+.MessageContainer{
+    grid-area: msgs;
+    @include flexCentering(column);
+}
+
+.Warning{
+    box-shadow: 0 0 10px $card-warning-color;
+}
+.Error{
+    box-shadow: 0 0 10px $card-error-color;
+}
+.WarningMsg{
+    color: $card-warning-color
+}
+.ErrorMsg{
+    color: $card-error-color
 }

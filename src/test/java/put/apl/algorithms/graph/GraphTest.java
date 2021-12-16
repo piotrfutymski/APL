@@ -3,8 +3,15 @@ package put.apl.algorithms.graph;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import put.apl.algorithms.graphs.data.*;
+import put.apl.algorithms.graphs.data.generator.DirectedGraphDataGenerator;
+import put.apl.algorithms.graphs.data.generator.GraphDataGenerator;
+import put.apl.algorithms.graphs.data.generator.GraphGeneratorConfig;
 import put.apl.algorithms.graphs.implementation.*;
+import put.apl.algorithms.sorting.SortingResult;
+import put.apl.experiment.dto.GraphExperiment;
+import put.apl.experiment.service.GraphService;
 
+import java.io.ObjectInputFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -97,7 +104,7 @@ public class GraphTest {
     @Test
     void DFSTest() throws InterruptedException {
         DepthFirstSearch dfs = new DepthFirstSearch();
-        Map<String,String> params = Map.of("noOfVertices", "6");
+        Map<String,String> params = Map.of("numberOfVertices", "6");
         dfs.setParams(params);
         List<Integer> path = dfs.run(TEST_LIST_SUCCESSORS_DIRECTED).getPath();
         assertArrayEquals(path.toArray(), DFS_RESULT.toArray());
@@ -106,7 +113,7 @@ public class GraphTest {
     @Test
     void BFSTest() throws InterruptedException {
         BreadthFirstSearch bfs = new BreadthFirstSearch();
-        Map<String,String> params = Map.of("noOfVertices", "6");
+        Map<String,String> params = Map.of("numberOfVertices", "6");
         bfs.setParams(params);
         List<Integer> path = bfs.run(TEST_LIST_SUCCESSORS_DIRECTED).getPath();
         assertArrayEquals(path.toArray(), BFS_RESULT.toArray());
@@ -115,7 +122,7 @@ public class GraphTest {
     @Test
     void HamiltonianTest() throws InterruptedException {
         HamiltonianCycle hc = new HamiltonianCycle();
-        Map<String,String> params = Map.of("noOfVertices", "5");
+        Map<String,String> params = Map.of("numberOfVertices", "5");
         hc.setParams(params);
         List<Integer> path = hc.run(TEST_HAMILTONIAN_GRAPH).getPath();
         assertArrayEquals(path.toArray(), HAMILTONIAN_RESULT.toArray());
@@ -124,7 +131,7 @@ public class GraphTest {
     @Test
     void AllHamiltonianTest() throws InterruptedException {
         AllHamiltonianCycles hc = new AllHamiltonianCycles();
-        Map<String,String> params = Map.of("noOfVertices", "5");
+        Map<String,String> params = Map.of("numberOfVertices", "5");
         hc.setParams(params);
         List<ArrayList<Integer>> path = hc.run(TEST_HAMILTONIAN_GRAPH).getMultiplePaths();
         assertArrayEquals(path.toArray(), ALL_HAMILTONIAN_RESULT.toArray());
@@ -133,9 +140,29 @@ public class GraphTest {
     @Test
     void TopologicalSortTest() throws InterruptedException {
         TopologicalSort ts = new TopologicalSort();
-        Map<String,String> params = Map.of("noOfVertices", "6");
+        Map<String,String> params = Map.of("numberOfVertices", "6");
         ts.setParams(params);
         List<Integer> sortResult = ts.run(TEST_TOPO_SORT).getPath();
         assertArrayEquals(sortResult.toArray(), TOPO_SORT_RESULT.toArray());
     }
+
+    @Test
+    void TestGenerator() throws InterruptedException {
+        GraphGeneratorConfig config = GraphGeneratorConfig.builder()
+                .numberOfVertices(800)
+                .density(0.7)
+                .type("Directed Graph Generator")
+                .build();
+        GraphDataGenerator generator = new DirectedGraphDataGenerator();
+
+        String generatedGraph = generator.generate(config);
+
+        long start = System.nanoTime();
+        ListOfSuccessorsDirected list = new ListOfSuccessorsDirected(generatedGraph);
+        DepthFirstSearch dfs = new DepthFirstSearch();
+        long end = System.nanoTime();
+        double t = (double)(end-start)/1000000.0;
+        List<Integer> path = dfs.run(list).getPath();
+    }
+
 }

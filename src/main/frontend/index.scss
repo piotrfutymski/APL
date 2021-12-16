@@ -34,6 +34,9 @@ button{
     background: $button-hover-bg;
   }
 }
+button:disabled{
+  background: $disabled-button-bg;
+}
 
 body{
     background-color: $bg;

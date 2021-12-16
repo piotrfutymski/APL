@@ -8,12 +8,29 @@ export interface SortingExperiment {
     algorithmParams: Map<string, string>;
     dataDistribution: string;
     maxValue: number;
-    check?: boolean;
 
     n?: number;
     timeInMillis?: number;
     sortingResult?: SortingResult;
 }
+export type CheckStatus = "CORRECT" | "WARNING" | "ERROR" 
+export interface CheckResult {
+    msg?: string
+    status: CheckStatus
+}
+export interface SortingExperimentCheck{
+    maxValue: CheckResult
+    algorithmParams: Map<string, CheckResult>;
+    warningFlag: boolean;
+    errorFlag: boolean;
+}
+export interface SortingConfigCheck{
+    n: CheckResult;
+    measureSeries: CheckResult;
+    warningFlag: boolean;
+    errorFlag: boolean;
+}
+
 
 export interface paramInfo{
     algorithm: string;
@@ -28,6 +45,7 @@ export interface SortingExperimentCardProps {
 
     experiment: SortingExperiment;
     maxValAsPercents: boolean;
+    experimentCheckInfo: SortingExperimentCheck;
     updateExperiment: (newExp :SortingExperiment)=>void;
     removeExperiment: ()=>void;
 }
@@ -39,7 +57,9 @@ export interface SortingConfig {
 }
 
 export interface SortingHeaderProps{
-    config: SortingConfig
+    config: SortingConfig;
+    configCheckInfo: SortingConfigCheck;
+    allowSubmit: boolean;
     submit: ()=>void;
     updateConfig: (conf: SortingConfig)=>void;
 }
