@@ -7,6 +7,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -37,6 +38,10 @@ public class SeleniumTests {
     @BeforeAll
     void initAll() {
         System.setProperty("webdriver.chrome.driver", DRIVER_LOCATION);
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless");
+        chromeOptions.addArguments("--no-sandbox");
+        chromeOptions.addArguments("--disable-dev-shm-usage");
         driver = new ChromeDriver();
         normalWait = new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds());
         experimentWait = new WebDriverWait(driver, Duration.ofSeconds(40).getSeconds());
