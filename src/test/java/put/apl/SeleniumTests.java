@@ -1,4 +1,4 @@
-package put.apl.selenium;
+package put.apl;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
@@ -14,19 +14,24 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElemen
 import java.time.Duration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import put.apl.algorithms.sorting.data.SortingData;
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class HelloSelenium {
+public class SeleniumTests {
 
     WebDriver driver;
     WebDriverWait normalWait;
     WebDriverWait experimentWait;
 
+    String DRIVER_LOCATION = "msedgedriver";
+    //String DRIVER_LOCATION = "msedgedriver.exe"; - if on windows
+
     @BeforeAll
     void initAll() {
-        System.setProperty("webdriver.edge.driver","msedgedriver");
+        System.setProperty("webdriver.edge.driver",DRIVER_LOCATION);
         driver = new EdgeDriver();
         normalWait = new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds());
         experimentWait = new WebDriverWait(driver, Duration.ofSeconds(40).getSeconds());
