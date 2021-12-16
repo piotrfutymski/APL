@@ -36,24 +36,24 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
             }>
             <div className={styles.AlgorithmSelectContainer}>
                 <label>Algorithm</label>
-                <select className={styles.AlgorithmSelect} value={experiment.algorithmName} onChange={updateAlgorithm}>
+                <select id="algorithm" className={styles.AlgorithmSelect} value={experiment.algorithmName} onChange={updateAlgorithm}>
                     {
-                        props.algorithmOptions.map(name => <option value={name}>{name}</option>)
+                        props.algorithmOptions.map(name => <option id={"algorithm_" + name} value={name}>{name}</option>)
                     }
                 </select>
             </div>
             <div className={styles.DataSelectContainer}>
                 <label>Data Distribution</label>
-                <select className={styles.DataSelect} value={experiment.dataDistribution} onChange={updateData}>
+                <select id="data_distribution" className={styles.DataSelect} value={experiment.dataDistribution} onChange={updateData}>
                     {
-                        props.dataOptions.map(name => <option value={name}>{name}</option>)
+                        props.dataOptions.map(name => <option id={"data_distribution_" + name} value={name}>{name}</option>)
                     }
                 </select>
             </div>
             <div className={styles.MaxValContainer}>
                 <label>Maximum possible value</label>
                 <div>
-                    <input className={getCheckBasedStyles(props.experimentCheckInfo.maxValue)} 
+                    <input id="max_value" className={getCheckBasedStyles(props.experimentCheckInfo.maxValue)} 
                         type="number" 
                         value={experiment.maxValue===0 ? "" : experiment.maxValue} 
                         onChange={updateMaxVal}
