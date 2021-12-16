@@ -29,8 +29,8 @@ public class SeleniumTests {
     WebDriverWait normalWait;
     WebDriverWait experimentWait;
 
-    String DRIVER_LOCATION = "/usr/local/bin/chromedriver";
-    //String DRIVER_LOCATION = "chromedriver.exe"; // on Windows
+    //String DRIVER_LOCATION = "/usr/local/bin/chromedriver";
+    String DRIVER_LOCATION = "chromedriver.exe"; // on Windows
 
     @LocalServerPort
     private int port;
@@ -39,11 +39,11 @@ public class SeleniumTests {
     void initAll() {
         System.setProperty("webdriver.chrome.driver", DRIVER_LOCATION);
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("headless");
-        chromeOptions.addArguments("no-sandbox");
-        chromeOptions.addArguments("disable-extensions");
-        chromeOptions.addArguments("disable-dev-shm-usage");
-        chromeOptions.addArguments("disable-gpu");
+        chromeOptions.addArguments("--headless");
+        chromeOptions.addArguments("--no-sandbox");
+        chromeOptions.addArguments("--disable-extensions");
+        chromeOptions.addArguments("--disable-dev-shm-usage");
+        chromeOptions.addArguments("--disable-gpu");
         driver = new ChromeDriver(chromeOptions);
         normalWait = new WebDriverWait(driver, Duration.ofSeconds(3).getSeconds());
         experimentWait = new WebDriverWait(driver, Duration.ofSeconds(40).getSeconds());
