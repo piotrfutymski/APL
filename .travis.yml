@@ -4,3 +4,4 @@ dist: trusty
 jdk: oraclejdk11
 before_install:
   - chmod +x mvnw
+  - chmod +x msedgedriver

@@ -15,11 +15,12 @@ import java.time.Duration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import put.apl.algorithms.sorting.data.SortingData;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SeleniumTests {
 
     WebDriver driver;
@@ -27,7 +28,10 @@ public class SeleniumTests {
     WebDriverWait experimentWait;
 
     String DRIVER_LOCATION = "msedgedriver";
-    //String DRIVER_LOCATION = "msedgedriver.exe"; - if on windows
+    //String DRIVER_LOCATION = "msedgedriver.exe"; // on Windows
+
+    @LocalServerPort
+    private int port;
 
     @BeforeAll
     void initAll() {
@@ -38,7 +42,7 @@ public class SeleniumTests {
     }
     @BeforeEach
     void initEach(){
-        driver.get("http://localhost:8080");
+        driver.get("http://localhost:" + port);
         driver.findElement(By.xpath("//*[text()='SORTING ALGORITHMS']")).click();
     }
 
