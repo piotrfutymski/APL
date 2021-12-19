@@ -105,3 +105,16 @@ $radius: 16px;
         background: $card-error-color;
     }
 }
+
+.MessagesContainer{
+    grid-area: msgs;
+    @include flexCentering(column);
+    border-radius: 0 0 0 $radius;
+    
+}
+.WarningMsg{
+    color: $card-warning-color
+}
+.ErrorMsg{
+    color: $card-error-color
+}

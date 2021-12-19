@@ -45,7 +45,8 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
         <div className={
             classNames(
                 styles.Card, 
-                experiment.check !== false ? styles.Correct : styles.Error 
+                props.experimentCheckInfo.errorFlag === true ? styles.Error :
+                props.experimentCheckInfo.warningFlag === true ? styles.Warning : styles.Correct
                 )
             }>
             <div className={styles.AlgorithmSelectContainer}>

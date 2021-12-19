@@ -63,13 +63,13 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
     if(experiment.density <= 0)
     {
         result.density.status="ERROR"
-        result.numberOfVertices.msg="Density must be a number greater than 0"
+        result.density.msg="Density must be a number greater than 0"
         result.errorFlag=true
     }
     if(experiment.density > 100)
     {
         result.density.status="ERROR"
-        result.numberOfVertices.msg="Density must be a number below 100"
+        result.density.msg="Density must be a number below 100"
         result.errorFlag=true
     }
     return result

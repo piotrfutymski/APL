@@ -51,8 +51,8 @@ export interface CheckResult {
     status: CheckStatus
 }
 export interface GraphExperimentCheck{
-    numberOfVertices: CheckResult
-    density: CheckResult
+    numberOfVertices: CheckResult;
+    density: CheckResult;
     warningFlag: boolean;
     errorFlag: boolean;
 }
