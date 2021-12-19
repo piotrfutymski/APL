@@ -136,7 +136,7 @@ public class GraphService {
         return res;
     }
 
-    private String generateDataFor(GraphExperiment graphExperiment) throws InterruptedException {
+    private List<ArrayList<Integer>> generateDataFor(GraphExperiment graphExperiment) throws InterruptedException {
         GraphGeneratorConfig config = GraphGeneratorConfig.builder()
                 .density(graphExperiment.getDensity())
                 .numberOfVertices(graphExperiment.getNumberOfVertices())

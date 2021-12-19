@@ -1,6 +1,9 @@
 package put.apl.algorithms.graphs.data.generator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface GraphDataGenerator {
 
-    String generate(GraphGeneratorConfig config) throws InterruptedException;
+    List<ArrayList<Integer>> generate(GraphGeneratorConfig config) throws InterruptedException;
 }

@@ -14,27 +14,18 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
     public abstract boolean checkIfSTART(int number);
     public abstract boolean checkIfEND(int number);
 
-    public AdjacencyMatrix(String input) {
+    public AdjacencyMatrix(List<ArrayList<Integer>> input) {
         edgesNumber = 0;
-        verticesNumber = input.split("\n").length;
+        verticesNumber = input.size();
         matrix = new int[verticesNumber][];
-        Scanner scanner = new Scanner(input);
+        for (int i = 0; i < input.size(); i++) {
+            matrix[i] = new int[verticesNumber];
 
-        scanner.close();
-        scanner = new Scanner(input);
-        int vertice=0;
-        while (scanner.hasNextLine()) {
-            matrix[vertice] = new int[verticesNumber];
-            String line = scanner.nextLine();
-            String[] edges = line.split(",");
-            for (String edge : edges)
-            {
-                fillEdge(vertice, Integer.parseInt(edge));
+            for (int j = 0; j < input.get(i).size(); j++) {
+                fillEdge(i, input.get(i).get(j));
                 edgesNumber+=1;
             }
-            vertice+=1;
         }
-        scanner.close();
     }
 
     public AdjacencyMatrix(int[][] matrix) {

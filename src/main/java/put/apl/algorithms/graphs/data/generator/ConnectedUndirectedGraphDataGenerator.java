@@ -13,7 +13,7 @@ import java.util.Random;
 public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator {
 
     @Override
-    public String generate(GraphGeneratorConfig config) throws InterruptedException {
+    public List<ArrayList<Integer>> generate(GraphGeneratorConfig config) throws InterruptedException {
         List<ArrayList<Integer>> edges = new ArrayList<ArrayList<Integer>>();
         Random random = new Random();
         // n(n-1) - g•n(n-1)/2
@@ -41,26 +41,14 @@ public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator
                 //edgesCopy.remove(removalId * 2);
                 Map<String,String> params = Map.of("forceConnected", "true");
                 bfs.setParams(params);
-                List<Integer> path = bfs.run(new ListOfEdgesUndirected((int[][]) edgesCopy.toArray())).getPath();
+                Object[] arrayEdges = edgesCopy.toArray();
+                int[][] intArray = edgesCopy.stream().map(  u  ->  u.stream().mapToInt(n->n).toArray()  ).toArray(int[][]::new);
+                List<Integer> path = bfs.run(new ListOfEdgesUndirected(intArray)).getPath();
                 if (config.getNumberOfVertices() == path.size()) {
                     break;
                 }
             }
         }
-        // To string
-        int prevVertex = 0;
-        StringBuilder graph = new StringBuilder();
-        boolean firstValue = true;
-        for (ArrayList<Integer> edge : edges) {
-            if (prevVertex != edge.get(0)) {
-                graph.append("\n");
-                prevVertex = edge.get(0);
-            } else if (!firstValue){
-                graph.append(",");
-            }
-            graph.append(String.valueOf(edge.get(1)));
-            firstValue = false;
-        }
-        return graph.toString();
+        return edges;
     };
 }

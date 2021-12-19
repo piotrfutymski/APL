@@ -10,7 +10,7 @@ import java.util.Scanner;
 @Component("Adjacency Matrix Undirected")
 public class AdjacencyMatrixUndirected extends AdjacencyMatrix {
 
-    public AdjacencyMatrixUndirected(String input) {
+    public AdjacencyMatrixUndirected(List<ArrayList<Integer>> input) {
         super(input);
     }
 

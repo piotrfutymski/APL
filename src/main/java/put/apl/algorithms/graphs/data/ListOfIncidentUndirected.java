@@ -23,7 +23,7 @@ public class ListOfIncidentUndirected extends ListOfIncident {
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfIncidentUndirected(String input) {
+    public ListOfIncidentUndirected(List<ArrayList<Integer>> input) {
         super(input);
     }
 
