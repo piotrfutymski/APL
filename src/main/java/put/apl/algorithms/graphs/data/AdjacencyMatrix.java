@@ -16,7 +16,7 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
 
     public AdjacencyMatrix(String input) {
         edgesNumber = 0;
-        verticesNumber = input.split(System.getProperty("line.separator")).length;
+        verticesNumber = input.split("\n").length;
         matrix = new int[verticesNumber][];
         Scanner scanner = new Scanner(input);
 

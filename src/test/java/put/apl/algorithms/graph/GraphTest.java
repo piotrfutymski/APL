@@ -145,4 +145,26 @@ public class GraphTest {
         List<Integer> sortResult = ts.run(TEST_TOPO_SORT).getPath();
         assertArrayEquals(sortResult.toArray(), TOPO_SORT_RESULT.toArray());
     }
+
+    @Test
+    void TestGenerator() throws InterruptedException {
+        GraphGeneratorConfig config = GraphGeneratorConfig.builder()
+                .numberOfVertices(10000)
+                .density(0.7)
+                .type("Directed Graph Generator")
+                .build();
+        GraphDataGenerator generator = new DirectedGraphDataGenerator();
+
+        String generatedGraph = generator.generate(config);
+
+        long start = System.nanoTime();
+        ListOfSuccessorsDirected list = new ListOfSuccessorsDirected(generatedGraph);
+        DepthFirstSearch dfs = new DepthFirstSearch();
+        long end = System.nanoTime();
+        double t = (double)(end-start)/1000000.0;
+        List<Integer> path = dfs.run(list).getPath();
+        assertTrue(path.size() == 20);
+    }
+
+
 }

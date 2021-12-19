@@ -9,6 +9,7 @@
     grid-template-areas: 
     ". series measure-density submit ."
     ". . . submit ."
+    ". msgs msgs submit ."
 }
 @mixin flexCentering($direction){
     display: flex;
@@ -33,4 +34,25 @@
 .SubmitContainer{
     grid-area: submit;
     @include flexCentering(column);
+}
+
+.BlockSubmit{
+}
+
+.MessageContainer{
+    grid-area: msgs;
+    @include flexCentering(column);
+}
+
+.Warning{
+    box-shadow: 0 0 10px $card-warning-color;
+}
+.Error{
+    box-shadow: 0 0 10px $card-error-color;
+}
+.WarningMsg{
+    color: $card-warning-color
+}
+.ErrorMsg{
+    color: $card-error-color
 }

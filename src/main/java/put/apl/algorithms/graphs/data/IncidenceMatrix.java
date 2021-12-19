@@ -17,7 +17,7 @@ public abstract class IncidenceMatrix implements GraphRepresentation {
 
     public IncidenceMatrix(String input) {
 
-        verticesSize = input.split(System.getProperty("line.separator")).length;
+        verticesSize = input.split("\n").length;
         matrix = new int[verticesSize][];
         Scanner scanner = new Scanner(input);
         edgesSize = 0;

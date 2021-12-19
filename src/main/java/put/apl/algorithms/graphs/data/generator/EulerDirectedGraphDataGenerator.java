@@ -45,16 +45,18 @@ public class EulerDirectedGraphDataGenerator implements GraphDataGenerator {
         }
         // To string
         int prevVertex = 0;
-        String graph = "";
+        StringBuilder graph = new StringBuilder();
+        boolean firstValue = true;
         for (ArrayList<Integer> edge : edges) {
             if (prevVertex != edge.get(0)) {
-                graph = graph.concat("\n");
+                graph.append("\n");
                 prevVertex = edge.get(0);
-            } else if (!graph.equals("")){
-                graph = graph.concat(",");
+            } else if (!firstValue){
+                graph.append(",");
             }
-            graph = graph.concat(String.valueOf(edge.get(1)));
+            graph.append(String.valueOf(edge.get(1)));
+            firstValue = false;
         }
-        return graph;
+        return graph.toString();
     };
 }

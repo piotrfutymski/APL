@@ -2,18 +2,24 @@ import classNames from 'classnames'
 import React, {useState, useEffect} from 'react'
 
 import styles from './GraphExperimentCard.module.scss'
-import { getParamInfos } from '../GraphServices'
-import { GraphExperiment, GraphExperimentCardProps } from '../Graph.interface'
+import { getParamInfos, reducePossibleGenerators, reducePossibleRepresentations } from '../GraphServices'
+import { CheckResult, GraphExperiment, GraphExperimentCardProps } from '../Graph.interface'
 
 export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
     //============================= onChangeHandlers =============================
     let experiment: GraphExperiment = {...props.experiment}
     const updateAlgorithm = (event: any) =>{
         experiment.algorithmName = event.target.value
+        experiment.possibleGenerators = props.dataOptions
+        reducePossibleGenerators(experiment)
+        experiment.possibleRepresentations = props.representationOptions
+        reducePossibleRepresentations(experiment)
         props.updateExperiment(experiment)
     }
     const updateData = (event: any) =>{
         experiment.dataGenerator = event.target.value
+        experiment.possibleRepresentations = props.representationOptions
+        reducePossibleRepresentations(experiment)
         props.updateExperiment(experiment)
     }
     const updateRepresentation = (event: any) =>{
@@ -28,6 +34,10 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
         experiment.density = +event.target.value
         props.updateExperiment(experiment)
     }
+     //==========================================================
+    //============================= Check =============================
+    const getCheckBasedStyles = (check: CheckResult) => check.status === "ERROR" ? styles.Error : check.status === "WARNING" ? styles.Warning : ""
+    const checkMsgs = [props.experimentCheckInfo.numberOfVertices, props.experimentCheckInfo.density].filter(e => e.msg !== undefined)
     //==========================================================
     const paramInfos = getParamInfos(experiment)
     
@@ -50,7 +60,7 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                 <label>Data Generator</label>
                 <select className={styles.DataSelect} value={experiment.dataGenerator} onChange={updateData}>
                     {
-                        props.dataOptions.map(name => <option value={name}>{name}</option>)
+                        experiment.possibleGenerators.map(name => <option value={name}>{name}</option>)
                     }
                 </select>
             </div>
@@ -58,7 +68,7 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                 <label>Representation</label>
                 <select className={styles.RepresentationSelect} value={experiment.representation} onChange={updateRepresentation}>
                     {
-                        props.representationOptions.map(name => <option value={name}>{name}</option>)
+                        experiment.possibleRepresentations.map(name => <option value={name}>{name}</option>)
                     }
                 </select>
             </div>
@@ -96,6 +106,17 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                 })
             }
             </div>
+            {
+                checkMsgs.length > 0 ?
+                    <div className={styles.MessagesContainer}>
+                        {
+                            checkMsgs.map(check => 
+                            <p className={check.status === "ERROR" ? styles.ErrorMsg : check.status === "WARNING" ? styles.WarningMsg : ""}>
+                                {check.msg}
+                            </p>)
+                        }
+                    </div> : ""
+            }
             <div className={styles.DeleteBtn} onClick={props.removeExperiment}>X</div>
         </div>
     )

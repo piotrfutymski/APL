@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { ComplexityParameters, paramInfo, GraphConfig, GraphExperiment, GraphExperimentsResult } from "./Graph.interface";
+import { ComplexityParameters, paramInfo, GraphConfig, GraphConfigCheck, GraphExperimentCheck, GraphExperiment, GraphExperimentsResult } from "./Graph.interface";
 
 export const getParamInfos = (experiment: GraphExperiment): paramInfo[]=>{
     let res: paramInfo[] = []
@@ -13,6 +13,68 @@ export const getParamInfos = (experiment: GraphExperiment): paramInfo[]=>{
     }
     return res
 }
+
+export const reducePossibleGenerators = (experiment: GraphExperiment) => {
+    if(experiment.algorithmName === "Topological Sort"){
+        experiment.possibleGenerators = ["Connected Directed Graph Generator", "Euler Directed Graph Generator"];
+    } else if(experiment.algorithmName === "All Hamiltonian Cycles" || experiment.algorithmName === "Hamiltonian Cycle" || experiment.algorithmName === "Dijkstra Algorithm" || experiment.algorithmName === "Prim Algorithm" || experiment.algorithmName === "Kruskal Algorithm"){
+        experiment.possibleGenerators = ["Connected Directed Graph Generator", 
+        "Euler Directed Graph Generator", "Connected Undirected Graph Generator", "Euler Undirected Graph Generator"];
+    } else if(experiment.algorithmName === "Euler Cycle Finding Algorithm"){
+        experiment.possibleGenerators = ["Euler Directed Graph Generator", 
+        "Euler Undirected Graph Generator"];
+    }
+}
+
+export const reducePossibleRepresentations = (experiment: GraphExperiment) => {
+    if(experiment.algorithmName === "Dijkstra Algorithm" && experiment.dataGenerator === "Connected Directed Graph Generator"){
+        experiment.possibleGenerators = ["Weighted Adjacency Matrix Directed"]
+    } else if(experiment.algorithmName === "Dijkstra Algorithm" && experiment.dataGenerator === "Connected Undirected Graph Generator"){
+        experiment.possibleGenerators = ["Weighted Adjacency Matrix Undirected", "Incidence Matrix Undirected Weighted"]
+    } else if(experiment.algorithmName === "Prim Algorithm" || experiment.algorithmName === "Kruskal Algorithm"){
+        experiment.possibleGenerators = ["Weighted Adjacency Matrix Directed"]
+    } else if(experiment.dataGenerator === "Connected Directed Graph Generator" || experiment.dataGenerator === "Directed Graph Generator" || experiment.dataGenerator === "Euler Directed Graph Generator"){
+        experiment.possibleRepresentations = ["Adjacency Matrix Directed", "Weighted Adjacency Matrix Directed", "Incidence Matrix Directed", "Incidence Matrix Directed Weighted", "List Of Edges Directed", "List Of Predecessors Directed", "List Of Successors Directed"];
+    } else if(experiment.dataGenerator === "Connected Undirected Graph Generator" || experiment.dataGenerator === "Undirected Graph Generator" || experiment.dataGenerator === "Euler Undirected Graph Generator"){
+        experiment.possibleRepresentations = ["Adjacency Matrix Undirected", "Weighted Adjacency Matrix Undirected", "Incidence Matrix Undirected", "Incidence Matrix Undirected Weighted", "List Of Edges Undirected", "List Of Incident Undirected"];
+    } 
+}
+
+
+export const checkConfig = (config: GraphConfig): GraphConfigCheck => {
+    let result:GraphConfigCheck = {warningFlag: false, errorFlag: false,  measureSeries: {status: "CORRECT"}}
+    if(config.measureSeries <= 0){
+        result.measureSeries.status="ERROR"
+        result.measureSeries.msg="Number of measure series must be a number greater than 0"
+        result.errorFlag=true
+    }
+    return result
+}
+
+export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig): GraphExperimentCheck => {
+    const paramInfos = getParamInfos(experiment)
+    let result:GraphExperimentCheck = { warningFlag: false, errorFlag: false, numberOfVertices: {status: "CORRECT"}, density: {status: "CORRECT"}}
+    if(experiment.numberOfVertices <= 0)
+    {
+        result.numberOfVertices.status="ERROR"
+        result.numberOfVertices.msg="Number of vertices must be a number greater than 0"
+        result.errorFlag=true
+    }
+    if(experiment.density <= 0)
+    {
+        result.density.status="ERROR"
+        result.numberOfVertices.msg="Density must be a number greater than 0"
+        result.errorFlag=true
+    }
+    if(experiment.density > 100)
+    {
+        result.density.status="ERROR"
+        result.numberOfVertices.msg="Density must be a number below 100"
+        result.errorFlag=true
+    }
+    return result
+}
+
 
 export const submitExperiments = (experiments: GraphExperiment[], config: GraphConfig, finite: boolean, onResponse: (arg0: string) => void) => {
     let res: any[] = []

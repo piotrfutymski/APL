@@ -20,7 +20,7 @@ public abstract class ListOfEdges implements GraphRepresentation {
 
     // Format: line number = vertex id, successors separated by comma
     public ListOfEdges(String input) {
-        vertexNum = input.split(System.getProperty("line.separator")).length;
+        vertexNum = input.split("\n").length;
         List<ArrayList<Integer>> edgesList = new ArrayList<ArrayList<Integer>>();
         Scanner scanner = new Scanner(input);
         int lineNumber = 0;

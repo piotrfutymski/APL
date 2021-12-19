@@ -38,17 +38,19 @@ public class UndirectedGraphDataGenerator implements GraphDataGenerator {
             //edges.remove(random.nextInt(removeId * 2));
         }
         // To string
+        StringBuilder graph = new StringBuilder();
         int prevVertex = 0;
-        String graph = "";
+        boolean firstValue = true;
         for (ArrayList<Integer> edge : edges) {
             if (prevVertex != edge.get(0)) {
-                graph = graph.concat("\n");
+                graph.append("\n");
                 prevVertex = edge.get(0);
-            } else if (!graph.equals("")){
-                graph = graph.concat(",");
+            } else if (!firstValue){
+                graph.append(",");
             }
-            graph = graph.concat(String.valueOf(edge.get(1)));
+            graph.append(String.valueOf(edge.get(1)));
+            firstValue = false;
         }
-        return graph;
+        return graph.toString();
     };
 }

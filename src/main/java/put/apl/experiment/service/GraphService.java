@@ -77,22 +77,22 @@ public class GraphService {
             GraphRepresentation data;
             switch (representation) {
                 case "List Of Edges Directed":
-                    data = new ListOfEdgesDirected(representation);
+                    data = new ListOfEdgesDirected(generateDataFor(groupedExperiment.get(0)));
                     break;
                 case "List Of Edges Undirected":
-                    data = new ListOfEdgesUndirected(representation);
+                    data = new ListOfEdgesUndirected(generateDataFor(groupedExperiment.get(0)));
                     break;
                 case "List Of Incident Undirected":
-                    data = new ListOfIncidentUndirected(representation);
+                    data = new ListOfIncidentUndirected(generateDataFor(groupedExperiment.get(0)));
                     break;
                 case "List Of Predecessors Directed":
-                    data = new ListOfPredecessorsDirected(representation);
+                    data = new ListOfPredecessorsDirected(generateDataFor(groupedExperiment.get(0)));
                     break;
                 case "List Of Successors Directed":
-                    data = new ListOfSuccessorsDirected(representation);
+                    data = new ListOfSuccessorsDirected(generateDataFor(groupedExperiment.get(0)));
                     break;
                 default:
-                    data = new ListOfSuccessorsDirected(representation);
+                    data = new ListOfSuccessorsDirected(generateDataFor(groupedExperiment.get(0)));
                     break;
             }
             for (GraphExperiment graphExperiment : groupedExperiment) {

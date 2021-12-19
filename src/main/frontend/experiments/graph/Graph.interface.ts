@@ -10,6 +10,8 @@ export interface GraphExperiment {
     numberOfVertices: number;
     density: number;
     check?: boolean;
+    possibleGenerators: string[];
+    possibleRepresentations: string[];
 
     timeInMillis?: number;
     graphResult?: GraphResult;
@@ -27,6 +29,7 @@ export interface GraphExperimentCardProps {
     dataOptions: string[];
     representationOptions: string[];
     experiment: GraphExperiment;
+    experimentCheckInfo: GraphExperimentCheck;
     updateExperiment: (newExp :GraphExperiment)=>void;
     removeExperiment: ()=>void;
 }
@@ -40,6 +43,23 @@ export interface GraphHeaderProps{
     config: GraphConfig
     submit: ()=>void;
     updateConfig: (conf: GraphConfig)=>void;
+}
+
+export type CheckStatus = "CORRECT" | "WARNING" | "ERROR" 
+export interface CheckResult {
+    msg?: string
+    status: CheckStatus
+}
+export interface GraphExperimentCheck{
+    numberOfVertices: CheckResult
+    density: CheckResult
+    warningFlag: boolean;
+    errorFlag: boolean;
+}
+export interface GraphConfigCheck{
+    measureSeries: CheckResult;
+    warningFlag: boolean;
+    errorFlag: boolean;
 }
 
 export type ExperimentStatus = "QUEUED" | "CALCULATING" | "DONE" | "REMOVED" | "EXPIRED" | "ERROR"
@@ -57,6 +77,14 @@ export interface GraphChartProps {
     experiments: GraphExperimentsResult;
     dataLabel: string;
     series?: string;
+}
+
+export interface GraphHeaderProps{
+    config: GraphConfig;
+    configCheckInfo: GraphConfigCheck;
+    allowSubmit: boolean;
+    submit: ()=>void;
+    updateConfig: (conf: GraphConfig)=>void;
 }
 
 export interface ComplexityParameters {

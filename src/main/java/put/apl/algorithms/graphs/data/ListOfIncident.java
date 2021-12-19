@@ -23,13 +23,13 @@ public abstract class ListOfIncident implements GraphRepresentation {
 
     // Format: line number = vertex id, successors separated by comma
     public ListOfIncident(String input) {
-        vertexNum = input.split(System.getProperty("line.separator")).length;
-        edgeNum=0;
+        vertexNum = input.split("\n").length;
+        edgeNum = 0;
         List<ArrayList<Integer>> edgesList = new ArrayList<ArrayList<Integer>>();
         for (int i = 0; i < vertexNum; i++) {
             edgesList.add(new ArrayList<Integer>());
         }
-        edges  = new int[vertexNum][];
+        edges = new int[vertexNum][];
         Scanner scanner = new Scanner(input);
         int lineNumber = 0;
         while (scanner.hasNextLine()) {
