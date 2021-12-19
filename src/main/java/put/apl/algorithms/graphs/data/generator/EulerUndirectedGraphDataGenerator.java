@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Random;
 
 
-@Component("Connected Undirected Graph Generator")
+@Component("Euler Undirected Graph Generator")
 public class EulerUndirectedGraphDataGenerator implements GraphDataGenerator {
 
     @Override

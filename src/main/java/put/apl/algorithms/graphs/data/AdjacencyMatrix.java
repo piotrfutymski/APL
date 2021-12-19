@@ -50,6 +50,10 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
         }
     }
 
+    public AdjacencyMatrix() {
+        matrix = new int[0][];
+    }
+
     @Override
     public int[] getSuccessors(Integer id) {
         List<Integer> result = new ArrayList<>();

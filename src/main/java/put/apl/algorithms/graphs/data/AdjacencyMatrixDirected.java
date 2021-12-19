@@ -22,6 +22,10 @@ public class AdjacencyMatrixDirected extends AdjacencyMatrix {
         super(matrix);
     }
 
+    public AdjacencyMatrixDirected() {
+        super();
+    }
+
     @Override
     public void fillEdge(int start, int end) {
         matrix[start][end] = START;

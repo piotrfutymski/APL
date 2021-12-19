@@ -12,19 +12,18 @@ import java.util.Map;
 public class DepthFirstSearch implements GraphAlgorithm {
 
     private boolean[] visited;
-    private int noOfVertices;
     private List<Integer> path;
     private boolean forceConnectedGraph = false;
 
     public GraphResult run(GraphRepresentation graph) {
         visited = new boolean[graph.getVerticesNumber()];
-        path =  new ArrayList<Integer>();
-        for (int i = 0; i < noOfVertices; i++) {
+        path = new ArrayList<Integer>();
+        for (int i = 0; i < graph.getVerticesNumber(); i++) {
             visited[i] = false;
         }
         // For non-connected graphs DFS procedure will run multiple times
         if (!forceConnectedGraph) {
-            for (int i = 0; i < noOfVertices; i++) {
+            for (int i = 0; i < graph.getVerticesNumber(); i++) {
                 if (!visited[i]) {
                     depthFirstSearch(graph, i);
                 }

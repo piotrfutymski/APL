@@ -18,6 +18,10 @@ public class AdjacencyMatrixUndirected extends AdjacencyMatrix {
         super(matrix);
     }
 
+    public AdjacencyMatrixUndirected() {
+        super();
+    }
+
     private final static int START=1;
     private final static int END=1;
 

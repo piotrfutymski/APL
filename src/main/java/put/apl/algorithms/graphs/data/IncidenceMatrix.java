@@ -53,6 +53,10 @@ public abstract class IncidenceMatrix implements GraphRepresentation {
         this.matrix = matrix;
     }
 
+    public IncidenceMatrix() {
+        matrix = new int[0][];
+    }
+
     @Override
     public int[] getSuccessors(Integer id) {
         List<Integer> result = new ArrayList<>();

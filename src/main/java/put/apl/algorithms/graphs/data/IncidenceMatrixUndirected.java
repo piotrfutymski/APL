@@ -1,6 +1,8 @@
 package put.apl.algorithms.graphs.data;
 
+import org.springframework.stereotype.Component;
 
+@Component("Incidence Matrix Undirected")
 public class IncidenceMatrixUndirected extends IncidenceMatrix {
 
     private final static int START=1;
@@ -12,6 +14,10 @@ public class IncidenceMatrixUndirected extends IncidenceMatrix {
 
     public IncidenceMatrixUndirected(int[][] matrix) {
         super(matrix);
+    }
+
+    public IncidenceMatrixUndirected() {
+        super();
     }
 
     @Override

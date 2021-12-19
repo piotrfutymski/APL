@@ -13,15 +13,13 @@ import java.util.Map;
 public class HamiltonianCycle implements GraphAlgorithm  {
 
     private List<Integer> path;
-    private int noOfVertices;
     private GraphRepresentation graph;
 
     public GraphResult run(GraphRepresentation graph) {
         this.path = new ArrayList<Integer>();
-        noOfVertices = graph.getVerticesNumber();
         this.graph = graph;
         this.path.add(0);
-        if (noOfVertices > 1) {
+        if (graph.getVerticesNumber() > 1) {
             if (hamiltonianCycle(1)) {
                 return GraphResult.builder().path(path).build();
             }
@@ -33,7 +31,7 @@ public class HamiltonianCycle implements GraphAlgorithm  {
     }
 
     private boolean hamiltonianCycle(int pos) {
-        if (pos == noOfVertices) {
+        if (pos == graph.getVerticesNumber()) {
             int[] successors = graph.getSuccessors(this.path.get(pos-1));
             for (int s : successors) {
                 if (s == 0) {
@@ -42,7 +40,7 @@ public class HamiltonianCycle implements GraphAlgorithm  {
             }
             return false;
         }
-        for (int i = 1; i < noOfVertices; i++) {
+        for (int i = 1; i < graph.getVerticesNumber(); i++) {
             if (graph.getEdge(i, this.path.get(pos-1)) != 0 && !path.contains(i)) {
                 path.add(i);
                 if (hamiltonianCycle(pos + 1)) {

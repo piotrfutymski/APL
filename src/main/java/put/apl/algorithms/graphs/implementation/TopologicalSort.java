@@ -15,19 +15,17 @@ public class TopologicalSort implements GraphAlgorithm {
     private boolean[] visited;
     GraphRepresentation graph;
     private List<Integer> path;
-    private int noOfVertices;
     private List<Integer> stack;
     private boolean checkForCycles = false;
 
     public GraphResult run(GraphRepresentation graph) {
         stack = new ArrayList<Integer>();
         this.graph = graph;
-        noOfVertices = graph.getVerticesNumber();
-        visited = new boolean[noOfVertices];
-        for (int i = 0; i < noOfVertices; i++) {
+        visited = new boolean[graph.getVerticesNumber()];
+        for (int i = 0; i < graph.getVerticesNumber(); i++) {
             visited[i] = false;
         }
-        for (int i = 0; i < noOfVertices; i++) {
+        for (int i = 0; i < graph.getVerticesNumber(); i++) {
             if (!visited[i]) {
                 topologicalSort(i);
             }
@@ -53,7 +51,7 @@ public class TopologicalSort implements GraphAlgorithm {
     }
 
     private boolean checkCyclic() {
-        for (int i = 0; i < noOfVertices; i++) {
+        for (int i = 0; i < graph.getVerticesNumber(); i++) {
             int[] successors = graph.getSuccessors(i);
             for (int s : successors) {
                 if (stack.indexOf(s) < stack.indexOf(i)) {

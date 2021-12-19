@@ -15,6 +15,10 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix {
         super(matrix);
     }
 
+    public AdjacencyMatrixUndirectedWeighted() {
+        super();
+    }
+
     @Override
     public void fillEdge(int start, int end) {
         Random rand = new Random();
