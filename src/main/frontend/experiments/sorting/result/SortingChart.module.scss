@@ -42,7 +42,7 @@
         background: $button-bg;
         color: $text-color;
       
-        transition-duration: $hover-trans-duration;
+        transition-duration: $trans-duration;
         &:hover{
           background: $button-hover-bg;
         }

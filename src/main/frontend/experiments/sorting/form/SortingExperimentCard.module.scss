@@ -16,19 +16,17 @@ $radius: 16px;
     display: none;
 }
 .Card{
-    width: 60%;
     background: $card-bg;
     border-radius: $radius;
 
     display: grid;
-    grid-template-columns: 30% 60% 10%;
     grid-template-areas: 
     "algorithm data deleteBtn"
     "maxVal params deleteBtn"
     "msgs msgs deleteBtn"
 }
 @mixin margins{
-    margin: 0.4rem;
+    margin: 2rem 1rem;
 }
 @mixin flexCentering($direction){
     display: flex;
@@ -43,16 +41,10 @@ $radius: 16px;
     @include flexCentering(column);
     @include margins;
 }
-.AlgorithmSelect{
-
-}
 .DataSelectContainer{
     grid-area: data;
     @include flexCentering(column);
     @include margins;
-}
-.DataSelect{
-
 }
 
 .MaxValContainer{
@@ -73,7 +65,6 @@ $radius: 16px;
 .Param{
     @include flexCentering(column);
     @include margins;
-
 }
 
 .MessagesContainer{
@@ -92,10 +83,12 @@ $radius: 16px;
 .DeleteBtn{
     @include flexCentering(column);
     margin: 0;
-    height: 100%;
+    width: 8rem;
     border-radius: 0 $radius $radius 0;
     grid-area: deleteBtn;
     cursor: pointer;
+
+    transition-duration: $trans-duration;
     &:hover{
         background: $card-error-color;
     }

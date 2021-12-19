@@ -15,10 +15,10 @@ export const ExperimentView = () => {
                 <Route path="graph/*" element={<GraphExperimentView />} />
                 <Route path="" element={
                     <div className={styles.ExperimentContents}>
-                        <h1 className={styles.ExperimentSwitchLabel}>Choose your experiment target</h1>
+                        <h1>Choose your experiment target</h1>
                         <div className={styles.ExperimentSwitch}>
                             <Link className={styles.ExperimentCard} to="sorting">Sorting Algorithms</Link>
-                            <Link className={styles.ExperimentCard} to="graph">Graph Algorithms</Link>
+                            < Link className={styles.ExperimentCard} to="graph">Graph Algorithms</Link>
                         </div>
                     </div>
                 } />

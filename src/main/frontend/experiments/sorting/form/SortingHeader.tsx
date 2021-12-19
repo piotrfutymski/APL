@@ -30,12 +30,14 @@ export const SortingHeader = (props: SortingHeaderProps) =>{
                 <input className={getCheckBasedStyles(props.configCheckInfo.measureSeries)} type="number" value={config.measureSeries===0 ? "" : config.measureSeries} onChange={updateMeasureSeries}/>
             </div>
             <div className={styles.MaxValContainer}>
-                {
-                    config.maxValAsPercent ? 
-                    <input type="checkbox" id="maxValAsPercent" onChange={updateMaxValAsPercent} checked/> : 
-                    <input type="checkbox" id="maxValAsPercent" onChange={updateMaxValAsPercent} />
-                }
-                <label htmlFor="maxValAsPercent">Calculate maximum value as percent of N</label>
+                <label className="checkboxStyling">Calculate maximum value as percent of N
+                    {
+                        config.maxValAsPercent ? 
+                        <input type="checkbox" id="maxValAsPercent" onChange={updateMaxValAsPercent} checked/> : 
+                        <input type="checkbox" id="maxValAsPercent" onChange={updateMaxValAsPercent} />
+                    }
+                    <span></span>
+                </label>
             </div>
             <div className={styles.SubmitContainer}>
                 {

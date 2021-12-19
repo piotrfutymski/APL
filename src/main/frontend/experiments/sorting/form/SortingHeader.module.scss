@@ -4,7 +4,6 @@
     background: $form-header-bg;
 
     display: grid;
-    grid-template-columns: 15% 30% 30% 10% 15%;
     grid-template-areas: 
     ". sizeInput series submit ."
     ". maxVal . submit ."
@@ -16,8 +15,7 @@
     justify-content: center;
     align-items: center;
 
-    margin-top: 0.4rem;
-    margin-bottom: 0.4rem;
+    margin: .4rem .6rem;
 }
 
 .SizeContainer{
@@ -38,8 +36,6 @@
 .SubmitContainer{
     grid-area: submit;
     @include flexCentering(column);
-}
-.BlockSubmit{
 }
 
 .MessageContainer{
