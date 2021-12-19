@@ -13,7 +13,7 @@ public class AdjacencyMatrixDirected extends AdjacencyMatrix {
     private final static int START=1;
     private final static int END=-1;
 
-    public AdjacencyMatrixDirected(String input) {
+    public AdjacencyMatrixDirected(List<ArrayList<Integer>> input) {
 
         super(input);
     }

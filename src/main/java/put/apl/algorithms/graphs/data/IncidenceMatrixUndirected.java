@@ -2,13 +2,16 @@ package put.apl.algorithms.graphs.data;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component("Incidence Matrix Undirected")
 public class IncidenceMatrixUndirected extends IncidenceMatrix {
 
     private final static int START=1;
     private final static int END=1;
 
-    public IncidenceMatrixUndirected(String input) {
+    public IncidenceMatrixUndirected(List<ArrayList<Integer>> input) {
         super(input);
     }
 

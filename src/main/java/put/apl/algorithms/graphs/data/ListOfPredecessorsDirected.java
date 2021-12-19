@@ -21,7 +21,7 @@ public class ListOfPredecessorsDirected extends ListOfIncident {
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfPredecessorsDirected(String input) {
+    public ListOfPredecessorsDirected(List<ArrayList<Integer>> input) {
         super(input);
     }
 

@@ -2,13 +2,13 @@ import React, {useState, useEffect} from 'react'
 import { useCookies } from 'react-cookie'
 import { Navigate } from 'react-router-dom'
 
-import { fetchAlgorithms, fetchDataGenerators, fetchRepresentations, getParamInfos, submitExperiments } from '../GraphServices'
+import { checkConfig, checkExperiment, fetchAlgorithms, fetchDataGenerators, fetchRepresentations, getParamInfos, submitExperiments } from '../GraphServices'
 
 import { GraphExperimentCard} from './GraphExperimentCard'
 import { GraphHeader } from './GraphHeader'
 
 import styles from './GraphForm.module.scss'
-import { GraphConfig, GraphExperiment } from '../Graph.interface'
+import { CheckResult, GraphConfig, GraphExperiment } from '../Graph.interface'
 
 export const GraphForm = () =>{
     const [id, setId] = useState<string>("");
@@ -37,13 +37,10 @@ export const GraphForm = () =>{
     //==========================================================
     //============================= experiments =============================
     const addExperiment = () =>{
-        setExperiments([...experiments, {algorithmName: algorithmOptions[0], dataGenerator: dataOptions[0], representation: representationOptions[0], numberOfVertices: 5, density: 90, algorithmParams: new Map<string, string>(), check: false}])
+        setExperiments([...experiments, {algorithmName: algorithmOptions[0], possibleGenerators: dataOptions, possibleRepresentations: representationOptions, dataGenerator: dataOptions[0], representation: representationOptions[0], numberOfVertices: 5, density: 90, algorithmParams: new Map<string, string>(), check: false}])
     }
-    const checkExperiment = (experiment: GraphExperiment): boolean =>{
-        return experiment.algorithmName !== "" && experiment.dataGenerator !== "" && experiment.representation !== ""
-    }
+
     const updateExperiment = (key: number, newExperiment: GraphExperiment) =>{
-        newExperiment.check = checkExperiment(newExperiment)
         if(experiments.at(key).algorithmName !== newExperiment.algorithmName){
             const paramInfos = getParamInfos(newExperiment)
             if(paramInfos.length > 0)
@@ -68,6 +65,12 @@ export const GraphForm = () =>{
         setConfig(newConfig)
     }
     //==========================================================
+    //============================= check =============================
+    const experimentCheckInfos = experiments.map(e=> checkExperiment(e, config))
+    const configCheckInfo = checkConfig(config)
+    let allowSubmit=true
+    experimentCheckInfos.forEach(e=>e.errorFlag? allowSubmit=false:"")
+    //==========================================================
     //============================= submitting =============================
     const submit = () =>{
         submitExperiments(experiments, config, true, (id: string) => {setId(id)})
@@ -76,7 +79,7 @@ export const GraphForm = () =>{
     return (
         <>
         { id !== "" ? <Navigate to={`/experiments/graph/${id}`} /> : <></>}
-        <GraphHeader config={config} updateConfig={updateConfig} submit={submit}/>
+        <GraphHeader allowSubmit={allowSubmit} configCheckInfo={configCheckInfo} config={config} updateConfig={updateConfig} submit={submit}/>
         <div className={styles.ExperimentList}>
             {
                 experiments.map((experiment, index) => {
@@ -85,7 +88,9 @@ export const GraphForm = () =>{
                         removeExperiment={()=>removeExperiment(index)} 
                         algorithmOptions={algorithmOptions}
                         dataOptions={dataOptions}
-                        representationOptions={representationOptions}/>
+                        representationOptions={representationOptions}
+                        experimentCheckInfo={experimentCheckInfos[index]}/>
+
                 })
             }
             <button className={styles.AddButton} onClick={addExperiment}>Add Experiment</button>

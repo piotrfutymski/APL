@@ -23,6 +23,7 @@ $radius: 16px;
     grid-template-areas: 
     "algorithm data representation deleteBtn"
     "vertices density params deleteBtn"
+    "msgs msgs msgs deleteBtn"
 }
 @mixin margins{
     margin: 0.4rem;
@@ -103,4 +104,17 @@ $radius: 16px;
     &:hover{
         background: $card-error-color;
     }
+}
+
+.MessagesContainer{
+    grid-area: msgs;
+    @include flexCentering(column);
+    border-radius: 0 0 0 $radius;
+    
+}
+.WarningMsg{
+    color: $card-warning-color
+}
+.ErrorMsg{
+    color: $card-error-color
 }

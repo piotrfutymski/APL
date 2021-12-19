@@ -15,36 +15,25 @@ public abstract class IncidenceMatrix implements GraphRepresentation {
     public abstract boolean checkIfSTART(int number);
     public abstract boolean checkIfEND(int number);
 
-    public IncidenceMatrix(String input) {
+    public IncidenceMatrix(List<ArrayList<Integer>> input) {
 
-        verticesSize = input.split(System.getProperty("line.separator")).length;
+        verticesSize = input.size();
         matrix = new int[verticesSize][];
-        Scanner scanner = new Scanner(input);
         edgesSize = 0;
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            int edges = line.split(",").length;
-            edgesSize+=edges;
+        for (int i = 0; i < input.size(); i++) {
+            edgesSize += input.get(i).size();
         }
         for (int i=0; i<verticesSize; i++)
         {
             matrix[i] = new int[edgesSize];
         }
-        scanner.close();
-        scanner = new Scanner(input);
-        int verticeNumber=0;
         int edgeNumber=0;
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            String[] edges = line.split(",");
-            for (String edge : edges)
-            {
-                fillEdge(edgeNumber, verticeNumber, Integer.parseInt(edge));
-                edgeNumber +=1;
+        for (int i = 0; i < input.size(); i++) {
+            for (int j = 0; j < input.get(i).size(); j++) {
+                fillEdge(edgeNumber, i, input.get(i).get(j));
+                edgeNumber++;
             }
-            verticeNumber+=1;
         }
-        scanner.close();
     }
 
     public IncidenceMatrix(int[][] matrix) {

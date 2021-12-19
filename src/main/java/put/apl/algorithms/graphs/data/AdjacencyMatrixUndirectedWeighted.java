@@ -2,12 +2,14 @@ package put.apl.algorithms.graphs.data;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Component("Weighted Adjacency Matrix Undirected")
 public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix {
 
-    public AdjacencyMatrixUndirectedWeighted(String input) {
+    public AdjacencyMatrixUndirectedWeighted(List<ArrayList<Integer>> input) {
         super(input);
     }
 

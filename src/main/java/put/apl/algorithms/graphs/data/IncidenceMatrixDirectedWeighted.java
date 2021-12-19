@@ -3,6 +3,8 @@ package put.apl.algorithms.graphs.data;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Component("Incidence Matrix Directed Weighted")
@@ -11,7 +13,7 @@ public class IncidenceMatrixDirectedWeighted extends IncidenceMatrix {
     private final static int START=1;
     private final static int END=-1;
 
-    public IncidenceMatrixDirectedWeighted(String input) {
+    public IncidenceMatrixDirectedWeighted(List<ArrayList<Integer>> input) {
         super(input);
     }
 

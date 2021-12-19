@@ -19,35 +19,17 @@ public abstract class ListOfEdges implements GraphRepresentation {
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfEdges(String input) {
-        vertexNum = input.split(System.getProperty("line.separator")).length;
-        List<ArrayList<Integer>> edgesList = new ArrayList<ArrayList<Integer>>();
-        Scanner scanner = new Scanner(input);
-        int lineNumber = 0;
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if (line.equals("")) {
-                lineNumber++;
-                continue;
-            }
-            String[] split = line.split(",");
-            for (String s : split) {
-                ArrayList<Integer> edge = new ArrayList<Integer>();
-                edge.add(lineNumber, Integer.parseInt(s));
-                edgesList.add(edge);
-            }
-            lineNumber++;
-        }
-        edgeNum = edgesList.size();
+    public ListOfEdges(List<ArrayList<Integer>> input) {
+        vertexNum = input.size();
+        edgeNum = input.size();
         edges = new int[edgeNum][];
-        for (int i = 0; i < edgeNum; i++) {
+        for (int i = 0; i < input.size(); i++) {
             edges[i] = new int[2];
-            for (int j = 0; j < edgesList.get(i).size(); j++) {
-                edges[i][0] = edgesList.get(i).get(0);
-                edges[i][1] = edgesList.get(i).get(1);
+            for (int j = 0; j < input.get(i).size(); j++) {
+                edges[i][0] = input.get(i).get(0);
+                edges[i][1] = input.get(i).get(1);
             }
         }
-        scanner.close();
     }
 
     public ListOfEdges(int[][] edges) {

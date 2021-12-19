@@ -20,30 +20,19 @@ public abstract class ListOfIncident implements GraphRepresentation {
 
     abstract void addEdge(List<ArrayList<Integer>> edgesList, int start, int end);
 
-
-    // Format: line number = vertex id, successors separated by comma
-    public ListOfIncident(String input) {
-        vertexNum = input.split(System.getProperty("line.separator")).length;
-        edgeNum=0;
+    public ListOfIncident(List<ArrayList<Integer>> input) {
+        vertexNum = input.size();
+        edgeNum = 0;
         List<ArrayList<Integer>> edgesList = new ArrayList<ArrayList<Integer>>();
         for (int i = 0; i < vertexNum; i++) {
             edgesList.add(new ArrayList<Integer>());
         }
-        edges  = new int[vertexNum][];
-        Scanner scanner = new Scanner(input);
-        int lineNumber = 0;
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if (line.equals("")) {
-                lineNumber++;
-                continue;
+        edges = new int[vertexNum][];
+        for (int i = 0; i < input.size(); i++) {
+            for (int j = 0; j < input.get(i).size(); j++) {
+                addEdge(edgesList, i, input.get(i).get(j));
+                edgeNum++;
             }
-            String[] split = line.split(",");
-            for (String s : split) {
-                addEdge(edgesList, lineNumber, Integer.parseInt(s));
-                edgeNum+=1;
-            }
-            lineNumber++;
         }
         for (int i = 0; i < edgesList.size(); i++) {
             edges[i] = new int[edgesList.get(i).size()];
@@ -53,7 +42,6 @@ public abstract class ListOfIncident implements GraphRepresentation {
                 edges[i][j] = edgesList.get(i).get(j);
             }
         }
-        scanner.close();
     }
 
     public ListOfIncident(int[][] edges) {

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { GraphConfig, GraphHeaderProps } from '../Graph.interface'
+import { CheckResult, GraphConfig, GraphHeaderProps } from '../Graph.interface'
 
 import styles from './GraphHeader.module.scss'
 
@@ -13,6 +13,8 @@ export const GraphHeader = (props: GraphHeaderProps) =>{
         config.measureByDensity = event.target.checked
         props.updateConfig(config)
     }
+    const getCheckBasedStyles = (check: CheckResult) => check.status === "ERROR" ? styles.Error : check.status === "WARNING" ? styles.Warning : ""
+    const checkMsgs = [props.configCheckInfo.measureSeries].filter(e => e.msg !== undefined)
     return (
         <div className={styles.GraphHeader}>
             <div className={styles.SeriesContainer}>
@@ -28,7 +30,19 @@ export const GraphHeader = (props: GraphHeaderProps) =>{
                 }
             </div>
             <div className={styles.SubmitContainer}>
-                <button onClick={props.submit}>Submit</button>
+                {
+                    !props.configCheckInfo.errorFlag && props.allowSubmit ?
+                    <button onClick={props.submit} >Submit</button> : 
+                    <button onClick={props.submit} disabled>Submit</button>
+                }
+            </div>
+            <div className={styles.MessageContainer}>
+            {
+                checkMsgs.map(check => 
+                <p className={check.status === "ERROR" ? styles.ErrorMsg : check.status === "WARNING" ? styles.WarningMsg : ""}>
+                    {check.msg}
+                </p>)
+            }
             </div>
         </div>
     )

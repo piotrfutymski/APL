@@ -3,9 +3,7 @@ package put.apl.algorithms.graph;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import put.apl.algorithms.graphs.data.*;
-import put.apl.algorithms.graphs.data.generator.DirectedGraphDataGenerator;
-import put.apl.algorithms.graphs.data.generator.GraphDataGenerator;
-import put.apl.algorithms.graphs.data.generator.GraphGeneratorConfig;
+import put.apl.algorithms.graphs.data.generator.*;
 import put.apl.algorithms.graphs.implementation.*;
 import put.apl.algorithms.sorting.SortingResult;
 import put.apl.experiment.dto.GraphExperiment;
@@ -20,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class GraphTest {
-
     static String DIRECTED_GRAPH =
             /* 0  */ "1,2\r\n" +
             /* 1  */ "4,5\r\n" +
@@ -44,6 +41,7 @@ public class GraphTest {
             /* 4  */ "0,1\r\n" +
             /* 5  */ "0,2";
 
+            /*
     static GraphRepresentation TEST_LIST_SUCCESSORS_DIRECTED = new ListOfSuccessorsDirected(DIRECTED_GRAPH);
     static GraphRepresentation TEST_HAMILTONIAN_GRAPH = new ListOfIncidentUndirected(UNDIRECTED_CONNECTED_HAMILTONIAN_GRAPH);
     static GraphRepresentation TEST_TOPO_SORT = new ListOfSuccessorsDirected(DIRECTED_CONNECTED_GRAPH);
@@ -51,8 +49,9 @@ public class GraphTest {
     static List<Integer> BFS_RESULT = new ArrayList<Integer>();
     static List<Integer> TOPO_SORT_RESULT = new ArrayList<Integer>();
     static List<Integer> HAMILTONIAN_RESULT = new ArrayList<Integer>();
-    static List<ArrayList<Integer>> ALL_HAMILTONIAN_RESULT = new ArrayList<ArrayList<Integer>>();
+    static List<ArrayList<Integer>> ALL_HAMILTONIAN_RESULT = new ArrayList<ArrayList<Integer>>();*/
 
+    /*
     @BeforeEach
     void initAll() {
         DFS_RESULT.clear();
@@ -145,4 +144,39 @@ public class GraphTest {
         List<Integer> sortResult = ts.run(TEST_TOPO_SORT).getPath();
         assertArrayEquals(sortResult.toArray(), TOPO_SORT_RESULT.toArray());
     }
+
+
+    @Test
+    void TestGenerator() throws InterruptedException {
+        GraphGeneratorConfig config = GraphGeneratorConfig.builder()
+                .numberOfVertices(1000)
+                .density(0.7)
+                .type("Directed Graph Generator")
+                .build();
+        GraphDataGenerator generator = new DirectedGraphDataGenerator();
+
+        String generatedGraph = generator.generate(config);
+
+        long start = System.nanoTime();
+        ListOfSuccessorsDirected list = new ListOfSuccessorsDirected(generatedGraph);
+        DepthFirstSearch dfs = new DepthFirstSearch();
+        long end = System.nanoTime();
+        double t = (double)(end-start)/1000000.0;
+        List<Integer> path = dfs.run(list).getPath();
+        assertTrue(path.size() == 20);
+    }
+
+    @Test
+    void TestGenerator() throws InterruptedException {
+        GraphGeneratorConfig config = GraphGeneratorConfig.builder()
+                .numberOfVertices(5)
+                .density(0.7)
+                .type("Connected Undirected Graph Generator")
+                .build();
+        GraphDataGenerator generator = new ConnectedUndirectedGraphDataGenerator();
+
+        String generatedGraph = generator.generate(config);
+
+        ListOfIncidentUndirected list = new ListOfIncidentUndirected(generatedGraph);
+    }*/
 }

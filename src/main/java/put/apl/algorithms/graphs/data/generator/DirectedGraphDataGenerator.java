@@ -10,7 +10,7 @@ import java.util.Random;
 public class DirectedGraphDataGenerator implements GraphDataGenerator {
 
     @Override
-    public String generate(GraphGeneratorConfig config) throws InterruptedException {
+    public List<ArrayList<Integer>> generate(GraphGeneratorConfig config) throws InterruptedException {
         List<ArrayList<Integer>> edges = new ArrayList<ArrayList<Integer>>();
         Random random = new Random();
         // n(n-1) - g•n(n-1)/2
@@ -29,18 +29,6 @@ public class DirectedGraphDataGenerator implements GraphDataGenerator {
         for (int i = 0; i < numToDiscard; i++) {
             edges.remove(random.nextInt(edges.size()));
         }
-        // To string
-        int prevVertex = 0;
-        String graph = "";
-        for (ArrayList<Integer> edge : edges) {
-            if (prevVertex != edge.get(0)) {
-                graph = graph.concat("\n");
-                prevVertex = edge.get(0);
-            } else if (!graph.equals("")){
-                graph = graph.concat(",");
-            }
-            graph = graph.concat(String.valueOf(edge.get(1)));
-        }
-        return graph;
+        return edges;
     };
 }
