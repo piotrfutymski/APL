@@ -146,5 +146,31 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
     }
 
     @Override
+    public int[] getAllVertices()
+    {
+        int[] vertices = new int[verticesNumber];
+        for (int i=0;i<verticesNumber;i++)
+            vertices[i]=i;
+        return vertices;
+    }
+
+    @Override
+    public int[][] getAllEdges()
+    {
+        int[][] result = new int[edgesNumber][];
+        int edgeNumber=0;
+        for (int i=0; i < verticesNumber; i++)
+        {
+            for (int j=i+1; j < verticesNumber; j++)
+            {
+                edgeNumber += getAllEdgesInner(edgeNumber, i, j, result);
+            }
+        }
+        return result;
+    }
+
+    protected abstract int getAllEdgesInner(int edgeNumber, int i, int j, int[][] result);
+
+    @Override
     public abstract GraphRepresentation clone();
 }

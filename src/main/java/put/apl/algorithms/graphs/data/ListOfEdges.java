@@ -66,17 +66,6 @@ public abstract class ListOfEdges implements GraphRepresentation {
 
     }
 
-    public int[] getSuccessors(Integer id) {
-        List<Integer> successors = new ArrayList<Integer>();
-        for (int i=0;i<edgeNum;i++) {
-            int result = checkIfSTART(id, getEdgeInner(i, 0),getEdgeInner(i, 1));
-            if (result != -1) {
-                successors.add(result);
-            }
-        }
-        return successors.stream().mapToInt(i->i).toArray();
-    }
-
     protected abstract int checkIfSTART(Integer id, int start, int end);
 
     protected int checkIfIncident(int id, int start, int end)
@@ -88,6 +77,19 @@ public abstract class ListOfEdges implements GraphRepresentation {
         return -1;
     }
 
+    public int[] getSuccessors(Integer id) {
+        List<Integer> successors = new ArrayList<Integer>();
+        for (int i=0;i<edgeNum;i++) {
+            int result = checkIfSTART(id, getEdgeInner(i, 0),getEdgeInner(i, 1));
+            if (result != -1) {
+                successors.add(result);
+            }
+        }
+        return successors.stream().mapToInt(i->i).toArray();
+    }
+
+
+
     public int getFirstSuccessor(Integer id) {
         for (int i=0;i<edgeNum;i++) {
             int result = checkIfSTART(id, getEdgeInner(i, 0),getEdgeInner(i, 1));
@@ -96,12 +98,13 @@ public abstract class ListOfEdges implements GraphRepresentation {
             }
         }
         return -1;
-    };
+    }
 
     public int[] getPredecessors(Integer id) {
         List<Integer> predecessors = new ArrayList<Integer>();
         for (int i=0;i<edgeNum;i++) {
-            int result = checkIfSTART(id, getEdgeInner(i, 0),getEdgeInner(i, 1));
+            //if id is end, then start is predecessor
+            int result = checkIfSTART(id, getEdgeInner(i, 1),getEdgeInner(i, 0));
             if (result != -1) {
                 predecessors.add(result);
             }
@@ -111,7 +114,7 @@ public abstract class ListOfEdges implements GraphRepresentation {
 
     public int getFirstPredecessor(Integer id) {
         for (int i=0;i<edgeNum;i++) {
-            int result = checkIfSTART(id, getEdgeInner(i, 0),getEdgeInner(i, 1));
+            int result = checkIfSTART(id, getEdgeInner(i, 1),getEdgeInner(i, 0));
             if (result != -1) {
                 return result;
             }
@@ -136,27 +139,49 @@ public abstract class ListOfEdges implements GraphRepresentation {
             }
         }
         return nonIncidentIds.stream().mapToInt(i->i).toArray();
-    };
+    }
 
+    @Override
+    public int[] getAllVertices()
+    {
+        int[] vertices = new int[vertexNum];
+        for (int i=0;i<vertexNum;i++)
+            vertices[i]=i;
+        return vertices;
+    }
+    @Override
     public int[][] getRepresentation() {
         return edges;
     };
 
+    @Override
     public int getMemoryOccupancy() {
         return Integer.BYTES * edges.length * 2;
     };
 
+    @Override
     public int getEdge(Integer id1, Integer id2) {
         for (int i=0;i<edgeNum;i++) {
-            if (getEdgeInner(i, 0) == id1 && getEdgeInner(i, 1) == id2) {
+            int start = getEdgeInner(i, 0);
+            int end = getEdgeInner(i, 1);
+            if (checkIfSTART(id1, getEdgeInner(i, 0), getEdgeInner(i, 1)) != -1 &&
+                    checkIfSTART(id2, getEdgeInner(i, 1), getEdgeInner(i, 0)) != -1 )
+            {
                 return 1;
             }
-            if (getEdgeInner(i, 1) == id1 && getEdgeInner(i, 0) == id2) {
+            if (checkIfSTART(id2, getEdgeInner(i, 0), getEdgeInner(i, 1)) != -1 &&
+                    checkIfSTART(id1, getEdgeInner(i, 1), getEdgeInner(i, 0)) != -1 ) {
                 return -1;
             }
         }
         return 0;
     }
+
+    @Override
+    public int[][] getAllEdges() {
+        return edges;
+    }
+
 
 
     public int getEdgeInner(Integer index1, Integer index2) {

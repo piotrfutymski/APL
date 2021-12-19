@@ -23,6 +23,10 @@ public interface GraphRepresentation {
 
     public int getEdgesNumber();
 
+    public int[][] getAllEdges();
+
+    public int[] getAllVertices();
+
     public int getOperations();
 
     public void setOperations(int operations);

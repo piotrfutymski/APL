@@ -58,6 +58,19 @@ public class ListOfIncidentUndirected extends ListOfIncident {
     }
 
     @Override
+    public int[][] getAllEdges() {
+        int[][] result = new int[edgeNum*2][];
+        int edgeNumber=0;
+        for (int i=0;i<vertexNum;i++)
+        {
+            for (int vert : getSuccessors(i)){
+                result[edgeNumber++] = new int[] {i, vert};
+            }
+        }
+        return result;
+    }
+
+    @Override
     public GraphRepresentation clone() {
         return new ListOfIncidentUndirected(this.edges.clone());
     };

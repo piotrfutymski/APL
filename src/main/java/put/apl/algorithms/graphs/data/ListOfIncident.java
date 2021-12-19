@@ -132,9 +132,12 @@ public abstract class ListOfIncident implements GraphRepresentation {
         return nonIncidentIds.stream().mapToInt(i->i).toArray();
     }
 
+    @Override
     public int[][] getRepresentation() {
         return edges;
     }
+
+    @Override
     public int getMemoryOccupancy() {
         int size=0;
         for (int[] edgeList : edges)
@@ -146,6 +149,15 @@ public abstract class ListOfIncident implements GraphRepresentation {
     {
         operations+=1;
         return edges[index1][index2];
+    }
+
+    @Override
+    public int[] getAllVertices()
+    {
+        int[] vertices = new int[vertexNum];
+        for (int i=0;i<vertexNum;i++)
+            vertices[i]=i;
+        return vertices;
     }
 
     @Override
@@ -170,5 +182,6 @@ public abstract class ListOfIncident implements GraphRepresentation {
 
     @Override
     public abstract GraphRepresentation clone();
+
 
 }

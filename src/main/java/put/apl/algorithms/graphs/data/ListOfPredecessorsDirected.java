@@ -61,6 +61,19 @@ public class ListOfPredecessorsDirected extends ListOfIncident {
     }
 
     @Override
+    public int[][] getAllEdges() {
+        int[][] result = new int[edgeNum][];
+        int edgeNumber=0;
+        for (int i=0;i<vertexNum;i++)
+        {
+            for (int vert : getPredecessors(i)){
+                result[edgeNumber++] = new int[] {vert, i};
+            }
+        }
+        return result;
+    }
+
+    @Override
     public GraphRepresentation clone() {
         return new ListOfPredecessorsDirected(this.edges.clone());
     };

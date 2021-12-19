@@ -20,6 +20,20 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix {
     }
 
     @Override
+    protected int getAllEdgesInner(int edgeNumber, int i, int j, int[][] result) {
+        var edge = new int[2];
+        int edgesAdded=0;
+        if (checkIfSTART(getEdge(i,j)))
+        {
+            edge[0] = i;
+            edge[1] = j;
+            result[edgeNumber++] = edge;
+            edgesAdded+=1;
+        }
+        return edgesAdded;
+    }
+
+    @Override
     public void fillEdge(int start, int end) {
         Random rand = new Random();
         int random = rand.nextInt(verticesNumber);
@@ -36,7 +50,6 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix {
     public boolean checkIfEND(int number) {
         return number > 0;
     }
-
 
     @Override
     public GraphRepresentation clone() {

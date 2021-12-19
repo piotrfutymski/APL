@@ -194,6 +194,56 @@ public abstract class IncidenceMatrix implements GraphRepresentation {
     }
 
     @Override
+    public int[] getAllVertices()
+    {
+        int[] vertices = new int[verticesSize];
+        for (int i=0;i<verticesSize;i++)
+            vertices[i]=i;
+        return vertices;
+    }
+
+    @Override
+    public int[][] getAllEdges() {
+        int[][] result = new int[edgesSize][];
+        for (int i=0; i<edgesSize; i++)
+        {
+            int start = -1;
+            int end = -1;
+            for (int j=0;j<verticesSize;j++)
+            {
+                if (checkIfSTART(getEdgeInner(j,i)))
+                {
+                    start = j;
+                    for (int k=j+1; k<verticesSize;k++)
+                    {
+                        if (getEdgeInner(k,i) != 0)
+                        {
+                            end = k;
+                            break;
+                        }
+                    }
+                    break;
+                }
+                else if (checkIfEND(getEdgeInner(j, i)))
+                {
+                    end = j;
+                    for (int k=j+1; k<verticesSize;k++)
+                    {
+                        if (getEdgeInner(k,i) != 0)
+                        {
+                            start = k;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            result[i] = new int[] {start, end};
+        }
+        return result;
+    }
+
+    @Override
     public int getVerticesNumber() {
         return verticesSize;
     }
