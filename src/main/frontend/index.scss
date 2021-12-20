@@ -18,18 +18,82 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+input, select{
+  padding: 0.6rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  background-color: $input-bg;
+  color: $text-color;
+}
+
+.checkboxStyling {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Hide the browser's default checkbox */
+  input{
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+  }
+  /* Create a custom checkbox */
+  span{
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 25px;
+      width: 25px;
+      background-color: $checkbox-color;/*defaul checkbox color*/
+  }
+  &:hover input ~ span {
+    background-color: $checkbox-hover-color;/*hover checkbox color*/
+  }
+  input:checked ~ span {
+    background-color: $checkbox-checked-color;/*checked checkbox color*/
+  }
+  /* Create the checkmark/indicator (hidden when not checked) */
+  span:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  /* Show the checkmark when checked */
+  input:checked ~ span:after {
+    display: block;
+  }
+  /* Style the checkmark/indicator */
+  span:after {
+    left: 10px;
+    top: 6.25px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+}
 
 button{
   display: inline-block;
   border: none;
   border-radius: 12px;
   font-weight: bold;
-  padding: $def-font-size;
+  padding: 0.8rem 1rem;
 
   background: $button-bg;
   color: $text-color;
 
-  transition-duration: $hover-trans-duration;
+  transition-duration: $trans-duration;
   &:hover{
     background: $button-hover-bg;
   }
@@ -43,9 +107,13 @@ body{
     color: $text-color;
 
     font-family: Arial, Helvetica, sans-serif;
-    font-size: $def-font-size;
+    font-size: $def-font-size
 }
 
-html, body, #root{
-  height: 100%;
+html{
+  font-size: 16px;
+}
+
+#root{
+  min-width: 700px;
 }

@@ -11,49 +11,40 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: stretch;
-    margin-bottom: 1rem;
-    width: 30vw;
-    min-width: 480px;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem;
 }
 
 .Label{
-    width: 100%;
-    padding-bottom: 0.3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    font-size: 2rem;
 }
 
 .ButtonsContainer{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
+    @include flexCentering(row);
+    gap: 1rem;
     a{
         @include flexCentering(column);
         display: inline-block;
         border: none;
-        border-radius: 6px;
+        border-radius: 12px;
         font-weight: bold;
-        padding: $def-font-size;
+        padding: 0.8rem 1rem;
       
         background: $button-bg;
         color: $text-color;
       
-        transition-duration: $hover-trans-duration;
+        transition-duration: $trans-duration;
         &:hover{
           background: $button-hover-bg;
         }
     }
-    button{
-        margin-left: 0.8rem 
-    }
 }
 .Chart{
     @include flexCentering(column);
-    grid-area: chart;
-    height: 70vh;
+    min-width: 480px;
+    min-height: 480px;
+    width: 30vw;
+    height: 30vw;
     padding: 1rem;
 }
