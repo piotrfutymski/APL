@@ -1,6 +1,10 @@
 package put.apl.algorithms.graphs.data;
 
+import java.util.List;
+
 public interface GraphRepresentation {
+
+    void loadFromIncidenceList(List<List<Integer>> input);
 
     public int[] getSuccessors(Integer id);
 
@@ -12,11 +16,23 @@ public interface GraphRepresentation {
 
     public int[] getNonIncident(Integer id);
 
-    public int[][] getAllEdges();
+    public int[][] getRepresentation();
 
     public int getMemoryOccupancy();
 
-    public String getRelationBetween(Integer id1, Integer id2);
+    public int getEdge(Integer id1, Integer id2);
+
+    public int getVerticesNumber();
+
+    public int getEdgesNumber();
+
+    public int[][] getAllEdges();
+
+    public int[] getAllVertices();
+
+    public int getOperations();
+
+    public void setOperations(int operations);
 
     public GraphRepresentation clone();
 }

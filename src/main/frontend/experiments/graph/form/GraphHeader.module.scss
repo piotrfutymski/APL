@@ -1,0 +1,59 @@
+@use 'frontend/utils/variables' as *;
+
+.GraphHeader{
+    background: $form-header-bg;
+
+    display: grid;
+    width: 100%;
+    grid-template-columns: 10% 70% 10% 10%;
+    grid-template-areas: 
+    ". form submit ."
+    ". msgs submit ."
+}
+@mixin flexCentering($direction){
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+
+    margin: .4rem .6rem;
+}
+
+.HeaderForm{
+    grid-area: form;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem 1.25rem;
+    margin: 2rem 0rem 2rem 0rem;
+}
+
+.FormControl{
+    @include flexCentering(column);
+}
+
+
+.SubmitContainer{
+    grid-area: submit;
+    @include flexCentering(column);
+}
+
+.MessageContainer{
+    grid-area: msgs;
+    @include flexCentering(column);
+}
+
+.Warning{
+    box-shadow: 0 0 10px $card-warning-color;
+}
+.Error{
+    box-shadow: 0 0 10px $card-error-color;
+}
+.WarningMsg{
+    color: $card-warning-color
+}
+.ErrorMsg{
+    color: $card-error-color
+}
