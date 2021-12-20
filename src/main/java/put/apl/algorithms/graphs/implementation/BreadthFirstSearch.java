@@ -11,20 +11,20 @@ public class BreadthFirstSearch implements GraphAlgorithm {
 
     private boolean[] visited;
     private List<Integer> path;
-    private int noOfVertices;
     private Queue<Integer> queue;
     private boolean forceConnectedGraph = false;
 
     public GraphResult run(GraphRepresentation graph) {
-        visited = new boolean[noOfVertices];
-        path =  new ArrayList<Integer>();
+        graph.setOperations(0);
+        visited = new boolean[graph.getVerticesNumber()];
+        path = new ArrayList<Integer>();
         queue = new LinkedList<Integer>();
-        for (int i = 0; i < noOfVertices; i++) {
+        for (int i = 0; i < graph.getVerticesNumber(); i++) {
             visited[i] = false;
         }
         // For non-connected graphs BFS procedure will run multiple times
         if (!forceConnectedGraph) {
-            for (int i = 0; i < noOfVertices; i++) {
+            for (int i = 0; i < graph.getVerticesNumber(); i++) {
                 if (!visited[i]) {
                     breadthFirstSearch(graph, i);
                 }
@@ -32,7 +32,7 @@ public class BreadthFirstSearch implements GraphAlgorithm {
         } else {
             breadthFirstSearch(graph, 0);
         }
-        return GraphResult.builder().path(path).build();
+        return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
     private void breadthFirstSearch(GraphRepresentation graph, int id) {
@@ -52,8 +52,6 @@ public class BreadthFirstSearch implements GraphAlgorithm {
 
     @Override
     public void setParams(Map<String, String> params) {
-        if (params.containsKey("noOfVertices"))
-            noOfVertices = Integer.parseInt(params.get("noOfVertices"));
         if (params.containsKey("forceConnected"))
             forceConnectedGraph = Boolean.parseBoolean(params.get("forceConnected"));
     }

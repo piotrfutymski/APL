@@ -1,0 +1,50 @@
+@use 'frontend/utils/variables' as *;
+
+@mixin flexCentering($direction){
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+}
+
+.Container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem;
+}
+
+.Label{
+    font-size: 2rem;
+}
+
+.ButtonsContainer{
+    @include flexCentering(row);
+    gap: 1rem;
+    a{
+        @include flexCentering(column);
+        display: inline-block;
+        border: none;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 0.8rem 1rem;
+      
+        background: $button-bg;
+        color: $text-color;
+      
+        transition-duration: $trans-duration;
+        &:hover{
+          background: $button-hover-bg;
+        }
+    }
+}
+.Chart{
+    @include flexCentering(column);
+    min-width: 480px;
+    min-height: 480px;
+    width: 30vw;
+    height: 30vw;
+    padding: 1rem;
+}

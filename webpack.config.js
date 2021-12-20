@@ -26,5 +26,5 @@ module.exports = {
             frontend: path.resolve(__dirname, 'src/main/frontend/')
         },
         extensions: ['.tsx', '.ts', '.js']
-    }
+    },
 };

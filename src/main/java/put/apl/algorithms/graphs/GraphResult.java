@@ -15,6 +15,7 @@ public class GraphResult {
     private Integer memoryOccupancyInBytes;
     private Integer acyclicCount;
     private Integer hamiltonCyclesCount;
+    private Integer tableAccessCount;
     protected GraphRepresentation minimumSpanningTree;
     protected List<Integer> path;
     protected List<ArrayList<Integer>> multiplePaths;

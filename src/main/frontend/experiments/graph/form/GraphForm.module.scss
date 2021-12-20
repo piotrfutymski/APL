@@ -1,0 +1,13 @@
+@use 'frontend/utils/variables' as *;
+
+.ExperimentList{
+    background: $form-card-container-bg;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}

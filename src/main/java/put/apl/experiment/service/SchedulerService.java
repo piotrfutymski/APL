@@ -9,6 +9,8 @@ import put.apl.experiment.dto.ExperimentsResults;
 import put.apl.experiment.dto.GraphExperiment;
 import put.apl.experiment.dto.SortingExperiment;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.*;
@@ -44,7 +46,7 @@ public class SchedulerService {
         return scheduleOperation(experiments, finite, e->sortingService.runExperiments(e));
     }
 
-    public String scheduleGraph(List<GraphExperiment> experiments, boolean finite) {
+    public String scheduleGraph(List<GraphExperiment> experiments, Boolean finite) {
         return scheduleOperation(experiments, finite, e->graphService.runExperiments(e));
     }
 
@@ -77,7 +79,10 @@ public class SchedulerService {
                             .build();
                 }catch (Exception e){
                     res = new ExperimentsResults(ExperimentsResults.ExperimentStatus.ERROR);
-                    res.setErrorCause(e.toString());
+                    StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw);
+                    e.printStackTrace(pw);
+                    res.setErrorCause(e.toString() + "\n" + sw.toString());
                 }
             }
             return res;

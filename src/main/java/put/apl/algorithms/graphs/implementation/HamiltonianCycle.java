@@ -13,26 +13,26 @@ import java.util.Map;
 public class HamiltonianCycle implements GraphAlgorithm  {
 
     private List<Integer> path;
-    private int noOfVertices;
     private GraphRepresentation graph;
 
     public GraphResult run(GraphRepresentation graph) {
+        graph.setOperations(0);
         this.path = new ArrayList<Integer>();
         this.graph = graph;
         this.path.add(0);
-        if (noOfVertices > 1) {
+        if (graph.getVerticesNumber() > 1) {
             if (hamiltonianCycle(1)) {
                 return GraphResult.builder().path(path).build();
             }
             return GraphResult.builder().path(new ArrayList<Integer>()).build();
         }
         else {
-            return GraphResult.builder().path(path).build();
+            return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
         }
     }
 
     private boolean hamiltonianCycle(int pos) {
-        if (pos == noOfVertices) {
+        if (pos == graph.getVerticesNumber()) {
             int[] successors = graph.getSuccessors(this.path.get(pos-1));
             for (int s : successors) {
                 if (s == 0) {
@@ -41,9 +41,8 @@ public class HamiltonianCycle implements GraphAlgorithm  {
             }
             return false;
         }
-        for (int i = 1; i < noOfVertices; i++) {
-            if ((graph.getRelationBetween(i, this.path.get(pos-1)).equals("successor") ||
-                graph.getRelationBetween(i, this.path.get(pos-1)).equals("incident")) && !path.contains(i)) {
+        for (int i = 1; i < graph.getVerticesNumber(); i++) {
+            if (graph.getEdge(i, this.path.get(pos-1)) > 0 && !path.contains(i)) {
                 path.add(i);
                 if (hamiltonianCycle(pos + 1)) {
                     return true;
@@ -56,7 +55,5 @@ public class HamiltonianCycle implements GraphAlgorithm  {
 
     @Override
     public void setParams(Map<String, String> params) {
-        if (params.containsKey("noOfVertices"))
-            noOfVertices = Integer.parseInt(params.get("noOfVertices"));
     }
 }

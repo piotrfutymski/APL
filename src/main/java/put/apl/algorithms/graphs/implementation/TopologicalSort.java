@@ -15,18 +15,18 @@ public class TopologicalSort implements GraphAlgorithm {
     private boolean[] visited;
     GraphRepresentation graph;
     private List<Integer> path;
-    private int noOfVertices;
     private List<Integer> stack;
     private boolean checkForCycles = false;
 
     public GraphResult run(GraphRepresentation graph) {
+        graph.setOperations(0);
         stack = new ArrayList<Integer>();
         this.graph = graph;
-        visited = new boolean[noOfVertices];
-        for (int i = 0; i < noOfVertices; i++) {
+        visited = new boolean[graph.getVerticesNumber()];
+        for (int i = 0; i < graph.getVerticesNumber(); i++) {
             visited[i] = false;
         }
-        for (int i = 0; i < noOfVertices; i++) {
+        for (int i = 0; i < graph.getVerticesNumber(); i++) {
             if (!visited[i]) {
                 topologicalSort(i);
             }
@@ -35,7 +35,7 @@ public class TopologicalSort implements GraphAlgorithm {
         if (checkForCycles && checkCyclic()) {
             return null;
         }
-        return GraphResult.builder().path(stack).build();
+        return GraphResult.builder().path(stack).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
     private void topologicalSort(int id) {
@@ -52,7 +52,7 @@ public class TopologicalSort implements GraphAlgorithm {
     }
 
     private boolean checkCyclic() {
-        for (int i = 0; i < noOfVertices; i++) {
+        for (int i = 0; i < graph.getVerticesNumber(); i++) {
             int[] successors = graph.getSuccessors(i);
             for (int s : successors) {
                 if (stack.indexOf(s) < stack.indexOf(i)) {
@@ -65,8 +65,6 @@ public class TopologicalSort implements GraphAlgorithm {
 
     @Override
     public void setParams(Map<String, String> params) {
-        if (params.containsKey("noOfVertices"))
-            noOfVertices = Integer.parseInt(params.get("noOfVertices"));
         if (params.containsKey("checkForCycles"))
             checkForCycles = Boolean.parseBoolean(params.get("checkForCycles"));
     }
