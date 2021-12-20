@@ -151,8 +151,7 @@ public class GraphTest {
                 assertArrayEquals(expectedSuccessors[i], representation.getPredecessors(i));
             }
         }
-    }
-    */
+    }*/
 
     /*
     @Test
@@ -170,8 +169,7 @@ public class GraphTest {
                 assertArrayEquals(expectedPredecessors[i], representation.getPredecessors(i));
             }
         }
-    }
-    */
+    }*/
 
     /*
     @Test
@@ -190,10 +188,9 @@ public class GraphTest {
             System.out.println("heh");
 
         }
-    }
-    */
+    }*/
 
-
+    /*
     @Test
     void DirectedRepresentationEdgesTest() throws InterruptedException {
         var expectedEdges = new int[][] {{0,2}, {0,4}, {0,5}, {1,4}, {1,5}, {2,3},
@@ -210,7 +207,7 @@ public class GraphTest {
             System.out.println("heh");
 
         }
-    }
+    }*/
 
     /*
   @Test
@@ -249,6 +246,7 @@ public class GraphTest {
             assertArrayEquals(undirResult, algo.run(representation).getPath().toArray());
         }
     }*/
+
     /*
     @Test
     void HamiltonTest() throws InterruptedException {
