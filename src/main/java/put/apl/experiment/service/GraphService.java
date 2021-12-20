@@ -91,6 +91,30 @@ public class GraphService {
                 case "List Of Successors Directed":
                     data = new ListOfSuccessorsDirected(generateDataFor(groupedExperiment.get(0)));
                     break;
+                case "Adjacency Matrix Directed":
+                    data = new AdjacencyMatrixDirected(generateDataFor(groupedExperiment.get(0)));
+                    break;
+                case "Adjacency Matrix Undirected":
+                    data = new AdjacencyMatrixUndirected(generateDataFor(groupedExperiment.get(0)));
+                    break;
+                case "Weighted Adjacency Matrix Directed":
+                    data = new AdjacencyMatrixDirectedWeighted(generateDataFor(groupedExperiment.get(0)));
+                    break;
+                case "Weighted Adjacency Matrix Undirected":
+                    data = new AdjacencyMatrixUndirectedWeighted(generateDataFor(groupedExperiment.get(0)));
+                    break;
+                case "Incidence Matrix Directed":
+                    data = new IncidenceMatrixDirected(generateDataFor(groupedExperiment.get(0)));
+                    break;
+                case "Incidence Matrix Undirected":
+                    data = new  IncidenceMatrixUndirected(generateDataFor(groupedExperiment.get(0)));
+                    break;
+                case "Incidence Matrix Directed Weighted":
+                    data = new IncidenceMatrixDirectedWeighted(generateDataFor(groupedExperiment.get(0)));
+                    break;
+                case "Incidence Matrix Undirected Weighted":
+                    data = new IncidenceMatrixUndirectedWeighted(generateDataFor(groupedExperiment.get(0)));
+                    break;
                 default:
                     data = new ListOfSuccessorsDirected(generateDataFor(groupedExperiment.get(0)));
                     break;
