@@ -101,7 +101,7 @@ export const SortingChart = (props: SortingChartProps) => {
     const getLines = () => {
         return getDataKeys().map((element, index) => {
             return (
-                <Line type="monotone" dot={false} dataKey={element} stroke={props.labels[index].colorStr} />
+                <Line key={index} type="monotone" dot={false} dataKey={element} stroke={props.labels[index].colorStr} />
             )
         }).filter((_,index)=> props.labels[index].active)
     }
