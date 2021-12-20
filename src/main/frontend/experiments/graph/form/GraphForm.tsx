@@ -37,9 +37,13 @@ export const GraphForm = () =>{
     //==========================================================
     //============================= experiments =============================
     const addExperiment = () =>{
-        setExperiments([...experiments, {algorithmName: algorithmOptions[0], possibleGenerators: dataOptions, possibleRepresentations: representationOptions, dataGenerator: dataOptions[0], representation: representationOptions[0], numberOfVertices: 5, density: 90, algorithmParams: new Map<string, string>(), check: false}])
+        let newExperiment: GraphExperiment = {algorithmName: algorithmOptions[0], possibleGenerators: dataOptions, possibleRepresentations: representationOptions, dataGenerator: dataOptions[0], representation: representationOptions[0], numberOfVertices: config.measureSeries * 5, density: 90, algorithmParams: new Map<string, string>(), check: false}
+        if(experiments.length > 0){
+            newExperiment = experiments.at(experiments.length-1)
+        }
+        prepareExperimentParams(newExperiment)
+        setExperiments([...experiments, newExperiment])
     }
-
     const prepareExperimentParams = (experiment: GraphExperiment) =>{
         const paramInfos = getParamInfos(experiment)
         let newParams = new Map<string, string>()

@@ -240,7 +240,7 @@ public class GraphTest {
             assertArrayEquals(undirResult, algo.run(representation).getPath().toArray());
         }
     }
-
+    /*
     @Test
     void HamiltonTest() throws InterruptedException {
         var dirResult = new Integer[] {0,3,1,4,2,5};
@@ -261,7 +261,8 @@ public class GraphTest {
             System.out.println(array);
             //assertArrayEquals(undirResult, dfs.run(representation).getPath().toArray());
         }
-    }
+    }*/
+    /*
     @Test
     void AllHamiltonTest() throws InterruptedException {
         var dirResult = new Integer[] {0,3,1,4,2,5};
@@ -282,7 +283,7 @@ public class GraphTest {
             System.out.println(array);
             //assertArrayEquals(undirResult, algo.run(representation).getPath().toArray());
         }
-    }
+    }*/
 /*
     @Test
     void BFSTest() throws InterruptedException {

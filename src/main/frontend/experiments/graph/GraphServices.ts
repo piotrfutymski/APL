@@ -108,11 +108,9 @@ export const submitExperiments = (experiments: GraphExperiment[], config: GraphC
             })
         }
     });
-    console.log("posting")
     axios.post(`/api/experiment/graph?finite=${finite}`, res)
         .then((response: AxiosResponse)=>{
             onResponse(response.data)
-            console.log("response")
         })
         .catch((error: AxiosError) =>{
     })
@@ -154,8 +152,8 @@ export const fetchGraphExperiments = (id:string, onResponse:(args: GraphExperime
         })
 }
 
-export const getNameForGraphExperiment = (v: GraphExperiment) => {
-    let series = v.algorithmName + " : " + v.dataGenerator + " : " + v.representation + " : " + v.density;
+export const getNameForGraphExperiment = (v: GraphExperiment, densityXAxis: boolean) => {
+    let series = v.algorithmName + " : " + v.dataGenerator + " : " + v.representation + " : " + (densityXAxis === true ? v.numberOfVertices : v.density);
     if (v.algorithmParams) {
         for (let [key, val] of Object.entries(v.algorithmParams)) {
             series += " : [ " +key + " - " + val + " ]"

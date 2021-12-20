@@ -17,33 +17,38 @@ export const GraphHeader = (props: GraphHeaderProps) =>{
     const checkMsgs = [props.configCheckInfo.measureSeries].filter(e => e.msg !== undefined)
     return (
         <div className={styles.GraphHeader}>
-            <div className={styles.SeriesContainer}>
-                <label>Number of measure series</label>
-                <input type="number" value={config.measureSeries===0 ? "" : config.measureSeries} onChange={updateMeasureSeries}/>
-            </div>
-            <div className={styles.MeasureByDensityContainer}>
-            <label>Measure By Density</label>
-                {
-                    config.measureByDensity ? 
-                    <input type="checkbox" id="measureByDensity" onChange={updateMeasureByDensity} checked/> : 
-                    <input type="checkbox" id="measureByDensity" onChange={updateMeasureByDensity} />
-                }
+            <div className={styles.HeaderForm}>
+                <div className={styles.FormControl}>
+                    <label>Number of measure series</label>
+                    <input className={getCheckBasedStyles(props.configCheckInfo.measureSeries)} type="number" value={config.measureSeries===0 ? "" : config.measureSeries} onChange={updateMeasureSeries}/>
+                </div>
+                <div className={styles.FormControl}>
+                    <div style={{height: "1rem"}}></div>
+                    <label className="checkboxStyling">Measure By Density
+                        {
+                            config.measureByDensity ? 
+                            <input type="checkbox" id="measureByDensity" onChange={updateMeasureByDensity} checked/> : 
+                            <input type="checkbox" id="measureByDensity" onChange={updateMeasureByDensity} />
+                        }
+                        <span></span>
+                    </label>
+                </div>
             </div>
             <div className={styles.SubmitContainer}>
+                    {
+                        !props.configCheckInfo.errorFlag && props.allowSubmit ?
+                        <button onClick={props.submit} >Submit</button> : 
+                        <button onClick={props.submit} disabled>Submit</button>
+                    }
+                </div>
+                <div className={styles.MessageContainer}>
                 {
-                    !props.configCheckInfo.errorFlag && props.allowSubmit ?
-                    <button onClick={props.submit} >Submit</button> : 
-                    <button onClick={props.submit} disabled>Submit</button>
+                    checkMsgs.map(check => 
+                    <p className={check.status === "ERROR" ? styles.ErrorMsg : check.status === "WARNING" ? styles.WarningMsg : ""}>
+                        {check.msg}
+                    </p>)
                 }
-            </div>
-            <div className={styles.MessageContainer}>
-            {
-                checkMsgs.map(check => 
-                <p className={check.status === "ERROR" ? styles.ErrorMsg : check.status === "WARNING" ? styles.WarningMsg : ""}>
-                    {check.msg}
-                </p>)
-            }
-            </div>
+                </div>
         </div>
     )
 }

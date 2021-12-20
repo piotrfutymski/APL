@@ -49,63 +49,63 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                 props.experimentCheckInfo.warningFlag === true ? styles.Warning : styles.Correct
                 )
             }>
-            <div className={styles.AlgorithmSelectContainer}>
-                <label>Algorithm</label>
-                <select className={styles.AlgorithmSelect} value={experiment.algorithmName} onChange={updateAlgorithm}>
-                    {
-                        props.algorithmOptions.map(name => <option value={name}>{name}</option>)
-                    }
-                </select>
-            </div>
-            <div className={styles.DataSelectContainer}>
-                <label>Data Generator</label>
-                <select className={styles.DataSelect} value={experiment.dataGenerator} onChange={updateData}>
-                    {
-                        experiment.possibleGenerators.map(name => <option value={name}>{name}</option>)
-                    }
-                </select>
-            </div>
-            <div className={styles.RepresentationSelectContainer}>
-                <label>Representation</label>
-                <select className={styles.RepresentationSelect} value={experiment.representation} onChange={updateRepresentation}>
-                    {
-                        experiment.possibleRepresentations.map(name => <option value={name}>{name}</option>)
-                    }
-                </select>
-            </div>
-            <div className={styles.VerticesContainer}>
-                <label>Number of Vertices</label>
-                <div>
-                    <input type="number" value={experiment.numberOfVertices===0 ? "" : experiment.numberOfVertices} onChange={updateNumberOfVertices}/>
-                </div>
-            </div>
-            <div className={styles.DensityContainer}>
-                <label>Density</label>
-                <div>
-                    <input type="number" value={experiment.density===0 ? "" : experiment.density} onChange={updateDensity}/>
-                    <span className={styles.Percent}>%</span>
-                </div>
-            </div>
-            <div className={styles.ParamsContainer}>
-            {
-                paramInfos.map(param =>{
-                    const onChange = (event: any) => {
-                        experiment.algorithmParams.set(param.name, event.target.value)
-                        props.updateExperiment(experiment)
-                    }
-                    let val = experiment.algorithmParams.get(param.name)
-                    return <div className={styles.Param}>
-                        <label>{param.name}</label>
+            <div className={styles.CardForm}> 
+                <div className={styles.FormControl}>
+                    <label>Algorithm</label>
+                    <select value={experiment.algorithmName} onChange={updateAlgorithm}>
                         {
-                            param.isSelect === true ?
-                                <select value={val} onChange={onChange}> 
-                                    { param.options.map(name => <option value={name}>{name}</option>) } 
-                                </select> :
-                                <input type="number" value={val} onChange={onChange}/>
+                            props.algorithmOptions.map(name => <option value={name}>{name}</option>)
                         }
+                    </select>
+                </div>
+                <div className={styles.FormControl}>
+                    <label>Data Generator</label>
+                    <select value={experiment.dataGenerator} onChange={updateData}>
+                        {
+                            experiment.possibleGenerators.map(name => <option value={name}>{name}</option>)
+                        }
+                    </select>
+                </div>
+                <div className={styles.FormControl}>
+                    <label>Representation</label>
+                    <select value={experiment.representation} onChange={updateRepresentation}>
+                        {
+                            experiment.possibleRepresentations.map(name => <option value={name}>{name}</option>)
+                        }
+                    </select>
+                </div>
+                <div className={styles.FormControl}>
+                    <label>Number of Vertices</label>
+                    <div>
+                        <input className={getCheckBasedStyles(props.experimentCheckInfo.numberOfVertices)} type="number" value={experiment.numberOfVertices===0 ? "" : experiment.numberOfVertices} onChange={updateNumberOfVertices}/>
                     </div>
-                })
-            }
+                </div>
+                <div className={styles.FormControl}>
+                    <label>Density</label>
+                    <div>
+                        <input className={getCheckBasedStyles(props.experimentCheckInfo.density)} type="number" value={experiment.density===0 ? "" : experiment.density} onChange={updateDensity}/>
+                        <span className={styles.Percent}>%</span>
+                    </div>
+                </div>
+                {
+                    paramInfos.map(param =>{
+                        const onChange = (event: any) => {
+                            experiment.algorithmParams.set(param.name, event.target.value)
+                            props.updateExperiment(experiment)
+                        }
+                        let val = experiment.algorithmParams.get(param.name)
+                        return <div className={styles.FormControl}>
+                            <label>{param.name}</label>
+                            {
+                                param.isSelect === true ?
+                                    <select value={val} onChange={onChange}> 
+                                        { param.options.map(name => <option value={name}>{name}</option>) } 
+                                    </select> :
+                                    <input type="number" value={val} onChange={onChange}/>
+                            }
+                        </div>
+                    })
+                }
             </div>
             {
                 checkMsgs.length > 0 ?

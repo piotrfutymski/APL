@@ -2,7 +2,7 @@ import React from "react";
 import { ComplexityParameters } from "../Graph.interface";
 
 
-export const SortingFormula = (props: ComplexityParameters) => {
+export const GraphFormula = (props: ComplexityParameters) => {
 
     if(props.complexityType === "N^2")
     return (

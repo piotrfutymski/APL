@@ -2,9 +2,6 @@
 
 $radius: 16px;
 
-@mixin margins{
-    margin: 2rem 2rem;
-}
 @mixin flexCentering($direction){
     display: flex;
     flex-direction: $direction;
@@ -28,7 +25,6 @@ $radius: 16px;
 .Card{
     background: $card-bg;
     border-radius: $radius;
-    padding: 20px 0 20px 0;
 
     display: grid;
     width: 80%;
@@ -45,6 +41,8 @@ $radius: 16px;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    gap: 2rem 1.25rem;
+    margin: 2rem 0rem 2rem 0rem;
 }
 .DeleteBtn{
     grid-area: deleteBtn;
@@ -66,7 +64,6 @@ $radius: 16px;
 
 .FormControl{
     @include flexCentering(column);
-    @include margins;
 }
 .Percent{
     display: inline-block;
