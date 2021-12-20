@@ -4,17 +4,12 @@
     display: flex;
     flex-direction: row;
 
-    height: 100%;
-    width: 100%;
-
     background: $header-bg;
     font-size: $header-font-size;
 }
 
 @mixin HeaderItem{
-    height: 100%;
-    padding-left: 0.8rem;
-    padding-right: 0.8rem;
+    padding: 0.4rem 0.8rem;
 
     display: flex;
     justify-content: center;
@@ -24,7 +19,7 @@
 .HeaderLink{
     @include HeaderItem;
 
-    transition-duration: $hover-trans-duration;
+    transition-duration: $trans-duration;
     &:hover{
         background: $header-item-hover-bg;
     }

@@ -34,55 +34,55 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
                 props.experimentCheckInfo.warningFlag === true ? styles.Warning : styles.Correct
                 )
             }>
-            <div className={styles.AlgorithmSelectContainer}>
-                <label>Algorithm</label>
-                <select className={styles.AlgorithmSelect} value={experiment.algorithmName} onChange={updateAlgorithm}>
-                    {
-                        props.algorithmOptions.map(name => <option value={name}>{name}</option>)
-                    }
-                </select>
-            </div>
-            <div className={styles.DataSelectContainer}>
-                <label>Data Distribution</label>
-                <select className={styles.DataSelect} value={experiment.dataDistribution} onChange={updateData}>
-                    {
-                        props.dataOptions.map(name => <option value={name}>{name}</option>)
-                    }
-                </select>
-            </div>
-            <div className={styles.MaxValContainer}>
-                <label>Maximum possible value</label>
-                <div>
-                    <input className={getCheckBasedStyles(props.experimentCheckInfo.maxValue)} 
-                        type="number" 
-                        value={experiment.maxValue===0 ? "" : experiment.maxValue} 
-                        onChange={updateMaxVal}
-                    />
-                    <span className={props.maxValAsPercents ? styles.Percent : styles.Hide}>%</span>
-                </div>
-            </div>
-            <div className={styles.ParamsContainer}>
-            {
-                paramInfos.map(param =>{
-                    const onChange = (event: any) => {
-                        let stringORnumber = param.isSelect === true ? event.target.value : +event.target.value
-                        experiment.algorithmParams.set(param.name, stringORnumber)
-                        props.updateExperiment(experiment)
-                    }
-                    let val = experiment.algorithmParams.get(param.name)
-                    const checkStyle = getCheckBasedStyles(props.experimentCheckInfo.algorithmParams.get(param.name))
-                    return <div className={styles.Param}>
-                        <label>{param.name}</label>
+            <div className={styles.CardForm}>
+                <div className={styles.FormControl}>
+                    <label>Algorithm</label>
+                    <select className={styles.AlgorithmSelect} value={experiment.algorithmName} onChange={updateAlgorithm}>
                         {
-                            param.isSelect === true ?
-                                <select className={checkStyle} value={val} onChange={onChange}> 
-                                    { param.options.map(name => <option value={name}>{name}</option>) } 
-                                </select> :
-                                <input className={checkStyle} type="number" value={+val === 0 ? "" : val} onChange={onChange}/>
+                            props.algorithmOptions.map(name => <option value={name}>{name}</option>)
                         }
+                    </select>
+                </div>
+                <div className={styles.FormControl}>
+                    <label>Data Distribution</label>
+                    <select className={styles.DataSelect} value={experiment.dataDistribution} onChange={updateData}>
+                        {
+                            props.dataOptions.map(name => <option value={name}>{name}</option>)
+                        }
+                    </select>
+                </div>
+                <div className={styles.FormControl}>
+                    <label>Maximum possible value</label>
+                    <div>
+                        <input className={getCheckBasedStyles(props.experimentCheckInfo.maxValue)} 
+                            type="number" 
+                            value={experiment.maxValue===0 ? "" : experiment.maxValue} 
+                            onChange={updateMaxVal}
+                        />
+                        <span className={props.maxValAsPercents ? styles.Percent : styles.Hide}>%</span>
                     </div>
-                })
-            }
+                </div>
+                {
+                    paramInfos.map(param =>{
+                        const onChange = (event: any) => {
+                            let stringORnumber = param.isSelect === true ? event.target.value : +event.target.value
+                            experiment.algorithmParams.set(param.name, stringORnumber)
+                            props.updateExperiment(experiment)
+                        }
+                        let val = experiment.algorithmParams.get(param.name)
+                        const checkStyle = getCheckBasedStyles(props.experimentCheckInfo.algorithmParams.get(param.name))
+                        return <div className={styles.FormControl}>
+                            <label>{param.name}</label>
+                            {
+                                param.isSelect === true ?
+                                    <select className={checkStyle} value={val} onChange={onChange}> 
+                                        { param.options.map(name => <option value={name}>{name}</option>) } 
+                                    </select> :
+                                    <input className={checkStyle} type="number" value={+val === 0 ? "" : val} onChange={onChange}/>
+                            }
+                        </div>
+                    })
+                }
             </div>
             {
                 checkMsgs.length > 0 ?

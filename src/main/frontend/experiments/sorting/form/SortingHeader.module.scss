@@ -5,11 +5,11 @@
     padding: 20px 0 20px 0;
 
     display: grid;
-    grid-template-columns: 15% 30% 30% 10% 15%;
+    width: 100%;
+    grid-template-columns: 10% auto auto 10%;
     grid-template-areas: 
-    ". sizeInput series submit ."
-    ". maxVal . submit ."
-    ". msgs msgs submit ."
+    ". form submit ."
+    ". msgs submit ."
 }
 @mixin flexCentering($direction){
     display: flex;
@@ -17,30 +17,29 @@
     justify-content: center;
     align-items: center;
 
-    margin-top: 0.4rem;
-    margin-bottom: 0.4rem;
+    margin: .4rem .6rem;
+}
+@mixin margins{
+    margin: 2rem 2rem;
 }
 
-.SizeContainer{
-    grid-area: sizeInput;
+.HeaderForm{
+    grid-area: form;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.FormControl{
     @include flexCentering(column);
-}
-
-.SeriesContainer{
-    grid-area: series;
-    @include flexCentering(column);
-}
-
-.MaxValContainer{
-    grid-area: maxVal;
-    @include flexCentering(row);
+    @include margins;
 }
 
 .SubmitContainer{
     grid-area: submit;
     @include flexCentering(column);
-}
-.BlockSubmit{
 }
 
 .MessageContainer{
