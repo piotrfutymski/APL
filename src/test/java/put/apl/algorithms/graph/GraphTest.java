@@ -43,6 +43,9 @@ public class GraphTest {
         return list;
     }
 
+    //get NOT connected Directed Graph
+    //get NOT
+
     //static String UNDIRECTED_CONNECTED_HAMILTONIAN_GRAPH =
     //        /* 0  */ "1,3\r\n" +
     //        /* 1  */ "0,1,2,3,4\r\n" +
@@ -76,21 +79,17 @@ public class GraphTest {
 
 
 
-    static List<Integer> DFS_RESULT = new ArrayList<Integer>();
     static List<Integer> BFS_RESULT = new ArrayList<Integer>();
     static List<Integer> TOPO_SORT_RESULT = new ArrayList<Integer>();
     static List<Integer> HAMILTONIAN_RESULT = new ArrayList<Integer>();
     static List<ArrayList<Integer>> ALL_HAMILTONIAN_RESULT = new ArrayList<ArrayList<Integer>>();
 
+    List<GraphRepresentation> undirected;
+
+    List<GraphRepresentation> directed;
+
     @BeforeEach
     void initAll() {
-        DFS_RESULT.clear();
-        DFS_RESULT.add(0);
-        DFS_RESULT.add(1);
-        DFS_RESULT.add(4);
-        DFS_RESULT.add(3);
-        DFS_RESULT.add(5);
-        DFS_RESULT.add(2);
 
         BFS_RESULT.clear();
         BFS_RESULT.add(0);
@@ -128,12 +127,17 @@ public class GraphTest {
         ALL_HAMILTONIAN_RESULT.get(1).add(4);
         ALL_HAMILTONIAN_RESULT.get(1).add(2);
         ALL_HAMILTONIAN_RESULT.get(1).add(1);
+
+        undirected = Arrays.asList(new ListOfIncidentUndirected(),
+                new ListOfEdgesUndirected(), new IncidenceMatrixUndirected(), new AdjacencyMatrixUndirected(),
+                new IncidenceMatrixUndirectedWeighted(), new AdjacencyMatrixUndirected());
+
+        directed = Arrays.asList(new ListOfEdgesDirected(), new ListOfPredecessorsDirected(),
+                new ListOfSuccessorsDirected(), new AdjacencyMatrixDirected(), new IncidenceMatrixDirected(),
+                new AdjacencyMatrixDirectedWeighted(), new IncidenceMatrixDirectedWeighted());
     }
     @Test
     void UndirectedRepresentationTest() throws InterruptedException {
-        List<GraphRepresentation> undirected = Arrays.asList(new ListOfIncidentUndirected(),
-                new ListOfEdgesUndirected(), new IncidenceMatrixUndirected(), new AdjacencyMatrixUndirected(),
-                new IncidenceMatrixUndirectedWeighted(), new AdjacencyMatrixUndirected());
         var expectedSuccessors = new int[][] {{2,4,5}, {4,5}, {0,3,4,5}, {2,4}, {0,1,2,3}, {0,1,2}};
         for( var representation : undirected)
         {
@@ -142,7 +146,6 @@ public class GraphTest {
             {
                 var succ = representation.getSuccessors(i);
                 var pre = representation.getPredecessors(i);
-                System.out.println(Arrays.asList(expectedSuccessors[i]).toString());
                 assertArrayEquals(expectedSuccessors[i], representation.getSuccessors(i));
                 assertArrayEquals(expectedSuccessors[i], representation.getPredecessors(i));
             }
@@ -151,9 +154,6 @@ public class GraphTest {
 
     @Test
     void DirectedRepresentationTest() throws InterruptedException {
-        List<GraphRepresentation> directed = Arrays.asList(new ListOfEdgesDirected(), new ListOfPredecessorsDirected(),
-                new ListOfSuccessorsDirected(), new AdjacencyMatrixDirected(), new IncidenceMatrixDirected(),
-                new AdjacencyMatrixDirectedWeighted(), new IncidenceMatrixDirectedWeighted());
         var expectedSuccessors = new int[][] {{3}, {0,2}, {4}, {1,4}, {0,1,5}, {1,2}};
         var expectedPredecessors = new int[][] {{1,4}, {3,4,5}, {1,5}, {0}, {2,3}, {4}};
         for( var representation : directed)
@@ -163,22 +163,127 @@ public class GraphTest {
             {
                 var succ = representation.getSuccessors(i);
                 var pre = representation.getPredecessors(i);
-                System.out.println(Arrays.asList(expectedSuccessors[i]));
                 assertArrayEquals(expectedSuccessors[i], representation.getSuccessors(i));
                 assertArrayEquals(expectedPredecessors[i], representation.getPredecessors(i));
             }
         }
     }
 
-/*    @Test
-    void DFSTest() throws InterruptedException {
-        DepthFirstSearch dfs = new DepthFirstSearch();
-        Map<String,String> params = Map.of("numberOfVertices", "6");
-        dfs.setParams(params);
-        List<Integer> path = dfs.run(TEST_LIST_SUCCESSORS_DIRECTED).getPath();
-        assertArrayEquals(path.toArray(), DFS_RESULT.toArray());
+    @Test
+    void UndirectedRepresentationEdgesTest() throws InterruptedException {
+        var expectedEdges = new int[][] {{0,2}, {0,4}, {0,5}, {1,4}, {1,5}, {2,3},
+                {2,4}, {2,5}, {3,4}};
+        for( var representation : undirected)
+        {
+            representation.loadFromIncidenceList(getUndirectedGraph());
+            var result = representation.getAllEdges();
+            for (var r : result)
+            {
+                System.out.print(Arrays.toString(r));
+
+            }
+            System.out.println("heh");
+
+        }
     }
 
+    @Test
+    void DirectedRepresentationEdgesTest() throws InterruptedException {
+        var expectedEdges = new int[][] {{0,2}, {0,4}, {0,5}, {1,4}, {1,5}, {2,3},
+                {2,4}, {2,5}, {3,4}};
+        for( var representation : directed)
+        {
+            representation.loadFromIncidenceList(getDirectedGraph());
+            var result = representation.getAllEdges();
+            for (var r : result)
+            {
+                System.out.print(Arrays.toString(r));
+
+            }
+            System.out.println("heh");
+
+        }
+    }
+
+  @Test
+    void DFSTest() throws InterruptedException {
+        var dirResult = new Integer[] {0,3,1,2,4,5};
+        var undirResult = new Integer[] {0,2,3,4,1,5};
+        var algo = new DepthFirstSearch();
+        for (var representation : directed)
+        {
+            representation.loadFromIncidenceList(getDirectedGraph());
+            assertArrayEquals(dirResult, algo.run(representation).getPath().toArray());
+        }
+
+      for (var representation : undirected)
+      {
+          representation.loadFromIncidenceList(getUndirectedGraph());
+          assertArrayEquals(undirResult, algo.run(representation).getPath().toArray());
+      }
+    }
+
+    @Test
+    void BFSTest() throws InterruptedException {
+        var dirResult = new Integer[] {0,3,1,4,2,5};
+        var undirResult = new Integer[] {0,2,4,5,3,1};
+        var algo = new BreadthFirstSearch();
+        for (var representation : directed)
+        {
+            representation.loadFromIncidenceList(getDirectedGraph());
+            assertArrayEquals(dirResult, algo.run(representation).getPath().toArray());
+        }
+
+        for (var representation : undirected)
+        {
+            representation.loadFromIncidenceList(getUndirectedGraph());
+            assertArrayEquals(undirResult, algo.run(representation).getPath().toArray());
+        }
+    }
+
+    @Test
+    void HamiltonTest() throws InterruptedException {
+        var dirResult = new Integer[] {0,3,1,4,2,5};
+        var undirResult = new Integer[] {0,2,4,5,3,1};
+        var algo = new HamiltonianCycle();
+        for (var representation : directed)
+        {
+            representation.loadFromIncidenceList(getDirectedGraph());
+            var array = Arrays.toString(algo.run(representation).getPath().toArray());
+            System.out.println(array);
+            //assertArrayEquals(dirResult, dfs.run(representation).getPath().toArray());
+        }
+
+        for (var representation : undirected)
+        {
+            representation.loadFromIncidenceList(getUndirectedGraph());
+            var array = Arrays.toString(algo.run(representation).getPath().toArray());
+            System.out.println(array);
+            //assertArrayEquals(undirResult, dfs.run(representation).getPath().toArray());
+        }
+    }
+    @Test
+    void AllHamiltonTest() throws InterruptedException {
+        var dirResult = new Integer[] {0,3,1,4,2,5};
+        var undirResult = new Integer[] {0,2,4,5,3,1};
+        var algo = new AllHamiltonianCycles();
+        for (var representation : directed)
+        {
+            representation.loadFromIncidenceList(getDirectedGraph());
+            var array = Arrays.toString(algo.run(representation).getPath().toArray());
+            System.out.println(array);
+            //assertArrayEquals(dirResult, algo.run(representation).getPath().toArray());
+        }
+
+        for (var representation : undirected)
+        {
+            representation.loadFromIncidenceList(getUndirectedGraph());
+            var array = Arrays.toString(algo.run(representation).getPath().toArray());
+            System.out.println(array);
+            //assertArrayEquals(undirResult, algo.run(representation).getPath().toArray());
+        }
+    }
+/*
     @Test
     void BFSTest() throws InterruptedException {
         BreadthFirstSearch bfs = new BreadthFirstSearch();
