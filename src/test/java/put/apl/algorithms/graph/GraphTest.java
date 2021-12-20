@@ -10,10 +10,7 @@ import put.apl.experiment.dto.GraphExperiment;
 import put.apl.experiment.service.GraphService;
 
 import java.io.ObjectInputFilter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -191,6 +188,8 @@ public class GraphTest {
     void DirectedRepresentationEdgesTest() throws InterruptedException {
         var expectedEdges = new int[][] {{0,2}, {0,4}, {0,5}, {1,4}, {1,5}, {2,3},
                 {2,4}, {2,5}, {3,4}};
+        Set<int[]> targetSet = new HashSet<int[]>(Arrays.asList(expectedEdges));
+
         for( var representation : directed)
         {
             representation.loadFromIncidenceList(getDirectedGraph());
