@@ -22,7 +22,7 @@ public abstract class ListOfEdges implements GraphRepresentation {
         loadFromIncidenceList(input);
     }
 
-    public ListOfEdges(int[][] edges) {
+    public ListOfEdges(int[][] edges, int vertexNum) {
         this.edges = edges;
         int highestEdgeId = 0;
         for (int[] edge : edges) {
@@ -33,9 +33,8 @@ public abstract class ListOfEdges implements GraphRepresentation {
                 highestEdgeId = edge[1];
             }
         }
-        vertexNum = highestEdgeId;
+        this.vertexNum = vertexNum;
         edgeNum = edges.length;
-
     }
 
     @Override

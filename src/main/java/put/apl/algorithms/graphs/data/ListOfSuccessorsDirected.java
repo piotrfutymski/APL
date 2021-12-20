@@ -28,6 +28,10 @@ public class ListOfSuccessorsDirected extends ListOfIncident{
         super(edges);
     }
 
+    public ListOfSuccessorsDirected(List<List<Integer>> input, int vertexNum) {
+      super(input, vertexNum);
+    };
+
     public int[] getSuccessors(Integer id) {
         return getDirect(id);
     };

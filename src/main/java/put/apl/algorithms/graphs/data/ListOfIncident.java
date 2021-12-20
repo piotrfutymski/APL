@@ -19,6 +19,27 @@ public abstract class ListOfIncident implements GraphRepresentation {
         edges = new int[0][];
     }
 
+    public ListOfIncident(List<List<Integer>> input, int vertexNum) {
+        this.vertexNum = vertexNum;
+        edgeNum = input.size();
+        List<ArrayList<Integer>> edgesList = new ArrayList<ArrayList<Integer>>();
+        for (int i = 0; i < vertexNum; i++) {
+            edgesList.add(new ArrayList<Integer>());
+        }
+        edges = new int[vertexNum][];
+        for (int i = 0; i < input.size(); i++) {
+            addEdge(edgesList, input.get(i).get(0), input.get(i).get(1));
+        }
+        for (int i = 0; i < edgesList.size(); i++) {
+            edges[i] = new int[edgesList.get(i).size()];
+            // Just to be sure that order is right
+            //Collections.sort(edgesList.get(i));
+            for (int j = 0; j < edgesList.get(i).size(); j++) {
+                edges[i][j] = edgesList.get(i).get(j);
+            }
+        }
+    };
+
     public ListOfIncident(List<List<Integer>> input) {
         loadFromIncidenceList(input);
     }

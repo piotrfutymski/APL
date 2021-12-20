@@ -38,7 +38,7 @@ public class EulerDirectedGraphDataGenerator implements GraphDataGenerator {
                 edgesCopy.remove(removalId);
                 Map<String,String> params = Map.of("forceConnected", "true");
                 bfs.setParams(params);
-                List<Integer> path = bfs.run(new ListOfEdgesDirected((int[][]) edgesCopy.toArray())).getPath();
+                List<Integer> path = bfs.run(new ListOfEdgesDirected((int[][]) edgesCopy.stream().map(  u  ->  u.stream().mapToInt(w->w).toArray()  ).toArray(int[][]::new), config.getNumberOfVertices())).getPath();
                 if (config.getNumberOfVertices() == path.size()) {
                     break;
                 }

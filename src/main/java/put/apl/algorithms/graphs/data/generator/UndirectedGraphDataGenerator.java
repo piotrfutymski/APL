@@ -17,8 +17,8 @@ public class UndirectedGraphDataGenerator implements GraphDataGenerator {
         config.setDensity(config.getDensity() / 100);
         Random random = new Random();
         // n(n-1) - g•n(n-1)/2
-        int numToDiscard = (int) (config.getNumberOfVertices() * (config.getNumberOfVertices() - 1) / 2
-                - (config.getDensity() * config.getNumberOfVertices() * (config.getNumberOfVertices() - 1) / 2));
+        int numToDiscard = (int) (config.getNumberOfVertices() * (config.getNumberOfVertices() - 1)
+                - (config.getDensity() * config.getNumberOfVertices() * (config.getNumberOfVertices() - 1)));
         for (int i = 0; i < config.getNumberOfVertices(); i++) {
             for (int j = 0; j < config.getNumberOfVertices(); j++) {
                 if (i == j) {
@@ -35,6 +35,13 @@ public class UndirectedGraphDataGenerator implements GraphDataGenerator {
             int removeId = random.nextInt(edges.size());
             edges.remove(removeId);
         }
-        return edges;
+        List<List<Integer>> graph = new ArrayList<List<Integer>>();
+        for (int i = 0; i < config.getNumberOfVertices(); i++) {
+            graph.add(new ArrayList<Integer>());
+        }
+        for (List<Integer> edge : edges) {
+            graph.get(edge.get(0)).add(edge.get(1));
+        }
+        return graph;
     };
 }
