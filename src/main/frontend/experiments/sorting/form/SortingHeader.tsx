@@ -21,21 +21,26 @@ export const SortingHeader = (props: SortingHeaderProps) =>{
     const checkMsgs = [props.configCheckInfo.measureSeries, props.configCheckInfo.n].filter(e => e.msg !== undefined)
     return (
         <div className={styles.SortingHeader}>
-            <div className={styles.SizeContainer}>
-                <label>N - Size of the largest instance</label>
-                <input className={getCheckBasedStyles(props.configCheckInfo.n)} type="number" value={config.n===0 ? "" : config.n} onChange={updateN}/>
-            </div>
-            <div className={styles.SeriesContainer}>
-                <label>Number of measure series</label>
-                <input className={getCheckBasedStyles(props.configCheckInfo.measureSeries)} type="number" value={config.measureSeries===0 ? "" : config.measureSeries} onChange={updateMeasureSeries}/>
-            </div>
-            <div className={styles.MaxValContainer}>
-                {
-                    config.maxValAsPercent ? 
-                    <input type="checkbox" id="maxValAsPercent" onChange={updateMaxValAsPercent} checked/> : 
-                    <input type="checkbox" id="maxValAsPercent" onChange={updateMaxValAsPercent} />
-                }
-                <label htmlFor="maxValAsPercent">Calculate maximum value as percent of N</label>
+            <div className={styles.HeaderForm}>
+                <div className={styles.FormControl}>
+                    <label>N - Size of the largest instance</label>
+                    <input className={getCheckBasedStyles(props.configCheckInfo.n)} type="number" value={config.n===0 ? "" : config.n} onChange={updateN}/>
+                </div>
+                <div className={styles.FormControl}>
+                    <label>Number of measure series</label>
+                    <input className={getCheckBasedStyles(props.configCheckInfo.measureSeries)} type="number" value={config.measureSeries===0 ? "" : config.measureSeries} onChange={updateMeasureSeries}/>
+                </div>
+                <div className={styles.FormControl}>
+                    <div style={{height: "1rem"}}></div>
+                    <label className="checkboxStyling">Calculate maximum value as percent of N
+                        {
+                            config.maxValAsPercent ? 
+                            <input type="checkbox" id="maxValAsPercent" onChange={updateMaxValAsPercent} checked/> : 
+                            <input type="checkbox" id="maxValAsPercent" onChange={updateMaxValAsPercent} />
+                        }
+                        <span></span>
+                    </label>
+                </div>
             </div>
             <div className={styles.SubmitContainer}>
                 {

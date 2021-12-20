@@ -15,6 +15,7 @@ public class ConnectedDirectedGraphDataGenerator implements GraphDataGenerator {
     @Override
     public List<List<Integer>> generate(GraphGeneratorConfig config) throws InterruptedException {
         List<List<Integer>> edges = new ArrayList<List<Integer>>();
+        config.setDensity(config.getDensity() / 100);
         Random random = new Random();
         // n(n-1) - g•n(n-1)/2
         int numToDiscard = (int) (config.getNumberOfVertices() * (config.getNumberOfVertices() - 1)

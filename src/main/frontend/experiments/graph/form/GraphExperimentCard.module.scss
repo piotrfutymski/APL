@@ -2,8 +2,18 @@
 
 $radius: 16px;
 
+@mixin flexCentering($direction){
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+}
+
 .Correct{
     box-shadow: 0 0 10px $card-correct-color;
+}
+.Warning{
+    box-shadow: 0 0 10px $card-warning-color;
 }
 .Error{
     box-shadow: 0 0 10px $card-error-color;
@@ -13,104 +23,53 @@ $radius: 16px;
     display: none;
 }
 .Card{
-    width: 70%;
     background: $card-bg;
     border-radius: $radius;
-    padding: 20px 0 20px 0;
 
     display: grid;
-    grid-template-columns: 30% 30% 30% 10%;
+    width: 80%;
+    grid-template-columns: 90% 10%;
     grid-template-areas: 
-    "algorithm data representation deleteBtn"
-    "vertices density params deleteBtn"
-    "msgs msgs msgs deleteBtn"
+    "form deleteBtn"
+    "msgs deleteBtn"
 }
-@mixin margins{
-    margin: 0.4rem;
-}
-@mixin flexCentering($direction){
+.CardForm{
+    grid-area: form;
+    border-radius: $radius 0 0 0;
     display: flex;
-    flex-direction: $direction;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem 1.25rem;
+    margin: 2rem 0rem 2rem 0rem;
 }
-
-.AlgorithmSelectContainer{
-    grid-area: algorithm;
-
+.DeleteBtn{
+    grid-area: deleteBtn;
+    border-radius: 0 $radius $radius 0;
     @include flexCentering(column);
-    @include margins;
-}
-.AlgorithmSelect{
+    margin: 0;
+    cursor: pointer;
 
+    transition-duration: $trans-duration;
+    &:hover{
+        background: $card-error-color;
+    }
 }
-.DataSelectContainer{
-    grid-area: data;
+.MessagesContainer{
+    grid-area: msgs;
+    border-radius: 0 0 0 $radius;
     @include flexCentering(column);
-    @include margins;
-}
-.DataSelect{
-
 }
 
-.RepresentationSelectContainer{
-    grid-area: representation;
-
+.FormControl{
     @include flexCentering(column);
-    @include margins;
 }
-.RepresentationSelect{
-
-}
-
-.VerticesContainer{
-    grid-area: vertices;
-
-    @include flexCentering(column);
-    @include margins;
-}
-
-.DensityContainer{
-    grid-area: density;
-
-    @include flexCentering(column);
-    @include margins;
-}
-
 .Percent{
     display: inline-block;
     pointer-events: none;
     margin-left: -1rem;
     color: grey;
-}
-
-.ParamsContainer{
-    grid-area: params;
-    @include flexCentering(row);
-}
-.Param{
-    @include flexCentering(column);
-    @include margins;
-
-}
-
-.DeleteBtn{
-    @include flexCentering(column);
-    margin: 0;
-    height: 100%;
-    border-radius: 0 $radius $radius 0;
-    grid-area: deleteBtn;
-    cursor: pointer;
-    &:hover{
-        background: $card-error-color;
-    }
-}
-
-.MessagesContainer{
-    grid-area: msgs;
-    @include flexCentering(column);
-    border-radius: 0 0 0 $radius;
-    
 }
 .WarningMsg{
     color: $card-warning-color

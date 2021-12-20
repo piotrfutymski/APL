@@ -10,11 +10,12 @@ import java.util.Map;
 public class GetNonIncident implements GraphAlgorithm {
 
     public GraphResult run(GraphRepresentation graph) {
+        graph.setOperations(0);
         int noOfVertices = graph.getVerticesNumber();
         for (int i = 0; i < noOfVertices; i++) {
             graph.getNonIncident(i);
         }
-        return GraphResult.builder().build();
+        return GraphResult.builder().memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
     @Override

@@ -24,11 +24,11 @@ public class AllHamiltonianCycles implements GraphAlgorithm  {
         currentPath.add(0);
         if (graph.getVerticesNumber() > 1) {
             hamiltonianCycle(1);
-            return GraphResult.builder().multiplePaths(paths).memoryOccupancyInBytes(graph.getMemoryOccupancy()).build();
+            return GraphResult.builder().multiplePaths(paths).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).hamiltonCyclesCount(paths.size()).build();
         }
         else {
             paths.add(currentPath);
-            return GraphResult.builder().multiplePaths(paths).memoryOccupancyInBytes(graph.getMemoryOccupancy()).build();
+            return GraphResult.builder().multiplePaths(paths).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).hamiltonCyclesCount(paths.size()).build();
         }
     }
 
@@ -45,7 +45,7 @@ public class AllHamiltonianCycles implements GraphAlgorithm  {
             return false;
         }
         for (int i = 1; i < graph.getVerticesNumber(); i++) {
-            if ((graph.getEdge(i, currentPath.get(pos-1))!=0) && !currentPath.contains(i)) {
+            if ((graph.getEdge(i, currentPath.get(pos-1)) > 0) && !currentPath.contains(i)) {
                 currentPath.add(i);
                 if (hamiltonianCycle(pos + 1)) {
                     return true;

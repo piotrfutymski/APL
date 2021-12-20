@@ -21,6 +21,7 @@ public class PrimAlgorithm implements GraphAlgorithm  {
 
     @Override
     public GraphResult run(GraphRepresentation graph) {
+        graph.setOperations(0);
         this.graph = graph;
         verticesSize = graph.getVerticesNumber();
         key = new int[verticesSize];

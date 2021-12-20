@@ -20,7 +20,7 @@ export const App = () => {
 				<div className={styles.Header}>
 					<Header subpages={subpages} showLogo={true} />
 				</div>
-				<div className={styles.Content}>
+				<div>
 					<Routes>
 						<Route path="/" element={<Home />}/>
 						<Route path="/experiments/*" element={<ExperimentView />} />

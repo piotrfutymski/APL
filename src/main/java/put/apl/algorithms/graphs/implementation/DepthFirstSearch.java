@@ -16,6 +16,7 @@ public class DepthFirstSearch implements GraphAlgorithm {
     private boolean forceConnectedGraph = false;
 
     public GraphResult run(GraphRepresentation graph) {
+        graph.setOperations(0);
         visited = new boolean[graph.getVerticesNumber()];
         path = new ArrayList<Integer>();
         for (int i = 0; i < graph.getVerticesNumber(); i++) {
@@ -31,7 +32,7 @@ public class DepthFirstSearch implements GraphAlgorithm {
         } else {
             depthFirstSearch(graph, 0);
         }
-        return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).build();
+        return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
     private void depthFirstSearch(GraphRepresentation graph, int id) {

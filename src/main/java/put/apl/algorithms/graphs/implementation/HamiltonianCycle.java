@@ -16,6 +16,7 @@ public class HamiltonianCycle implements GraphAlgorithm  {
     private GraphRepresentation graph;
 
     public GraphResult run(GraphRepresentation graph) {
+        graph.setOperations(0);
         this.path = new ArrayList<Integer>();
         this.graph = graph;
         this.path.add(0);
@@ -26,7 +27,7 @@ public class HamiltonianCycle implements GraphAlgorithm  {
             return GraphResult.builder().path(new ArrayList<Integer>()).build();
         }
         else {
-            return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).build();
+            return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
         }
     }
 
@@ -41,7 +42,7 @@ public class HamiltonianCycle implements GraphAlgorithm  {
             return false;
         }
         for (int i = 1; i < graph.getVerticesNumber(); i++) {
-            if (graph.getEdge(i, this.path.get(pos-1)) != 0 && !path.contains(i)) {
+            if (graph.getEdge(i, this.path.get(pos-1)) > 0 && !path.contains(i)) {
                 path.add(i);
                 if (hamiltonianCycle(pos + 1)) {
                     return true;

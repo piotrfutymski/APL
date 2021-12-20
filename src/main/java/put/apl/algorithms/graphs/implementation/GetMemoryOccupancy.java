@@ -10,8 +10,9 @@ import java.util.Map;
 public class GetMemoryOccupancy implements GraphAlgorithm {
 
     public GraphResult run(GraphRepresentation graph) {
+        graph.setOperations(0);
         int noOfVertices = graph.getVerticesNumber();
-        return GraphResult.builder().memoryOccupancyInBytes(graph.getMemoryOccupancy()).build();
+        return GraphResult.builder().memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).memoryOccupancyInBytes(graph.getMemoryOccupancy()).build();
     }
 
     @Override

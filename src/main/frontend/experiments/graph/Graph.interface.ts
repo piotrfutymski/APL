@@ -1,6 +1,6 @@
 export interface GraphResult {
     tableAccessCount: number;
-    memoryUsed: number;
+    memoryOccupancyInBytes: number;
 }
 export interface GraphExperiment {
     algorithmName: string;
@@ -22,6 +22,12 @@ export interface paramInfo{
     name: string;
     isSelect: boolean;
     options: string[];
+}
+
+export interface GraphExperimentResultLabel{
+    name: string;
+    active: boolean;
+    colorStr: string;
 }
 
 export interface GraphExperimentCardProps {
@@ -77,6 +83,8 @@ export interface GraphChartProps {
     experiments: GraphExperimentsResult;
     dataLabel: string;
     series?: string;
+
+    labels: GraphExperimentResultLabel[];
 }
 
 export interface GraphHeaderProps{
