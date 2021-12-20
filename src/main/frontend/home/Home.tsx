@@ -1,27 +1,24 @@
 import React, {useState, useEffect} from 'react'
 
+import styles from './Home.module.scss';
+
 export const Home = () =>{
     return(
-        <>
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            At aliquam perspiciatis voluptate. Nostrum mollitia voluptatem sed in nihil. Veritatis at alias enim velit ipsam et. Voluptate dolorem molestiae illo ut dolorum. Qui corporis ducimus maxime. Optio dolorem dolores aut nihil optio suscipit dolorem.
-            
-        </>
+        <div className={styles.HomeLayout}>
+            <div className={styles.Content}>
+                <h1>Gitara</h1>
+                <p>
+                    Siem Siema<br/>
+                    Pozdrowienia z podziemia
+                </p>
+            </div>
+            <div className={styles.Content}>
+                <h1>Gitara</h1>
+                <p>
+                    Siem Siema<br/>
+                    Pozdrowienia z podziemia
+                </p>
+            </div>
+        </div>
     )
 }

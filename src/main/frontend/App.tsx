@@ -20,12 +20,10 @@ export const App = () => {
 				<div className={styles.Header}>
 					<Header subpages={subpages} showLogo={true} />
 				</div>
-				<div>
-					<Routes>
-						<Route path="/" element={<Home />}/>
-						<Route path="/experiments/*" element={<ExperimentView />} />
-					</Routes>
-				</div>
+				<Routes>
+					<Route path="/" element={<Home />}/>
+					<Route path="/experiments/*" element={<ExperimentView />} />
+				</Routes>
 			</BrowserRouter>
 		</CookiesProvider>
 	)
