@@ -6,8 +6,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    gap: 1rem;
-    padding: 1rem;
+    gap: 4rem;
+    padding: 4rem;
 }
 
 .Content{
@@ -23,6 +23,9 @@
         border-color: $text-color;
     }
     p a{
-
+        font-weight: bold;
+        &:hover{
+            text-decoration: underline;
+        }
     }
 }
