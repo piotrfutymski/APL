@@ -28,11 +28,11 @@ export const reducePossibleGenerators = (experiment: GraphExperiment) => {
 
 export const reducePossibleRepresentations = (experiment: GraphExperiment) => {
     if(experiment.algorithmName === "Dijkstra Algorithm" && experiment.dataGenerator === "Connected Directed Graph Generator"){
-        experiment.possibleGenerators = ["Weighted Adjacency Matrix Directed"]
+        experiment.possibleRepresentations = ["Weighted Adjacency Matrix Directed"]
     } else if(experiment.algorithmName === "Dijkstra Algorithm" && experiment.dataGenerator === "Connected Undirected Graph Generator"){
-        experiment.possibleGenerators = ["Weighted Adjacency Matrix Undirected", "Incidence Matrix Undirected Weighted"]
+        experiment.possibleRepresentations = ["Weighted Adjacency Matrix Undirected", "Incidence Matrix Undirected Weighted"]
     } else if(experiment.algorithmName === "Prim Algorithm" || experiment.algorithmName === "Kruskal Algorithm"){
-        experiment.possibleGenerators = ["Weighted Adjacency Matrix Directed"]
+        experiment.possibleRepresentations = ["Weighted Adjacency Matrix Directed"]
     } else if(experiment.dataGenerator === "Connected Directed Graph Generator" || experiment.dataGenerator === "Directed Graph Generator" || experiment.dataGenerator === "Euler Directed Graph Generator"){
         experiment.possibleRepresentations = ["Adjacency Matrix Directed", "Weighted Adjacency Matrix Directed", "Incidence Matrix Directed", "Incidence Matrix Directed Weighted", "List Of Edges Directed", "List Of Predecessors Directed", "List Of Successors Directed"];
     } else if(experiment.dataGenerator === "Connected Undirected Graph Generator" || experiment.dataGenerator === "Undirected Graph Generator" || experiment.dataGenerator === "Euler Undirected Graph Generator"){

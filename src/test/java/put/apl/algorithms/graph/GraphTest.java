@@ -136,7 +136,7 @@ public class GraphTest {
                 new ListOfSuccessorsDirected(), new AdjacencyMatrixDirected(), new IncidenceMatrixDirected(),
                 new AdjacencyMatrixDirectedWeighted(), new IncidenceMatrixDirectedWeighted());
     }
-    /*
+
     @Test
     void UndirectedRepresentationTest() throws InterruptedException {
         var expectedSuccessors = new int[][] {{2,4,5}, {4,5}, {0,3,4,5}, {2,4}, {0,1,2,3}, {0,1,2}};
@@ -151,9 +151,8 @@ public class GraphTest {
                 assertArrayEquals(expectedSuccessors[i], representation.getPredecessors(i));
             }
         }
-    }*/
+    }
 
-    /*
     @Test
     void DirectedRepresentationTest() throws InterruptedException {
         var expectedSuccessors = new int[][] {{3}, {0,2}, {4}, {1,4}, {0,1,5}, {1,2}};
@@ -169,9 +168,8 @@ public class GraphTest {
                 assertArrayEquals(expectedPredecessors[i], representation.getPredecessors(i));
             }
         }
-    }*/
+    }
 
-    /*
     @Test
     void UndirectedRepresentationEdgesTest() throws InterruptedException {
         var expectedEdges = new int[][] {{0,2}, {0,4}, {0,5}, {1,4}, {1,5}, {2,3},
@@ -188,9 +186,8 @@ public class GraphTest {
             System.out.println("heh");
 
         }
-    }*/
+    }
 
-    /*
     @Test
     void DirectedRepresentationEdgesTest() throws InterruptedException {
         var expectedEdges = new int[][] {{0,2}, {0,4}, {0,5}, {1,4}, {1,5}, {2,3},
@@ -207,10 +204,10 @@ public class GraphTest {
             System.out.println("heh");
 
         }
-    }*/
+    }
 
-    /*
-  @Test
+
+    @Test
     void DFSTest() throws InterruptedException {
         var dirResult = new Integer[] {0,3,1,2,4,5};
         var undirResult = new Integer[] {0,2,3,4,1,5};
@@ -226,9 +223,8 @@ public class GraphTest {
           representation.loadFromIncidenceList(getUndirectedGraph());
           assertArrayEquals(undirResult, algo.run(representation).getPath().toArray());
       }
-    }*/
+    }
 
-    /*
     @Test
     void BFSTest() throws InterruptedException {
         var dirResult = new Integer[] {0,3,1,4,2,5};
@@ -245,9 +241,8 @@ public class GraphTest {
             representation.loadFromIncidenceList(getUndirectedGraph());
             assertArrayEquals(undirResult, algo.run(representation).getPath().toArray());
         }
-    }*/
+    }
 
-    /*
     @Test
     void HamiltonTest() throws InterruptedException {
         var dirResult = new Integer[] {0,3,1,4,2,5};
@@ -268,8 +263,8 @@ public class GraphTest {
             System.out.println(array);
             //assertArrayEquals(undirResult, dfs.run(representation).getPath().toArray());
         }
-    }*/
-    /*
+    }
+
     @Test
     void AllHamiltonTest() throws InterruptedException {
         var dirResult = new Integer[] {0,3,1,4,2,5};
@@ -290,7 +285,7 @@ public class GraphTest {
             System.out.println(array);
             //assertArrayEquals(undirResult, algo.run(representation).getPath().toArray());
         }
-    }*/
+    }
 /*
     @Test
     void BFSTest() throws InterruptedException {
