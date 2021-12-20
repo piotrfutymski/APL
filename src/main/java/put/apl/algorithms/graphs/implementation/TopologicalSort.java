@@ -19,6 +19,7 @@ public class TopologicalSort implements GraphAlgorithm {
     private boolean checkForCycles = false;
 
     public GraphResult run(GraphRepresentation graph) {
+        graph.setOperations(0);
         stack = new ArrayList<Integer>();
         this.graph = graph;
         visited = new boolean[graph.getVerticesNumber()];
@@ -34,7 +35,7 @@ public class TopologicalSort implements GraphAlgorithm {
         if (checkForCycles && checkCyclic()) {
             return null;
         }
-        return GraphResult.builder().path(stack).memoryOccupancyInBytes(graph.getMemoryOccupancy()).build();
+        return GraphResult.builder().path(stack).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
     private void topologicalSort(int id) {

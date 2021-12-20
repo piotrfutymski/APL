@@ -15,6 +15,7 @@ public class BreadthFirstSearch implements GraphAlgorithm {
     private boolean forceConnectedGraph = false;
 
     public GraphResult run(GraphRepresentation graph) {
+        graph.setOperations(0);
         visited = new boolean[graph.getVerticesNumber()];
         path = new ArrayList<Integer>();
         queue = new LinkedList<Integer>();
@@ -31,7 +32,7 @@ public class BreadthFirstSearch implements GraphAlgorithm {
         } else {
             breadthFirstSearch(graph, 0);
         }
-        return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).build();
+        return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
     private void breadthFirstSearch(GraphRepresentation graph, int id) {

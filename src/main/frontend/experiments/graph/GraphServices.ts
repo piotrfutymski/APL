@@ -59,6 +59,18 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
         result.numberOfVertices.status="ERROR"
         result.numberOfVertices.msg="Number of vertices must be a number greater than 0"
         result.errorFlag=true
+    } 
+    else if (experiment.numberOfVertices < config.measureSeries) 
+    {
+        result.numberOfVertices.status="ERROR"
+        result.numberOfVertices.msg="Number of vertices is smaller than the number of series"
+        result.errorFlag=true
+    }
+    else if (experiment.numberOfVertices < 5 * config.measureSeries)
+    {
+        result.numberOfVertices.status="WARNING"
+        result.numberOfVertices.msg="Number of vertices is very small compared to number of series"
+        result.warningFlag=true
     }
     if(experiment.density <= 0)
     {
@@ -66,7 +78,13 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
         result.density.msg="Density must be a number greater than 0"
         result.errorFlag=true
     }
-    if(experiment.density > 100)
+    else if (experiment.numberOfVertices * experiment.density / (100 * config.measureSeries) < 1 && config.measureByDensity == true) 
+    {
+        result.density.status="WARNING"
+        result.density.msg="Density is very too small compared with current number of vertices and measure series"
+        result.warningFlag=true
+    }
+    else if(experiment.density > 100)
     {
         result.density.status="ERROR"
         result.density.msg="Density must be a number below 100"

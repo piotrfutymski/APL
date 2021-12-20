@@ -270,7 +270,7 @@ public class GraphTest {
         for (var representation : directed)
         {
             representation.loadFromIncidenceList(getDirectedGraph());
-            var array = Arrays.toString(algo.run(representation).getPath().toArray());
+            var array = Arrays.toString(algo.run(representation).getMultiplePaths().toArray());
             System.out.println(array);
             //assertArrayEquals(dirResult, algo.run(representation).getPath().toArray());
         }
@@ -278,7 +278,7 @@ public class GraphTest {
         for (var representation : undirected)
         {
             representation.loadFromIncidenceList(getUndirectedGraph());
-            var array = Arrays.toString(algo.run(representation).getPath().toArray());
+            var array = Arrays.toString(algo.run(representation).getMultiplePaths().toArray());
             System.out.println(array);
             //assertArrayEquals(undirResult, algo.run(representation).getPath().toArray());
         }

@@ -116,7 +116,11 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
     @Override
     public int getEdge(Integer id1, Integer id2) {
         operations+=1;
-        return matrix[id1][id2];
+        if (matrix[id1][id2] > 0)  return matrix[id1][id2];
+        else if (matrix[id2][id1] > 0){
+            return matrix[id2][id1];
+        }
+        return 0;
     }
 
     @Override

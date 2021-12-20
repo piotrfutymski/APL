@@ -19,6 +19,7 @@ public class DijkstraAlgorithm  implements GraphAlgorithm {
 
     @Override
     public GraphResult run(GraphRepresentation graph) {
+        graph.setOperations(0);
         this.graph = graph;
         int verticesSize = graph.getVerticesNumber();
         dist = new int[verticesSize];
@@ -37,7 +38,7 @@ public class DijkstraAlgorithm  implements GraphAlgorithm {
             visited.add(vertice);
             propagateNeighbours(vertice);
         }
-        return GraphResult.builder().path(new ArrayList<>(visited)).build();
+        return GraphResult.builder().path(new ArrayList<>(visited)).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
     private void propagateNeighbours(int vertice)
