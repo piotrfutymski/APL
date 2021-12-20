@@ -86,14 +86,14 @@ export const SortingDoneView = (props: SortingExperimentsResult) => {
                 <select className={styles.SeriesSelect} value={choosedSeries} onChange={handleChangeSeries}>
                     <option key="emptyOpt" value=""></option>
                     {
-                        series.filter(lab => !lab.name.endsWith(" --> trend")).map((label) => <option key={label.name} value={label.name}> {label.name} </option>)
+                        series.filter(lab => !lab.name.endsWith(" --> trend")).map((label, index) => <option key={index} value={label.name}> {label.name} </option>)
                     }
                 </select>
                 {complexityParams && <SortingFormula {...complexityParams}/>}
             </div>
             <div className={styles.LabelContainer}>
                 {
-                    series.map((lab, index) => <p className={styles.Label} style={{color: lab.active? lab.colorStr : "#808080"}} onClick={()=>toggleSeries(index)}>{lab.name}</p>)
+                    series.map((lab, index) => <p key={index} className={styles.Label} style={{color: lab.active? lab.colorStr : "#808080"}} onClick={()=>toggleSeries(index)}>{lab.name}</p>)
                 }
             </div>
         </div>

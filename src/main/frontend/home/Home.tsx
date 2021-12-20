@@ -24,6 +24,7 @@ export const Home = () =>{
                 <h1>Cookies</h1>
                 <p>
                     This website use cookies to improve user experience.<br /> 
+                </p>
                     <b>Information collected:</b>
                     <ul>
                         <li>Recent experiment configurations</li>
@@ -32,7 +33,6 @@ export const Home = () =>{
                     <ul>
                         <li>Personal information</li>
                     </ul>
-                </p>
             </div>
         </div>
     )

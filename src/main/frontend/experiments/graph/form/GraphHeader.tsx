@@ -43,8 +43,8 @@ export const GraphHeader = (props: GraphHeaderProps) =>{
                 </div>
                 <div className={styles.MessageContainer}>
                 {
-                    checkMsgs.map(check => 
-                    <p className={check.status === "ERROR" ? styles.ErrorMsg : check.status === "WARNING" ? styles.WarningMsg : ""}>
+                    checkMsgs.map((check, index) => 
+                    <p key={index} className={check.status === "ERROR" ? styles.ErrorMsg : check.status === "WARNING" ? styles.WarningMsg : ""}>
                         {check.msg}
                     </p>)
                 }

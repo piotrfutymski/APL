@@ -114,7 +114,7 @@ export const SortingForm = () =>{
         <div className={styles.ExperimentList}>
             {
                 experiments.map((experiment, index) => {
-                    return <SortingExperimentCard experiment={experiment} 
+                    return <SortingExperimentCard key={index} experiment={experiment} 
                         updateExperiment={(experiment)=>updateExperiment(index, experiment)} 
                         removeExperiment={()=>removeExperiment(index)} 
                         algorithmOptions={algorithmOptions}
