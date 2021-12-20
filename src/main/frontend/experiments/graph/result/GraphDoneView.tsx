@@ -86,7 +86,7 @@ export const GraphDoneView = (props: GraphExperimentsResult) => {
             props.results.forEach((v : GraphExperiment) => {
                 let found : boolean = false;
                 tmp.forEach((l : GraphExperiment) => {
-                    if (l.algorithmName === v.algorithmName) {
+                    if (getNameForGraphExperiment(l, densityAsX) === getNameForGraphExperiment(v, densityAsX)) {
                         found = true;
                     }
                 });

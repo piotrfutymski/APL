@@ -61,7 +61,8 @@ public class GraphService {
                 .density(experiments.get(0).getDensity())
                 .timeInMillis(timeInMillis)
                 .graphResult(experiments.get(0).getGraphResult())
-                .build();
+                .build()
+                .clearForResponse();
     }
 
     private List<GraphExperiment> runExperimentsOnce(List<GraphExperiment> experiments, List<GraphExperiment> bannedExperiments) throws InterruptedException {
