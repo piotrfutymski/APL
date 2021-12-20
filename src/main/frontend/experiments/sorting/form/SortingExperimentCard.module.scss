@@ -2,6 +2,16 @@
 
 $radius: 16px;
 
+@mixin margins{
+    margin: 2rem 2rem;
+}
+@mixin flexCentering($direction){
+    display: flex;
+    flex-direction: $direction;
+    justify-content: center;
+    align-items: center;
+}
+
 .Correct{
     box-shadow: 0 0 10px $card-correct-color;
 }
@@ -20,35 +30,40 @@ $radius: 16px;
     border-radius: $radius;
 
     display: grid;
+    width: 80%;
+    grid-template-columns: 90% 10%;
     grid-template-areas: 
-    "algorithm data deleteBtn"
-    "maxVal params deleteBtn"
-    "msgs msgs deleteBtn"
+    "form deleteBtn"
+    "msgs deleteBtn"
 }
-@mixin margins{
-    margin: 2rem 2rem;
-}
-@mixin flexCentering($direction){
+.CardForm{
+    grid-area: form;
+    border-radius: $radius 0 0 0;
     display: flex;
-    flex-direction: $direction;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
-
-.AlgorithmSelectContainer{
-    grid-area: algorithm;
-
+.DeleteBtn{
+    grid-area: deleteBtn;
+    border-radius: 0 $radius $radius 0;
     @include flexCentering(column);
-    @include margins;
+    margin: 0;
+    cursor: pointer;
+
+    transition-duration: $trans-duration;
+    &:hover{
+        background: $card-error-color;
+    }
 }
-.DataSelectContainer{
-    grid-area: data;
+.MessagesContainer{
+    grid-area: msgs;
+    border-radius: 0 0 0 $radius;
     @include flexCentering(column);
-    @include margins;
 }
 
-.MaxValContainer{
-    grid-area: maxVal;
+.FormControl{
     @include flexCentering(column);
     @include margins;
 }
@@ -58,38 +73,9 @@ $radius: 16px;
     margin-left: -1rem;
     color: grey;
 }
-.ParamsContainer{
-    grid-area: params;
-    @include flexCentering(row);
-}
-.Param{
-    @include flexCentering(column);
-    @include margins;
-}
-
-.MessagesContainer{
-    grid-area: msgs;
-    @include flexCentering(column);
-    border-radius: 0 0 0 $radius;
-    
-}
 .WarningMsg{
     color: $card-warning-color
 }
 .ErrorMsg{
     color: $card-error-color
-}
-
-.DeleteBtn{
-    @include flexCentering(column);
-    margin: 0;
-    width: 8rem;
-    border-radius: 0 $radius $radius 0;
-    grid-area: deleteBtn;
-    cursor: pointer;
-
-    transition-duration: $trans-duration;
-    &:hover{
-        background: $card-error-color;
-    }
 }

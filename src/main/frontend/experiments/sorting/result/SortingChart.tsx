@@ -36,7 +36,7 @@ export const SortingChart = (props: SortingChartProps) => {
         let i = 0
         names.forEach(name => {
             let el: any = {}
-            el.N = name.toString();
+            el["N"] = name.toString();
             let pp = true;
             props.experiments.results.filter(v => v.n === name).filter(v => v.timeInMillis > 0).forEach(v => {
                 const label = getNameForSortingExperiment(v)
@@ -70,13 +70,13 @@ export const SortingChart = (props: SortingChartProps) => {
 
     const dataLabelToLabel = () =>{
         if (props.dataLabel === "timeInMillis")
-            return "Time in millis"
+            return "Time [ms]"
         if (props.dataLabel === "swapCount")
-            return "Swap count"
+            return "Swap Count"
         if (props.dataLabel === "recursionSize")
             return "Recursion Size"
         if (props.dataLabel === "comparisonCount")
-            return "ComparisionCount"
+            return "Comparison Count"
     }
 
     const getDomainTab = () => {
@@ -101,7 +101,7 @@ export const SortingChart = (props: SortingChartProps) => {
     const getLines = () => {
         return getDataKeys().map((element, index) => {
             return (
-                <Line type="monotone" dataKey={element} stroke={props.labels[index].colorStr} />
+                <Line type="monotone" dot={false} dataKey={element} stroke={props.labels[index].colorStr} />
             )
         }).filter((_,index)=> props.labels[index].active)
     }
@@ -122,14 +122,12 @@ export const SortingChart = (props: SortingChartProps) => {
             return toRes
         })
     }
-
     const handleDownload = useCallback(async () => {
         const png = await getPng();
         if (png) {
           FileSaver.saveAs(png, props.dataLabel + '.png');
         }
       }, [getPng]);
-
     return (
         <div className={styles.Container}>
             <div className={styles.Label}>{dataLabelToLabel()}</div>             
@@ -139,7 +137,8 @@ export const SortingChart = (props: SortingChartProps) => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="N" />
                     {logarithmScale ? <YAxis scale="log" domain={[Math.min(...getDomainTab())/2, Math.max(...getDomainTab())*2] }/> : <YAxis/>}
-                    <Tooltip />
+                    <Tooltip labelFormatter={(n) => 'Instance size: ' + n} wrapperStyle={{zIndex: 1}} 
+                    contentStyle={{background: '#202020', border: 0, borderRadius: "8px"}} allowEscapeViewBox={{x: true, y: true }} />
                     {getLines()}
                 </LineChart>
             </ResponsiveContainer>

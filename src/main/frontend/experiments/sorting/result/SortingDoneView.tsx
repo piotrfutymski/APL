@@ -7,7 +7,9 @@ import styles from "./SortingDoneView.module.scss"
 import { SortingFormula } from "./SortingFormula";
 
 export const SortingDoneView = (props: SortingExperimentsResult) => {
-    const colors = ["#8884d8", "#82ca9d", "#ffc658", "#FF8042", '#FFBB28', '#00C49F', '#0088FE']
+    const colors = ['#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', 
+    '#42d4f4', '#f032e6', '#bfef45', '#fabed4', '#469990', '#dcbeff', '#9A6324', 
+    '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#a9a9a9']
     const [series, setSeries] = useState<SortingExperimentResultLabel[]>([]);
     const [choosedSeries, setChoosedSeries] = useState<string>("")
     const [complexityParams, setComplexityParams] = useState<ComplexityParameters>(null);
@@ -77,26 +79,30 @@ export const SortingDoneView = (props: SortingExperimentsResult) => {
     let seriesWithTrend = [...series]
     choosedSeries && seriesWithTrend.push({name: choosedSeries + " --> trend", active: true, colorStr: "#ff0000"})
     return (
-    <div className={styles.Container}>
+    <>
         <div className={styles.Header}>
-            {problematicAlgorithms && <p>"Some experiments took too much time to calculate, showing partial results"</p>}
-            <p>Choose data series for trend line</p>
-            <select className={styles.SeriesSelect} value={choosedSeries} onChange={handleChangeSeries}>
-                <option key="emptyOpt" value=""></option>
+            <div className={styles.TrendContainer}>
+                <p>Choose data series for trend line</p>
+                <select className={styles.SeriesSelect} value={choosedSeries} onChange={handleChangeSeries}>
+                    <option key="emptyOpt" value=""></option>
+                    {
+                        series.filter(lab => !lab.name.endsWith(" --> trend")).map((label) => <option key={label.name} value={label.name}> {label.name} </option>)
+                    }
+                </select>
+                {complexityParams && <SortingFormula {...complexityParams}/>}
+            </div>
+            <div className={styles.LabelContainer}>
                 {
-                    series.filter(lab => !lab.name.endsWith(" --> trend")).map((label) => <option key={label.name} value={label.name}> {label.name} </option>)
+                    series.map((lab, index) => <p className={styles.Label} style={{color: lab.active? lab.colorStr : "#808080"}} onClick={()=>toggleSeries(index)}>{lab.name}</p>)
                 }
-            </select>
-            {complexityParams && <SortingFormula {...complexityParams}/>}
-            {
-                series.map((lab, index) => <p className={styles.Label} style={{color: lab.active? lab.colorStr : "#808080"}} onClick={()=>toggleSeries(index)}>{lab.name}</p>)
-            }
+            </div>
         </div>
+        {problematicAlgorithms && <p className={styles.ProblematicInfo}>Some experiments took too much time to calculate, showing partial results</p>}
         <div className={styles.ChartsContainer}>
             <SortingChart experiments={props} labels={seriesWithTrend} dataLabel="timeInMillis" series={choosedSeries}/>
             <SortingChart experiments={props} labels={series} dataLabel="swapCount" />
             <SortingChart experiments={props} labels={series} dataLabel="comparisonCount" />
         </div>
-    </div>
+    </>
     )
 }

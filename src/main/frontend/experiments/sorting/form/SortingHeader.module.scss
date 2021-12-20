@@ -4,10 +4,11 @@
     background: $form-header-bg;
 
     display: grid;
+    width: 100%;
+    grid-template-columns: 10% auto auto 10%;
     grid-template-areas: 
-    ". sizeInput series submit ."
-    ". maxVal . submit ."
-    ". msgs msgs submit ."
+    ". form submit ."
+    ". msgs submit ."
 }
 @mixin flexCentering($direction){
     display: flex;
@@ -17,20 +18,22 @@
 
     margin: .4rem .6rem;
 }
-
-.SizeContainer{
-    grid-area: sizeInput;
-    @include flexCentering(column);
+@mixin margins{
+    margin: 2rem 2rem;
 }
 
-.SeriesContainer{
-    grid-area: series;
-    @include flexCentering(column);
+.HeaderForm{
+    grid-area: form;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
-.MaxValContainer{
-    grid-area: maxVal;
-    @include flexCentering(row);
+.FormControl{
+    @include flexCentering(column);
+    @include margins;
 }
 
 .SubmitContainer{
