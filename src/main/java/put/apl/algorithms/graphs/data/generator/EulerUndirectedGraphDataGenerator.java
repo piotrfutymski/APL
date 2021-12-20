@@ -42,7 +42,7 @@ public class EulerUndirectedGraphDataGenerator implements GraphDataGenerator {
                 //edgesCopy.remove(removalId * 2);
                 Map<String,String> params = Map.of("forceConnected", "true");
                 bfs.setParams(params);
-                List<Integer> path = bfs.run(new ListOfEdgesUndirected((int[][]) edgesCopy.toArray())).getPath();
+                List<Integer> path = bfs.run(new ListOfEdgesUndirected((int[][]) edgesCopy.toArray(), config.getNumberOfVertices())).getPath();
                 if (config.getNumberOfVertices() == path.size()) {
                     break;
                 }
