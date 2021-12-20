@@ -11,6 +11,7 @@ import put.apl.experiment.service.GraphService;
 
 import java.io.ObjectInputFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -18,40 +19,69 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class GraphTest {
-    static String DIRECTED_GRAPH =
-            /* 0  */ "1,2\r\n" +
-            /* 1  */ "4,5\r\n" +
-            /* 2  */ "3,0\r\n" +
-            /* 3  */ "4,5\r\n" +
-            /* 4  */ "3\r\n" +
-            /* 5  */ "1";
+    static List<List<Integer>> getDirectedGraph()
+    {
+        ArrayList<List<Integer>> list = new ArrayList<>();
+        list.add(Arrays.asList(3));
+        list.add(Arrays.asList(0,2));
+        list.add(Arrays.asList(4));
+        list.add(Arrays.asList(1,4));
+        list.add(Arrays.asList(0,1,5));
+        list.add(Arrays.asList(1,2));
+        return list;
+    }
 
-    static String UNDIRECTED_CONNECTED_HAMILTONIAN_GRAPH =
-            /* 0  */ "1,3\r\n" +
-            /* 1  */ "0,1,2,3,4\r\n" +
-            /* 2  */ "1,4\r\n" +
-            /* 3  */ "0,4\r\n" +
-            /* 4  */ "1,2,3";
+    static List<List<Integer>> getUndirectedGraph()
+    {
+        ArrayList<List<Integer>> list = new ArrayList<>();
+        list.add(Arrays.asList(2,4,5));//0
+        list.add(Arrays.asList(4,5));//1
+        list.add(Arrays.asList(3,4,5));//2
+        list.add(Arrays.asList(4));//3
+        list.add(Arrays.asList());//4
+        list.add(Arrays.asList());//5
+        return list;
+    }
 
-    static String DIRECTED_CONNECTED_GRAPH =
-            /* 0  */ "\r\n" +
-            /* 1  */ "\r\n" +
-            /* 2  */ "3\r\n" +
-            /* 3  */ "1\r\n" +
-            /* 4  */ "0,1\r\n" +
-            /* 5  */ "0,2";
+    //static String UNDIRECTED_CONNECTED_HAMILTONIAN_GRAPH =
+    //        /* 0  */ "1,3\r\n" +
+    //        /* 1  */ "0,1,2,3,4\r\n" +
+    //        /* 2  */ "1,4\r\n" +
+    //        /* 3  */ "0,4\r\n" +
+    //        /* 4  */ "1,2,3";
 
-            /*
-    static GraphRepresentation TEST_LIST_SUCCESSORS_DIRECTED = new ListOfSuccessorsDirected(DIRECTED_GRAPH);
-    static GraphRepresentation TEST_HAMILTONIAN_GRAPH = new ListOfIncidentUndirected(UNDIRECTED_CONNECTED_HAMILTONIAN_GRAPH);
-    static GraphRepresentation TEST_TOPO_SORT = new ListOfSuccessorsDirected(DIRECTED_CONNECTED_GRAPH);
+    static List<List<Integer>> getConnectedDirectedGraph()
+    {
+        ArrayList<List<Integer>> list = new ArrayList<>();
+        list.add(Arrays.asList());
+        list.add(Arrays.asList());
+        list.add(Arrays.asList(3));
+        list.add(Arrays.asList(1));
+        list.add(Arrays.asList(0,1));
+        list.add(Arrays.asList(0,2));
+        return list;
+    }
+
+    static List<List<Integer>> getConnectedUndirectedGraph()
+    {
+        ArrayList<List<Integer>> list = new ArrayList<>();
+        list.add(Arrays.asList());
+        list.add(Arrays.asList());
+        list.add(Arrays.asList(3));
+        list.add(Arrays.asList(1));
+        list.add(Arrays.asList(0,1));
+        list.add(Arrays.asList(0,2));
+        return list;
+    }
+
+
+
     static List<Integer> DFS_RESULT = new ArrayList<Integer>();
     static List<Integer> BFS_RESULT = new ArrayList<Integer>();
     static List<Integer> TOPO_SORT_RESULT = new ArrayList<Integer>();
     static List<Integer> HAMILTONIAN_RESULT = new ArrayList<Integer>();
-    static List<ArrayList<Integer>> ALL_HAMILTONIAN_RESULT = new ArrayList<ArrayList<Integer>>();*/
+    static List<ArrayList<Integer>> ALL_HAMILTONIAN_RESULT = new ArrayList<ArrayList<Integer>>();
 
-    /*
     @BeforeEach
     void initAll() {
         DFS_RESULT.clear();
@@ -99,8 +129,48 @@ public class GraphTest {
         ALL_HAMILTONIAN_RESULT.get(1).add(2);
         ALL_HAMILTONIAN_RESULT.get(1).add(1);
     }
+    @Test
+    void UndirectedRepresentationTest() throws InterruptedException {
+        List<GraphRepresentation> undirected = Arrays.asList(new ListOfIncidentUndirected(),
+                new ListOfEdgesUndirected(), new IncidenceMatrixUndirected(), new AdjacencyMatrixUndirected(),
+                new IncidenceMatrixUndirectedWeighted(), new AdjacencyMatrixUndirected());
+        var expectedSuccessors = new int[][] {{2,4,5}, {4,5}, {0,3,4,5}, {2,4}, {0,1,2,3}, {0,1,2}};
+        for( var representation : undirected)
+        {
+            representation.loadFromIncidenceList(getUndirectedGraph());
+            for (int i=0;i<expectedSuccessors.length;i++)
+            {
+                var succ = representation.getSuccessors(i);
+                var pre = representation.getPredecessors(i);
+                System.out.println(Arrays.asList(expectedSuccessors[i]).toString());
+                assertArrayEquals(expectedSuccessors[i], representation.getSuccessors(i));
+                assertArrayEquals(expectedSuccessors[i], representation.getPredecessors(i));
+            }
+        }
+    }
 
     @Test
+    void DirectedRepresentationTest() throws InterruptedException {
+        List<GraphRepresentation> directed = Arrays.asList(new ListOfEdgesDirected(), new ListOfPredecessorsDirected(),
+                new ListOfSuccessorsDirected(), new AdjacencyMatrixDirected(), new IncidenceMatrixDirected(),
+                new AdjacencyMatrixDirectedWeighted(), new IncidenceMatrixDirectedWeighted());
+        var expectedSuccessors = new int[][] {{3}, {0,2}, {4}, {1,4}, {0,1,5}, {1,2}};
+        var expectedPredecessors = new int[][] {{1,4}, {3,4,5}, {1,5}, {0}, {2,3}, {4}};
+        for( var representation : directed)
+        {
+            representation.loadFromIncidenceList(getDirectedGraph());
+            for (int i=0;i<expectedSuccessors.length;i++)
+            {
+                var succ = representation.getSuccessors(i);
+                var pre = representation.getPredecessors(i);
+                System.out.println(Arrays.asList(expectedSuccessors[i]));
+                assertArrayEquals(expectedSuccessors[i], representation.getSuccessors(i));
+                assertArrayEquals(expectedPredecessors[i], representation.getPredecessors(i));
+            }
+        }
+    }
+
+/*    @Test
     void DFSTest() throws InterruptedException {
         DepthFirstSearch dfs = new DepthFirstSearch();
         Map<String,String> params = Map.of("numberOfVertices", "6");
@@ -155,7 +225,7 @@ public class GraphTest {
                 .build();
         GraphDataGenerator generator = new DirectedGraphDataGenerator();
 
-        String generatedGraph = generator.generate(config);
+        List<ArrayList<Integer>> generatedGraph = generator.generate(config);
 
         long start = System.nanoTime();
         ListOfSuccessorsDirected list = new ListOfSuccessorsDirected(generatedGraph);
@@ -175,8 +245,9 @@ public class GraphTest {
                 .build();
         GraphDataGenerator generator = new ConnectedUndirectedGraphDataGenerator();
 
-        String generatedGraph = generator.generate(config);
+        List<ArrayList<Integer>> generatedGraph = generator.generate(config);
 
         ListOfIncidentUndirected list = new ListOfIncidentUndirected(generatedGraph);
-    }*/
+    }
+    */
 }

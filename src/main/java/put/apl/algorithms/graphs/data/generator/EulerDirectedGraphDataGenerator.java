@@ -13,8 +13,8 @@ import java.util.Random;
 public class EulerDirectedGraphDataGenerator implements GraphDataGenerator {
 
     @Override
-    public List<ArrayList<Integer>> generate(GraphGeneratorConfig config) throws InterruptedException {
-        List<ArrayList<Integer>> edges = new ArrayList<ArrayList<Integer>>();
+    public List<List<Integer>> generate(GraphGeneratorConfig config) throws InterruptedException {
+        List<List<Integer>> edges = new ArrayList<List<Integer>>();
         Random random = new Random();
         // n(n-1) - g•n(n-1)/2
         int numToDiscard = (int) (config.getNumberOfVertices() * (config.getNumberOfVertices() - 1)
@@ -33,7 +33,7 @@ public class EulerDirectedGraphDataGenerator implements GraphDataGenerator {
             while (true) {
                 int removalId = random.nextInt(edges.size());
                 BreadthFirstSearch bfs = new BreadthFirstSearch();
-                List<ArrayList<Integer>> edgesCopy = new ArrayList<ArrayList<Integer>>(edges);
+                List<List<Integer>> edgesCopy = new ArrayList<List<Integer>>(edges);
                 edgesCopy.remove(removalId);
                 Map<String,String> params = Map.of("forceConnected", "true");
                 bfs.setParams(params);

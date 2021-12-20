@@ -17,6 +17,7 @@ public class AllHamiltonianCycles implements GraphAlgorithm  {
     private GraphRepresentation graph;
 
     public GraphResult run(GraphRepresentation graph) {
+        graph.setOperations(0);
         currentPath = new ArrayList<Integer>();
         paths = new ArrayList<ArrayList<Integer>>();
         this.graph = graph;

@@ -11,7 +11,7 @@ public class IncidenceMatrixDirected extends IncidenceMatrix {
     private final static int START=1;
     private final static int END=-1;
 
-    public IncidenceMatrixDirected(List<ArrayList<Integer>> input) {
+    public IncidenceMatrixDirected(List<List<Integer>> input) {
         super(input);
     }
 

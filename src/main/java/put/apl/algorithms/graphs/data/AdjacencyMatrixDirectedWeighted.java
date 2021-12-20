@@ -10,7 +10,7 @@ import java.util.Random;
 public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix {
 
 
-    public AdjacencyMatrixDirectedWeighted(List<ArrayList<Integer>> input) {
+    public AdjacencyMatrixDirectedWeighted(List<List<Integer>> input) {
         super(input);
     }
 
@@ -47,7 +47,7 @@ public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix {
     @Override
     public void fillEdge(int start, int end) {
         Random rand = new Random();
-        int random = rand.nextInt(verticesNumber);
+        int random = rand.nextInt(verticesNumber) + 1;
         matrix[start][end] = random;
         //matrix[end][start] = -1 * random;
     }

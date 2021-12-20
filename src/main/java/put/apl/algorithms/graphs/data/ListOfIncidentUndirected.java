@@ -23,7 +23,7 @@ public class ListOfIncidentUndirected extends ListOfIncident {
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfIncidentUndirected(List<ArrayList<Integer>> input) {
+    public ListOfIncidentUndirected(List<List<Integer>> input) {
         super(input);
     }
 
@@ -31,18 +31,22 @@ public class ListOfIncidentUndirected extends ListOfIncident {
         super(edges);
     }
 
+    @Override
     public int[] getSuccessors(Integer id) {
         return getDirect(id);
     };
 
+    @Override
     public int getFirstSuccessor(Integer id) {
         return getFirstDirect(id);
     };
 
+    @Override
     public int[] getPredecessors(Integer id) {
         return getDirect(id);
     }
 
+    @Override
     public int getFirstPredecessor(Integer id) {
         return getFirstDirect(id);
     }

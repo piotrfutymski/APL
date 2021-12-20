@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /*
     Directed version
@@ -21,7 +20,7 @@ public class ListOfPredecessorsDirected extends ListOfIncident {
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfPredecessorsDirected(List<ArrayList<Integer>> input) {
+    public ListOfPredecessorsDirected(List<List<Integer>> input) {
         super(input);
     }
 

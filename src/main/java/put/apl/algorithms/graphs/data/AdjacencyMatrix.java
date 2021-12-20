@@ -2,10 +2,9 @@ package put.apl.algorithms.graphs.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public abstract class AdjacencyMatrix implements GraphRepresentation {
-    protected final int[][] matrix;
+    protected int[][] matrix;
     int verticesNumber;
     int edgesNumber;
     int operations;
@@ -14,18 +13,8 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
     public abstract boolean checkIfSTART(int number);
     public abstract boolean checkIfEND(int number);
 
-    public AdjacencyMatrix(List<ArrayList<Integer>> input) {
-        edgesNumber = 0;
-        verticesNumber = input.size();
-        matrix = new int[verticesNumber][];
-        for (int i = 0; i < input.size(); i++) {
-            matrix[i] = new int[verticesNumber];
-
-            for (int j = 0; j < input.get(i).size(); j++) {
-                fillEdge(i, input.get(i).get(j));
-                edgesNumber+=1;
-            }
-        }
+    public AdjacencyMatrix(List<List<Integer>> input) {
+        loadFromIncidenceList(input);
     }
 
     public AdjacencyMatrix(int[][] matrix) {
@@ -43,6 +32,22 @@ public abstract class AdjacencyMatrix implements GraphRepresentation {
 
     public AdjacencyMatrix() {
         matrix = new int[0][];
+    }
+
+    @Override
+    public void loadFromIncidenceList(List<List<Integer>> input)
+    {
+        edgesNumber = 0;
+        verticesNumber = input.size();
+        matrix = new int[verticesNumber][];
+        for (int i = 0; i < verticesNumber; i++)
+            matrix[i] = new int[verticesNumber];
+        for (int i = 0; i < verticesNumber; i++) {
+            for (int j = 0; j < input.get(i).size(); j++) {
+                fillEdge(i, input.get(i).get(j));
+                edgesNumber+=1;
+            }
+        }
     }
 
     @Override

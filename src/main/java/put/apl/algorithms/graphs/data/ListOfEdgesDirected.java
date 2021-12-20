@@ -16,7 +16,7 @@ public class ListOfEdgesDirected extends ListOfEdges {
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfEdgesDirected(List<ArrayList<Integer>> input) {
+    public ListOfEdgesDirected(List<List<Integer>> input) {
         super(input);
     }
 

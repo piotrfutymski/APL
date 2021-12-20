@@ -10,8 +10,8 @@ import java.util.Random;
 public class DirectedGraphDataGenerator implements GraphDataGenerator {
 
     @Override
-    public List<ArrayList<Integer>> generate(GraphGeneratorConfig config) throws InterruptedException {
-        List<ArrayList<Integer>> edges = new ArrayList<ArrayList<Integer>>();
+    public List<List<Integer>> generate(GraphGeneratorConfig config) throws InterruptedException {
+        List<List<Integer>> edges = new ArrayList<List<Integer>>();
         Random random = new Random();
         // n(n-1) - g•n(n-1)/2
         int numToDiscard = (int) (config.getNumberOfVertices() * (config.getNumberOfVertices() - 1)

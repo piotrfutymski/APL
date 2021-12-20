@@ -2,11 +2,10 @@ package put.apl.algorithms.graphs.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public abstract class IncidenceMatrix implements GraphRepresentation {
 
-    protected final int[][] matrix;
+    protected int[][] matrix;
     protected int verticesSize;
     protected int edgesSize;
     int operations;
@@ -15,13 +14,27 @@ public abstract class IncidenceMatrix implements GraphRepresentation {
     public abstract boolean checkIfSTART(int number);
     public abstract boolean checkIfEND(int number);
 
-    public IncidenceMatrix(List<ArrayList<Integer>> input) {
+    public IncidenceMatrix(List<List<Integer>> input) {
+        loadFromIncidenceList(input);
+    }
 
+    public IncidenceMatrix(int[][] matrix) {
+        verticesSize = matrix.length;
+        edgesSize = matrix[0].length;
+        this.matrix = matrix;
+    }
+
+    public IncidenceMatrix() {
+        matrix = new int[0][];
+    }
+
+    @Override
+    public void loadFromIncidenceList(List<List<Integer>> input) {
         verticesSize = input.size();
         matrix = new int[verticesSize][];
         edgesSize = 0;
-        for (int i = 0; i < input.size(); i++) {
-            edgesSize += input.get(i).size();
+        for (List<Integer> integers : input) {
+            edgesSize += integers.size();
         }
         for (int i=0; i<verticesSize; i++)
         {
@@ -34,16 +47,6 @@ public abstract class IncidenceMatrix implements GraphRepresentation {
                 edgeNumber++;
             }
         }
-    }
-
-    public IncidenceMatrix(int[][] matrix) {
-        verticesSize = matrix.length;
-        edgesSize = matrix[0].length;
-        this.matrix = matrix;
-    }
-
-    public IncidenceMatrix() {
-        matrix = new int[0][];
     }
 
     @Override

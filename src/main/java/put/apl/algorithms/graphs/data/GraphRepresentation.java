@@ -1,7 +1,10 @@
 package put.apl.algorithms.graphs.data;
 
+import java.util.List;
+
 public interface GraphRepresentation {
 
+    void loadFromIncidenceList(List<List<Integer>> input);
 
     public int[] getSuccessors(Integer id);
 

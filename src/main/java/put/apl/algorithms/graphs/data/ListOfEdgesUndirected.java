@@ -17,7 +17,7 @@ public class ListOfEdgesUndirected extends ListOfEdges{
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfEdgesUndirected(List<ArrayList<Integer>> input) {
+    public ListOfEdgesUndirected(List<List<Integer>> input) {
         super(input);
     }
 

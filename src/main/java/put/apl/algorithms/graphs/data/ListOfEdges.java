@@ -1,10 +1,7 @@
 package put.apl.algorithms.graphs.data;
 
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 
 public abstract class ListOfEdges implements GraphRepresentation {
@@ -14,22 +11,15 @@ public abstract class ListOfEdges implements GraphRepresentation {
     protected int edgeNum;
     protected int operations;
 
+    protected abstract int checkIfSTART(Integer id, int start, int end);
+
     public ListOfEdges() {
         edges = new int[0][];
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfEdges(List<ArrayList<Integer>> input) {
-        vertexNum = input.size();
-        edgeNum = input.size();
-        edges = new int[edgeNum][];
-        for (int i = 0; i < input.size(); i++) {
-            edges[i] = new int[2];
-            for (int j = 0; j < input.get(i).size(); j++) {
-                edges[i][0] = input.get(i).get(0);
-                edges[i][1] = input.get(i).get(1);
-            }
-        }
+    public ListOfEdges(List<List<Integer>> input) {
+        loadFromIncidenceList(input);
     }
 
     public ListOfEdges(int[][] edges) {
@@ -48,7 +38,23 @@ public abstract class ListOfEdges implements GraphRepresentation {
 
     }
 
-    protected abstract int checkIfSTART(Integer id, int start, int end);
+    @Override
+    public void loadFromIncidenceList(List<List<Integer>> input) {
+        vertexNum = input.size();
+
+        for (var edges: input)
+            edgeNum+=edges.size();
+        int edgeNumber=0;
+        edges = new int[edgeNum][];
+        for (int i = 0; i < input.size(); i++) {
+            for (int j = 0; j < input.get(i).size(); j++) {
+                var edge = new int[2];
+                edge[0] = i;
+                edge[1] = input.get(i).get(j);
+                edges[edgeNumber++] = edge;
+            }
+        }
+    }
 
     protected int checkIfIncident(int id, int start, int end)
     {

@@ -2,25 +2,38 @@ package put.apl.algorithms.graphs.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /*
     Undirected version
  */
 public abstract class ListOfIncident implements GraphRepresentation {
-    protected final int[][] edges;
+    protected int[][] edges;
 
     protected int vertexNum;
     protected int edgeNum;
     protected int operations;
 
+    abstract void addEdge(List<ArrayList<Integer>> edgesList, int start, int end);
+
     public ListOfIncident() {
         edges = new int[0][];
     }
 
-    abstract void addEdge(List<ArrayList<Integer>> edgesList, int start, int end);
+    public ListOfIncident(List<List<Integer>> input) {
+        loadFromIncidenceList(input);
+    }
 
-    public ListOfIncident(List<ArrayList<Integer>> input) {
+    public ListOfIncident(int[][] edges) {
+        this.edges = edges;
+        this.vertexNum=edges.length;
+        edgeNum = 0;
+        for (var vertex : edges)
+            for (var edge : vertex)
+                edgeNum+=1;
+    }
+
+    @Override
+    public void loadFromIncidenceList(List<List<Integer>> input) {
         vertexNum = input.size();
         edgeNum = 0;
         List<ArrayList<Integer>> edgesList = new ArrayList<ArrayList<Integer>>();
@@ -44,15 +57,6 @@ public abstract class ListOfIncident implements GraphRepresentation {
         }
     }
 
-    public ListOfIncident(int[][] edges) {
-        this.edges = edges;
-        this.vertexNum=edges.length;
-        edgeNum = 0;
-        for (var vertex : edges)
-            for (var edge : vertex)
-                edgeNum+=1;
-    }
-
     public int[] getDirect(Integer id)
     {
         operations +=edges.length;
@@ -73,11 +77,11 @@ public abstract class ListOfIncident implements GraphRepresentation {
         {
             if (i==id)
                 continue;
-            for (int j=0; j<edges.length; j++)
+            for (int j=0; j<edges[i].length; j++)
             {
                 if (getEdgeInner(i,j) == id)
                 {
-                    indirect.add(j);
+                    indirect.add(i);
                     break;
                 }
             }
@@ -91,11 +95,11 @@ public abstract class ListOfIncident implements GraphRepresentation {
         {
             if (i==id)
                 continue;
-            for (int j=0; j<edges.length; j++)
+            for (int j=0; j<edges[i].length; j++)
             {
                 if (getEdgeInner(i,j) == id)
                 {
-                    return j;
+                    return i;
                 }
             }
         }
