@@ -12,19 +12,19 @@ import java.util.Map;
 public class DepthFirstSearch implements GraphAlgorithm {
 
     private boolean[] visited;
-    private int noOfVertices;
     private List<Integer> path;
     private boolean forceConnectedGraph = false;
 
     public GraphResult run(GraphRepresentation graph) {
-        visited = new boolean[noOfVertices];
-        path =  new ArrayList<Integer>();
-        for (int i = 0; i < noOfVertices; i++) {
+        graph.setOperations(0);
+        visited = new boolean[graph.getVerticesNumber()];
+        path = new ArrayList<Integer>();
+        for (int i = 0; i < graph.getVerticesNumber(); i++) {
             visited[i] = false;
         }
         // For non-connected graphs DFS procedure will run multiple times
         if (!forceConnectedGraph) {
-            for (int i = 0; i < noOfVertices; i++) {
+            for (int i = 0; i < graph.getVerticesNumber(); i++) {
                 if (!visited[i]) {
                     depthFirstSearch(graph, i);
                 }
@@ -32,7 +32,7 @@ public class DepthFirstSearch implements GraphAlgorithm {
         } else {
             depthFirstSearch(graph, 0);
         }
-        return GraphResult.builder().path(path).build();
+        return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
     private void depthFirstSearch(GraphRepresentation graph, int id) {
@@ -48,8 +48,6 @@ public class DepthFirstSearch implements GraphAlgorithm {
 
     @Override
     public void setParams(Map<String, String> params) {
-        if (params.containsKey("noOfVertices"))
-            noOfVertices = Integer.parseInt(params.get("noOfVertices"));
         if (params.containsKey("forceConnected"))
             forceConnectedGraph = Boolean.parseBoolean(params.get("forceConnected"));
     }

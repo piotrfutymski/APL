@@ -33,12 +33,12 @@ export const SortingForm = () =>{
             let cookieExperiment: any = {...e}
             cookieExperiment.algorithmParams = Object.fromEntries(e.algorithmParams)
             return cookieExperiment
-        }), {path: '/'})
+        }), {path: '/', sameSite: true})
     }
 
     const config = (cookies.SortingConfig || {n: 1000, measureSeries: 10, maxValAsPercent: true}) as SortingConfig
     const setConfig = (newConfig: SortingConfig) =>{
-        setCookie('SortingConfig', newConfig, {path: '/'})
+        setCookie('SortingConfig', newConfig, {path: '/', sameSite: true})
     }
     //==========================================================
     //============================= experiments =============================
@@ -114,7 +114,7 @@ export const SortingForm = () =>{
         <div className={styles.ExperimentList}>
             {
                 experiments.map((experiment, index) => {
-                    return <SortingExperimentCard experiment={experiment} 
+                    return <SortingExperimentCard key={index} experiment={experiment} 
                         updateExperiment={(experiment)=>updateExperiment(index, experiment)} 
                         removeExperiment={()=>removeExperiment(index)} 
                         algorithmOptions={algorithmOptions}

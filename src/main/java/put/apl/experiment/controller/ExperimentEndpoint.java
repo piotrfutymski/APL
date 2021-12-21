@@ -71,12 +71,12 @@ public class ExperimentEndpoint {
         schedulerService.deleteExperiments(id);
     }
 
-    @GetMapping("/possibleGraphAlgorithms")
+    @GetMapping("/graph/algorithms")
     public String[] getPossibleGraphAlgorithms() { return graphService.getPossibleGraphAlgorithms(); }
 
-    @GetMapping("/possibleGraphGenerators")
+    @GetMapping("/graph/dataGenerators")
     public String[] getPossibleGraphGenerators() { return graphService.getPossibleGraphGenerators(); }
 
-    @GetMapping("/possibleGraphRepresentations")
+    @GetMapping("/graph/representations")
     public String[] getPossibleGraphRepresentations() { return graphService.getPossibleGraphRepresentations(); }
 }

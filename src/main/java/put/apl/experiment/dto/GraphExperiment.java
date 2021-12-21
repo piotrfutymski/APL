@@ -16,13 +16,13 @@ import java.util.Map;
 @AllArgsConstructor
 public class GraphExperiment {
     //Algorithm
-    private String graphRepresentation;
+    private String representation;
     private String algorithmName;
     // CONNECTED, UNDIRECTED, DIRECTED, EULER, HAMILTIONIAN (also multiple types?)
-    private String type;
+    private String dataGenerator;
     //Data
     private Map<String, String> algorithmParams;
-    private Integer noOfVertices;
+    private Integer numberOfVertices;
     private Double density;
 
     private Boolean forceConnected;
@@ -32,21 +32,28 @@ public class GraphExperiment {
     private GraphResult graphResult;
 
     public String dataGeneratorGroupingString(){
-        return type+"_"+noOfVertices.toString()+"_"+density.toString();
+        return dataGenerator+"_"+numberOfVertices.toString()+"_"+density.toString();
     }
 
     public GraphExperiment clone() {
         return GraphExperiment.builder()
                 .algorithmName(algorithmName)
-                .graphRepresentation(graphRepresentation)
+                .representation(representation)
                 .algorithmParams(algorithmParams)
-                .type(type)
-                .noOfVertices(noOfVertices)
+                .dataGenerator(dataGenerator)
+                .numberOfVertices(numberOfVertices)
                 .density(density)
                 .checkForCycles(checkForCycles)
                 .forceConnected(forceConnected)
                 .graphResult(graphResult)
                 .timeInMillis(timeInMillis)
                 .build();
+    }
+
+    public GraphExperiment clearForResponse(){
+        graphResult.setPath(null);
+        graphResult.setMultiplePaths(null);
+        graphResult.setMinimumSpanningTree(null);
+        return this;
     }
 }

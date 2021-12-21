@@ -73,12 +73,20 @@ export interface SortingExperimentsResult {
     errorCause: string;
 }
 
+export interface SortingExperimentResultLabel{
+    name: string;
+    active: boolean;
+    colorStr: string;
+}
+
 export type ComplexityType = "N^2" | "NlogN" | "N+K"
 
 export interface SortingChartProps {
     experiments: SortingExperimentsResult;
     dataLabel: string;
     series?: string;
+
+    labels: SortingExperimentResultLabel[];
 }
 
 export interface ComplexityParameters {

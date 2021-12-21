@@ -14,26 +14,26 @@ public class AllHamiltonianCycles implements GraphAlgorithm  {
 
     private List<ArrayList<Integer>> paths;
     private ArrayList<Integer> currentPath;
-    private int noOfVertices;
     private GraphRepresentation graph;
 
     public GraphResult run(GraphRepresentation graph) {
+        graph.setOperations(0);
         currentPath = new ArrayList<Integer>();
         paths = new ArrayList<ArrayList<Integer>>();
         this.graph = graph;
         currentPath.add(0);
-        if (noOfVertices > 1) {
+        if (graph.getVerticesNumber() > 1) {
             hamiltonianCycle(1);
-            return GraphResult.builder().multiplePaths(paths).build();
+            return GraphResult.builder().multiplePaths(paths).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).hamiltonCyclesCount(paths.size()).build();
         }
         else {
             paths.add(currentPath);
-            return GraphResult.builder().multiplePaths(paths).build();
+            return GraphResult.builder().multiplePaths(paths).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).hamiltonCyclesCount(paths.size()).build();
         }
     }
 
     private boolean hamiltonianCycle(int pos) {
-        if (pos == noOfVertices) {
+        if (pos == graph.getVerticesNumber()) {
             int[] successors = graph.getSuccessors(this.currentPath.get(pos-1));
             for (int s : successors) {
                 if (s == 0) {
@@ -44,9 +44,8 @@ public class AllHamiltonianCycles implements GraphAlgorithm  {
             }
             return false;
         }
-        for (int i = 1; i < noOfVertices; i++) {
-            if ((graph.getRelationBetween(i, currentPath.get(pos-1)).equals("successor") ||
-                graph.getRelationBetween(i, currentPath.get(pos-1)).equals("incident")) && !currentPath.contains(i)) {
+        for (int i = 1; i < graph.getVerticesNumber(); i++) {
+            if ((graph.getEdge(i, currentPath.get(pos-1)) > 0) && !currentPath.contains(i)) {
                 currentPath.add(i);
                 if (hamiltonianCycle(pos + 1)) {
                     return true;
@@ -59,7 +58,5 @@ public class AllHamiltonianCycles implements GraphAlgorithm  {
 
     @Override
     public void setParams(Map<String, String> params) {
-        if (params.containsKey("noOfVertices"))
-            noOfVertices = Integer.parseInt(params.get("noOfVertices"));
     }
 }
