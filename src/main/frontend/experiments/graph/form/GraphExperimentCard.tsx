@@ -10,16 +10,10 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
     let experiment: GraphExperiment = {...props.experiment}
     const updateAlgorithm = (event: any) =>{
         experiment.algorithmName = event.target.value
-        experiment.possibleGenerators = props.dataOptions
-        reducePossibleGenerators(experiment)
-        experiment.possibleRepresentations = props.representationOptions
-        reducePossibleRepresentations(experiment)
         props.updateExperiment(experiment)
     }
     const updateData = (event: any) =>{
         experiment.dataGenerator = event.target.value
-        experiment.possibleRepresentations = props.representationOptions
-        reducePossibleRepresentations(experiment)
         props.updateExperiment(experiment)
     }
     const updateRepresentation = (event: any) =>{
@@ -62,7 +56,7 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                     <label>Data Generator</label>
                     <select value={experiment.dataGenerator} onChange={updateData}>
                         {
-                            experiment.possibleGenerators.map(name => <option key={name} value={name}>{name}</option>)
+                            reducePossibleGenerators(experiment, props.dataOptions).map(name => <option key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>
@@ -70,7 +64,7 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                     <label>Representation</label>
                     <select value={experiment.representation} onChange={updateRepresentation}>
                         {
-                            experiment.possibleRepresentations.map(name => <option key={name} value={name}>{name}</option>)
+                            reducePossibleRepresentations(experiment, props.representationOptions).map(name => <option key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>

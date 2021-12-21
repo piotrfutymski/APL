@@ -10,8 +10,6 @@ export interface GraphExperiment {
     numberOfVertices: number;
     density: number;
     check?: boolean;
-    possibleGenerators: string[];
-    possibleRepresentations: string[];
 
     timeInMillis?: number;
     graphResult?: GraphResult;
