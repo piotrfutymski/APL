@@ -39,7 +39,7 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
                     <label>Algorithm</label>
                     <select id="algorithm" className={styles.AlgorithmSelect} value={experiment.algorithmName} onChange={updateAlgorithm}>
                         {
-                            props.algorithmOptions.map(name => <option key={name} value={name}>{name}</option>)
+                            props.algorithmOptions.map(name => <option id={"algorithm_" + name}  key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>
@@ -47,7 +47,7 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
                     <label>Data Distribution</label>
                     <select id="data_distribution" className={styles.DataSelect} value={experiment.dataDistribution} onChange={updateData}>
                         {
-                            props.dataOptions.map(name => <option key={name} value={name}>{name}</option>)
+                            props.dataOptions.map(name => <option id={"data_distribution_" + name} key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>

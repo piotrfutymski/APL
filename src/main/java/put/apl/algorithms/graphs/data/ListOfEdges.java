@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class ListOfEdges implements GraphRepresentation {
+public abstract class ListOfEdges extends GraphRepresentation {
     protected int[][] edges;
     // vertexNum is necessary for keeping number of vertices (used in getNonIncident)
     protected int vertexNum;

@@ -5,60 +5,33 @@ import put.apl.algorithms.graphs.data.ListOfIncident;
 import put.apl.algorithms.graphs.data.ListOfIncidentUndirected;
 import put.apl.algorithms.graphs.implementation.BreadthFirstSearch;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 
 @Component("Connected Undirected Graph Generator")
-public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator {
+public class ConnectedUndirectedGraphDataGenerator extends GraphDataGenerator {
 
     @Override
     public List<List<Integer>> generate(GraphGeneratorConfig config) throws InterruptedException {
-        List<List<Integer>> edges = new ArrayList<List<Integer>>();
         Random random = new Random();
-        config.setDensity(config.getDensity() / 100);
-        // n(n-1) - g•n(n-1)/2
-        int numToDiscard = (int) (config.getNumberOfVertices() * (config.getNumberOfVertices() - 1)
-                - (config.getDensity() * config.getNumberOfVertices() * (config.getNumberOfVertices() - 1)));
-        for (int i = 0; i < config.getNumberOfVertices(); i++) {
-            for (int j = i + 1; j < config.getNumberOfVertices(); j++) {
-                ArrayList<Integer> newEdge = new ArrayList<Integer>();
-                //ArrayList<Integer> newEdgeMirrored = new ArrayList<Integer>();
-                newEdge.add(i);
-                newEdge.add(j);
-                //newEdgeMirrored.add(j);
-                //newEdgeMirrored.add(i);
-                edges.add(newEdge);
-                //edges.add(newEdgeMirrored);
+        List<List<Integer>> res = generateFull(config, false);
+        Map<Integer, Integer> path = path(config);
+        int toRemove = Math.min(vertexToDeleteCount(config, false), beginSize(config, false) - path.size());
+        List<Integer> removeSet = removeList(config, false);
+        int removed = 0;
+        while (removed < toRemove){
+            escape();
+            int i = random.nextInt(removeSet.size());
+            int l = removeSet.get(i);
+            int j = random.nextInt(res.get(l).size());
+            int u = res.get(l).get(j);
+            if(!Objects.equals(path.get(u), l) && !Objects.equals(path.get(l), u)){
+                res.get(l).remove(j);
+                removed++;
+                if(res.get(l).isEmpty())
+                    removeSet.remove(i);
             }
         }
-        // Randomly delete edges (check if deletion breaks connectivity of the graph)
-        for (int i = 0; i < numToDiscard; i++) {
-            while (true) {
-                int removalId = random.nextInt(edges.size());
-                BreadthFirstSearch bfs = new BreadthFirstSearch();
-                List<List<Integer>> edgesCopy = new ArrayList<List<Integer>>(edges);
-                edgesCopy.remove(removalId);
-                //edgesCopy.remove(removalId * 2);
-                Map<String,String> params = Map.of("forceConnected", "true");
-                bfs.setParams(params);
-                List<Integer> path = bfs.run(new ListOfIncidentUndirected(edgesCopy, config.getNumberOfVertices())).getPath();
-                if (config.getNumberOfVertices() == path.size()) {
-                    break;
-                } else {
-                    edges.remove(removalId);
-                }
-            }
-        }
-        List<List<Integer>> graph = new ArrayList<List<Integer>>();
-        for (int i = 0; i < config.getNumberOfVertices(); i++) {
-            graph.add(new ArrayList<Integer>());
-        }
-        for (List<Integer> edge : edges) {
-            graph.get(edge.get(0)).add(edge.get(1));
-        }
-        return graph;
-    };
+        return res;
+    }
 }

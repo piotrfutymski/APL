@@ -3,7 +3,7 @@ package put.apl.algorithms.graphs.data;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AdjacencyMatrix implements GraphRepresentation {
+public abstract class AdjacencyMatrix extends GraphRepresentation {
     protected int[][] matrix;
     int verticesNumber;
     int edgesNumber;

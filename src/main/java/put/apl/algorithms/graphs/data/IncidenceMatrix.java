@@ -3,7 +3,7 @@ package put.apl.algorithms.graphs.data;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class IncidenceMatrix implements GraphRepresentation {
+public abstract class IncidenceMatrix extends GraphRepresentation {
 
     protected int[][] matrix;
     protected int verticesSize;
