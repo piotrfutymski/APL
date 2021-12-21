@@ -61,7 +61,8 @@ public class GraphService {
                 .density(experiments.get(0).getDensity())
                 .timeInMillis(timeInMillis)
                 .graphResult(experiments.get(0).getGraphResult())
-                .build();
+                .build()
+                .clearForResponse();
     }
 
     private List<GraphExperiment> runExperimentsOnce(List<GraphExperiment> experiments, List<GraphExperiment> bannedExperiments) throws InterruptedException {
@@ -73,29 +74,53 @@ public class GraphService {
 
         groupedExperiments = groupedExperiments.stream().sorted(Comparator.comparingInt(e -> e.get(0).getNumberOfVertices() + e.get(0).getDensity().intValue() )).collect(Collectors.toList());
         for (List<GraphExperiment> groupedExperiment : groupedExperiments) {
-            String representation = groupedExperiment.get(0).getRepresentation();
             GraphRepresentation data;
-            switch (representation) {
-                case "List Of Edges Directed":
-                    data = new ListOfEdgesDirected(generateDataFor(groupedExperiment.get(0)));
-                    break;
-                case "List Of Edges Undirected":
-                    data = new ListOfEdgesUndirected(generateDataFor(groupedExperiment.get(0)));
-                    break;
-                case "List Of Incident Undirected":
-                    data = new ListOfIncidentUndirected(generateDataFor(groupedExperiment.get(0)));
-                    break;
-                case "List Of Predecessors Directed":
-                    data = new ListOfPredecessorsDirected(generateDataFor(groupedExperiment.get(0)));
-                    break;
-                case "List Of Successors Directed":
-                    data = new ListOfSuccessorsDirected(generateDataFor(groupedExperiment.get(0)));
-                    break;
-                default:
-                    data = new ListOfSuccessorsDirected(generateDataFor(groupedExperiment.get(0)));
-                    break;
-            }
+            var gowno = generateDataFor(groupedExperiment.get(0));
             for (GraphExperiment graphExperiment : groupedExperiment) {
+                switch (graphExperiment.getRepresentation()) {
+                    case "List Of Edges Directed":
+                        data = new ListOfEdgesDirected(gowno);
+                        break;
+                    case "List Of Edges Undirected":
+                        data = new ListOfEdgesUndirected(gowno);
+                        break;
+                    case "List Of Incident Undirected":
+                        data = new ListOfIncidentUndirected(gowno);
+                        break;
+                    case "List Of Predecessors Directed":
+                        data = new ListOfPredecessorsDirected(gowno);
+                        break;
+                    case "List Of Successors Directed":
+                        data = new ListOfSuccessorsDirected(gowno);
+                        break;
+                    case "Adjacency Matrix Directed":
+                        data = new AdjacencyMatrixDirected(gowno);
+                        break;
+                    case "Adjacency Matrix Undirected":
+                        data = new AdjacencyMatrixUndirected(gowno);
+                        break;
+                    case "Weighted Adjacency Matrix Directed":
+                        data = new AdjacencyMatrixDirectedWeighted(gowno);
+                        break;
+                    case "Weighted Adjacency Matrix Undirected":
+                        data = new AdjacencyMatrixUndirectedWeighted(gowno);
+                        break;
+                    case "Incidence Matrix Directed":
+                        data = new IncidenceMatrixDirected(gowno);
+                        break;
+                    case "Incidence Matrix Undirected":
+                        data = new  IncidenceMatrixUndirected(gowno);
+                        break;
+                    case "Incidence Matrix Directed Weighted":
+                        data = new IncidenceMatrixDirectedWeighted(gowno);
+                        break;
+                    case "Incidence Matrix Undirected Weighted":
+                        data = new IncidenceMatrixUndirectedWeighted(gowno);
+                        break;
+                    default:
+                        data = new ListOfSuccessorsDirected(gowno);
+                        break;
+                }
                 res.add(runExperiment(graphExperiment, data.clone(), bannedExperiments, experimentTimeout));
             }
         }

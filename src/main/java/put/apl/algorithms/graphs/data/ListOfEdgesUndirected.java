@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class ListOfEdgesUndirected extends ListOfEdges{
 
     public ListOfEdgesUndirected () {
-        super(new int[0][]);
+        super(new int[0][], 0);
     }
 
     // Format: line number = vertex id, successors separated by comma
@@ -21,8 +21,8 @@ public class ListOfEdgesUndirected extends ListOfEdges{
         super(input);
     }
 
-    public ListOfEdgesUndirected(int[][] edges) {
-        super(edges);
+    public ListOfEdgesUndirected(int[][] edges, int vertexNum) {
+        super(edges, vertexNum);
     }
 
     @Override
@@ -36,6 +36,6 @@ public class ListOfEdgesUndirected extends ListOfEdges{
 
     @Override
     public GraphRepresentation clone() {
-        return new ListOfEdgesUndirected(this.edges.clone());
+        return new ListOfEdgesUndirected(this.edges.clone(), vertexNum);
     };
 }

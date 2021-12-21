@@ -167,6 +167,7 @@ public class GraphTest {
             }
         }
     }
+
     @Test
     void UndirectedRepresentationEdgesTest() throws InterruptedException {
         var expectedEdges = new int[][] {{0,2}, {0,4}, {0,5}, {1,4}, {1,5}, {2,3},
@@ -205,7 +206,6 @@ public class GraphTest {
 
         }
     }
-
 
   @Test
     void DFSTest() throws InterruptedException {
@@ -264,7 +264,7 @@ public class GraphTest {
             //assertArrayEquals(undirResult, dfs.run(representation).getPath().toArray());
         }
     }
-    /*
+
     @Test
     void AllHamiltonTest() throws InterruptedException {
         var dirResult = new Integer[] {0,3,1,4,2,5};
@@ -285,7 +285,7 @@ public class GraphTest {
             System.out.println(array);
             //assertArrayEquals(undirResult, algo.run(representation).getPath().toArray());
         }
-    }*/
+    }
 /*
     @Test
     void BFSTest() throws InterruptedException {

@@ -12,7 +12,7 @@ import java.util.Scanner;
 @Component("List Of Edges Directed")
 public class ListOfEdgesDirected extends ListOfEdges {
     public ListOfEdgesDirected () {
-        super(new int[0][]);
+        super(new int[0][], 0);
     }
 
     // Format: line number = vertex id, successors separated by comma
@@ -20,8 +20,8 @@ public class ListOfEdgesDirected extends ListOfEdges {
         super(input);
     }
 
-    public ListOfEdgesDirected(int[][] edges) {
-        super(edges);
+    public ListOfEdgesDirected(int[][] edges, int vertexNum) {
+        super(edges, vertexNum);
     }
 
     @Override
@@ -34,6 +34,6 @@ public class ListOfEdgesDirected extends ListOfEdges {
 
     @Override
     public GraphRepresentation clone() {
-        return new ListOfEdgesDirected(this.edges.clone());
+        return new ListOfEdgesDirected(this.edges.clone(), vertexNum);
     };
 }

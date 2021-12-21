@@ -27,17 +27,17 @@ export const GraphForm = () =>{
 
     const experiments = (cookies.GraphExperiments || []).map( (e: any)=> { return {...e, algorithmParams: new Map<string,string>(Object.entries(e.algorithmParams))} }) as GraphExperiment[] 
     const setExperiments = (newExperiments: GraphExperiment[]) =>{
-        setCookie('GraphExperiments', newExperiments.map( (e: any)=> { return {...e, algorithmParams: Object.fromEntries(e.algorithmParams)} }), {path: '/'})
+        setCookie('GraphExperiments', newExperiments.map( (e: any)=> { return {...e, algorithmParams: Object.fromEntries(e.algorithmParams)} }), {path: '/', sameSite: true})
     }
 
     const config = (cookies.GraphConfig || {measureSeries: 10}) as GraphConfig
     const setConfig = (newConfig: GraphConfig) =>{
-        setCookie('GraphConfig', newConfig, {path: '/'})
+        setCookie('GraphConfig', newConfig, {path: '/', sameSite: true})
     }
     //==========================================================
     //============================= experiments =============================
     const addExperiment = () =>{
-        let newExperiment: GraphExperiment = {algorithmName: algorithmOptions[0], possibleGenerators: dataOptions, possibleRepresentations: representationOptions, dataGenerator: dataOptions[0], representation: representationOptions[0], numberOfVertices: config.measureSeries * 5, density: 90, algorithmParams: new Map<string, string>(), check: false}
+        let newExperiment: GraphExperiment = {algorithmName: algorithmOptions[0], dataGenerator: dataOptions[0], representation: representationOptions[0], numberOfVertices: config.measureSeries * 5, density: 90, algorithmParams: new Map<string, string>(), check: false}
         if(experiments.length > 0){
             newExperiment = experiments.at(experiments.length-1)
         }
@@ -95,7 +95,7 @@ export const GraphForm = () =>{
         <div className={styles.ExperimentList}>
             {
                 experiments.map((experiment, index) => {
-                    return <GraphExperimentCard experiment={experiment} 
+                    return <GraphExperimentCard key={index} experiment={experiment} 
                         updateExperiment={(experiment)=>updateExperiment(index, experiment)} 
                         removeExperiment={()=>removeExperiment(index)} 
                         algorithmOptions={algorithmOptions}

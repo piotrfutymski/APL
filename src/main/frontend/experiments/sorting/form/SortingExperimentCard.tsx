@@ -39,7 +39,7 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
                     <label>Algorithm</label>
                     <select className={styles.AlgorithmSelect} value={experiment.algorithmName} onChange={updateAlgorithm}>
                         {
-                            props.algorithmOptions.map(name => <option value={name}>{name}</option>)
+                            props.algorithmOptions.map(name => <option key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>
@@ -47,7 +47,7 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
                     <label>Data Distribution</label>
                     <select className={styles.DataSelect} value={experiment.dataDistribution} onChange={updateData}>
                         {
-                            props.dataOptions.map(name => <option value={name}>{name}</option>)
+                            props.dataOptions.map(name => <option key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>
@@ -75,10 +75,10 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
                             <label>{param.name}</label>
                             {
                                 param.isSelect === true ?
-                                    <select className={checkStyle} value={val} onChange={onChange}> 
-                                        { param.options.map(name => <option value={name}>{name}</option>) } 
+                                    <select key={param.name} className={checkStyle} value={val} onChange={onChange}> 
+                                        { param.options.map(name => <option key={name} value={name}>{name}</option>) } 
                                     </select> :
-                                    <input className={checkStyle} type="number" value={+val === 0 ? "" : val} onChange={onChange}/>
+                                    <input key={param.name} className={checkStyle} type="number" value={+val === 0 ? "" : val} onChange={onChange}/>
                             }
                         </div>
                     })
@@ -88,8 +88,8 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
                 checkMsgs.length > 0 ?
                     <div className={styles.MessagesContainer}>
                         {
-                            checkMsgs.map(check => 
-                            <p className={check.status === "ERROR" ? styles.ErrorMsg : check.status === "WARNING" ? styles.WarningMsg : ""}>
+                            checkMsgs.map((check, index) => 
+                            <p key={index} className={check.status === "ERROR" ? styles.ErrorMsg : check.status === "WARNING" ? styles.WarningMsg : ""}>
                                 {check.msg}
                             </p>)
                         }

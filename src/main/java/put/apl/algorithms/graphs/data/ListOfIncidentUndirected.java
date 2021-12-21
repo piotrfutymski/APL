@@ -31,6 +31,10 @@ public class ListOfIncidentUndirected extends ListOfIncident {
         super(edges);
     }
 
+    public ListOfIncidentUndirected(List<List<Integer>> input, int vertexNum) {
+        super(input, vertexNum);
+    };
+
     @Override
     public int[] getSuccessors(Integer id) {
         return getDirect(id);

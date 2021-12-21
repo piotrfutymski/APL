@@ -10,16 +10,10 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
     let experiment: GraphExperiment = {...props.experiment}
     const updateAlgorithm = (event: any) =>{
         experiment.algorithmName = event.target.value
-        experiment.possibleGenerators = props.dataOptions
-        reducePossibleGenerators(experiment)
-        experiment.possibleRepresentations = props.representationOptions
-        reducePossibleRepresentations(experiment)
         props.updateExperiment(experiment)
     }
     const updateData = (event: any) =>{
         experiment.dataGenerator = event.target.value
-        experiment.possibleRepresentations = props.representationOptions
-        reducePossibleRepresentations(experiment)
         props.updateExperiment(experiment)
     }
     const updateRepresentation = (event: any) =>{
@@ -54,7 +48,7 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                     <label>Algorithm</label>
                     <select value={experiment.algorithmName} onChange={updateAlgorithm}>
                         {
-                            props.algorithmOptions.map(name => <option value={name}>{name}</option>)
+                            props.algorithmOptions.map(name => <option key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>
@@ -62,7 +56,7 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                     <label>Data Generator</label>
                     <select value={experiment.dataGenerator} onChange={updateData}>
                         {
-                            experiment.possibleGenerators.map(name => <option value={name}>{name}</option>)
+                            reducePossibleGenerators(experiment, props.dataOptions).map(name => <option key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>
@@ -70,7 +64,7 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                     <label>Representation</label>
                     <select value={experiment.representation} onChange={updateRepresentation}>
                         {
-                            experiment.possibleRepresentations.map(name => <option value={name}>{name}</option>)
+                            reducePossibleRepresentations(experiment, props.representationOptions).map(name => <option key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>
@@ -98,10 +92,10 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                             <label>{param.name}</label>
                             {
                                 param.isSelect === true ?
-                                    <select value={val} onChange={onChange}> 
-                                        { param.options.map(name => <option value={name}>{name}</option>) } 
+                                    <select key={param.name} value={val} onChange={onChange}> 
+                                        { param.options.map(name => <option key={name} value={name}>{name}</option>) } 
                                     </select> :
-                                    <input type="number" value={val} onChange={onChange}/>
+                                    <input key={param.name} type="number" value={val} onChange={onChange}/>
                             }
                         </div>
                     })
@@ -111,8 +105,8 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                 checkMsgs.length > 0 ?
                     <div className={styles.MessagesContainer}>
                         {
-                            checkMsgs.map(check => 
-                            <p className={check.status === "ERROR" ? styles.ErrorMsg : check.status === "WARNING" ? styles.WarningMsg : ""}>
+                            checkMsgs.map((check, index) => 
+                            <p key={index} className={check.status === "ERROR" ? styles.ErrorMsg : check.status === "WARNING" ? styles.WarningMsg : ""}>
                                 {check.msg}
                             </p>)
                         }

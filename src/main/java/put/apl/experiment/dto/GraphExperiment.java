@@ -49,4 +49,11 @@ public class GraphExperiment {
                 .timeInMillis(timeInMillis)
                 .build();
     }
+
+    public GraphExperiment clearForResponse(){
+        graphResult.setPath(null);
+        graphResult.setMultiplePaths(null);
+        graphResult.setMinimumSpanningTree(null);
+        return this;
+    }
 }

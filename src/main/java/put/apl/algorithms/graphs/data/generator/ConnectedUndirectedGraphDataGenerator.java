@@ -1,6 +1,8 @@
 package put.apl.algorithms.graphs.data.generator;
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.data.ListOfEdgesUndirected;
+import put.apl.algorithms.graphs.data.ListOfIncident;
+import put.apl.algorithms.graphs.data.ListOfIncidentUndirected;
 import put.apl.algorithms.graphs.implementation.BreadthFirstSearch;
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator
         config.setDensity(config.getDensity() / 100);
         // n(n-1) - g•n(n-1)/2
         int numToDiscard = (int) (config.getNumberOfVertices() * (config.getNumberOfVertices() - 1)
-                - (config.getDensity() * config.getNumberOfVertices() * (config.getNumberOfVertices() - 1) / 2));
+                - (config.getDensity() * config.getNumberOfVertices() * (config.getNumberOfVertices() - 1)));
         for (int i = 0; i < config.getNumberOfVertices(); i++) {
             for (int j = i + 1; j < config.getNumberOfVertices(); j++) {
                 ArrayList<Integer> newEdge = new ArrayList<Integer>();
@@ -33,7 +35,7 @@ public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator
             }
         }
         // Randomly delete edges (check if deletion breaks connectivity of the graph)
-        for (int i = 0; i < numToDiscard / 2; i++) {
+        for (int i = 0; i < numToDiscard; i++) {
             while (true) {
                 int removalId = random.nextInt(edges.size());
                 BreadthFirstSearch bfs = new BreadthFirstSearch();
@@ -42,14 +44,21 @@ public class ConnectedUndirectedGraphDataGenerator implements GraphDataGenerator
                 //edgesCopy.remove(removalId * 2);
                 Map<String,String> params = Map.of("forceConnected", "true");
                 bfs.setParams(params);
-                Object[] arrayEdges = edgesCopy.toArray();
-                int[][] intArray = edgesCopy.stream().map(  u  ->  u.stream().mapToInt(n->n).toArray()  ).toArray(int[][]::new);
-                List<Integer> path = bfs.run(new ListOfEdgesUndirected(intArray)).getPath();
+                List<Integer> path = bfs.run(new ListOfIncidentUndirected(edgesCopy, config.getNumberOfVertices())).getPath();
                 if (config.getNumberOfVertices() == path.size()) {
                     break;
+                } else {
+                    edges.remove(removalId);
                 }
             }
         }
-        return edges;
+        List<List<Integer>> graph = new ArrayList<List<Integer>>();
+        for (int i = 0; i < config.getNumberOfVertices(); i++) {
+            graph.add(new ArrayList<Integer>());
+        }
+        for (List<Integer> edge : edges) {
+            graph.get(edge.get(0)).add(edge.get(1));
+        }
+        return graph;
     };
 }
