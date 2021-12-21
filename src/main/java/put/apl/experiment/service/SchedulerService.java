@@ -118,7 +118,7 @@ public class SchedulerService {
                 algorithmFuture.setStart(Date.from(Instant.now()));
                 res = operation.apply(experiments);
                 incrementJobDone(algorithmFuture);
-            }catch(Exception e){
+            }catch(Throwable e){
                 incrementJobDone(algorithmFuture);
                 throw e;
             }
