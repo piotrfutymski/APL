@@ -109,7 +109,7 @@ public class SchedulerService {
                 .expired(false)
                 .timeout(timeout)
                 .finite(finite)
-                .jobNumber(finite ? infiniteJobCounter++ : finiteJobCounter++)
+                .jobNumber(finite ? finiteJobCounter++ : infiniteJobCounter++)
                 .build();
 
         Future<List<Object>> future = executorService.submit(()->{
@@ -175,15 +175,6 @@ public class SchedulerService {
                 value.setExpired(true);
             }
         });
-        if(executorServiceFinite.getCompletedTaskCount() == executorServiceFinite.getTaskCount()) {
-            finiteJobCounter = 0L;
-            finiteJobDone = 0L;
-        }
-        if(executorServiceInfinite.getCompletedTaskCount() == executorServiceInfinite.getTaskCount()) {
-            infiniteJobCounter = 0L;
-            infiniteJobDone = 0L;
-        }
-
 
     }
 
