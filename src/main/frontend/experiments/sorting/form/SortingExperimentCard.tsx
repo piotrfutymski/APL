@@ -37,26 +37,26 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
             <div className={styles.CardForm}>
                 <div className={styles.FormControl}>
                     <label>Algorithm</label>
-                    <select className={styles.AlgorithmSelect} value={experiment.algorithmName} onChange={updateAlgorithm}>
+                    <select id="algorithm" className={styles.AlgorithmSelect} value={experiment.algorithmName} onChange={updateAlgorithm}>
                         {
-                            props.algorithmOptions.map(name => <option key={name} value={name}>{name}</option>)
+                            props.algorithmOptions.map(name => <option id={"algorithm_" + name}  key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>
                 <div className={styles.FormControl}>
                     <label>Data Distribution</label>
-                    <select className={styles.DataSelect} value={experiment.dataDistribution} onChange={updateData}>
+                    <select id="data_distribution" className={styles.DataSelect} value={experiment.dataDistribution} onChange={updateData}>
                         {
-                            props.dataOptions.map(name => <option key={name} value={name}>{name}</option>)
+                            props.dataOptions.map(name => <option id={"data_distribution_" + name} key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>
                 <div className={styles.FormControl}>
                     <label>Maximum possible value</label>
                     <div>
-                        <input className={getCheckBasedStyles(props.experimentCheckInfo.maxValue)} 
-                            type="number" 
-                            value={experiment.maxValue===0 ? "" : experiment.maxValue} 
+                        <input id="max_value" className={getCheckBasedStyles(props.experimentCheckInfo.maxValue)}
+                            type="number"
+                            value={experiment.maxValue===0 ? "" : experiment.maxValue}
                             onChange={updateMaxVal}
                         />
                         <span className={props.maxValAsPercents ? styles.Percent : styles.Hide}>%</span>
@@ -75,8 +75,8 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
                             <label>{param.name}</label>
                             {
                                 param.isSelect === true ?
-                                    <select key={param.name} className={checkStyle} value={val} onChange={onChange}> 
-                                        { param.options.map(name => <option key={name} value={name}>{name}</option>) } 
+                                    <select key={param.name} className={checkStyle} value={val} onChange={onChange}>
+                                        { param.options.map(name => <option key={name} value={name}>{name}</option>) }
                                     </select> :
                                     <input key={param.name} className={checkStyle} type="number" value={+val === 0 ? "" : val} onChange={onChange}/>
                             }
@@ -88,7 +88,7 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
                 checkMsgs.length > 0 ?
                     <div className={styles.MessagesContainer}>
                         {
-                            checkMsgs.map((check, index) => 
+                            checkMsgs.map((check, index) =>
                             <p key={index} className={check.status === "ERROR" ? styles.ErrorMsg : check.status === "WARNING" ? styles.WarningMsg : ""}>
                                 {check.msg}
                             </p>)

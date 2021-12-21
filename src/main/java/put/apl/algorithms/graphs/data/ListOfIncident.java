@@ -6,7 +6,7 @@ import java.util.List;
 /*
     Undirected version
  */
-public abstract class ListOfIncident implements GraphRepresentation {
+public abstract class ListOfIncident extends GraphRepresentation {
     protected int[][] edges;
 
     protected int vertexNum;

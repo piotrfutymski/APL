@@ -46,38 +46,38 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
             <div className={styles.CardForm}> 
                 <div className={styles.FormControl}>
                     <label>Algorithm</label>
-                    <select value={experiment.algorithmName} onChange={updateAlgorithm}>
+                    <select id="algorithm" value={experiment.algorithmName} onChange={updateAlgorithm}>
                         {
-                            props.algorithmOptions.map(name => <option key={name} value={name}>{name}</option>)
+                            props.algorithmOptions.map(name => <option id={"algorithm_" + name} key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>
                 <div className={styles.FormControl}>
                     <label>Data Generator</label>
-                    <select value={experiment.dataGenerator} onChange={updateData}>
+                    <select id="generator" value={experiment.dataGenerator} onChange={updateData}>
                         {
-                            reducePossibleGenerators(experiment, props.dataOptions).map(name => <option key={name} value={name}>{name}</option>)
+                            reducePossibleGenerators(experiment, props.dataOptions).map(name => <option id={"generator_" + name} key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>
                 <div className={styles.FormControl}>
                     <label>Representation</label>
-                    <select value={experiment.representation} onChange={updateRepresentation}>
+                    <select id="representation" value={experiment.representation} onChange={updateRepresentation}>
                         {
-                            reducePossibleRepresentations(experiment, props.representationOptions).map(name => <option key={name} value={name}>{name}</option>)
+                            reducePossibleRepresentations(experiment, props.representationOptions).map(name => <option id={"representation_" + name} key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>
                 <div className={styles.FormControl}>
                     <label>Number of Vertices</label>
                     <div>
-                        <input className={getCheckBasedStyles(props.experimentCheckInfo.numberOfVertices)} type="number" value={experiment.numberOfVertices===0 ? "" : experiment.numberOfVertices} onChange={updateNumberOfVertices}/>
+                        <input id="number_of_vertices" className={getCheckBasedStyles(props.experimentCheckInfo.numberOfVertices)} type="number" value={experiment.numberOfVertices===0 ? "" : experiment.numberOfVertices} onChange={updateNumberOfVertices}/>
                     </div>
                 </div>
                 <div className={styles.FormControl}>
                     <label>Density</label>
                     <div>
-                        <input className={getCheckBasedStyles(props.experimentCheckInfo.density)} type="number" value={experiment.density===0 ? "" : experiment.density} onChange={updateDensity}/>
+                        <input id="density" className={getCheckBasedStyles(props.experimentCheckInfo.density)} type="number" value={experiment.density===0 ? "" : experiment.density} onChange={updateDensity}/>
                         <span className={styles.Percent}>%</span>
                     </div>
                 </div>

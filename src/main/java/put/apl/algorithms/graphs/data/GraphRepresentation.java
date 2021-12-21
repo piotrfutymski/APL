@@ -2,37 +2,43 @@ package put.apl.algorithms.graphs.data;
 
 import java.util.List;
 
-public interface GraphRepresentation {
+public abstract class GraphRepresentation {
 
-    void loadFromIncidenceList(List<List<Integer>> input);
+    abstract public void loadFromIncidenceList(List<List<Integer>> input);
 
-    public int[] getSuccessors(Integer id);
+    abstract public int[] getSuccessors(Integer id);
 
-    public int getFirstSuccessor(Integer id);
+    abstract public int getFirstSuccessor(Integer id);
 
-    public int[] getPredecessors(Integer id);
+    abstract public int[] getPredecessors(Integer id);
 
-    public int getFirstPredecessor(Integer id);
+    abstract public int getFirstPredecessor(Integer id);
 
-    public int[] getNonIncident(Integer id);
+    abstract public int[] getNonIncident(Integer id);
 
-    public int[][] getRepresentation();
+    abstract public int[][] getRepresentation();
 
-    public int getMemoryOccupancy();
+    abstract public int getMemoryOccupancy();
 
-    public int getEdge(Integer id1, Integer id2);
+    abstract public int getEdge(Integer id1, Integer id2);
 
-    public int getVerticesNumber();
+    abstract public int getVerticesNumber();
 
-    public int getEdgesNumber();
+    abstract public int getEdgesNumber();
 
-    public int[][] getAllEdges();
+    abstract public int[][] getAllEdges();
 
-    public int[] getAllVertices();
+    abstract public int[] getAllVertices();
 
-    public int getOperations();
+    abstract public int getOperations();
 
-    public void setOperations(int operations);
+    abstract public void setOperations(int operations);
 
-    public GraphRepresentation clone();
+    abstract public GraphRepresentation clone();
+
+    public void escape() throws InterruptedException{
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
+        }
+    }
 }

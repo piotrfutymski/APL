@@ -120,7 +120,7 @@ export const GraphDoneView = (props: GraphExperimentsResult) => {
                 <select className={styles.SeriesSelect} value={choosedSeries} onChange={handleChangeSeries}>
                     <option key="emptyOpt" value=""></option>
                     {
-                        series.filter(lab => !lab.name.endsWith(" --> trend")).map((label, index) => <option key={index} value={label.name}> {label.name} </option>)
+                        series.filter(lab => !lab.name.endsWith(" --> trend")).map((label, index) => <option id={"opt_" + index.toString()} key={index} value={label.name}> {label.name} </option>)
                     }
                 </select>
                 {complexityParams && <GraphFormula {...complexityParams}/>}
