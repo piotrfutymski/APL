@@ -10,10 +10,7 @@ import put.apl.experiment.dto.GraphExperiment;
 import put.apl.experiment.service.GraphService;
 
 import java.io.ObjectInputFilter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -147,11 +144,12 @@ public class GraphTest {
             {
                 var succ = representation.getSuccessors(i);
                 var pre = representation.getPredecessors(i);
-                assertArrayEquals(expectedSuccessors[i], representation.getSuccessors(i));
-                assertArrayEquals(expectedSuccessors[i], representation.getPredecessors(i));
+                assertArrayEquals(expectedSuccessors[i], representation.getSuccessors(i), representation.getClass().toString());
+                assertArrayEquals(expectedSuccessors[i], representation.getPredecessors(i), representation.getClass().toString());
             }
         }
     }
+
 
     @Test
     void DirectedRepresentationTest() throws InterruptedException {
@@ -164,8 +162,8 @@ public class GraphTest {
             {
                 var succ = representation.getSuccessors(i);
                 var pre = representation.getPredecessors(i);
-                assertArrayEquals(expectedSuccessors[i], representation.getSuccessors(i));
-                assertArrayEquals(expectedPredecessors[i], representation.getPredecessors(i));
+                assertArrayEquals(expectedSuccessors[i], representation.getSuccessors(i), representation.getClass().toString());
+                assertArrayEquals(expectedPredecessors[i], representation.getPredecessors(i), representation.getClass().toString());
             }
         }
     }
@@ -188,10 +186,13 @@ public class GraphTest {
         }
     }
 
+
     @Test
     void DirectedRepresentationEdgesTest() throws InterruptedException {
         var expectedEdges = new int[][] {{0,2}, {0,4}, {0,5}, {1,4}, {1,5}, {2,3},
                 {2,4}, {2,5}, {3,4}};
+        Set<int[]> targetSet = new HashSet<int[]>(Arrays.asList(expectedEdges));
+
         for( var representation : directed)
         {
             representation.loadFromIncidenceList(getDirectedGraph());
@@ -206,8 +207,7 @@ public class GraphTest {
         }
     }
 
-
-    @Test
+  @Test
     void DFSTest() throws InterruptedException {
         var dirResult = new Integer[] {0,3,1,2,4,5};
         var undirResult = new Integer[] {0,2,3,4,1,5};
