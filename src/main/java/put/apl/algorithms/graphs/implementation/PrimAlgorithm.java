@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.GraphRepresentation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Component("Prim Algorithm")
@@ -11,7 +13,7 @@ public class PrimAlgorithm implements GraphAlgorithm  {
 
     GraphRepresentation graph;
 
-    int[] MST;
+    List<Integer> MST;
 
     int[] key;
 
@@ -25,17 +27,18 @@ public class PrimAlgorithm implements GraphAlgorithm  {
         this.graph = graph;
         verticesSize = graph.getVerticesNumber();
         key = new int[verticesSize];
-        MST = new int[verticesSize];
+        MST = new ArrayList<>();
         visited = new boolean[verticesSize];
 
         for (int i=0; i < verticesSize; i++)
         {
             key[i] = Integer.MAX_VALUE;
             visited[i] = false;
+            MST.add(0);
         }
 
         key[0] = 0;
-        MST[0] = -1;
+        MST.set(0, -1);
         for (int count = 0; count < verticesSize - 1; count++) {
 
             int u = findKey();
@@ -45,12 +48,12 @@ public class PrimAlgorithm implements GraphAlgorithm  {
             {
                 if (!visited[v] && graph.getEdge(u,v) < key[v])
                 {
-                    MST[v] = u;
+                    MST.set(v, u);
                     key[v] = graph.getEdge(u,v);
                 }
             }
         }
-        return null;
+        return GraphResult.builder().path(MST).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
     private int findKey()
     {

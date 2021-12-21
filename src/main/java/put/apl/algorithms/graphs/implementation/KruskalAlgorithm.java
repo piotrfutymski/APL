@@ -57,6 +57,7 @@ public class KruskalAlgorithm implements GraphAlgorithm  {
     @Override
     public GraphResult run(GraphRepresentation graph) {
         graph.setOperations(0);
+        this.verticesSize = graph.getVerticesNumber();
         this.graph = graph;
         Edge[] edges = new Edge[graph.getEdgesNumber()];
         int edges_size=0;
@@ -88,8 +89,11 @@ public class KruskalAlgorithm implements GraphAlgorithm  {
         List<Integer> final_result = new ArrayList<Integer>();
         for (Edge edge_result : result)
         {
-            final_result.add(edge_result.src);
-            final_result.add(edge_result.dest);
+            if (edge_result != null)
+            {
+                final_result.add(edge_result.src);
+                final_result.add(edge_result.dest);
+            }
         }
         return GraphResult.builder().path(final_result).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
