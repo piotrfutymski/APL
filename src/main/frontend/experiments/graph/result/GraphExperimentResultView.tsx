@@ -23,7 +23,6 @@ export const GraphExperimentResultView = () =>{
         setIntervalV(intervalId)
         return () => {
             clearInterval(intervalId)
-            deleteGraphExperiment(id);
         }
     }, [id])
 
