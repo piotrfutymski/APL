@@ -4,7 +4,7 @@ import { useParams } from 'react-router'
 import { GraphDoneView } from './GraphDoneView'
 import { GraphNotDoneView } from './GraphNotDoneView'
 import { GraphExperimentsResult } from '../Graph.interface'
-import { fetchGraphExperiments } from '../GraphServices'
+import { fetchGraphExperiments, deleteGraphExperiment } from '../GraphServices'
 
 import styles from './GraphNotDoneView.module.scss'
 
@@ -23,6 +23,7 @@ export const GraphExperimentResultView = () =>{
         setIntervalV(intervalId)
         return () => {
             clearInterval(intervalId)
+            deleteGraphExperiment(id);
         }
     }, [id])
 
@@ -46,6 +47,7 @@ export const GraphExperimentResultView = () =>{
                         errorCause={experimentsResults.errorCause}
                         status={experimentsResults.status}
                         results={experimentsResults.results}
+                        id={id}
                     /> : 
                     <GraphDoneView
                         queuePosition={experimentsResults.queuePosition}

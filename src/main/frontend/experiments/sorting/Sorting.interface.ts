@@ -71,6 +71,7 @@ export interface SortingExperimentsResult {
     results: SortingExperiment[];
     queuePosition: number;
     errorCause: string;
+    id?: string;
 }
 
 export interface SortingExperimentResultLabel{

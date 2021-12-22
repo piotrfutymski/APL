@@ -1,5 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import { SortingExperimentsResult } from "../Sorting.interface"
+import { deleteSortingExperiment } from "../SortingServices"
+import { Navigate } from 'react-router-dom'
+
 
 import styles from './SortingNotDoneView.module.scss'
 
@@ -45,12 +48,21 @@ export const SortingNotDoneView = (props: SortingExperimentsResult) => {
         )
     }
 
+    const [canceled, setCanceled] = useState(false);
+
+    const cancel = () => {
+        deleteSortingExperiment(props.id);
+        setCanceled(true);
+    };
+
     return (
     <div className={styles.Container}>
+        {canceled ? <Navigate to={`/experiments/sorting/`} /> : ""}
         {props.status === 'CALCULATING' && ExperimentCalculating()}
         {props.status === 'QUEUED' && ExperimentQueued()}
         {props.status === 'ERROR' && ExperimentError()}
         {props.status === 'EXPIRED' && ExperimentExpired()}
         {props.status === 'REMOVED' && NoExperiment()}
+        <button type="button" onClick={() => cancel()}>Cancel Experiment</button>
     </div>)
 }

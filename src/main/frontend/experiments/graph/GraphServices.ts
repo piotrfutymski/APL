@@ -194,6 +194,14 @@ export const fetchGraphExperiments = (id:string, onResponse:(args: GraphExperime
         })
 }
 
+export const deleteGraphExperiment = (id:string) => {
+    axios.delete(`/api/experiment/${id}`)
+        .then((response: AxiosResponse)=>{
+        })
+        .catch((error: AxiosError) =>{
+        })
+} 
+
 export const getNameForGraphExperiment = (v: GraphExperiment, densityXAxis: boolean) => {
     let series = v.algorithmName + " : " + v.dataGenerator + " : " + v.representation + " : " + (densityXAxis === true ? v.numberOfVertices : v.density);
     if (v.algorithmParams) {

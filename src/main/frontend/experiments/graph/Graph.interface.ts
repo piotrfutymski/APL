@@ -77,6 +77,7 @@ export interface GraphExperimentsResult {
     results: GraphExperiment[];
     queuePosition: number;
     errorCause: string;
+    id?: string;
 }
 
 export type ComplexityType = "N^2" | "NlogN" | "N+K"
