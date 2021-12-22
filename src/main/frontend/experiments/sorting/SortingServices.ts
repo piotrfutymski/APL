@@ -172,6 +172,14 @@ export const fetchSortingExperiments = (id:string, onResponse:(args: SortingExpe
         })
 }
 
+export const deleteSortingExperiment = (id:string) => {
+    axios.delete(`/api/experiment/${id}`)
+        .then((response: AxiosResponse)=>{
+        })
+        .catch((error: AxiosError) =>{
+        })
+} 
+
 export const getNameForSortingExperiment = (v: SortingExperiment) => {
     let series = v.algorithmName + " : " + v.dataDistribution + " : " + v.maxValue.toString();
     for (let [key, val] of Object.entries(v.algorithmParams)) {

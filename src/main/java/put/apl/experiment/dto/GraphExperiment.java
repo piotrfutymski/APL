@@ -29,7 +29,10 @@ public class GraphExperiment {
     private Boolean checkForCycles;
 
     private Double timeInMillis;
+    private Boolean measureByDensity;
+
     private GraphResult graphResult;
+
 
     public String dataGeneratorGroupingString(){
         return dataGenerator+"_"+numberOfVertices.toString()+"_"+density.toString();
@@ -47,6 +50,7 @@ public class GraphExperiment {
                 .forceConnected(forceConnected)
                 .graphResult(graphResult)
                 .timeInMillis(timeInMillis)
+                .measureByDensity(measureByDensity)
                 .build();
     }
 

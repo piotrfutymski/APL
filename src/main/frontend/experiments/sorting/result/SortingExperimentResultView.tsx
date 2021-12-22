@@ -4,7 +4,7 @@ import { useParams } from 'react-router'
 import { SortingDoneView } from './SortingDoneView'
 import { SortingNotDoneView } from './SortingNotDoneView'
 import { SortingExperimentsResult } from '../Sorting.interface'
-import { fetchSortingExperiments } from '../SortingServices'
+import { fetchSortingExperiments, deleteSortingExperiment } from '../SortingServices'
 
 import styles from './SortingNotDoneView.module.scss'
 
@@ -23,6 +23,7 @@ export const SortingExperimentResultView = () =>{
         setIntervalV(intervalId)
         return () => {
             clearInterval(intervalId)
+            deleteSortingExperiment(id);
         }
     }, [id])
 
@@ -46,6 +47,7 @@ export const SortingExperimentResultView = () =>{
                         errorCause={experimentsResults.errorCause}
                         status={experimentsResults.status}
                         results={experimentsResults.results}
+                        id={id}
                     /> : 
                     <SortingDoneView
                         queuePosition={experimentsResults.queuePosition}
