@@ -33,12 +33,12 @@ export const SortingForm = () =>{
             let cookieExperiment: any = {...e}
             cookieExperiment.algorithmParams = Object.fromEntries(e.algorithmParams)
             return cookieExperiment
-        }), {path: '/', sameSite: true})
+        }), {path: '/', sameSite: true, maxAge: 36288000})
     }
 
     const config = (cookies.SortingConfig || {n: 1000, measureSeries: 10, maxValAsPercent: true}) as SortingConfig
     const setConfig = (newConfig: SortingConfig) =>{
-        setCookie('SortingConfig', newConfig, {path: '/', sameSite: true})
+        setCookie('SortingConfig', newConfig, {path: '/', sameSite: true, maxAge: 36288000})
     }
     //==========================================================
     //============================= experiments =============================

@@ -27,12 +27,12 @@ export const GraphForm = () =>{
 
     const experiments = (cookies.GraphExperiments || []).map( (e: any)=> { return {...e, algorithmParams: new Map<string,string>(Object.entries(e.algorithmParams))} }) as GraphExperiment[] 
     const setExperiments = (newExperiments: GraphExperiment[]) =>{
-        setCookie('GraphExperiments', newExperiments.map( (e: any)=> { return {...e, algorithmParams: Object.fromEntries(e.algorithmParams)} }), {path: '/', sameSite: true})
+        setCookie('GraphExperiments', newExperiments.map( (e: any)=> { return {...e, algorithmParams: Object.fromEntries(e.algorithmParams)} }), {path: '/', sameSite: true, maxAge: 36288000})
     }
 
     const config = (cookies.GraphConfig || {measureSeries: 10}) as GraphConfig
     const setConfig = (newConfig: GraphConfig) =>{
-        setCookie('GraphConfig', newConfig, {path: '/', sameSite: true})
+        setCookie('GraphConfig', newConfig, {path: '/', sameSite: true, maxAge: 36288000})
     }
     //==========================================================
     //============================= experiments =============================
