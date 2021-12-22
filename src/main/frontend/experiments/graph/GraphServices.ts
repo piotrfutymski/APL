@@ -46,11 +46,44 @@ export const reducePossibleRepresentations = (experiment: GraphExperiment, repre
 
 
 export const checkConfig = (config: GraphConfig): GraphConfigCheck => {
-    let result:GraphConfigCheck = {warningFlag: false, errorFlag: false,  measureSeries: {status: "CORRECT"}}
+    let result:GraphConfigCheck = {warningFlag: false, errorFlag: false,  measureSeries: {status: "CORRECT"}, densityOrVertices: {status: "CORRECT"}}
     if(config.measureSeries <= 0){
         result.measureSeries.status="ERROR"
         result.measureSeries.msg="Number of measure series must be a number greater than 0"
         result.errorFlag=true
+    }
+    if(config.measureByDensity === true){
+        if(config.densityOrVertices <= 0)
+        {
+            result.densityOrVertices.status="ERROR"
+            result.densityOrVertices.msg="Number of vertices must be a number greater than 0"
+            result.errorFlag=true
+        } 
+        else if (config.densityOrVertices < config.measureSeries) 
+        {
+            result.densityOrVertices.status="ERROR"
+            result.densityOrVertices.msg="Number of vertices is smaller than the number of series"
+            result.errorFlag=true
+        }
+        else if (config.densityOrVertices < 5 * config.measureSeries)
+        {
+            result.densityOrVertices.status="WARNING"
+            result.densityOrVertices.msg="Number of vertices is very small compared to number of series"
+            result.warningFlag=true
+        }
+    } else {
+        if(config.densityOrVertices <= 0)
+        {
+            result.densityOrVertices.status="ERROR"
+            result.densityOrVertices.msg="Density must be a number greater than 0"
+            result.errorFlag=true
+        }
+        else if(config.densityOrVertices > 100)
+        {
+            result.densityOrVertices.status="ERROR"
+            result.densityOrVertices.msg="Density must be a number below 100"
+            result.errorFlag=true
+        }
     }
     return result
 }
@@ -58,42 +91,46 @@ export const checkConfig = (config: GraphConfig): GraphConfigCheck => {
 export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig): GraphExperimentCheck => {
     const paramInfos = getParamInfos(experiment)
     let result:GraphExperimentCheck = { warningFlag: false, errorFlag: false, numberOfVertices: {status: "CORRECT"}, density: {status: "CORRECT"}}
-    if(experiment.numberOfVertices <= 0)
-    {
-        result.numberOfVertices.status="ERROR"
-        result.numberOfVertices.msg="Number of vertices must be a number greater than 0"
-        result.errorFlag=true
-    } 
-    else if (experiment.numberOfVertices < config.measureSeries) 
-    {
-        result.numberOfVertices.status="ERROR"
-        result.numberOfVertices.msg="Number of vertices is smaller than the number of series"
-        result.errorFlag=true
+    if(config.measureByDensity === true){
+        if(experiment.numberOfVertices <= 0)
+        {
+            result.numberOfVertices.status="ERROR"
+            result.numberOfVertices.msg="Number of vertices must be a number greater than 0"
+            result.errorFlag=true
+        } 
+        else if (experiment.numberOfVertices < config.measureSeries) 
+        {
+            result.numberOfVertices.status="ERROR"
+            result.numberOfVertices.msg="Number of vertices is smaller than the number of series"
+            result.errorFlag=true
+        }
+        else if (experiment.numberOfVertices < 5 * config.measureSeries)
+        {
+            result.numberOfVertices.status="WARNING"
+            result.numberOfVertices.msg="Number of vertices is very small compared to number of series"
+            result.warningFlag=true
+        }
+    } else {
+        if(experiment.density <= 0)
+        {
+            result.density.status="ERROR"
+            result.density.msg="Density must be a number greater than 0"
+            result.errorFlag=true
+        }
+        else if(experiment.density > 100)
+        {
+            result.density.status="ERROR"
+            result.density.msg="Density must be a number below 100"
+            result.errorFlag=true
+        }
     }
-    else if (experiment.numberOfVertices < 5 * config.measureSeries)
-    {
-        result.numberOfVertices.status="WARNING"
-        result.numberOfVertices.msg="Number of vertices is very small compared to number of series"
-        result.warningFlag=true
-    }
-    if(experiment.density <= 0)
-    {
-        result.density.status="ERROR"
-        result.density.msg="Density must be a number greater than 0"
-        result.errorFlag=true
-    }
-    else if (experiment.numberOfVertices * experiment.density / (100 * config.measureSeries) < 1 && config.measureByDensity == true) 
+    if (experiment.numberOfVertices * experiment.density / (100 * config.measureSeries) < 1 && config.measureByDensity == true) 
     {
         result.density.status="WARNING"
-        result.density.msg="Density is very too small compared with current number of vertices and measure series"
+        result.density.msg="Density is too small compared with current number of vertices and measure series"
         result.warningFlag=true
     }
-    else if(experiment.density > 100)
-    {
-        result.density.status="ERROR"
-        result.density.msg="Density must be a number below 100"
-        result.errorFlag=true
-    }
+    
     return result
 }
 
@@ -109,6 +146,7 @@ export const submitExperiments = (experiments: GraphExperiment[], config: GraphC
                 numberOfVertices: (config.measureByDensity) ? element.numberOfVertices : ((+element.numberOfVertices * (i+1)) / config.measureSeries),
                 density: (config.measureByDensity) ? ((+element.density * (i+1)) / config.measureSeries) : +element.density,
                 algorithmParams: Object.fromEntries(element.algorithmParams),
+                measureByDensity: config.measureByDensity
             })
         }
     });

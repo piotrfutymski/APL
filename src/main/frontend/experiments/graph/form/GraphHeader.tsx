@@ -13,11 +13,34 @@ export const GraphHeader = (props: GraphHeaderProps) =>{
         config.measureByDensity = event.target.checked
         props.updateConfig(config)
     }
+    const updateDensityOrVertices = (event: any) =>{
+        config.densityOrVertices = +event.target.value
+        props.updateConfig(config)
+    }
     const getCheckBasedStyles = (check: CheckResult) => check.status === "ERROR" ? styles.Error : check.status === "WARNING" ? styles.Warning : ""
     const checkMsgs = [props.configCheckInfo.measureSeries].filter(e => e.msg !== undefined)
     return (
         <div className={styles.GraphHeader}>
             <div className={styles.HeaderForm}>
+                <div className={styles.FormControl}>
+                    {
+                        props.config.measureByDensity === false ? 
+                        <>
+                            <label>Maximum Number Of Vertices</label> 
+                            <div>
+                                <input id="numberOfVertices" className={getCheckBasedStyles(props.configCheckInfo.densityOrVertices)} type="number" value={config.densityOrVertices===0 ? "" : config.densityOrVertices} onChange={updateDensityOrVertices}/>
+                            </div>
+                        </>
+                        : 
+                        <>
+                            <label>Maximum Density</label>
+                            <div>
+                                <input id="density" className={getCheckBasedStyles(props.configCheckInfo.densityOrVertices)} type="number" value={config.densityOrVertices ===0 ? "" : config.densityOrVertices} onChange={updateDensityOrVertices}/>
+                                <span className={styles.Percent}>%</span>
+                            </div>
+                        </>
+                    }
+                </div>
                 <div className={styles.FormControl}>
                     <label>Number of measure series</label>
                     <input className={getCheckBasedStyles(props.configCheckInfo.measureSeries)} type="number" value={config.measureSeries===0 ? "" : config.measureSeries} onChange={updateMeasureSeries}/>

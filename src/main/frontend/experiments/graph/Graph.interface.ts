@@ -10,6 +10,7 @@ export interface GraphExperiment {
     numberOfVertices: number;
     density: number;
     check?: boolean;
+    measureByDensity?: boolean;
 
     timeInMillis?: number;
     graphResult?: GraphResult;
@@ -33,6 +34,7 @@ export interface GraphExperimentCardProps {
     dataOptions: string[];
     representationOptions: string[];
     experiment: GraphExperiment;
+    config: GraphConfig;
     experimentCheckInfo: GraphExperimentCheck;
     updateExperiment: (newExp :GraphExperiment)=>void;
     removeExperiment: ()=>void;
@@ -41,6 +43,7 @@ export interface GraphExperimentCardProps {
 export interface GraphConfig {
     measureSeries: number;
     measureByDensity: boolean;
+    densityOrVertices: number;
 }
 
 export interface GraphHeaderProps{
@@ -62,6 +65,7 @@ export interface GraphExperimentCheck{
 }
 export interface GraphConfigCheck{
     measureSeries: CheckResult;
+    densityOrVertices: CheckResult;
     warningFlag: boolean;
     errorFlag: boolean;
 }

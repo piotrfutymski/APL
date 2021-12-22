@@ -44,7 +44,12 @@
     grid-area: msgs;
     @include flexCentering(column);
 }
-
+.Percent{
+    display: inline-block;
+    pointer-events: none;
+    margin-left: -1rem;
+    color: grey;
+}
 .Warning{
     box-shadow: 0 0 10px $card-warning-color;
 }

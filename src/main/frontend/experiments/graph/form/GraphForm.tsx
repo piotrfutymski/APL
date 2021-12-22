@@ -30,14 +30,20 @@ export const GraphForm = () =>{
         setCookie('GraphExperiments', newExperiments.map( (e: any)=> { return {...e, algorithmParams: Object.fromEntries(e.algorithmParams)} }), {path: '/', sameSite: true, maxAge: 36288000})
     }
 
-    const config = (cookies.GraphConfig || {measureSeries: 10}) as GraphConfig
+    const config = (cookies.GraphConfig || {measureSeries: 10, densityOrVertices: 50, measureByDensity: false}) as GraphConfig
     const setConfig = (newConfig: GraphConfig) =>{
         setCookie('GraphConfig', newConfig, {path: '/', sameSite: true, maxAge: 36288000})
     }
     //==========================================================
     //============================= experiments =============================
     const addExperiment = () =>{
-        let newExperiment: GraphExperiment = {algorithmName: algorithmOptions[0], dataGenerator: dataOptions[0], representation: representationOptions[0], numberOfVertices: config.measureSeries * 5, density: 90, algorithmParams: new Map<string, string>(), check: false}
+        let newExperiment: GraphExperiment = {algorithmName: algorithmOptions[0],
+            dataGenerator: dataOptions[0], 
+            representation: representationOptions[0],
+            numberOfVertices: config.measureByDensity ? config.measureSeries * 5 : config.densityOrVertices,
+            density: config.measureByDensity ? config.densityOrVertices : 90, 
+            algorithmParams: new Map<string, string>(), 
+            check: false}
         if(experiments.length > 0){
             newExperiment = experiments.at(experiments.length-1)
         }
@@ -74,6 +80,15 @@ export const GraphForm = () =>{
     //==========================================================
     //============================= config =============================
     const updateConfig = (newConfig: GraphConfig) =>{
+        setExperiments(experiments.map(v => {
+            let tmp = {...v};
+            if(newConfig.measureByDensity === true) {
+                tmp.density = newConfig.densityOrVertices;
+            } else {
+                tmp.numberOfVertices = newConfig.densityOrVertices;
+            }
+            return tmp;
+        }))
         setConfig(newConfig)
     }
     //==========================================================
@@ -95,7 +110,7 @@ export const GraphForm = () =>{
         <div className={styles.ExperimentList}>
             {
                 experiments.map((experiment, index) => {
-                    return <GraphExperimentCard key={index} experiment={experiment} 
+                    return <GraphExperimentCard key={index} experiment={experiment} config={config}
                         updateExperiment={(experiment)=>updateExperiment(index, experiment)} 
                         removeExperiment={()=>removeExperiment(index)} 
                         algorithmOptions={algorithmOptions}

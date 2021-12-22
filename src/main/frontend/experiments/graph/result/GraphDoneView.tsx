@@ -22,22 +22,21 @@ export const GraphDoneView = (props: GraphExperimentsResult) => {
             const res: any[] = [];
         const headers: any[] = [];
         let names: number[] = [];
-        let densityAsX: boolean = false;
-        for (let i = 0; i < props.results.length; i++) {
-            if (!names.includes(props.results[i].numberOfVertices))
-                names.push(props.results[i].numberOfVertices);
-        }
-        if (names.length == 1) {
-            names = []
+        let densityAsX: boolean = props.results[0].measureByDensity;
+        headers.push({label: densityAsX === true ? "Density" : "Number Of Vertices", key: "N"})
+        let i = 0
+        if (densityAsX) {
             for (let i = 0; i < props.results.length; i++) {
                 if (!names.includes(props.results[i].density))
                     names.push(props.results[i].density);
             }
-            densityAsX = true;
+        } else {
+            for (let i = 0; i < props.results.length; i++) {
+                if (!names.includes(props.results[i].numberOfVertices))
+                    names.push(props.results[i].numberOfVertices);
+            }
         }
         names = names.sort((a, b) => a - b)
-        headers.push({label: densityAsX === true ? "Density" : "Number Of Vertices", key: "N"})
-        let i = 0
         names.forEach(name => {
             let el: any = {}
             el["N"] = name.toString();
@@ -67,19 +66,7 @@ export const GraphDoneView = (props: GraphExperimentsResult) => {
 
     useEffect(() => {
         let names: number[] = [];
-        let densityAsX: boolean = false;
-        for (let i = 0; i < props.results.length; i++) {
-            if (!names.includes(props.results[i].numberOfVertices))
-                names.push(props.results[i].numberOfVertices);
-        }
-        if (names.length == 1) {
-            names = []
-            for (let i = 0; i < props.results.length; i++) {
-                if (!names.includes(props.results[i].density))
-                    names.push(props.results[i].density);
-            }
-            densityAsX = true;
-        }
+        let densityAsX: boolean = props.results[0].measureByDensity;
         let stoSet: GraphExperimentResultLabel[] = []
         if(props.results.length > 0){
             let tmp : GraphExperiment[] = [];

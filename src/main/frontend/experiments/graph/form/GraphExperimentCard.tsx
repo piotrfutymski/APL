@@ -69,17 +69,23 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                     </select>
                 </div>
                 <div className={styles.FormControl}>
-                    <label>Number of Vertices</label>
-                    <div>
-                        <input id="number_of_vertices" className={getCheckBasedStyles(props.experimentCheckInfo.numberOfVertices)} type="number" value={experiment.numberOfVertices===0 ? "" : experiment.numberOfVertices} onChange={updateNumberOfVertices}/>
-                    </div>
-                </div>
-                <div className={styles.FormControl}>
-                    <label>Density</label>
-                    <div>
-                        <input id="density" className={getCheckBasedStyles(props.experimentCheckInfo.density)} type="number" value={experiment.density===0 ? "" : experiment.density} onChange={updateDensity}/>
-                        <span className={styles.Percent}>%</span>
-                    </div>
+                    {
+                        props.config.measureByDensity === true ? 
+                        <>
+                            <label>Number Of Vertices</label> 
+                            <div>
+                                <input id="numberOfVertices" className={getCheckBasedStyles(props.experimentCheckInfo.numberOfVertices)} type="number" value={experiment.numberOfVertices===0 ? "" : experiment.numberOfVertices} onChange={updateNumberOfVertices}/>
+                            </div>
+                        </>
+                        : 
+                        <>
+                            <label>Density</label>
+                            <div>
+                                <input id="density" className={getCheckBasedStyles(props.experimentCheckInfo.density)} type="number" value={experiment.density===0 ? "" : experiment.density} onChange={updateDensity}/>
+                                <span className={styles.Percent}>%</span>
+                            </div>
+                        </>
+                    }
                 </div>
                 {
                     paramInfos.map(param =>{
