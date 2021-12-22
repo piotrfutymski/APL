@@ -23,7 +23,6 @@ export const SortingExperimentResultView = () =>{
         setIntervalV(intervalId)
         return () => {
             clearInterval(intervalId)
-            deleteSortingExperiment(id);
         }
     }, [id])
 
