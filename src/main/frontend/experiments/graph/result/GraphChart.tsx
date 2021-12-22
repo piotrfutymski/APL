@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
-import { ComplexityParameters, GraphChartProps } from "../Graph.interface"
+import { ComplexityParameters, GraphChartProps, GraphExperimentResultLabel } from "../Graph.interface"
 import { GraphFormula } from "./GraphFormula"
 import { CSVLink } from "react-csv";
 import { addCalculatedComplexity, calculateComplexityParameters, getNameForGraphExperiment } from "../GraphServices"
@@ -22,6 +22,28 @@ export const GraphChart = (props: GraphChartProps) => {
     useEffect(() => {
         recalculateDataTime()
     }, [props, logarithmScale])
+
+    const cropLabel = (label : string) : string => {
+        return label.substring(label.indexOf(" : ", label.indexOf(" : ")+1)+2);
+    };
+
+    const activeLabels : GraphExperimentResultLabel[] = []
+    
+    props.labels.filter(label=> label.active).forEach(label => {
+        let tmp : GraphExperimentResultLabel = {...label};
+        if (props.dataLabel === "memoryOccupancyInBytes") {
+            tmp.name = cropLabel(tmp.name);
+        };
+        let found : boolean = false;
+        activeLabels.forEach(activeLabel => {
+            if (tmp.name === activeLabel.name) {
+                found = true;
+            }
+        });
+        if (!found) {
+            activeLabels.push(tmp);
+        }
+    });
 
     const recalculateDataTime = () => {
         const res: any[] = [];
@@ -51,7 +73,7 @@ export const GraphChart = (props: GraphChartProps) => {
                 if (props.dataLabel === "timeInMillis" && (!logarithmScale || v.timeInMillis != 0))
                     el[label] = v.timeInMillis;
                 if (props.dataLabel === "memoryOccupancyInBytes" && (!logarithmScale || v.graphResult.memoryOccupancyInBytes != 0))
-                    el[label] = v.graphResult.memoryOccupancyInBytes;
+                    el[cropLabel(label)] = v.graphResult.memoryOccupancyInBytes;
                 if (props.dataLabel === "tableAccessCount" && (!logarithmScale || v.graphResult.tableAccessCount != 0))
                     el[label] = v.graphResult.tableAccessCount;
                 if(i === 0){
@@ -96,16 +118,16 @@ export const GraphChart = (props: GraphChartProps) => {
     }
 
     const getDataKeys = () => {
-        let res = props.labels.map(lab => lab.name)
+        let res = activeLabels.map(lab => lab.name)
         return res;
     }
 
     const getLines = () => {
         return getDataKeys().map((element, index) => {
             return (
-                <Line key={index} type="monotone" dot={false} dataKey={element} stroke={props.labels[index].colorStr} />
+                <Line key={index} type="monotone" dot={false} dataKey={element} stroke={activeLabels[index].colorStr} />
             )
-        }).filter((_,index)=> props.labels[index].active)
+        })
     }
 
     const changeScaleType = () => {
