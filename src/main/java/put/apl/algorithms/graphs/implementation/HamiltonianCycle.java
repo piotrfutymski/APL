@@ -21,30 +21,30 @@ public class HamiltonianCycle implements GraphAlgorithm  {
         this.graph = graph;
         this.path.add(0);
         if (graph.getVerticesNumber() > 1) {
-            if (hamiltonianCycle(1)) {
-                return GraphResult.builder().path(path).build();
+            if (!hamiltonianCycle(1)) {
+                path = new ArrayList<Integer>();
             }
-            return GraphResult.builder().path(new ArrayList<Integer>()).build();
         }
-        else {
-            return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
-        }
+        return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
     private boolean hamiltonianCycle(int pos) {
         if (pos == graph.getVerticesNumber()) {
             int[] successors = graph.getSuccessors(this.path.get(pos-1));
             for (int s : successors) {
-                if (s == 0) {
+                if (s == this.path.get(0)) {
                     return true;
                 }
             }
             return false;
         }
-        for (int i = 1; i < graph.getVerticesNumber(); i++) {
-            if (graph.getEdge(i, this.path.get(pos-1)) > 0 && !path.contains(i)) {
-                path.add(i);
-                if (hamiltonianCycle(pos + 1)) {
+        for (var successor : graph.getSuccessors(this.path.get(pos-1)))
+        {
+            if (!path.contains(successor))
+            {
+                path.add(successor);
+                if (hamiltonianCycle(pos+1))
+                {
                     return true;
                 }
                 path.remove(path.size() - 1);

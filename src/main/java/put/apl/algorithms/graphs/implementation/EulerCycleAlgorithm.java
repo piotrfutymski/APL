@@ -41,6 +41,7 @@ public class EulerCycleAlgorithm implements GraphAlgorithm  {
             if (!visitedEdges[vertex][i])
             {
                 visitedEdges[vertex][i]=true;
+                visitedEdges[i][vertex]=true;
                 DFSEuler(i);
             }
         }
