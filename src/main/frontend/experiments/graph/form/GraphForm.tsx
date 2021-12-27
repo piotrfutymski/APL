@@ -94,7 +94,7 @@ export const GraphForm = () =>{
     //==========================================================
     //============================= check =============================
     const experimentCheckInfos = experiments.map(e=> checkExperiment(e, config))
-    const configCheckInfo = checkConfig(config)
+    const configCheckInfo = checkConfig(config, experiments)
     let allowSubmit=true
     experimentCheckInfos.forEach(e=>e.errorFlag? allowSubmit=false:"")
     //==========================================================

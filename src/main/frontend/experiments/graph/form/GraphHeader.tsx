@@ -18,7 +18,7 @@ export const GraphHeader = (props: GraphHeaderProps) =>{
         props.updateConfig(config)
     }
     const getCheckBasedStyles = (check: CheckResult) => check.status === "ERROR" ? styles.Error : check.status === "WARNING" ? styles.Warning : ""
-    const checkMsgs = [props.configCheckInfo.measureSeries].filter(e => e.msg !== undefined)
+    const checkMsgs = [props.configCheckInfo.densityOrVertices, props.configCheckInfo.measureSeries].filter(e => e.msg !== undefined)
     return (
         <div className={styles.GraphHeader}>
             <div className={styles.HeaderForm}>

@@ -36,27 +36,23 @@ export const checkConfig = (config: SortingConfig): SortingConfigCheck => {
         result.n.msg="Size of the largest instance (N) must be a number greater than 0"
         result.errorFlag=true
     }
-    if(config.n<100){
-        result.n.status="WARNING"
-        result.n.msg="Consider use size of the largest instance (N) between 100 to 100000"
-        result.warningFlag=true
-    }
-    if(config.n>100000){
-        result.n.status="WARNING"
-        result.n.msg="Consider use size of the largest instance (N) between 100 to 100000"
-        result.warningFlag=true
-    }
-    if(config.n>1000000){
+    else if(config.n>1000000){
         result.n.status="ERROR"
         result.n.msg="Size of the largest instance (N) must be a number less than 1000000"
         result.errorFlag=true
     }
+    else if(config.n<100 || config.n>100000){
+        result.n.status="WARNING"
+        result.n.msg="Size of the largest instance (N) out of recommended range, consider changing to value between 100 and 100000"
+        result.warningFlag=true
+    }
+
     if(config.measureSeries <= 0){
         result.measureSeries.status="ERROR"
         result.measureSeries.msg="Number of measure series must be a number greater than 0"
         result.errorFlag=true
     }
-    if(config.measureSeries >= 200){
+    else if(config.measureSeries >= 200){
         result.measureSeries.status="ERROR"
         result.measureSeries.msg="Number of measure series must be a number less than 200"
         result.errorFlag=true
@@ -77,15 +73,15 @@ export const checkExperiment = (experiment: SortingExperiment, config: SortingCo
         if(config.maxValAsPercent){
             maxVal = experiment.maxValue*config.n/100
         }
-        if(maxVal<100){
+        if(maxVal>1000000000){
+            result.maxValue.status="ERROR"
+            result.maxValue.msg="Too big value range, consider changing maximum possible value"
+            result.errorFlag=true
+        }
+        else if(maxVal<100){
             result.maxValue.status="WARNING"
             result.maxValue.msg="Small value range, consider changing maximum possible value"
             result.warningFlag=true
-        }
-        if(maxVal>1000000000){
-            result.maxValue.status="ERROR"
-            result.maxValue.msg="To big value range, consider changing maximum possible value"
-            result.errorFlag=true
         }
     }
     switch (experiment.algorithmName) {
