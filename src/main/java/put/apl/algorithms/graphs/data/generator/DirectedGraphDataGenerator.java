@@ -3,14 +3,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 
 @Component("Directed Graph Generator")
 public class DirectedGraphDataGenerator extends GraphDataGenerator {
 
     @Override
-    public List<List<Integer>> generate(GraphGeneratorConfig config) throws InterruptedException {
+    public GeneratorResult generate(GraphGeneratorConfig config) throws InterruptedException {
         Random random = new Random();
         List<List<Integer>> res = generateFull(config, true);
         int toRemove = vertexToDeleteCount(config, true);
@@ -26,6 +25,6 @@ public class DirectedGraphDataGenerator extends GraphDataGenerator {
                 removeSet.remove(i);
             removed++;
         }
-        return res;
+        return GeneratorResult.builder().representation(res).build();
     };
 }

@@ -1,9 +1,5 @@
 package put.apl.algorithms.graphs.data.generator;
 import org.springframework.stereotype.Component;
-import put.apl.algorithms.graphs.data.ListOfEdgesUndirected;
-import put.apl.algorithms.graphs.data.ListOfIncident;
-import put.apl.algorithms.graphs.data.ListOfIncidentUndirected;
-import put.apl.algorithms.graphs.implementation.BreadthFirstSearch;
 
 import java.util.*;
 
@@ -12,7 +8,7 @@ import java.util.*;
 public class ConnectedUndirectedGraphDataGenerator extends GraphDataGenerator {
 
     @Override
-    public List<List<Integer>> generate(GraphGeneratorConfig config) throws InterruptedException {
+    public GeneratorResult generate(GraphGeneratorConfig config) throws InterruptedException {
         Random random = new Random();
         List<List<Integer>> res = generateFull(config, false);
         Map<Integer, Integer> path = path(config);
@@ -32,6 +28,6 @@ public class ConnectedUndirectedGraphDataGenerator extends GraphDataGenerator {
                     removeSet.remove(i);
             }
         }
-        return res;
+        return GeneratorResult.builder().representation(res).build();
     }
 }
