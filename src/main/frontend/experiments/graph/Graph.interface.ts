@@ -1,6 +1,7 @@
 export interface GraphResult {
     tableAccessCount: number;
     memoryOccupancyInBytes: number;
+    hamiltonCyclesCount: number;
 }
 export interface GraphExperiment {
     algorithmName: string;

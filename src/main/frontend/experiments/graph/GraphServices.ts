@@ -48,9 +48,12 @@ export const reducePossibleRepresentations = (experiment: GraphExperiment, repre
 export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[]): GraphConfigCheck => {
     let result:GraphConfigCheck = {warningFlag: false, errorFlag: false,  measureSeries: {status: "CORRECT"}, densityOrVertices: {status: "CORRECT"}}
     let foundEuler=false
+    let foundHamiltonian=false
         experiments.forEach(e=>{
             if(e.dataGenerator.includes("Euler"))
                 foundEuler=true
+            if(e.algorithmName.includes("Hamiltonian"))
+                foundHamiltonian=true
         })
     if(config.measureSeries <= 0){
         result.measureSeries.status="ERROR"
@@ -82,6 +85,11 @@ export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[])
             result.warningFlag=true
         }
     } else {
+        if (foundHamiltonian && config.densityOrVertices > 15) {
+            result.densityOrVertices.status="ERROR"
+            result.densityOrVertices.msg="Too many vertices for Hamiltonian Cycles algorithm of N * N! complexity"
+            result.errorFlag=true
+        }
         if(config.densityOrVertices <= 0)
         {
             result.densityOrVertices.status="ERROR"
@@ -120,6 +128,11 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
     const paramInfos = getParamInfos(experiment)
     let result:GraphExperimentCheck = { warningFlag: false, errorFlag: false, numberOfVertices: {status: "CORRECT"}, density: {status: "CORRECT"}}
     if(config.measureByDensity === true){
+        if (experiment.algorithmName.includes("Hamiltonian") && experiment.numberOfVertices > 15) {
+            result.numberOfVertices.status="ERROR"
+            result.numberOfVertices.msg="Too many vertices for algorithm of N * N! complexity"
+            result.errorFlag=true
+        }
         if(experiment.numberOfVertices <= 0)
         {
             result.numberOfVertices.status="ERROR"
@@ -169,7 +182,6 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
             result.warningFlag=true
         }
     }
-    
     return result
 }
 
