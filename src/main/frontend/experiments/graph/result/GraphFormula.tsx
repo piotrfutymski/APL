@@ -7,19 +7,19 @@ export const GraphFormula = (props: ComplexityParameters) => {
     if(props.complexityType === "N^2")
     return (
         <>
-            time(n) = {props.data[0].toExponential()} * N^2
+            time(V) = {props.data[0].toExponential()} * V^2
         </>
     )
-    else if(props.complexityType === "NlogN")
+    else if(props.complexityType === "N^3")
     return (
         <>
-            time(n) = {props.data[0].toExponential()} * N log_2(N)
+            time(V) = {props.data[0].toExponential()} * V^3
         </>
     )
     else if(props.complexityType === "N+K")
     return (
         <>
-            time(n) = {props.data[0].toExponential()} * N + {props.data[1].toExponential()}
+            time(V) = {props.data[0].toExponential()} * V + {props.data[1].toExponential()}
         </>
     )
 }

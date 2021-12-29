@@ -81,7 +81,7 @@ export interface GraphExperimentsResult {
     id?: string;
 }
 
-export type ComplexityType = "N^2" | "NlogN" | "N+K"
+export type ComplexityType = "N^2" | "N^3" | "N+K"
 
 export interface GraphChartProps {
     experiments: GraphExperimentsResult;
