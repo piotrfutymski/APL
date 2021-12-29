@@ -8,7 +8,7 @@ export const getParamInfos = (experiment: SortingExperiment): paramInfo[]=>{
             algorithm: "QuickSort",
             name: "pivotStrategy",
             isSelect: true,
-            options: ["Median", "First item", "Middle item", "Last item", "Random item", "Median of three"]
+            options: ["Median", "First item", "Middle item", "Last item", "Random item", "Median of fixed three"]
         })
         if(experiment.algorithmParams.get("pivotStrategy") === "Median"){
             res.push({

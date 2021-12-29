@@ -188,7 +188,7 @@ public class SortTest {
     @Test
     void quickSortMedOfThreeTest() throws InterruptedException {
         QuickSort quickSort = new QuickSort();
-        Map<String,String> params = Map.of("pivotStrategy", "Median of three");
+        Map<String,String> params = Map.of("pivotStrategy", "Median of fixed three");
         quickSort.setParams(params);
         fullSortingTests(quickSort);
     }

@@ -9,6 +9,8 @@ import java.util.Map;
 @Component("Merge Sort")
 public class MergeSort implements SortingAlgorithm {
 
+    private int recursionDepth = 0;
+
     private void merge(SortingData tab, int leftIndex, int middleIndex, int rightIndex) throws InterruptedException {
         SortingData mergedPart = new SortingData(new int[rightIndex - leftIndex]);
         int iterator1 = leftIndex;
@@ -41,11 +43,12 @@ public class MergeSort implements SortingAlgorithm {
         System.arraycopy(mergedPart.getTab(), 0, tab.getTab(), leftIndex, rightIndex - leftIndex);
     }
 
-    private void mergeSort(SortingData tab, int leftIndex, int rightIndex) throws InterruptedException {
+    private void mergeSort(SortingData tab, int leftIndex, int rightIndex, int recursion) throws InterruptedException {
+        recursionDepth = Math.max(recursion, recursionDepth);
         if (leftIndex < rightIndex - 1) {
             int middleIndex = (leftIndex + rightIndex) / 2;
-            mergeSort(tab, leftIndex, middleIndex);
-            mergeSort(tab, middleIndex, rightIndex);
+            mergeSort(tab, leftIndex, middleIndex, recursion + 1);
+            mergeSort(tab, middleIndex, rightIndex, recursion + 1);
             merge(tab, leftIndex, middleIndex, rightIndex);
         }
     }
@@ -53,10 +56,12 @@ public class MergeSort implements SortingAlgorithm {
 
     @Override
     public SortingResult sort(SortingData tab) throws InterruptedException {
-        mergeSort(tab, 0, tab.length());
+        recursionDepth = 0;
+        mergeSort(tab, 0, tab.length(), 0);
         return SortingResult.builder()
                 .comparisonCount(tab.getCompCount())
                 .swapCount(tab.getSwapCount())
+                .recursionSize(recursionDepth)
                 .build();
     }
 

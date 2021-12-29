@@ -34,6 +34,11 @@ export const GraphChart = (props: GraphChartProps) => {
         if (props.dataLabel === "memoryOccupancyInBytes") {
             tmp.name = cropLabel(tmp.name);
         };
+        if (props.dataLabel === "hamiltonCyclesCount") {
+            if (!tmp.name.startsWith("All Hamiltonian Cycles")) {
+                return;
+            }
+        }
         let found : boolean = false;
         activeLabels.forEach(activeLabel => {
             if (tmp.name === activeLabel.name) {
@@ -76,6 +81,8 @@ export const GraphChart = (props: GraphChartProps) => {
                     el[cropLabel(label)] = v.graphResult.memoryOccupancyInBytes;
                 if (props.dataLabel === "tableAccessCount" && (!logarithmScale || v.graphResult.tableAccessCount != 0))
                     el[label] = v.graphResult.tableAccessCount;
+                if (props.dataLabel === "hamiltonCyclesCount" && (!logarithmScale || v.graphResult.hamiltonCyclesCount != 0))
+                    el[label] = v.graphResult.hamiltonCyclesCount;
                 if(i === 0){
                     headers.push({label: label, key: label})
                 }
@@ -103,6 +110,8 @@ export const GraphChart = (props: GraphChartProps) => {
             return "Table Access Count"
         if (props.dataLabel === "memoryOccupancyInBytes")
             return "Memory Used [B]"
+        if (props.dataLabel === "hamiltionCyclesCount")
+            return "Cycles Count"
     }
 
     const getDomainTab = () => {
@@ -153,7 +162,7 @@ export const GraphChart = (props: GraphChartProps) => {
         }
       }, [getPng]);
     return (
-        <div className={styles.Container}>
+        <div className={styles.Container} style={activeLabels.length > 0 ? {} : {display: "none"}}>
             <div className={styles.Label}>{dataLabelToLabel()}</div>             
             <div className={styles.Chart}>
             <ResponsiveContainer width={"100%"} height={"100%"}>

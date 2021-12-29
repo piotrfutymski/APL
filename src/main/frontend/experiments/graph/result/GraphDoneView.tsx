@@ -123,6 +123,7 @@ export const GraphDoneView = (props: GraphExperimentsResult) => {
             <GraphChart experiments={props} labels={seriesWithTrend} dataLabel="timeInMillis" series={choosedSeries}/>
             <GraphChart experiments={props} labels={series} dataLabel="memoryOccupancyInBytes" />
             <GraphChart experiments={props} labels={series} dataLabel="tableAccessCount" />
+            <GraphChart experiments={props} labels={series} dataLabel="hamiltonCyclesCount" />
         </div>
     </>
     )

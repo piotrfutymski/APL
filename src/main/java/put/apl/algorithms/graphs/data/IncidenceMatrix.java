@@ -181,7 +181,7 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     private int getEdgeInner(int index1, int index2) {
-        operations=+1;
+        operations+=1;
         return matrix[index1][index2];
     }
 
