@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component("Prim Algorithm")
-public class PrimAlgorithm implements GraphAlgorithm  {
+public class PrimAlgorithm extends GraphAlgorithm  {
 
     GraphRepresentation graph;
 
@@ -22,7 +22,7 @@ public class PrimAlgorithm implements GraphAlgorithm  {
     int verticesSize;
 
     @Override
-    public GraphResult run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentation graph) throws InterruptedException {
         graph.setOperations(0);
         this.graph = graph;
         verticesSize = graph.getVerticesNumber();
@@ -32,6 +32,7 @@ public class PrimAlgorithm implements GraphAlgorithm  {
 
         for (int i=0; i < verticesSize; i++)
         {
+            escape();
             key[i] = Integer.MAX_VALUE;
             visited[i] = false;
             MST.add(0);
@@ -46,6 +47,7 @@ public class PrimAlgorithm implements GraphAlgorithm  {
             visited[u] = true;
             for (int v : graph.getSuccessors(u))
             {
+                escape();
                 if (!visited[v] && graph.getEdge(u,v) < key[v])
                 {
                     MST.set(v, u);
@@ -55,16 +57,19 @@ public class PrimAlgorithm implements GraphAlgorithm  {
         }
         return GraphResult.builder().path(MST).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
-    private int findKey()
-    {
+    private int findKey() throws InterruptedException {
         // Initialize min value
         int min = Integer.MAX_VALUE, min_index = -1;
 
         for (int v = 0; v < verticesSize; v++)
+        {
+            escape();
             if (!visited[v] && key[v] < min) {
                 min = key[v];
                 min_index = v;
             }
+        }
+
         return min_index;
     }
 

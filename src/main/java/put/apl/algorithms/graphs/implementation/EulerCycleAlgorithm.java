@@ -9,16 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 @Component("Euler Cycle Finding Algorithm")
-public class EulerCycleAlgorithm implements GraphAlgorithm  {
-
-
+public class EulerCycleAlgorithm extends GraphAlgorithm  {
 
     GraphRepresentation graph;
     boolean[][] visitedEdges;
     List<Integer> stack;
 
     @Override
-    public GraphResult run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentation graph) throws InterruptedException {
         graph.setOperations(0);
         this.graph = graph;
         int verticesSize = graph.getVerticesNumber();
@@ -27,17 +25,19 @@ public class EulerCycleAlgorithm implements GraphAlgorithm  {
         for (int i=0; i<verticesSize; i++)
         {
             visitedEdges[i] = new boolean[verticesSize];
-            for (int j=0; j<verticesSize; j++)
+            for (int j=0; j<verticesSize; j++) {
+                escape();
                 visitedEdges[i][j] = false;
+            }
         }
         DFSEuler(0);
         return GraphResult.builder().path(stack).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
-    private void DFSEuler(int vertex)
-    {
+    private void DFSEuler(int vertex) throws InterruptedException {
         for (int i : graph.getSuccessors(vertex))
         {
+            escape();
             if (!visitedEdges[vertex][i])
             {
                 visitedEdges[vertex][i]=true;

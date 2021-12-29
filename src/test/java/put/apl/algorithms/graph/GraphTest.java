@@ -86,7 +86,7 @@ public class GraphTest {
     List<GraphRepresentation> directed;
 
     @BeforeEach
-    void initAll() {
+    void initAll() throws InterruptedException {
 
         BFS_RESULT.clear();
         BFS_RESULT.add(0);

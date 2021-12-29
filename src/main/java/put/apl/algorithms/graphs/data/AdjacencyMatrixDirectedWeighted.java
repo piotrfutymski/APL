@@ -1,5 +1,6 @@
 package put.apl.algorithms.graphs.data;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -10,11 +11,11 @@ import java.util.Random;
 public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix {
 
 
-    public AdjacencyMatrixDirectedWeighted(List<List<Integer>> input) {
+    public AdjacencyMatrixDirectedWeighted(List<List<Integer>> input) throws InterruptedException {
         super(input);
     }
 
-    public AdjacencyMatrixDirectedWeighted(int[][] matrix) {
+    public AdjacencyMatrixDirectedWeighted(int[][] matrix) throws InterruptedException {
         super(matrix);
     }
 
@@ -64,6 +65,7 @@ public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix {
 
 
 
+    @SneakyThrows
     @Override
     public GraphRepresentation clone() {
         return new AdjacencyMatrixDirectedWeighted(matrix.clone());

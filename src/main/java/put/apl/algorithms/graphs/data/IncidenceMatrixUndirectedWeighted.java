@@ -12,7 +12,7 @@ public class IncidenceMatrixUndirectedWeighted extends IncidenceMatrix {
     private final static int START=1;
     private final static int END=1;
 
-    public IncidenceMatrixUndirectedWeighted(List<List<Integer>> input) {
+    public IncidenceMatrixUndirectedWeighted(List<List<Integer>> input) throws InterruptedException {
         super(input);
     }
 

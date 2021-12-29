@@ -7,9 +7,9 @@ import put.apl.algorithms.graphs.data.GraphRepresentation;
 import java.util.Map;
 
 @Component("Get Memory Occupancy")
-public class GetMemoryOccupancy implements GraphAlgorithm {
+public class GetMemoryOccupancy extends GraphAlgorithm {
 
-    public GraphResult run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentation graph) throws InterruptedException {
         graph.setOperations(0);
         int noOfVertices = graph.getVerticesNumber();
         return GraphResult.builder().memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).memoryOccupancyInBytes(graph.getMemoryOccupancy()).build();

@@ -157,6 +157,8 @@ public class SchedulerService {
     private void cancel(AlgorithmFuture future){
         boolean isDone = future.getFuture().isDone();
         if(!isDone){
+            if(getQueuePosition(future) > 0)
+                incrementJobDone(future);
             future.getFuture().cancel(true);
         }
     }
