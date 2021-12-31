@@ -63,6 +63,6 @@ export const GraphNotDoneView = (props: GraphExperimentsResult) => {
         {props.status === 'ERROR' && ExperimentError()}
         {props.status === 'EXPIRED' && ExperimentExpired()}
         {props.status === 'REMOVED' && NoExperiment()}
-        <button type="button" onClick={() => cancel()}>Cancel Experiment</button>
+        {['CALCULATING', 'QUEUED'].includes(props.status) ? <button type="button" onClick={() => cancel()}>Cancel Experiment</button> : ""}
     </div>)
 }

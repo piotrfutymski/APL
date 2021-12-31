@@ -22,6 +22,8 @@ public abstract class GraphRepresentation {
 
     abstract public int getEdge(Integer id1, Integer id2);
 
+
+
     abstract public int getVerticesNumber();
 
     abstract public int getEdgesNumber();

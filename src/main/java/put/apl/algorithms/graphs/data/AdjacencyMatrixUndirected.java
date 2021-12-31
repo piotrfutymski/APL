@@ -2,10 +2,7 @@ package put.apl.algorithms.graphs.data;
 
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 
 @Component("Adjacency Matrix Undirected")
 public class AdjacencyMatrixUndirected extends AdjacencyMatrix {
@@ -26,7 +23,7 @@ public class AdjacencyMatrixUndirected extends AdjacencyMatrix {
     protected int getAllEdgesInner(int edgeNumber, int i, int j, int[][] result) {
         var edge = new int[2];
         int edgesAdded=0;
-        if (checkIfSTART(getEdge(i,j)))
+        if (checkIfSTART(i,j))
         {
             edge[0] = i;
             edge[1] = j;
@@ -46,13 +43,13 @@ public class AdjacencyMatrixUndirected extends AdjacencyMatrix {
     }
 
     @Override
-    public boolean checkIfSTART(int number) {
-        return number==START;
+    public boolean checkIfSTART(int start, int end) {
+        return getEdgeInner(start, end) == START;
     }
 
     @Override
-    public boolean checkIfEND(int number) {
-        return number==END;
+    public boolean checkIfEND(int start, int end) {
+        return getEdgeInner(start, end) == END;
     }
 
 

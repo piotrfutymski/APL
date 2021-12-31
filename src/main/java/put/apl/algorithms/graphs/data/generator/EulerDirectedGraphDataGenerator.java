@@ -1,7 +1,5 @@
 package put.apl.algorithms.graphs.data.generator;
 import org.springframework.stereotype.Component;
-import put.apl.algorithms.graphs.data.ListOfEdgesDirected;
-import put.apl.algorithms.graphs.implementation.BreadthFirstSearch;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,7 +10,7 @@ import java.util.stream.IntStream;
 public class EulerDirectedGraphDataGenerator extends GraphDataGenerator {
 
     @Override
-    public List<List<Integer>> generate(GraphGeneratorConfig config) throws InterruptedException {
+    public GeneratorResult generate(GraphGeneratorConfig config) throws InterruptedException {
         Random random = new Random();
         List<Set<Integer>> res = generateEmpty(config);
         int toAdd = vertexCount(config, true);
@@ -39,6 +37,6 @@ public class EulerDirectedGraphDataGenerator extends GraphDataGenerator {
             res.get(k).add(i);
             added+=3;
         }
-        return setsToLists(res);
+        return GeneratorResult.builder().representation(setsToLists(res)).build();
     }
 }

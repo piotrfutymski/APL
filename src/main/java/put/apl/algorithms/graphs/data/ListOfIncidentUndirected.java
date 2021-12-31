@@ -16,12 +16,6 @@ public class ListOfIncidentUndirected extends ListOfIncident {
         super();
     }
 
-    @Override
-    void addEdge(List<ArrayList<Integer>> edges, int start, int end) {
-        edges.get(start).add(end);
-        edges.get(end).add(start);
-    }
-
     // Format: line number = vertex id, successors separated by comma
     public ListOfIncidentUndirected(List<List<Integer>> input) {
         super(input);
@@ -31,9 +25,13 @@ public class ListOfIncidentUndirected extends ListOfIncident {
         super(edges);
     }
 
-    public ListOfIncidentUndirected(List<List<Integer>> input, int vertexNum) {
-        super(input, vertexNum);
-    };
+
+    @Override
+    void addEdge(List<ArrayList<Integer>> edges, int start, int end) {
+        edges.get(start).add(end);
+        edges.get(end).add(start);
+    }
+
 
     @Override
     public int[] getSuccessors(Integer id) {
@@ -69,7 +67,7 @@ public class ListOfIncidentUndirected extends ListOfIncident {
     public int[][] getAllEdges() {
         int[][] result = new int[edgeNum*2][];
         int edgeNumber=0;
-        for (int i=0;i<vertexNum;i++)
+        for (int i = 0; i < vertexNum; i++)
         {
             for (int vert : getSuccessors(i)){
                 result[edgeNumber++] = new int[] {i, vert};

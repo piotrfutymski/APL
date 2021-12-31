@@ -13,12 +13,6 @@ public class ListOfSuccessorsDirected extends ListOfIncident{
         super();
     }
 
-
-    @Override
-    void addEdge(List<ArrayList<Integer>> edges, int start, int end) {
-        edges.get(start).add(end);
-    }
-
     // Format: line number = vertex id, successors separated by comma
     public ListOfSuccessorsDirected(List<List<Integer>> input) {
         super(input);
@@ -28,22 +22,27 @@ public class ListOfSuccessorsDirected extends ListOfIncident{
         super(edges);
     }
 
-    public ListOfSuccessorsDirected(List<List<Integer>> input, int vertexNum) {
-      super(input, vertexNum);
-    };
+    @Override
+    void addEdge(List<ArrayList<Integer>> edges, int start, int end) {
+        edges.get(start).add(end);
+    }
 
+    @Override
     public int[] getSuccessors(Integer id) {
         return getDirect(id);
     };
 
+    @Override
     public int getFirstSuccessor(Integer id) {
         return getFirstDirect(id);
     };
 
+    @Override
     public int[] getPredecessors(Integer id) {
         return getIndirect(id);
     }
 
+    @Override
     public int getFirstPredecessor(Integer id) {
         return getFirstIndirect(id);
     }

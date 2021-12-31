@@ -162,7 +162,7 @@ export const GraphChart = (props: GraphChartProps) => {
                     <XAxis dataKey="N" />
                     {logarithmScale ? <YAxis scale="log" domain={[Math.min(...getDomainTab())/2, Math.max(...getDomainTab())*2] }/> : <YAxis/>}
                     <Tooltip labelFormatter={(n) => headers[0].label + " " + n} wrapperStyle={{zIndex: 1}} 
-                    contentStyle={{background: '#202020', border: 0, borderRadius: "8px"}} allowEscapeViewBox={{x: true, y: true }} />
+                    contentStyle={{background: '#202020', border: 0, borderRadius: "8px", whiteSpace: "normal", maxWidth: "400px"}} allowEscapeViewBox={{x: false, y: true }} />
                     {getLines()}
                 </LineChart>
             </ResponsiveContainer>

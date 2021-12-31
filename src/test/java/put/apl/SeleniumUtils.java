@@ -69,7 +69,7 @@ public class SeleniumUtils {
         clickWithId("generator_"+generator);
         clickWithId("representation");
         clickWithId("representation_"+ representation);
-        WebElement inputVertices =  normalWait.until(presenceOfElementLocated(By.id("number_of_vertices")));
+        WebElement inputVertices =  normalWait.until(presenceOfElementLocated(By.id("numberOfVertices")));
         inputVertices.click();
         inputVertices.clear();
         inputVertices.sendKeys(numberOfVertices.toString());

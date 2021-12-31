@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Component("Prim Algorithm")
-public class PrimAlgorithm implements GraphAlgorithm  {
+@Component("Prims Algorithm")
+public class PrimsAlgorithm implements GraphAlgorithm  {
 
     GraphRepresentation graph;
 

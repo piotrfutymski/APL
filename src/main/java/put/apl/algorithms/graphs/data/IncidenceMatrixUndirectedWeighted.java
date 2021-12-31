@@ -9,11 +9,8 @@ import java.util.Random;
 @Component("Incidence Matrix Undirected Weighted")
 public class IncidenceMatrixUndirectedWeighted extends IncidenceMatrix {
 
-    private final static int START=1;
-    private final static int END=1;
-
-    public IncidenceMatrixUndirectedWeighted(List<List<Integer>> input) {
-        super(input);
+    public IncidenceMatrixUndirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) {
+        loadFromIncidenceList(input, weights);
     }
 
     public IncidenceMatrixUndirectedWeighted(int[][] matrix) {
@@ -24,23 +21,40 @@ public class IncidenceMatrixUndirectedWeighted extends IncidenceMatrix {
         super();
     }
 
+    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights) {
+        verticesSize = input.size();
+        matrix = new int[verticesSize][];
+        edgesSize = 0;
+        for (List<Integer> integers : input) {
+            edgesSize += integers.size();
+        }
+        for (int i=0; i< verticesSize; i++)
+        {
+            matrix[i] = new int[edgesSize];
+        }
+        int edgeNumber=0;
+        for (int i = 0; i < input.size(); i++) {
+            for (int j = 0; j < input.get(i).size(); j++) {
+                matrix[i][edgeNumber] = weights.get(i).get(j);
+                matrix[input.get(i).get(j)][edgeNumber] = weights.get(i).get(j);
+                edgeNumber++;
+            }
+        }
+    }
+
     @Override
     public void fillEdge(int edge, int start, int end) {
-        Random rand = new Random();
-        int random = rand.nextInt(this.verticesSize) + 1;
-
-        matrix[start][edge] = random;
-        matrix[end][edge] = random;
+        //not used
     }
 
     @Override
-    public boolean checkIfSTART(int number) {
-        return number > 0;
+    public boolean checkIfSTART(int index1, int index2) {
+        return getEdgeInner(index1, index2) > 0;
     }
 
     @Override
-    public boolean checkIfEND(int number) {
-        return number > 0;
+    public boolean checkIfEND(int index1, int index2) {
+        return getEdgeInner(index1, index2) > 0;
     }
 
 
