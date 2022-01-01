@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 @Component("Get Predecessors")
-public class GetPredecessors implements GraphAlgorithm {
+public class GetPredecessors extends GraphAlgorithm {
 
-    public GraphResult run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentation graph) throws InterruptedException {
         graph.setOperations(0);
         int noOfVertices = graph.getVerticesNumber();
         for (int i = 0; i < noOfVertices; i++) {

@@ -7,9 +7,9 @@ import put.apl.algorithms.graphs.data.GraphRepresentation;
 import java.util.Map;
 
 @Component("Get All Relations")
-public class GetAllRelations implements GraphAlgorithm {
+public class GetAllRelations extends GraphAlgorithm {
 
-    public GraphResult run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentation graph) throws InterruptedException {
         graph.setOperations(0);
         int noOfVertices = graph.getVerticesNumber();
         for (int i = 0; i < noOfVertices; i++) {

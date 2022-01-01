@@ -10,12 +10,12 @@ import java.util.Map;
 
 // Returns empty list if cycle is not found
 @Component("Hamiltonian Cycle")
-public class HamiltonianCycle implements GraphAlgorithm  {
+public class HamiltonianCycle extends GraphAlgorithm  {
 
     private List<Integer> path;
     private GraphRepresentation graph;
 
-    public GraphResult run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentation graph) throws InterruptedException {
         graph.setOperations(0);
         this.path = new ArrayList<Integer>();
         this.graph = graph;
@@ -31,10 +31,11 @@ public class HamiltonianCycle implements GraphAlgorithm  {
         }
     }
 
-    private boolean hamiltonianCycle(int pos) {
+    private boolean hamiltonianCycle(int pos) throws InterruptedException {
         if (pos == graph.getVerticesNumber()) {
             int[] successors = graph.getSuccessors(this.path.get(pos-1));
             for (int s : successors) {
+                escape();
                 if (s == 0) {
                     return true;
                 }
@@ -42,6 +43,7 @@ public class HamiltonianCycle implements GraphAlgorithm  {
             return false;
         }
         for (int i = 1; i < graph.getVerticesNumber(); i++) {
+            escape();
             if (graph.getEdge(i, this.path.get(pos-1)) > 0 && !path.contains(i)) {
                 path.add(i);
                 if (hamiltonianCycle(pos + 1)) {

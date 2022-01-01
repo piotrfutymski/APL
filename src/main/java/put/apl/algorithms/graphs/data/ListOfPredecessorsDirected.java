@@ -1,5 +1,6 @@
 package put.apl.algorithms.graphs.data;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -20,19 +21,19 @@ public class ListOfPredecessorsDirected extends ListOfIncident {
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfPredecessorsDirected(List<List<Integer>> input) {
+    public ListOfPredecessorsDirected(List<List<Integer>> input) throws InterruptedException {
         super(input);
     }
 
-    public ListOfPredecessorsDirected(int[][] edges) {
+    public ListOfPredecessorsDirected(int[][] edges) throws InterruptedException {
         super(edges);
     }
 
-    public int[] getSuccessors(Integer id) {
+    public int[] getSuccessors(Integer id) throws InterruptedException {
         return getIndirect(id);
     };
 
-    public int getFirstSuccessor(Integer id) {
+    public int getFirstSuccessor(Integer id) throws InterruptedException {
         return getFirstIndirect(id);
     };
 
@@ -45,13 +46,15 @@ public class ListOfPredecessorsDirected extends ListOfIncident {
     }
 
     @Override
-    public int getEdge(Integer id1, Integer id2) {
+    public int getEdge(Integer id1, Integer id2) throws InterruptedException {
         for (int predecessor : getDirect(id1)) {
+            escape();
             if (predecessor == id2) {
                 return -1;
             }
         }
         for (int successor : getIndirect(id1)) {
+            escape();
             if (successor == id2) {
                 return 1;
             }
@@ -60,18 +63,20 @@ public class ListOfPredecessorsDirected extends ListOfIncident {
     }
 
     @Override
-    public int[][] getAllEdges() {
+    public int[][] getAllEdges() throws InterruptedException {
         int[][] result = new int[edgeNum][];
         int edgeNumber=0;
         for (int i=0;i<vertexNum;i++)
         {
             for (int vert : getPredecessors(i)){
+                escape();
                 result[edgeNumber++] = new int[] {vert, i};
             }
         }
         return result;
     }
 
+    @SneakyThrows
     @Override
     public GraphRepresentation clone() {
         return new ListOfPredecessorsDirected(this.edges.clone());

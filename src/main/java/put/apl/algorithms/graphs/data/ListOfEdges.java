@@ -18,14 +18,15 @@ public abstract class ListOfEdges extends GraphRepresentation {
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfEdges(List<List<Integer>> input) {
+    public ListOfEdges(List<List<Integer>> input) throws InterruptedException {
         loadFromIncidenceList(input);
     }
 
-    public ListOfEdges(int[][] edges, int vertexNum) {
+    public ListOfEdges(int[][] edges, int vertexNum) throws InterruptedException {
         this.edges = edges;
         int highestEdgeId = 0;
         for (int[] edge : edges) {
+            escape();
             if (edge[0] >= edge[1] && highestEdgeId < edge[0]) {
                 highestEdgeId = edge[0];
             }
@@ -38,15 +39,19 @@ public abstract class ListOfEdges extends GraphRepresentation {
     }
 
     @Override
-    public void loadFromIncidenceList(List<List<Integer>> input) {
+    public void loadFromIncidenceList(List<List<Integer>> input) throws InterruptedException {
         vertexNum = input.size();
 
-        for (var edges: input)
+        for (var edges: input){
+            escape();
             edgeNum+=edges.size();
+        }
+
         int edgeNumber=0;
         edges = new int[edgeNum][];
         for (int i = 0; i < input.size(); i++) {
             for (int j = 0; j < input.get(i).size(); j++) {
+                escape();
                 var edge = new int[2];
                 edge[0] = i;
                 edge[1] = input.get(i).get(j);
@@ -64,9 +69,10 @@ public abstract class ListOfEdges extends GraphRepresentation {
         return -1;
     }
 
-    public int[] getSuccessors(Integer id) {
+    public int[] getSuccessors(Integer id) throws InterruptedException {
         List<Integer> successors = new ArrayList<Integer>();
         for (int i=0;i<edgeNum;i++) {
+            escape();
             int result = checkIfSTART(id, getEdgeInner(i, 0),getEdgeInner(i, 1));
             if (result != -1) {
                 successors.add(result);
@@ -77,8 +83,9 @@ public abstract class ListOfEdges extends GraphRepresentation {
 
 
 
-    public int getFirstSuccessor(Integer id) {
+    public int getFirstSuccessor(Integer id) throws InterruptedException {
         for (int i=0;i<edgeNum;i++) {
+            escape();
             int result = checkIfSTART(id, getEdgeInner(i, 0),getEdgeInner(i, 1));
             if (result != -1) {
                 return result;
@@ -87,9 +94,10 @@ public abstract class ListOfEdges extends GraphRepresentation {
         return -1;
     }
 
-    public int[] getPredecessors(Integer id) {
+    public int[] getPredecessors(Integer id) throws InterruptedException {
         List<Integer> predecessors = new ArrayList<Integer>();
         for (int i=0;i<edgeNum;i++) {
+            escape();
             //if id is end, then start is predecessor
             int result = checkIfSTART(id, getEdgeInner(i, 1),getEdgeInner(i, 0));
             if (result != -1) {
@@ -99,8 +107,9 @@ public abstract class ListOfEdges extends GraphRepresentation {
         return predecessors.stream().mapToInt(i->i).toArray();
     };
 
-    public int getFirstPredecessor(Integer id) {
+    public int getFirstPredecessor(Integer id) throws InterruptedException {
         for (int i=0;i<edgeNum;i++) {
+            escape();
             int result = checkIfSTART(id, getEdgeInner(i, 1),getEdgeInner(i, 0));
             if (result != -1) {
                 return result;
@@ -109,18 +118,21 @@ public abstract class ListOfEdges extends GraphRepresentation {
         return -1;
     };
 
-    public int[] getNonIncident(Integer id) {
+    public int[] getNonIncident(Integer id) throws InterruptedException {
         boolean[] nonIncident = new boolean[vertexNum];
         List<Integer> nonIncidentIds = new ArrayList<Integer>();
         for(int i = 0; i < edges.length; i++) {
+            escape();
             nonIncident[i] = true;
         }
         for (int i=0;i<edgeNum;i++) {
+            escape();
             int result = checkIfIncident(id, getEdgeInner(i, 0),getEdgeInner(i, 1));
             if (result != -1)
                 nonIncident[result]=false;
         }
         for (int i = 0; i < edges.length; i++) {
+            escape();
             if (nonIncident[i]) {
                 nonIncidentIds.add(i);
             }
@@ -129,11 +141,12 @@ public abstract class ListOfEdges extends GraphRepresentation {
     }
 
     @Override
-    public int[] getAllVertices()
-    {
+    public int[] getAllVertices() throws InterruptedException {
         int[] vertices = new int[vertexNum];
-        for (int i=0;i<vertexNum;i++)
+        for (int i=0;i<vertexNum;i++){
+            escape();
             vertices[i]=i;
+        }
         return vertices;
     }
     @Override
@@ -147,8 +160,9 @@ public abstract class ListOfEdges extends GraphRepresentation {
     };
 
     @Override
-    public int getEdge(Integer id1, Integer id2) {
+    public int getEdge(Integer id1, Integer id2) throws InterruptedException {
         for (int i=0;i<edgeNum;i++) {
+            escape();
             int start = getEdgeInner(i, 0);
             int end = getEdgeInner(i, 1);
             if (checkIfSTART(id1, getEdgeInner(i, 0), getEdgeInner(i, 1)) != -1 &&

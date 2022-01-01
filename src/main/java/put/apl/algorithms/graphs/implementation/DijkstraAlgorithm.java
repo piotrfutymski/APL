@@ -7,7 +7,7 @@ import put.apl.algorithms.graphs.data.GraphRepresentation;
 import java.util.*;
 
 @Component("Dijkstra Algorithm")
-public class DijkstraAlgorithm  implements GraphAlgorithm {
+public class DijkstraAlgorithm  extends GraphAlgorithm {
 
     PriorityQueue<Integer> queue;
 
@@ -18,7 +18,7 @@ public class DijkstraAlgorithm  implements GraphAlgorithm {
     int[] dist;
 
     @Override
-    public GraphResult run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentation graph) throws InterruptedException {
         graph.setOperations(0);
         this.graph = graph;
         int verticesSize = graph.getVerticesNumber();
@@ -30,10 +30,12 @@ public class DijkstraAlgorithm  implements GraphAlgorithm {
         dist[0] = 0;
         for (int i=1; i < verticesSize; i++)
         {
+            escape();
             dist[i] = Integer.MAX_VALUE;
         }
         while (visited.size() != verticesSize)
         {
+            escape();
             int vertice = queue.remove();
             visited.add(vertice);
             propagateNeighbours(vertice);
@@ -41,10 +43,10 @@ public class DijkstraAlgorithm  implements GraphAlgorithm {
         return GraphResult.builder().path(new ArrayList<>(visited)).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
-    private void propagateNeighbours(int vertice)
-    {
+    private void propagateNeighbours(int vertice) throws InterruptedException {
         for (int node : graph.getSuccessors(vertice))
         {
+            escape();
             if (!visited.contains(node))
             {
                 int distance = dist[vertice] + graph.getEdge(vertice, node);

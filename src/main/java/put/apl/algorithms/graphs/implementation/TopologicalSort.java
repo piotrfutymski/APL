@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component("Topological Sort")
-public class TopologicalSort implements GraphAlgorithm {
+public class TopologicalSort extends GraphAlgorithm {
 
     private boolean[] visited;
     GraphRepresentation graph;
@@ -18,15 +18,17 @@ public class TopologicalSort implements GraphAlgorithm {
     private List<Integer> stack;
     private boolean checkForCycles = false;
 
-    public GraphResult run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentation graph) throws InterruptedException {
         graph.setOperations(0);
         stack = new ArrayList<Integer>();
         this.graph = graph;
         visited = new boolean[graph.getVerticesNumber()];
         for (int i = 0; i < graph.getVerticesNumber(); i++) {
+            escape();
             visited[i] = false;
         }
         for (int i = 0; i < graph.getVerticesNumber(); i++) {
+            escape();
             if (!visited[i]) {
                 topologicalSort(i);
             }
@@ -38,11 +40,12 @@ public class TopologicalSort implements GraphAlgorithm {
         return GraphResult.builder().path(stack).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
-    private void topologicalSort(int id) {
+    private void topologicalSort(int id) throws InterruptedException {
         visited[id] = true;
         int[] successors = graph.getSuccessors(id);
         if (successors != null) {
             for (int s : successors) {
+                escape();
                 if (!visited[s]) {
                     topologicalSort(s);
                 }
@@ -51,10 +54,11 @@ public class TopologicalSort implements GraphAlgorithm {
         stack.add(id);
     }
 
-    private boolean checkCyclic() {
+    private boolean checkCyclic() throws InterruptedException {
         for (int i = 0; i < graph.getVerticesNumber(); i++) {
             int[] successors = graph.getSuccessors(i);
             for (int s : successors) {
+                escape();
                 if (stack.indexOf(s) < stack.indexOf(i)) {
                     return true;
                 }

@@ -14,7 +14,7 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     public abstract boolean checkIfSTART(int number);
     public abstract boolean checkIfEND(int number);
 
-    public IncidenceMatrix(List<List<Integer>> input) {
+    public IncidenceMatrix(List<List<Integer>> input) throws InterruptedException {
         loadFromIncidenceList(input);
     }
 
@@ -29,20 +29,23 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public void loadFromIncidenceList(List<List<Integer>> input) {
+    public void loadFromIncidenceList(List<List<Integer>> input) throws InterruptedException {
         verticesSize = input.size();
         matrix = new int[verticesSize][];
         edgesSize = 0;
         for (List<Integer> integers : input) {
+            escape();
             edgesSize += integers.size();
         }
         for (int i=0; i<verticesSize; i++)
         {
+            escape();
             matrix[i] = new int[edgesSize];
         }
         int edgeNumber=0;
         for (int i = 0; i < input.size(); i++) {
             for (int j = 0; j < input.get(i).size(); j++) {
+                escape();
                 fillEdge(edgeNumber, i, input.get(i).get(j));
                 edgeNumber++;
             }
@@ -50,14 +53,16 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int[] getSuccessors(Integer id) {
+    public int[] getSuccessors(Integer id) throws InterruptedException {
         List<Integer> result = new ArrayList<>();
         for (int i=0; i<edgesSize;i++)
         {
+            escape();
             if (checkIfSTART(getEdgeInner(id,i)))
             {
                 for (int j = 0; j < verticesSize; j++)
                 {
+                    escape();
                     if (j == id) continue;
                     if (checkIfEND(getEdgeInner(j,i)))
                     {
@@ -71,13 +76,15 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int getFirstSuccessor(Integer id) {
+    public int getFirstSuccessor(Integer id) throws InterruptedException {
         for (int i=0; i<edgesSize;i++)
         {
+            escape();
             if (checkIfSTART(getEdgeInner(id,i)))
             {
                 for (int j = 0; j < verticesSize; j++)
                 {
+                    escape();
                     if (j == id) continue;
                     if (checkIfEND(getEdgeInner(j,i)))
                     {
@@ -90,14 +97,16 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int[] getPredecessors(Integer id) {
+    public int[] getPredecessors(Integer id) throws InterruptedException {
         List<Integer> result = new ArrayList<>();
         for (int i=0; i<edgesSize;i++)
         {
+            escape();
             if (checkIfEND(getEdgeInner(id,i)))
             {
                 for (int j = 0; j < verticesSize; j++)
                 {
+                    escape();
                     if (j == id) continue;
                     if (checkIfSTART(getEdgeInner(j,i)))
                     {
@@ -111,13 +120,15 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int getFirstPredecessor(Integer id) {
+    public int getFirstPredecessor(Integer id) throws InterruptedException {
         for (int i=0; i<edgesSize;i++)
         {
+            escape();
             if (checkIfEND(getEdgeInner(id,i)))
             {
                 for (int j = 0; j < verticesSize; j++)
                 {
+                    escape();
                     if (j == id) continue;
                     if (checkIfSTART(getEdgeInner(j,i)))
                     {
@@ -130,15 +141,17 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int[] getNonIncident(Integer id) {
+    public int[] getNonIncident(Integer id) throws InterruptedException {
         boolean[] vertices = new boolean[verticesSize];
         List<Integer> result = new ArrayList<>();
         for (int i=0; i<edgesSize;i++)
         {
+            escape();
             if (getEdgeInner(id,i) != 0)
             {
                 for (int j = 0; j < verticesSize; j++)
                 {
+                    escape();
                     if (j == id) continue;
                     if (getEdgeInner(j,i) != 0)
                     {
@@ -148,9 +161,11 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
                 }
             }
         }
-        for (int i=0;i<verticesSize;i++)
+        for (int i=0;i<verticesSize;i++){
+            escape();
             if (!vertices[i])
                 result.add(i);
+        }
 
         return result.stream().mapToInt(i->i).toArray();
     }
@@ -166,8 +181,9 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int getEdge(Integer id1, Integer id2) {
+    public int getEdge(Integer id1, Integer id2) throws InterruptedException {
         for (int i=0; i<edgesSize;i++) {
+            escape();
             if (getEdgeInner(id1, i) != 0) {
                 //if start is at id2, id1 is successor
                 if (checkIfSTART(getEdgeInner(id2, i)))
@@ -186,16 +202,17 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int[] getAllVertices()
-    {
+    public int[] getAllVertices() throws InterruptedException {
         int[] vertices = new int[verticesSize];
-        for (int i=0;i<verticesSize;i++)
+        for (int i=0;i<verticesSize;i++){
+            escape();
             vertices[i]=i;
+        }
         return vertices;
     }
 
     @Override
-    public int[][] getAllEdges() {
+    public int[][] getAllEdges() throws InterruptedException {
         int[][] result = new int[edgesSize][];
         for (int i=0; i<edgesSize; i++)
         {
@@ -203,11 +220,13 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
             int end = -1;
             for (int j=0;j<verticesSize;j++)
             {
+                escape();
                 if (checkIfSTART(getEdgeInner(j,i)))
                 {
                     start = j;
                     for (int k=j+1; k<verticesSize;k++)
                     {
+                        escape();
                         if (getEdgeInner(k,i) != 0)
                         {
                             end = k;
@@ -221,6 +240,7 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
                     end = j;
                     for (int k=j+1; k<verticesSize;k++)
                     {
+                        escape();
                         if (getEdgeInner(k,i) != 0)
                         {
                             start = k;
