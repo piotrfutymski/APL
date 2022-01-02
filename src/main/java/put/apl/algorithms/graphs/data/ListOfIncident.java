@@ -58,7 +58,6 @@ public abstract class ListOfIncident extends GraphRepresentation {
         operations +=edges.length;
         return edges[id];
     }
-
     public int getFirstDirect(Integer id)
     {
         if (edges[id].length > 0) {

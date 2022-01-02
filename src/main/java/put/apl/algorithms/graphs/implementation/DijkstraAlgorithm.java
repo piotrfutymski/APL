@@ -15,14 +15,14 @@ public class DijkstraAlgorithm  implements GraphAlgorithm {
 
     HashSet<Integer> visited;
 
-    int[] dist;
+    Integer[] dist;
 
     @Override
     public GraphResult run(GraphRepresentationInterface graph) {
         graph.setOperations(0);
         this.graph = graph;
         int verticesSize = graph.getVerticesNumber();
-        dist = new int[verticesSize];
+        dist = new Integer[verticesSize];
         visited = new HashSet<Integer>();
         queue = new PriorityQueue<>();
 
@@ -38,7 +38,7 @@ public class DijkstraAlgorithm  implements GraphAlgorithm {
             visited.add(vertice);
             propagateNeighbours(vertice);
         }
-        return GraphResult.builder().path(new ArrayList<>(visited)).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
+        return GraphResult.builder().path(Arrays.asList(dist)).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
     private void propagateNeighbours(int vertice)

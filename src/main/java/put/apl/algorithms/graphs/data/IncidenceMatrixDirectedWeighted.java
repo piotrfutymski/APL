@@ -57,6 +57,50 @@ public class IncidenceMatrixDirectedWeighted extends IncidenceMatrix implements 
     }
 
     @Override
+    public int[][] getAllEdges() {
+        int[][] result = new int[edgesSize][];
+        for (int i=0; i<edgesSize; i++)
+        {
+            int start = -1;
+            int end = -1;
+            int weight = -1;
+            for (int j=0;j<verticesSize;j++)
+            {
+                if (checkIfSTART(j,i))
+                {
+                    start = j;
+                    weight = getEdgeInner(j,i);
+                    for (int k=j+1; k<verticesSize;k++)
+                    {
+                        if (getEdgeInner(k,i) != 0)
+                        {
+                            end = k;
+                            break;
+                        }
+                    }
+                    break;
+                }
+                else if (checkIfEND(j, i))
+                {
+                    end = j;
+                    for (int k=j+1; k<verticesSize;k++)
+                    {
+                        if (getEdgeInner(k,i) != 0)
+                        {
+                            weight = getEdgeInner(k,i);
+                            start = k;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            result[i] = new int[] {start, end, weight};
+        }
+        return result;
+    }
+
+    @Override
     public void fillEdge(int edge, int start, int end) {
         //not used
     }

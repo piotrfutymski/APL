@@ -51,12 +51,13 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix implement
 
     @Override
     protected int getAllEdgesInner(int edgeNumber, int i, int j, int[][] result) {
-        var edge = new int[2];
+        var edge = new int[3];
         int edgesAdded=0;
         if (checkIfSTART(i, j))
         {
             edge[0] = i;
             edge[1] = j;
+            edge[2] = getEdgeInner(i,j);
             result[edgeNumber++] = edge;
             edgesAdded+=1;
         }

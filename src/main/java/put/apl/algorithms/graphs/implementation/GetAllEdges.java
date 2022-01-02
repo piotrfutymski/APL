@@ -12,7 +12,7 @@ public class GetAllEdges implements GraphAlgorithm {
     public GraphResult run(GraphRepresentationInterface graph) {
         graph.setOperations(0);
         int noOfVertices = graph.getVerticesNumber();
-        graph.getRepresentation();
+        graph.getAllEdges();
         return GraphResult.builder().memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 

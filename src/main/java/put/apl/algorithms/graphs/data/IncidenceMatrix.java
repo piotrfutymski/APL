@@ -171,10 +171,10 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
             if (getEdgeInner(id1, i) != 0) {
                 //if start is at id2, id1 is successor
                 if (checkIfSTART(id2,i))
-                    return -1;
+                    return getEdgeInner(id2, i);
                     //if end is id2, id1 is predecessor
                 else if (checkIfEND(id2,i))
-                    return 1;
+                    return getEdgeInner(id1, i);
             }
         }
         return 0;

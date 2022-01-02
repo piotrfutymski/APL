@@ -3,13 +3,16 @@ package put.apl.algorithms.graphs.data;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /*
     Undirected version
  */
 @Component("List Of Incident Undirected Weighted")
-public class ListOfIncidentUndirectedWeighted extends ListOfIncidentUndirected implements GraphRepresentationWeightedInterface {
+public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
+
+
     public ListOfIncidentUndirectedWeighted() {
         super();
     }
@@ -19,88 +22,66 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentUndirected i
         loadFromIncidenceList(input, weights);
     }
 
-    public ListOfIncidentUndirectedWeighted(int[][] edges, int[][] weights)
+    public ListOfIncidentUndirectedWeighted(Edge[][] edges)
     {
-        this.edges = edges;
-        this.weights = weights;
-        this.vertexNum=edges.length;
+        this.representation = edges;
+        this.vertexNum = edges.length;
         edgeNum = 0;
         for (var vertex : edges)
             edgeNum+=vertex.length;
     }
 
-    private int[][] weights;
-
     @Override
-    public void loadFromIncidenceList(List<List<Integer>> input)
-    {
-        var weights = new ArrayList<List<Integer>>(input.size());
-        for (var input_vertex : input)
-        {
-            var weights_vertex = new ArrayList<Integer>(input_vertex.size());
-            for (var input_edge : input_vertex)
-                weights_vertex.add(1);
-            weights.add(weights_vertex);
-        }
-        loadFromIncidenceList(input, weights);
+    void addEdge(List<ArrayList<Edge>> edgesList, int start, int end, int weight) {
+        edgesList.get(start).add(new Edge(end, weight));
+        edgesList.get(end).add(new Edge(start, weight));
     }
 
-    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights_input) {
-        vertexNum = input.size();
-        edgeNum = 0;
-        List<ArrayList<Integer>> edgesList = new ArrayList<ArrayList<Integer>>();
-        List<ArrayList<Integer>> weightsList = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i < vertexNum; i++) {
-            edgesList.add(new ArrayList<Integer>());
-            weightsList.add(new ArrayList<Integer>());
-        }
+    @Override
+    public int[] getSuccessors(Integer id) {
+        return Arrays.stream(getDirect(id)).mapToInt(i->i.vertex).toArray();
+    }
 
-        for (int i = 0; i < input.size(); i++) {
-            for (int j = 0; j < input.get(i).size(); j++) {
+    @Override
+    public int getFirstSuccessor(Integer id) {
+        return getFirstDirect(id).vertex;
+    };
 
-                edgesList.get(i).add(input.get(i).get(j));
-                edgesList.get(input.get(i).get(j)).add(i);
+    @Override
+    public int[] getPredecessors(Integer id) {
+        return Arrays.stream(getDirect(id)).mapToInt(i->i.vertex).toArray();
+    }
 
-                weightsList.get(i).add(weights_input.get(i).get(j));
-                weightsList.get(input.get(i).get(j)).add(weights_input.get(i).get(j));
-
-                edgeNum++;
-            }
-        }
-
-        edges = new int[vertexNum][];
-        weights = new int[vertexNum][];
-
-        for (int i = 0; i < edgesList.size(); i++) {
-            edges[i] = new int[edgesList.get(i).size()];
-            weights[i] = new int[edgesList.get(i).size()];
-            for (int j = 0; j < edgesList.get(i).size(); j++) {
-                edges[i][j] = edgesList.get(i).get(j);
-                weights[i][j] = weightsList.get(i).get(j);
-            }
-        }
+    @Override
+    public int getFirstPredecessor(Integer id) {
+        return getFirstDirect(id).vertex;
     }
 
     @Override
     public int getEdge(Integer id1, Integer id2) {
-        for (int predecessor : getDirect(id1)) {
-            if (predecessor == id2) {
-                return weights[id1][id2];
+        for (var predecessor : getDirect(id1)) {
+            if (predecessor.vertex == id2) {
+                return predecessor.weight;
             }
         }
         return 0;
     }
 
     @Override
-    public int getMemoryOccupancy() {
-        int size = 0;
-        for (int[] edgeList : edges)
-            size += 2 * Integer.BYTES * edgeList.length;
-        return size;
+    public int[][] getAllEdges() {
+        int[][] result = new int[edgeNum*2][];
+        int edgeNumber=0;
+        for (int i = 0; i < vertexNum; i++)
+        {
+            for (var vert : getDirect(i)){
+                result[edgeNumber++] = new int[] {i, vert.vertex, vert.weight};
+            }
+        }
+        return result;
     }
 
     @Override
     public GraphRepresentationInterface clone() {
-        return new ListOfIncidentUndirectedWeighted(this.edges.clone(), this.weights.clone());
+        return new ListOfIncidentUndirectedWeighted(this.representation.clone());
     }
 }

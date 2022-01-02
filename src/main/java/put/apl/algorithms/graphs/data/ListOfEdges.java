@@ -145,11 +145,11 @@ public abstract class ListOfEdges extends GraphRepresentation {
             if (checkIfSTART(id1, start, end) != -1 &&
                     checkIfSTART(id2, end, start) != -1 )
             {
-                return 1;
+                return getWeight(i);
             }
             if (checkIfSTART(id2, start, end) != -1 &&
                     checkIfSTART(id1, end, start) != -1 ) {
-                return -1;
+                return -1 * getWeight(i);
             }
         }
         return 0;
@@ -157,7 +157,7 @@ public abstract class ListOfEdges extends GraphRepresentation {
 
     @Override
     public int[][] getAllEdges() {
-        return edges;
+        return edges.clone();
     }
 
 

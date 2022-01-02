@@ -63,12 +63,13 @@ public class ListOfIncidentUndirected extends ListOfIncident {
 
     @Override
     public int[][] getAllEdges() {
-        int[][] result = new int[edgeNum*2][];
+        int[][] result = new int[edgeNum][];
         int edgeNumber=0;
         for (int i = 0; i < vertexNum; i++)
         {
             for (int vert : getSuccessors(i)){
-                result[edgeNumber++] = new int[] {i, vert};
+                if (vert > i)
+                    result[edgeNumber++] = new int[] {i, vert};
             }
         }
         return result;

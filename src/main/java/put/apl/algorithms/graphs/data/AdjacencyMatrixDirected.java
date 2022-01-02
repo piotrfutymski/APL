@@ -48,7 +48,6 @@ public class AdjacencyMatrixDirected extends AdjacencyMatrix {
     @Override
     public void fillEdge(int start, int end) {
         matrix[start][end] = START;
-        //matrix[end][start] = END;
     }
 
     @Override

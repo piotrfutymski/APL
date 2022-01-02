@@ -116,7 +116,8 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
 
     public int getEdge(Integer id1, Integer id2) {
         operations += 1;
-        if (getEdgeInner(id1, id2) > 0) return getEdgeInner(id1,id2);
+        if (getEdgeInner(id1, id2) > 0)
+            return getEdgeInner(id1,id2);
         else if (getEdgeInner(id1,id2) > 0) {
             return -1 * getEdgeInner(id1,id2);
         }

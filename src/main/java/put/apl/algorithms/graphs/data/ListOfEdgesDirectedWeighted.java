@@ -59,6 +59,16 @@ public class ListOfEdgesDirectedWeighted extends ListOfEdgesDirected implements 
     }
 
     @Override
+    public int[][] getAllEdges() {
+        int[][] result = new int[edges.length][];
+        for (int i=0; i<edges.length;i++)
+        {
+            result[i] = new int[] {getEdgeInner(i,0), getEdgeInner(i,1), weights[i]};
+        }
+        return result;
+    }
+
+    @Override
     public int getMemoryOccupancy() {
         return Integer.BYTES * edges.length * 3;
     };
