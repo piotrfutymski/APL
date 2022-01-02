@@ -127,6 +127,21 @@ public class GraphService {
                     case "Incidence Matrix Undirected Weighted":
                         data = new IncidenceMatrixUndirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
+                    case "List Of Edges Directed Weighted":
+                        data = new ListOfEdgesDirectedWeighted(generatedRepresentation, generatedWeights);
+                        break;
+                    case "List Of Edges Undirected Weighted":
+                        data = new ListOfEdgesUndirectedWeighted(generatedRepresentation, generatedWeights);
+                        break;
+                    case "List of Incident Undirected Weighted":
+                        data = new ListOfIncidentUndirectedWeighted(generatedRepresentation, generatedWeights);
+                        break;
+                    case "List of Predecessors Directed Weighted":
+                        data = new ListOfPredecessorsDirectedWeighted(generatedRepresentation, generatedWeights);
+                        break;
+                    case "List of Successors Directed Weighted":
+                        data = new ListOfSuccessorsDirectedWeighted(generatedRepresentation, generatedWeights);
+                        break;
                     default:
                         data = new ListOfSuccessorsDirected(generatedRepresentation);
                         break;

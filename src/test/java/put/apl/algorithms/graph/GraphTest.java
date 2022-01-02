@@ -359,7 +359,7 @@ public class GraphTest {
                 boolean found = false;
                 for (var r : result)
                 {
-                    if (Arrays.equals(r,expected))
+                    if (Arrays.equals(new int[] {r[0],r[1]},expected))
                     {
                         found = true;
                         break;
@@ -384,7 +384,7 @@ public class GraphTest {
                 boolean found = false;
                 for (var r : result)
                 {
-                    if (Arrays.equals(r,expected))
+                    if (Arrays.equals(new int[] {r[0],r[1]},expected))
                     {
                         found = true;
                         break;
@@ -454,10 +454,19 @@ public class GraphTest {
         var dirResult = new Integer[] {0,1,2,4,3};
         var undirResult = new Integer[] {0,1,2,4,3};
         var algo = new AllHamiltonianCycles();
-        doAlgorithmTest(algo, getHamiltonianDirectedGraph(), directed, dirResult);
+        for (var representation : directed)
+        {
+            representation.loadFromIncidenceList(getHamiltonianDirectedGraph());
+            List<ArrayList<Integer>> result = algo.run(representation).getMultiplePaths();
+            for (var list : result)
+                System.out.println(list);
+        }
 
-        doAlgorithmTest(algo, getHamiltonianUndirectedGraph(), undirected, undirResult);
-
+        for (var representation : undirected)
+        {
+            representation.loadFromIncidenceList(getHamiltonianUndirectedGraph());
+            List<ArrayList<Integer>> result = algo.run(representation).getMultiplePaths();
+        }
         //TODO
         //var weighted_graph = getDirectedWeightedGraph();
         //doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), directedWeighted, dirResult);
