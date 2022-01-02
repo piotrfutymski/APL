@@ -169,7 +169,7 @@ public abstract class ListOfIncident extends GraphRepresentation {
     }
 
     @Override
-    public abstract GraphRepresentation clone();
+    public abstract GraphRepresentationInterface clone();
 
 
 }

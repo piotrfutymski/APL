@@ -2,7 +2,7 @@ package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import java.util.Map;
 @Component("Kruskal Algorithm")
 public class KruskalAlgorithm implements GraphAlgorithm  {
 
-    GraphRepresentation graph;
+    GraphRepresentationInterface graph;
 
     int verticesSize;
 
@@ -55,7 +55,7 @@ public class KruskalAlgorithm implements GraphAlgorithm  {
     }
 
     @Override
-    public GraphResult run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentationInterface graph) {
         graph.setOperations(0);
         this.verticesSize = graph.getVerticesNumber();
         this.graph = graph;

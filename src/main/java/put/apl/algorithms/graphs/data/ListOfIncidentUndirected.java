@@ -3,9 +3,7 @@ package put.apl.algorithms.graphs.data;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 /*
     Undirected version
@@ -77,7 +75,7 @@ public class ListOfIncidentUndirected extends ListOfIncident {
     }
 
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new ListOfIncidentUndirected(this.edges.clone());
     };
 }

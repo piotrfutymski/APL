@@ -177,5 +177,5 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
     protected abstract int getAllEdgesInner(int edgeNumber, int i, int j, int[][] result);
 
     @Override
-    public abstract GraphRepresentation clone();
+    public abstract GraphRepresentationInterface clone();
 }

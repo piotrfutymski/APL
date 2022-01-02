@@ -193,7 +193,7 @@ public abstract class ListOfEdges extends GraphRepresentation {
     }
 
     @Override
-    public abstract GraphRepresentation clone();
+    public abstract GraphRepresentationInterface clone();
 
 
 }

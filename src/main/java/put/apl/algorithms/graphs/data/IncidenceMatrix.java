@@ -256,6 +256,6 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public abstract GraphRepresentation clone();
+    public abstract GraphRepresentationInterface clone();
 
 }

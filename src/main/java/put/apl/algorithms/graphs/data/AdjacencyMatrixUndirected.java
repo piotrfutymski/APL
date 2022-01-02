@@ -54,7 +54,7 @@ public class AdjacencyMatrixUndirected extends AdjacencyMatrix {
 
 
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new AdjacencyMatrixUndirected(matrix.clone());
     }
 }

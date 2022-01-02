@@ -2,7 +2,7 @@ package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,9 @@ public class AllHamiltonianCycles implements GraphAlgorithm  {
 
     private List<ArrayList<Integer>> paths;
     private ArrayList<Integer> currentPath;
-    private GraphRepresentation graph;
+    private GraphRepresentationInterface graph;
 
-    public GraphResult run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentationInterface graph) {
         graph.setOperations(0);
         currentPath = new ArrayList<Integer>();
         paths = new ArrayList<ArrayList<Integer>>();

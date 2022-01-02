@@ -30,17 +30,17 @@ public class IncidenceMatrixUndirected extends IncidenceMatrix {
 
     @Override
     public boolean checkIfSTART(int index1, int index2) {
-        return index1 ==START;
+        return getEdgeInner(index1,index2) == START;
     }
 
     @Override
     public boolean checkIfEND(int index1, int index2) {
-        return index1 ==END;
+        return getEdgeInner(index1,index2) == END;
     }
 
 
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new IncidenceMatrixUndirected(matrix.clone());
     }
 }

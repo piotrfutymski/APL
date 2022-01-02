@@ -3,11 +3,11 @@ package put.apl.algorithms.graphs.data;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Component("Incidence Matrix Undirected Weighted")
-public class IncidenceMatrixUndirectedWeighted extends IncidenceMatrix {
+public class IncidenceMatrixUndirectedWeighted extends IncidenceMatrix implements GraphRepresentationWeightedInterface {
 
     public IncidenceMatrixUndirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) {
         loadFromIncidenceList(input, weights);
@@ -19,6 +19,20 @@ public class IncidenceMatrixUndirectedWeighted extends IncidenceMatrix {
 
     public IncidenceMatrixUndirectedWeighted() {
         super();
+    }
+
+    @Override
+    public void loadFromIncidenceList(List<List<Integer>> input)
+    {
+        var weights = new ArrayList<List<Integer>>(input.size());
+        for (var input_vertex : input)
+        {
+            var weights_vertex = new ArrayList<Integer>(input_vertex.size());
+            for (var input_edge : input_vertex)
+                weights_vertex.add(1);
+            weights.add(weights_vertex);
+        }
+        loadFromIncidenceList(input, weights);
     }
 
     public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights) {
@@ -59,7 +73,7 @@ public class IncidenceMatrixUndirectedWeighted extends IncidenceMatrix {
 
 
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new IncidenceMatrixUndirectedWeighted(matrix.clone());
     }
 }

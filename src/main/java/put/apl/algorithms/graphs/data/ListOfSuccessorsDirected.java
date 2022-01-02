@@ -76,7 +76,7 @@ public class ListOfSuccessorsDirected extends ListOfIncident{
     }
 
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new ListOfSuccessorsDirected(this.edges.clone());
     };
 }

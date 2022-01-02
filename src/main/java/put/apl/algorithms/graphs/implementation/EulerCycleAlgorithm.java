@@ -2,7 +2,7 @@ package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +13,12 @@ public class EulerCycleAlgorithm implements GraphAlgorithm  {
 
 
 
-    GraphRepresentation graph;
+    GraphRepresentationInterface graph;
     boolean[][] visitedEdges;
     List<Integer> stack;
 
     @Override
-    public GraphResult run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentationInterface graph) {
         graph.setOperations(0);
         this.graph = graph;
         int verticesSize = graph.getVerticesNumber();

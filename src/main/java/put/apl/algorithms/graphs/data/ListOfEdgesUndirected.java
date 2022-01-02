@@ -2,9 +2,7 @@ package put.apl.algorithms.graphs.data;
 
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /*
     Undirected version
@@ -35,7 +33,7 @@ public class ListOfEdgesUndirected extends ListOfEdges{
     }
 
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new ListOfEdgesUndirected(this.edges.clone(), vertexNum);
     };
 }

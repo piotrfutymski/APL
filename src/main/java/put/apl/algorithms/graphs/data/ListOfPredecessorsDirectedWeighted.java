@@ -9,7 +9,7 @@ import java.util.List;
     Directed version
  */
 @Component("List Of Predecessors Directed Weighted")
-public class ListOfPredecessorsDirectedWeighted extends ListOfPredecessorsDirected {
+public class ListOfPredecessorsDirectedWeighted extends ListOfPredecessorsDirected implements GraphRepresentationWeightedInterface {
     public ListOfPredecessorsDirectedWeighted() {
         super();
     }
@@ -30,6 +30,20 @@ public class ListOfPredecessorsDirectedWeighted extends ListOfPredecessorsDirect
 
     private int[][] weights;
 
+    @Override
+    public void loadFromIncidenceList(List<List<Integer>> input)
+    {
+        var weights = new ArrayList<List<Integer>>(input.size());
+        for (var input_vertex : input)
+        {
+            var weights_vertex = new ArrayList<Integer>(input_vertex.size());
+            for (var input_edge : input_vertex)
+                weights_vertex.add(1);
+            weights.add(weights_vertex);
+        }
+        loadFromIncidenceList(input, weights);
+    }
+
     public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights_input) {
         vertexNum = input.size();
         edgeNum = 0;
@@ -43,9 +57,9 @@ public class ListOfPredecessorsDirectedWeighted extends ListOfPredecessorsDirect
         for (int i = 0; i < input.size(); i++) {
             for (int j = 0; j < input.get(i).size(); j++) {
 
-                edgesList.get(i).add(input.get(i).get(j));
+                edgesList.get(input.get(i).get(j)).add(i);
 
-                weightsList.get(i).add(weights_input.get(i).get(j));
+                weightsList.get(input.get(i).get(j)).add(weights_input.get(i).get(j));
 
                 edgeNum++;
             }
@@ -88,7 +102,7 @@ public class ListOfPredecessorsDirectedWeighted extends ListOfPredecessorsDirect
     }
 
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new ListOfPredecessorsDirectedWeighted(this.edges.clone(), this.weights.clone());
     }
 }

@@ -2,7 +2,7 @@ package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Map;
 @Component("Prims Algorithm")
 public class PrimsAlgorithm implements GraphAlgorithm  {
 
-    GraphRepresentation graph;
+    GraphRepresentationInterface graph;
 
     List<Integer> MST;
 
@@ -22,7 +22,7 @@ public class PrimsAlgorithm implements GraphAlgorithm  {
     int verticesSize;
 
     @Override
-    public GraphResult run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentationInterface graph) {
         graph.setOperations(0);
         this.graph = graph;
         verticesSize = graph.getVerticesNumber();

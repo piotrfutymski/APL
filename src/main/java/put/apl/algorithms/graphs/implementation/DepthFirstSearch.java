@@ -2,7 +2,7 @@ package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +15,10 @@ public class DepthFirstSearch implements GraphAlgorithm {
     private List<Integer> path;
     private boolean forceConnectedGraph = false;
 
-    public GraphResult run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentationInterface graph) {
         graph.setOperations(0);
         visited = new boolean[graph.getVerticesNumber()];
         path = new ArrayList<Integer>();
-        for (int i = 0; i < graph.getVerticesNumber(); i++) {
-            visited[i] = false;
-        }
         // For non-connected graphs DFS procedure will run multiple times
         if (!forceConnectedGraph) {
             for (int i = 0; i < graph.getVerticesNumber(); i++) {
@@ -35,7 +32,7 @@ public class DepthFirstSearch implements GraphAlgorithm {
         return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
-    private void depthFirstSearch(GraphRepresentation graph, int id) {
+    private void depthFirstSearch(GraphRepresentationInterface graph, int id) {
        int[] successors = graph.getSuccessors(id);
        visited[id] = true;
        path.add(id);

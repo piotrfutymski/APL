@@ -63,7 +63,7 @@ public class AdjacencyMatrixDirected extends AdjacencyMatrix {
 
 
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new AdjacencyMatrixDirected(matrix.clone());
     }
 }

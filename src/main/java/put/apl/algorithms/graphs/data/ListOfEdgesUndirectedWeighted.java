@@ -2,10 +2,11 @@ package put.apl.algorithms.graphs.data;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component("List Of Edges Undirected Weighted")
-public class ListOfEdgesUndirectedWeighted extends ListOfEdgesUndirected {
+public class ListOfEdgesUndirectedWeighted extends ListOfEdgesUndirected implements GraphRepresentationWeightedInterface {
     public ListOfEdgesUndirectedWeighted() {
         super(new int[0][], 0);
     }
@@ -24,6 +25,19 @@ public class ListOfEdgesUndirectedWeighted extends ListOfEdgesUndirected {
 
     private int[] weights;
 
+    @Override
+    public void loadFromIncidenceList(List<List<Integer>> input)
+    {
+        var weights = new ArrayList<List<Integer>>(input.size());
+        for (var input_vertex : input)
+        {
+            var weights_vertex = new ArrayList<Integer>(input_vertex.size());
+            for (var input_edge : input_vertex)
+                weights_vertex.add(1);
+            weights.add(weights_vertex);
+        }
+        loadFromIncidenceList(input, weights);
+    }
 
     public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights_input) {
         vertexNum = input.size();
@@ -56,7 +70,7 @@ public class ListOfEdgesUndirectedWeighted extends ListOfEdgesUndirected {
     }
 
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new ListOfEdgesUndirectedWeighted(this.edges.clone(), this.weights.clone(), vertexNum);
     }
 }

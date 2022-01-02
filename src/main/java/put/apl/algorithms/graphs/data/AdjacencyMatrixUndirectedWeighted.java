@@ -2,17 +2,17 @@ package put.apl.algorithms.graphs.data;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Component("Weighted Adjacency Matrix Undirected")
-public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix {
+public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix implements GraphRepresentationWeightedInterface {
 
     public AdjacencyMatrixUndirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) {
         loadFromIncidenceList(input, weights);
     }
 
-    private void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights) {
+    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights) {
         edgesNumber = 0;
         verticesNumber = input.size();
         matrix = new int[verticesNumber][];
@@ -33,6 +33,20 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix {
 
     public AdjacencyMatrixUndirectedWeighted() {
         super();
+    }
+
+    @Override
+    public void loadFromIncidenceList(List<List<Integer>> input)
+    {
+        var weights = new ArrayList<List<Integer>>(input.size());
+        for (var input_vertex : input)
+        {
+            var weights_vertex = new ArrayList<Integer>(input_vertex.size());
+            for (var input_edge : input_vertex)
+                weights_vertex.add(1);
+            weights.add(weights_vertex);
+        }
+        loadFromIncidenceList(input, weights);
     }
 
     @Override
@@ -64,7 +78,7 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix {
     }
 
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new AdjacencyMatrixUndirectedWeighted(matrix.clone());
     }
 }

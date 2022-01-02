@@ -75,7 +75,7 @@ public class GraphService {
         groupedExperiments = groupedExperiments.stream().sorted(Comparator.comparingInt(e -> e.get(0).getNumberOfVertices() + e.get(0).getDensity().intValue() )).collect(Collectors.toList());
         for (List<GraphExperiment> groupedExperiment : groupedExperiments) {
             var exampleExperiment = groupedExperiment.get(0);
-            GraphRepresentation data;
+            GraphRepresentationInterface data;
             GraphGeneratorConfig config = GraphGeneratorConfig.builder()
                     .density(exampleExperiment.getDensity())
                     .numberOfVertices(exampleExperiment.getNumberOfVertices())
@@ -150,7 +150,7 @@ public class GraphService {
         }
     }
 
-    private GraphExperiment runExperiment(GraphExperiment e, GraphRepresentation data, List<GraphExperiment> bannedExperiments, float experimentTimeout) throws InterruptedException {
+    private GraphExperiment runExperiment(GraphExperiment e, GraphRepresentationInterface data, List<GraphExperiment> bannedExperiments, float experimentTimeout) throws InterruptedException {
         if(bannedExperiments.stream().anyMatch(
                 b->
                         b.getAlgorithmName().equals(e.getAlgorithmName()) &&

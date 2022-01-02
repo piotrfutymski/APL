@@ -9,7 +9,7 @@ import java.util.List;
     Undirected version
  */
 @Component("List Of Incident Undirected Weighted")
-public class ListOfIncidentUndirectedWeighted extends ListOfIncidentUndirected {
+public class ListOfIncidentUndirectedWeighted extends ListOfIncidentUndirected implements GraphRepresentationWeightedInterface {
     public ListOfIncidentUndirectedWeighted() {
         super();
     }
@@ -30,6 +30,20 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentUndirected {
     }
 
     private int[][] weights;
+
+    @Override
+    public void loadFromIncidenceList(List<List<Integer>> input)
+    {
+        var weights = new ArrayList<List<Integer>>(input.size());
+        for (var input_vertex : input)
+        {
+            var weights_vertex = new ArrayList<Integer>(input_vertex.size());
+            for (var input_edge : input_vertex)
+                weights_vertex.add(1);
+            weights.add(weights_vertex);
+        }
+        loadFromIncidenceList(input, weights);
+    }
 
     public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights_input) {
         vertexNum = input.size();
@@ -86,7 +100,7 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentUndirected {
     }
 
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new ListOfIncidentUndirectedWeighted(this.edges.clone(), this.weights.clone());
     }
 }

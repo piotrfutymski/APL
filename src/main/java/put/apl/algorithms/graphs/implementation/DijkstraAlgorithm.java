@@ -2,7 +2,7 @@ package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 
 import java.util.*;
 
@@ -11,14 +11,14 @@ public class DijkstraAlgorithm  implements GraphAlgorithm {
 
     PriorityQueue<Integer> queue;
 
-    GraphRepresentation graph;
+    GraphRepresentationInterface graph;
 
     HashSet<Integer> visited;
 
     int[] dist;
 
     @Override
-    public GraphResult run(GraphRepresentation graph) {
+    public GraphResult run(GraphRepresentationInterface graph) {
         graph.setOperations(0);
         this.graph = graph;
         int verticesSize = graph.getVerticesNumber();

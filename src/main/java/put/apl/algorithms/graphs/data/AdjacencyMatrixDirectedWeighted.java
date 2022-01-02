@@ -2,10 +2,11 @@ package put.apl.algorithms.graphs.data;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component("Weighted Adjacency Matrix Directed")
-public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix {
+public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix implements GraphRepresentationWeightedInterface {
 
     public AdjacencyMatrixDirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) {
         loadFromIncidenceList(input, weights);
@@ -19,6 +20,21 @@ public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix {
         super();
     }
 
+    @Override
+    public void loadFromIncidenceList(List<List<Integer>> input)
+    {
+        var weights = new ArrayList<List<Integer>>(input.size());
+        for (var input_vertex : input)
+        {
+            var weights_vertex = new ArrayList<Integer>(input_vertex.size());
+            for (var input_edge : input_vertex)
+                weights_vertex.add(1);
+            weights.add(weights_vertex);
+        }
+        loadFromIncidenceList(input, weights);
+    }
+
+    @Override
     public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights)
     {
         edgesNumber = 0;
@@ -72,7 +88,7 @@ public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix {
     }
 
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new AdjacencyMatrixDirectedWeighted(matrix.clone());
     }
 }

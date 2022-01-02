@@ -40,7 +40,7 @@ public class IncidenceMatrixDirected extends IncidenceMatrix {
 
 
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new IncidenceMatrixDirected(matrix.clone());
     }
 }
