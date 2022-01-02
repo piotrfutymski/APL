@@ -524,7 +524,7 @@ public class GraphTest {
     @Test
     void KruskalTest() throws InterruptedException {
         var dirResult = new Integer[] {0,1,2,4,3};
-        var undirResult = new Integer[] {0,1,2,4,3};
+        var undirResult = new Integer[] {1, 4, 5, 8, 7, 8, 2, 3, 3, 7, 0, 2, 4, 5, 4, 6};
         var algo = new KruskalAlgorithm();
         var weighted_graph = getConnectedDirectedWeightedGraph();
         //doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), directedWeighted, dirResult);
@@ -534,21 +534,16 @@ public class GraphTest {
     }
 
     @Test
-    void PrimeTest() throws InterruptedException {
+    void PrimsTest() throws InterruptedException {
         var dirResult = new Integer[] {0,1,2,4,3};
-        var undirResult = new Integer[] {0,1,2,4,3};
+        var undirResult = new Integer[] {-1, 4, 0, 2, 5, 8, 4, 3, 7};
         var algo = new PrimsAlgorithm();
-        for (var representation : directed)
-        {
-            representation.loadFromIncidenceList(getConnectedDirectedGraph());
-            assertArrayEquals(dirResult, algo.run(representation).getPath().toArray(), representation.getClass().toString());
-        }
 
-        for (var representation : undirected)
-        {
-            representation.loadFromIncidenceList(getConnectedUndirectedGraph());
-            assertArrayEquals(undirResult, algo.run(representation).getPath().toArray(), representation.getClass().toString());
-        }
+        var weighted_graph = getConnectedDirectedWeightedGraph();
+        //doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), directedWeighted, dirResult);
+
+        weighted_graph = getConnectedUndirectedWeightedGraph();
+        doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), undirectedWeighted, undirResult);
     }
 /*
     @Test
