@@ -15,11 +15,6 @@ public class ListOfPredecessorsDirected extends ListOfIncident {
         super();
     }
 
-    @Override
-    void addEdge(List<ArrayList<Integer>> edges, int start, int end) {
-        edges.get(end).add(start);
-    }
-
     // Format: line number = vertex id, successors separated by comma
     public ListOfPredecessorsDirected(List<List<Integer>> input) throws InterruptedException {
         super(input);
@@ -29,18 +24,27 @@ public class ListOfPredecessorsDirected extends ListOfIncident {
         super(edges);
     }
 
-    public int[] getSuccessors(Integer id) throws InterruptedException {
-        return getIndirect(id);
-    };
+    @Override
+    void addEdge(List<ArrayList<Integer>> edges, int start, int end) {
+        edges.get(end).add(start);
+    }
 
-    public int getFirstSuccessor(Integer id) throws InterruptedException {
+    @Override
+    public int[] getSuccessors(Integer id) throws InterruptedException  {
+        return getIndirect(id);
+    }
+
+    @Override
+    public int getFirstSuccessor(Integer id) throws InterruptedException  {
         return getFirstIndirect(id);
     };
 
+    @Override
     public int[] getPredecessors(Integer id) {
         return getDirect(id);
     }
 
+    @Override
     public int getFirstPredecessor(Integer id) {
         return getFirstDirect(id);
     }
@@ -78,7 +82,7 @@ public class ListOfPredecessorsDirected extends ListOfIncident {
 
     @SneakyThrows
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new ListOfPredecessorsDirected(this.edges.clone());
     };
 }

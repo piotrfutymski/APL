@@ -3,10 +3,7 @@ package put.apl.algorithms.graphs.data;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 
 @Component("Adjacency Matrix Undirected")
 public class AdjacencyMatrixUndirected extends AdjacencyMatrix {
@@ -27,39 +24,32 @@ public class AdjacencyMatrixUndirected extends AdjacencyMatrix {
     protected int getAllEdgesInner(int edgeNumber, int i, int j, int[][] result) {
         var edge = new int[2];
         int edgesAdded=0;
-        if (checkIfSTART(getEdge(i,j)))
+        if (checkIfEdge(i,j))
         {
             edge[0] = i;
             edge[1] = j;
-            result[edgeNumber++] = edge;
+            result[edgeNumber] = edge;
             edgesAdded+=1;
         }
         return edgesAdded;
     }
 
     private final static int START=1;
-    private final static int END=1;
 
     @Override
     public void fillEdge(int start, int end) {
         matrix[start][end] = START;
-        matrix[end][start] = END;
+        matrix[end][start] = START;
     }
 
     @Override
-    public boolean checkIfSTART(int number) {
-        return number==START;
+    public boolean checkIfEdge(int start, int end) {
+        return getEdgeInner(start, end) == START;
     }
-
-    @Override
-    public boolean checkIfEND(int number) {
-        return number==END;
-    }
-
 
     @SneakyThrows
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new AdjacencyMatrixUndirected(matrix.clone());
     }
 }

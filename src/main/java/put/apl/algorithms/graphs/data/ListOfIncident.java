@@ -3,9 +3,7 @@ package put.apl.algorithms.graphs.data;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-    Undirected version
- */
+
 public abstract class ListOfIncident extends GraphRepresentation {
     protected int[][] edges;
 
@@ -19,32 +17,7 @@ public abstract class ListOfIncident extends GraphRepresentation {
         edges = new int[0][];
     }
 
-    public ListOfIncident(List<List<Integer>> input, int vertexNum) throws InterruptedException {
-        this.vertexNum = vertexNum;
-        edgeNum = input.size();
-        List<ArrayList<Integer>> edgesList = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i < vertexNum; i++) {
-            escape();
-            edgesList.add(new ArrayList<Integer>());
-        }
-        edges = new int[vertexNum][];
-        for (int i = 0; i < input.size(); i++) {
-            escape();
-            addEdge(edgesList, input.get(i).get(0), input.get(i).get(1));
-        }
-        for (int i = 0; i < edgesList.size(); i++) {
-            escape();
-            edges[i] = new int[edgesList.get(i).size()];
-            // Just to be sure that order is right
-            //Collections.sort(edgesList.get(i));
-            for (int j = 0; j < edgesList.get(i).size(); j++) {
-                escape();
-                edges[i][j] = edgesList.get(i).get(j);
-            }
-        }
-    };
-
-    public ListOfIncident(List<List<Integer>> input) throws InterruptedException {
+    public ListOfIncident(List<List<Integer>> input) throws InterruptedException  {
         loadFromIncidenceList(input);
     }
 
@@ -78,8 +51,6 @@ public abstract class ListOfIncident extends GraphRepresentation {
         }
         for (int i = 0; i < edgesList.size(); i++) {
             edges[i] = new int[edgesList.get(i).size()];
-            // Just to be sure that order is right
-            //Collections.sort(edgesList.get(i));
             for (int j = 0; j < edgesList.get(i).size(); j++) {
                 escape();
                 edges[i][j] = edgesList.get(i).get(j);
@@ -92,7 +63,6 @@ public abstract class ListOfIncident extends GraphRepresentation {
         operations +=edges.length;
         return edges[id];
     }
-
     public int getFirstDirect(Integer id)
     {
         if (edges[id].length > 0) {
@@ -214,7 +184,7 @@ public abstract class ListOfIncident extends GraphRepresentation {
     }
 
     @Override
-    public abstract GraphRepresentation clone();
+    public abstract GraphRepresentationInterface clone();
 
 
 }

@@ -5,16 +5,15 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-@Component("Incidence Matrix Directed Weighted")
-public class IncidenceMatrixDirectedWeighted extends IncidenceMatrix {
+@Component("Weighted Incidence Matrix Directed")
+public class IncidenceMatrixDirectedWeighted extends IncidenceMatrix implements GraphRepresentationWeightedInterface {
 
-    private final static int START=1;
-    private final static int END=-1;
-
-    public IncidenceMatrixDirectedWeighted(List<List<Integer>> input) throws InterruptedException {
-        super(input);
+    public IncidenceMatrixDirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException  {
+        if (weights == null)
+            loadFromIncidenceList(input);
+        else
+            loadFromIncidenceList(input, weights);
     }
 
     public IncidenceMatrixDirectedWeighted(int[][] matrix) {
@@ -26,27 +25,102 @@ public class IncidenceMatrixDirectedWeighted extends IncidenceMatrix {
     }
 
     @Override
+    public void loadFromIncidenceList(List<List<Integer>> input)
+    {
+        var weights = new ArrayList<List<Integer>>(input.size());
+        for (var input_vertex : input)
+        {
+            var weights_vertex = new ArrayList<Integer>(input_vertex.size());
+            for (var input_edge : input_vertex)
+                weights_vertex.add(1);
+            weights.add(weights_vertex);
+        }
+        loadFromIncidenceList(input, weights);
+    }
+
+    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights) {
+        verticesSize = input.size();
+        matrix = new int[verticesSize][];
+        edgesSize = 0;
+        for (List<Integer> integers : input) {
+            edgesSize += integers.size();
+        }
+        for (int i=0; i< verticesSize; i++)
+        {
+            matrix[i] = new int[edgesSize];
+        }
+        int edgeNumber=0;
+        for (int i = 0; i < input.size(); i++) {
+            for (int j = 0; j < input.get(i).size(); j++) {
+                matrix[i][edgeNumber] = weights.get(i).get(j);
+                matrix[input.get(i).get(j)][edgeNumber] = -1 * weights.get(i).get(j);
+                edgeNumber++;
+            }
+        }
+    }
+
+    @Override
+    public int[][] getAllEdges() {
+        int[][] result = new int[edgesSize][];
+        for (int i=0; i<edgesSize; i++)
+        {
+            int start = -1;
+            int end = -1;
+            int weight = -1;
+            for (int j=0;j<verticesSize;j++)
+            {
+                if (checkIfSTART(j,i))
+                {
+                    start = j;
+                    weight = getEdgeInner(j,i);
+                    for (int k=j+1; k<verticesSize;k++)
+                    {
+                        if (getEdgeInner(k,i) != 0)
+                        {
+                            end = k;
+                            break;
+                        }
+                    }
+                    break;
+                }
+                else if (checkIfEND(j, i))
+                {
+                    end = j;
+                    for (int k=j+1; k<verticesSize;k++)
+                    {
+                        if (getEdgeInner(k,i) != 0)
+                        {
+                            weight = getEdgeInner(k,i);
+                            start = k;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            result[i] = new int[] {start, end, weight};
+        }
+        return result;
+    }
+
+    @Override
     public void fillEdge(int edge, int start, int end) {
-        Random rand = new Random();
-        int random = rand.nextInt(this.verticesSize) + 1;
-
-        matrix[start][edge] = random;
-        matrix[end][edge] = random * -1;
+        //not used
     }
 
     @Override
-    public boolean checkIfSTART(int number) {
-        return number > 0;
+    public boolean checkIfSTART(int index1, int index2) {
+        return getEdgeInner(index1, index2) > 0;
     }
 
     @Override
-    public boolean checkIfEND(int number) {
-        return number < 0;
+    public boolean checkIfEND(int index1, int index2) {
+        return getEdgeInner(index1, index2) < 0;
     }
 
 
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new IncidenceMatrixDirectedWeighted(matrix.clone());
     }
 }

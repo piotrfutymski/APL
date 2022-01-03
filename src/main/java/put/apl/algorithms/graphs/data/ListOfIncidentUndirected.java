@@ -4,9 +4,7 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 /*
     Undirected version
@@ -15,12 +13,6 @@ import java.util.Scanner;
 public class ListOfIncidentUndirected extends ListOfIncident {
     public ListOfIncidentUndirected () {
         super();
-    }
-
-    @Override
-    void addEdge(List<ArrayList<Integer>> edges, int start, int end) {
-        edges.get(start).add(end);
-        edges.get(end).add(start);
     }
 
     // Format: line number = vertex id, successors separated by comma
@@ -32,9 +24,13 @@ public class ListOfIncidentUndirected extends ListOfIncident {
         super(edges);
     }
 
-    public ListOfIncidentUndirected(List<List<Integer>> input, int vertexNum) throws InterruptedException {
-        super(input, vertexNum);
-    };
+
+    @Override
+    void addEdge(List<ArrayList<Integer>> edges, int start, int end) {
+        edges.get(start).add(end);
+        edges.get(end).add(start);
+    }
+
 
     @Override
     public int[] getSuccessors(Integer id) {
@@ -69,13 +65,14 @@ public class ListOfIncidentUndirected extends ListOfIncident {
 
     @Override
     public int[][] getAllEdges() throws InterruptedException {
-        int[][] result = new int[edgeNum*2][];
+        int[][] result = new int[edgeNum][];
         int edgeNumber=0;
-        for (int i=0;i<vertexNum;i++)
+        for (int i = 0; i < vertexNum; i++)
         {
             for (int vert : getSuccessors(i)){
                 escape();
-                result[edgeNumber++] = new int[] {i, vert};
+                if (vert > i)
+                    result[edgeNumber++] = new int[] {i, vert};
             }
         }
         return result;
@@ -83,7 +80,7 @@ public class ListOfIncidentUndirected extends ListOfIncident {
 
     @SneakyThrows
     @Override
-    public GraphRepresentation clone() {
+    public GraphRepresentationInterface clone() {
         return new ListOfIncidentUndirected(this.edges.clone());
     };
 }
