@@ -19,7 +19,7 @@ public class ListOfSuccessorsDirectedWeighted extends ListOfIncidentWeighted {
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfSuccessorsDirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) {
+    public ListOfSuccessorsDirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException {
         if (weights == null)
             loadFromIncidenceList(input);
         else
@@ -50,17 +50,17 @@ public class ListOfSuccessorsDirectedWeighted extends ListOfIncidentWeighted {
     };
 
     @Override
-    public int[] getPredecessors(Integer id) {
+    public int[] getPredecessors(Integer id) throws InterruptedException {
         return Arrays.stream(getIndirect(id)).mapToInt(i->i.vertex).toArray();
     }
 
     @Override
-    public int getFirstPredecessor(Integer id) {
+    public int getFirstPredecessor(Integer id) throws InterruptedException {
         return getFirstIndirect(id).vertex;
     }
 
     @Override
-    public int getEdge(Integer id1, Integer id2) {
+    public int getEdge(Integer id1, Integer id2) throws InterruptedException {
         for (var successor : getDirect(id1)) {
             if (successor.vertex == id2) {
                 return successor.weight;

@@ -20,10 +20,13 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix implement
         edgesNumber = 0;
         verticesNumber = input.size();
         matrix = new int[verticesNumber][];
-        for (int i = 0; i < verticesNumber; i++)
+        for (int i = 0; i < verticesNumber; i++) {
+            escape();
             matrix[i] = new int[verticesNumber];
+        }
         for (int i = 0; i < verticesNumber; i++) {
             for (int j = 0; j < input.get(i).size(); j++) {
+                escape();
                 matrix[i][input.get(i).get(j)] = weights.get(i).get(j);
                 matrix[input.get(i).get(j)][i] = weights.get(i).get(j);
                 edgesNumber+=1;
@@ -45,6 +48,7 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix implement
         var weights = new ArrayList<List<Integer>>(input.size());
         for (var input_vertex : input)
         {
+            escape();
             var weights_vertex = new ArrayList<Integer>(input_vertex.size());
             for (var input_edge : input_vertex)
                 weights_vertex.add(1);

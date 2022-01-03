@@ -109,21 +109,17 @@ public abstract class ListOfEdges extends GraphRepresentation {
     };
 
     public int[] getNonIncident(Integer id) throws InterruptedException {
-        boolean[] nonIncident = new boolean[vertexNum];
+        boolean[] nonIncident = new boolean[edges.length];
         List<Integer> nonIncidentIds = new ArrayList<Integer>();
-        for(int i = 0; i < edges.length; i++) {
-            escape();
-            nonIncident[i] = true;
-        }
         for (int i=0;i<edgeNum;i++) {
             escape();
             int result = checkIfIncident(id, getEdgeInner(i, 0),getEdgeInner(i, 1));
             if (result != -1)
-                nonIncident[result]=false;
+                nonIncident[result]=true;
         }
         for (int i = 0; i < edges.length; i++) {
             escape();
-            if (nonIncident[i]) {
+            if (!nonIncident[i]) {
                 nonIncidentIds.add(i);
             }
         }
