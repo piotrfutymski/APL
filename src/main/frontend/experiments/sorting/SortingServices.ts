@@ -122,15 +122,21 @@ export const checkExperiment = (experiment: SortingExperiment, config: SortingCo
 
 export const submitExperiments = (experiments: SortingExperiment[], config: SortingConfig, finite: boolean, onResponse: (arg0: string) => void) => {
     let res: any[] = []
+    let labels: string[] =[]
     experiments.forEach(element => {
-        for(let i = 0; i < config.measureSeries; i++){
-            res.push({
-                algorithmName: element.algorithmName,
-                dataDistribution: element.dataDistribution,
-                algorithmParams: Object.fromEntries(element.algorithmParams),
-                maxValue: config.maxValAsPercent ? element.maxValue/100 * config.n : element.maxValue,
-                n: (config.n * (i+1)) / config.measureSeries
-            })
+        let label = getNameForSortingExperiment(element)
+        if(!labels.includes(label))
+        {
+            labels.push(label)
+            for(let i = 0; i < config.measureSeries; i++){
+                res.push({
+                    algorithmName: element.algorithmName,
+                    dataDistribution: element.dataDistribution,
+                    algorithmParams: Object.fromEntries(element.algorithmParams),
+                    maxValue: config.maxValAsPercent ? element.maxValue/100 * config.n : element.maxValue,
+                    n: (config.n * (i+1)) / config.measureSeries
+                })
+            }
         }
     });
     axios.post(`/api/experiment/sorting?finite=${finite}`, res)
