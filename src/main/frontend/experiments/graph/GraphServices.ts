@@ -36,7 +36,7 @@ export const reducePossibleRepresentations = (experiment: GraphExperiment, repre
         res = ["Weighted Adjacency Matrix Directed", "Weighted Incidence Matrix Directed", "Weighted List Of Edges Directed", "Weighted List Of Predecessors Directed", "Weighted List Of Successors Directed"]
     } else if(experiment.algorithmName === "Dijkstra Algorithm" && (experiment.dataGenerator === "Connected Undirected Graph Generator" || experiment.dataGenerator === "Euler Undirected Graph Generator")){
         res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges Undirected", "Weighted List Of Incident Undirected"]
-    } else if(experiment.algorithmName === "Prim Algorithm" || experiment.algorithmName === "Kruskal Algorithm"){
+    } else if(experiment.algorithmName === "Prims Algorithm" || experiment.algorithmName === "Kruskal Algorithm"){
         res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges Undirected", "Weighted List Of Incident Undirected"]
     } else if(experiment.dataGenerator === "Connected Directed Graph Generator" || experiment.dataGenerator === "Directed Graph Generator" || experiment.dataGenerator === "Euler Directed Graph Generator"){
         res = ["Adjacency Matrix Directed", "Incidence Matrix Directed", "List Of Edges Directed", "List Of Predecessors Directed", "List Of Successors Directed"];
