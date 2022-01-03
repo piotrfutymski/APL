@@ -10,8 +10,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
     int operations;
 
     public abstract void fillEdge(int start, int end);
-    public abstract boolean checkIfSTART(int number);
-    public abstract boolean checkIfEND(int number);
+    public abstract boolean checkIfEdge(int start, int end);
 
     public AdjacencyMatrix(List<List<Integer>> input) throws InterruptedException {
         loadFromIncidenceList(input);
@@ -22,14 +21,13 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
         verticesNumber = matrix.length;
         this.matrix = matrix;
         edgesNumber = 0;
-        for (var row : this.matrix)
+        for (int i=0; i<matrix.length; i++)
         {
-            for (var edge : row){
+            for (int j=0; j<matrix[i].length; j++) {
                 escape();
-                if (checkIfSTART(edge))
+                if (checkIfEdge(i, j))
                     edgesNumber+=1;
             }
-
         }
     }
 
@@ -62,7 +60,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
         for (int i = 0; i< verticesNumber; i++)
         {
             escape();
-            if (checkIfSTART(getEdge(id,i)))
+            if (checkIfEdge(id, i))
                 result.add(i);
         }
         return result.stream().mapToInt(i->i).toArray();
@@ -73,7 +71,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
         for (int i = 0; i< verticesNumber; i++)
         {
             escape();
-            if (checkIfSTART(getEdge(id,i)))
+            if (checkIfEdge(id, i))
                 return i;
         }
         return -1;
@@ -85,7 +83,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
         for (int i = 0; i< verticesNumber; i++)
         {
             escape();
-            if (checkIfSTART(getEdge(i,id)))
+            if (checkIfEdge(i, id))
                 result.add(i);
         }
         return result.stream().mapToInt(i->i).toArray();
@@ -96,7 +94,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
         for (int i = 0; i< verticesNumber; i++)
         {
             escape();
-            if (checkIfSTART(getEdge(i,id)))
+            if (checkIfEdge(i, id))
                 return i;
         }
         return -1;
@@ -105,12 +103,11 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
     @Override
     public int[] getNonIncident(Integer id) throws InterruptedException {
         List<Integer> result = new ArrayList<>();
-        for (int i = 0; i< verticesNumber; i++){
+        for (int i = 0; i< verticesNumber; i++) {
             escape();
-            if (getEdge(id,i) != 0)
+            if (getEdge(id, i) == 0)
                 result.add(i);
         }
-
         return result.stream().mapToInt(i->i).toArray();
     }
 
@@ -127,11 +124,17 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
     @Override
     public int getEdge(Integer id1, Integer id2) {
         operations += 1;
-        if (matrix[id1][id2] > 0) return matrix[id1][id2];
-        else if (matrix[id2][id1] > 0) {
-            return -1 * matrix[id2][id1];
+        if (getEdgeInner(id1, id2) > 0)
+            return getEdgeInner(id1,id2);
+        else if (getEdgeInner(id1,id2) > 0) {
+            return -1 * getEdgeInner(id1,id2);
         }
         return 0;
+    }
+
+    public int getEdgeInner(Integer id1, Integer id2) {
+        operations += 1;
+        return matrix[id1][id2];
     }
 
     @Override
@@ -184,5 +187,5 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
     protected abstract int getAllEdgesInner(int edgeNumber, int i, int j, int[][] result);
 
     @Override
-    public abstract GraphRepresentation clone();
+    public abstract GraphRepresentationInterface clone();
 }

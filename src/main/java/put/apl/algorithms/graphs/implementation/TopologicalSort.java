@@ -2,7 +2,7 @@ package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,12 +13,12 @@ import java.util.Map;
 public class TopologicalSort extends GraphAlgorithm {
 
     private boolean[] visited;
-    GraphRepresentation graph;
+    GraphRepresentationInterface graph;
     private List<Integer> path;
     private List<Integer> stack;
     private boolean checkForCycles = false;
 
-    public GraphResult run(GraphRepresentation graph) throws InterruptedException {
+    public GraphResult run(GraphRepresentationInterface graph)throws InterruptedException  {
         graph.setOperations(0);
         stack = new ArrayList<Integer>();
         this.graph = graph;

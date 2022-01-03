@@ -5,11 +5,7 @@ import org.junit.jupiter.api.Test;
 import put.apl.algorithms.graphs.data.*;
 import put.apl.algorithms.graphs.data.generator.*;
 import put.apl.algorithms.graphs.implementation.*;
-import put.apl.algorithms.sorting.SortingResult;
-import put.apl.experiment.dto.GraphExperiment;
-import put.apl.experiment.service.GraphService;
 
-import java.io.ObjectInputFilter;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,6 +24,28 @@ public class GraphTest {
         return list;
     }
 
+    static GeneratorResult getDirectedWeightedGraph()
+    {
+
+        ArrayList<List<Integer>> list_edges = new ArrayList<>();
+        list_edges.add(Arrays.asList(3));
+        list_edges.add(Arrays.asList(0,2));
+        list_edges.add(Arrays.asList(4));
+        list_edges.add(Arrays.asList(1,4));
+        list_edges.add(Arrays.asList(0,1,5));
+        list_edges.add(Arrays.asList(1,2));
+
+        ArrayList<List<Integer>> list_weights = new ArrayList<>();
+        list_weights.add(Arrays.asList(3));
+        list_weights.add(Arrays.asList(5,4));
+        list_weights.add(Arrays.asList(2));
+        list_weights.add(Arrays.asList(3,5));
+        list_weights.add(Arrays.asList(4,2,4));
+        list_weights.add(Arrays.asList(3,3));
+
+        return GeneratorResult.builder().representation(list_edges).weights(list_weights).build();
+    }
+
     static List<List<Integer>> getUndirectedGraph()
     {
         ArrayList<List<Integer>> list = new ArrayList<>();
@@ -40,99 +58,223 @@ public class GraphTest {
         return list;
     }
 
-    //get NOT connected Directed Graph
-    //get NOT
+    static GeneratorResult getUndirectedWeightedGraph()
+    {
 
-    //static String UNDIRECTED_CONNECTED_HAMILTONIAN_GRAPH =
-    //        /* 0  */ "1,3\r\n" +
-    //        /* 1  */ "0,1,2,3,4\r\n" +
-    //        /* 2  */ "1,4\r\n" +
-    //        /* 3  */ "0,4\r\n" +
-    //        /* 4  */ "1,2,3";
+        ArrayList<List<Integer>> list_edges = new ArrayList<>();
+        list_edges.add(Arrays.asList(2,4,5));//0
+        list_edges.add(Arrays.asList(4,5));//1
+        list_edges.add(Arrays.asList(3,4,5));//2
+        list_edges.add(Arrays.asList(4));//3
+        list_edges.add(Arrays.asList());//4
+        list_edges.add(Arrays.asList());//5
+
+        ArrayList<List<Integer>> list_weights = new ArrayList<>();
+        list_weights.add(Arrays.asList(2,4,5));//0
+        list_weights.add(Arrays.asList(4,5));//1
+        list_weights.add(Arrays.asList(3,4,5));//2
+        list_weights.add(Arrays.asList(4));//3
+        list_weights.add(Arrays.asList());//4
+        list_weights.add(Arrays.asList());//5
+        return GeneratorResult.builder().representation(list_edges).weights(list_weights).build();
+    }
 
     static List<List<Integer>> getConnectedDirectedGraph()
     {
         ArrayList<List<Integer>> list = new ArrayList<>();
-        list.add(Arrays.asList());
-        list.add(Arrays.asList());
+        list.add(Arrays.asList(1,2));
+        list.add(Arrays.asList(4));
         list.add(Arrays.asList(3));
-        list.add(Arrays.asList(1));
+        list.add(Arrays.asList(7,8));
+        list.add(Arrays.asList(5,6));
+        list.add(Arrays.asList(8));
         list.add(Arrays.asList(0,1));
+        list.add(Arrays.asList(8));
         list.add(Arrays.asList(0,2));
         return list;
+    }
+
+    static GeneratorResult getConnectedDirectedWeightedGraph()
+    {
+        ArrayList<List<Integer>> list_edges = new ArrayList<>();
+        list_edges.add(Arrays.asList(1,2));
+        list_edges.add(Arrays.asList(4));
+        list_edges.add(Arrays.asList(3));
+        list_edges.add(Arrays.asList(7,8));
+        list_edges.add(Arrays.asList(5,6));
+        list_edges.add(Arrays.asList(8));
+        list_edges.add(Arrays.asList(0,1));
+        list_edges.add(Arrays.asList(8));
+        list_edges.add(Arrays.asList(0,2));
+
+        ArrayList<List<Integer>> list_weights = new ArrayList<>();
+        list_weights.add(Arrays.asList(7,1));
+        list_weights.add(Arrays.asList(5));
+        list_weights.add(Arrays.asList(7));
+        list_weights.add(Arrays.asList(1,2));
+        list_weights.add(Arrays.asList(8,7));
+        list_weights.add(Arrays.asList(3));
+        list_weights.add(Arrays.asList(3,2));
+        list_weights.add(Arrays.asList(5));
+        list_weights.add(Arrays.asList(6,9));
+
+        return GeneratorResult.builder().representation(list_edges).weights(list_weights).build();
     }
 
     static List<List<Integer>> getConnectedUndirectedGraph()
     {
         ArrayList<List<Integer>> list = new ArrayList<>();
-        list.add(Arrays.asList());
-        list.add(Arrays.asList());
+        list.add(Arrays.asList(1,2));
+        list.add(Arrays.asList(4));
         list.add(Arrays.asList(3));
-        list.add(Arrays.asList(1));
-        list.add(Arrays.asList(0,1));
-        list.add(Arrays.asList(0,2));
+        list.add(Arrays.asList(7,8));
+        list.add(Arrays.asList(5,6));
+        list.add(Arrays.asList(8));
+        list.add(Arrays.asList());
+        list.add(Arrays.asList(8));
+        list.add(Arrays.asList());
         return list;
     }
 
+    static GeneratorResult getConnectedUndirectedWeightedGraph()
+    {
+        ArrayList<List<Integer>> list_edges = new ArrayList<>();
+        list_edges.add(Arrays.asList(1,2));
+        list_edges.add(Arrays.asList(4));
+        list_edges.add(Arrays.asList(3));
+        list_edges.add(Arrays.asList(7,8));
+        list_edges.add(Arrays.asList(5,6));
+        list_edges.add(Arrays.asList(8));
+        list_edges.add(Arrays.asList());
+        list_edges.add(Arrays.asList(8));
+        list_edges.add(Arrays.asList());
 
+        ArrayList<List<Integer>> list_weights = new ArrayList<>();
+        list_weights.add(Arrays.asList(9,5));
+        list_weights.add(Arrays.asList(1));
+        list_weights.add(Arrays.asList(3));
+        list_weights.add(Arrays.asList(4,5));
+        list_weights.add(Arrays.asList(5,6));
+        list_weights.add(Arrays.asList(2));
+        list_weights.add(Arrays.asList());
+        list_weights.add(Arrays.asList(2));
+        list_weights.add(Arrays.asList());
+        return GeneratorResult.builder().representation(list_edges).weights(list_weights).build();
+    }
 
-    static List<Integer> BFS_RESULT = new ArrayList<Integer>();
-    static List<Integer> TOPO_SORT_RESULT = new ArrayList<Integer>();
-    static List<Integer> HAMILTONIAN_RESULT = new ArrayList<Integer>();
-    static List<ArrayList<Integer>> ALL_HAMILTONIAN_RESULT = new ArrayList<ArrayList<Integer>>();
+    static List<List<Integer>> getEulerianDirectedGraph()
+    {
+        ArrayList<List<Integer>> list = new ArrayList<>();
+        list.add(Arrays.asList(1,2));//0
+        list.add(Arrays.asList(3,4));//1
+        list.add(Arrays.asList(3));//2
+        list.add(Arrays.asList(5,7));//3
+        list.add(Arrays.asList(5,6));//4
+        list.add(Arrays.asList(7,8));//5
+        list.add(Arrays.asList(0));//6
+        list.add(Arrays.asList(1,8));//7
+        list.add(Arrays.asList(4,0));//8
+        return list;
+    }
 
-    List<GraphRepresentation> undirected;
+    static List<List<Integer>> getEulerianUndirectedGraph()
+    {
+        ArrayList<List<Integer>> list = new ArrayList<>();
+        list.add(Arrays.asList(1,2));//0
+        list.add(Arrays.asList(4));//1
+        list.add(Arrays.asList(3));//2
+        list.add(Arrays.asList(7,8,5));//3
+        list.add(Arrays.asList(5,6));//4
+        list.add(Arrays.asList(8,6));//5
+        list.add(Arrays.asList());//6
+        list.add(Arrays.asList(8));//7
+        list.add(Arrays.asList(4));//8
+        return list;
+    }
 
-    List<GraphRepresentation> directed;
+    static List<List<Integer>> getHamiltonianUndirectedGraph()
+    {
+        List<List<Integer>> list = new ArrayList<List<Integer>>();
+        list.add(Arrays.asList(1,3));
+        list.add(Arrays.asList(2,3,4));
+        list.add(Arrays.asList(4));
+        list.add(Arrays.asList(4));
+        list.add(Arrays.asList());
+        return list;
+    }
+
+    static List<List<Integer>> getHamiltonianDirectedGraph()
+    {
+        List<List<Integer>> list = new ArrayList<List<Integer>>();
+        list.add(Arrays.asList(1));
+        list.add(Arrays.asList(2,3,4));
+        list.add(Arrays.asList(4));
+        list.add(Arrays.asList(0));
+        list.add(Arrays.asList(3));
+        return list;
+    }
+
+    List<GraphRepresentationInterface> undirected;
+
+    List<GraphRepresentationInterface> directed;
+
+    List<GraphRepresentationWeightedInterface> undirectedWeighted;
+
+    List<GraphRepresentationWeightedInterface> directedWeighted;
 
     @BeforeEach
     void initAll() throws InterruptedException {
 
-        BFS_RESULT.clear();
-        BFS_RESULT.add(0);
-        BFS_RESULT.add(1);
-        BFS_RESULT.add(2);
-        BFS_RESULT.add(4);
-        BFS_RESULT.add(5);
-        BFS_RESULT.add(3);
-
-        TOPO_SORT_RESULT.clear();
-        TOPO_SORT_RESULT.add(5);
-        TOPO_SORT_RESULT.add(4);
-        TOPO_SORT_RESULT.add(2);
-        TOPO_SORT_RESULT.add(3);
-        TOPO_SORT_RESULT.add(1);
-        TOPO_SORT_RESULT.add(0);
-
-        HAMILTONIAN_RESULT.clear();
-        HAMILTONIAN_RESULT.add(0);
-        HAMILTONIAN_RESULT.add(1);
-        HAMILTONIAN_RESULT.add(2);
-        HAMILTONIAN_RESULT.add(4);
-        HAMILTONIAN_RESULT.add(3);
-
-        ALL_HAMILTONIAN_RESULT.clear();
-        ALL_HAMILTONIAN_RESULT.add(new ArrayList<Integer>());
-        ALL_HAMILTONIAN_RESULT.add(new ArrayList<Integer>());
-        ALL_HAMILTONIAN_RESULT.get(0).add(0);
-        ALL_HAMILTONIAN_RESULT.get(0).add(1);
-        ALL_HAMILTONIAN_RESULT.get(0).add(2);
-        ALL_HAMILTONIAN_RESULT.get(0).add(4);
-        ALL_HAMILTONIAN_RESULT.get(0).add(3);
-        ALL_HAMILTONIAN_RESULT.get(1).add(0);
-        ALL_HAMILTONIAN_RESULT.get(1).add(3);
-        ALL_HAMILTONIAN_RESULT.get(1).add(4);
-        ALL_HAMILTONIAN_RESULT.get(1).add(2);
-        ALL_HAMILTONIAN_RESULT.get(1).add(1);
-
         undirected = Arrays.asList(new ListOfIncidentUndirected(),
                 new ListOfEdgesUndirected(), new IncidenceMatrixUndirected(), new AdjacencyMatrixUndirected(),
-                new IncidenceMatrixUndirectedWeighted(), new AdjacencyMatrixUndirected());
+                new IncidenceMatrixUndirectedWeighted(), new AdjacencyMatrixUndirectedWeighted(),
+                new ListOfEdgesUndirectedWeighted());
 
         directed = Arrays.asList(new ListOfEdgesDirected(), new ListOfPredecessorsDirected(),
                 new ListOfSuccessorsDirected(), new AdjacencyMatrixDirected(), new IncidenceMatrixDirected(),
-                new AdjacencyMatrixDirectedWeighted(), new IncidenceMatrixDirectedWeighted());
+                new AdjacencyMatrixDirectedWeighted(), new IncidenceMatrixDirectedWeighted(),
+                new ListOfSuccessorsDirectedWeighted(), new ListOfPredecessorsDirectedWeighted(),
+                new ListOfEdgesDirectedWeighted());
+
+        undirectedWeighted = Arrays.asList(new IncidenceMatrixUndirectedWeighted(), new AdjacencyMatrixUndirectedWeighted(),
+                new ListOfEdgesUndirectedWeighted());
+
+        directedWeighted = Arrays.asList(new AdjacencyMatrixDirectedWeighted(), new IncidenceMatrixDirectedWeighted(),
+                new ListOfSuccessorsDirectedWeighted(), new ListOfPredecessorsDirectedWeighted(),
+                new ListOfEdgesDirectedWeighted());
     }
+
+
+    String getInfo(GraphRepresentationInterface representation, Integer[] expected, Integer[] actual)
+    {
+        return representation.getClass().toString() + "\nExpected: " +
+                Arrays.toString(expected) +
+                "\nActual: " + Arrays.toString(actual);
+    }
+
+    void doAlgorithmTest(GraphAlgorithm algorithm, List<List<Integer>> graph,
+                         List<GraphRepresentationInterface> reps, Integer[] expectedResult) throws InterruptedException {
+        for (var representation : reps)
+        {
+            representation.loadFromIncidenceList(graph);
+            Integer[] result = algorithm.run(representation).getPath().toArray(new Integer[0]);
+            assertArrayEquals(expectedResult, result,
+                    getInfo(representation, expectedResult, result));
+        }
+    }
+
+    void doAlgorithmWeightsTest(GraphAlgorithm algorithm, List<List<Integer>> graph, List<List<Integer>> weights,
+                                List<GraphRepresentationWeightedInterface> reps, Integer[] expectedResult) throws InterruptedException {
+        for (var representation : reps)
+        {
+            representation.loadFromIncidenceList(graph, weights);
+            Integer[] result = algorithm.run(representation).getPath().toArray(new Integer[0]);
+            assertArrayEquals(expectedResult, result,
+                    getInfo(representation, expectedResult, result));
+        }
+    }
+
+    //TESTS
 
     @Test
     void UndirectedRepresentationTest() throws InterruptedException {
@@ -176,34 +318,46 @@ public class GraphTest {
         {
             representation.loadFromIncidenceList(getUndirectedGraph());
             var result = representation.getAllEdges();
-            for (var r : result)
+            for (var expected : expectedEdges)
             {
-                System.out.print(Arrays.toString(r));
-
+                boolean found = false;
+                assertEquals(expectedEdges.length, result.length);
+                for (var r : result)
+                {
+                    if (Arrays.equals(new int[] {r[0],r[1]},expected))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                assertTrue(found, representation.getClass().toString());
             }
-            System.out.println("heh");
-
         }
     }
 
 
     @Test
     void DirectedRepresentationEdgesTest() throws InterruptedException {
-        var expectedEdges = new int[][] {{0,2}, {0,4}, {0,5}, {1,4}, {1,5}, {2,3},
-                {2,4}, {2,5}, {3,4}};
-        Set<int[]> targetSet = new HashSet<int[]>(Arrays.asList(expectedEdges));
-
+        var expectedEdges = new int[][] {{0,3}, {1,0}, {1,2}, {2,4}, {3,1}, {3,4},
+                {4,0}, {4,1}, {4,5}, {5,1}, {5,2}};
         for( var representation : directed)
         {
             representation.loadFromIncidenceList(getDirectedGraph());
             var result = representation.getAllEdges();
-            for (var r : result)
+            for (var expected : expectedEdges)
             {
-                System.out.print(Arrays.toString(r));
-
+                boolean found = false;
+                assertEquals(expectedEdges.length, result.length);
+                for (var r : result)
+                {
+                    if (Arrays.equals(new int[] {r[0],r[1]},expected))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                assertTrue(found, representation.getClass().toString());
             }
-            System.out.println("heh");
-
         }
     }
 
@@ -212,17 +366,17 @@ public class GraphTest {
         var dirResult = new Integer[] {0,3,1,2,4,5};
         var undirResult = new Integer[] {0,2,3,4,1,5};
         var algo = new DepthFirstSearch();
-        for (var representation : directed)
-        {
-            representation.loadFromIncidenceList(getDirectedGraph());
-            assertArrayEquals(dirResult, algo.run(representation).getPath().toArray());
-        }
 
-      for (var representation : undirected)
-      {
-          representation.loadFromIncidenceList(getUndirectedGraph());
-          assertArrayEquals(undirResult, algo.run(representation).getPath().toArray());
-      }
+        doAlgorithmTest(algo, getDirectedGraph(), directed, dirResult);
+
+        doAlgorithmTest(algo, getUndirectedGraph(), undirected, undirResult);
+
+        var weighted_graph = getDirectedWeightedGraph();
+        doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), directedWeighted, dirResult);
+
+        weighted_graph = getUndirectedWeightedGraph();
+        doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), undirectedWeighted, undirResult);
+
     }
 
     @Test
@@ -230,61 +384,141 @@ public class GraphTest {
         var dirResult = new Integer[] {0,3,1,4,2,5};
         var undirResult = new Integer[] {0,2,4,5,3,1};
         var algo = new BreadthFirstSearch();
-        for (var representation : directed)
-        {
-            representation.loadFromIncidenceList(getDirectedGraph());
-            assertArrayEquals(dirResult, algo.run(representation).getPath().toArray());
-        }
 
-        for (var representation : undirected)
-        {
-            representation.loadFromIncidenceList(getUndirectedGraph());
-            assertArrayEquals(undirResult, algo.run(representation).getPath().toArray());
-        }
+        doAlgorithmTest(algo, getDirectedGraph(), directed, dirResult);
+
+        doAlgorithmTest(algo, getUndirectedGraph(), undirected, undirResult);
+
+        var weighted_graph = getDirectedWeightedGraph();
+        doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), directedWeighted, dirResult);
+
+        weighted_graph = getUndirectedWeightedGraph();
+        doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), undirectedWeighted, undirResult);
     }
 
     @Test
     void HamiltonTest() throws InterruptedException {
-        var dirResult = new Integer[] {0,3,1,4,2,5};
-        var undirResult = new Integer[] {0,2,4,5,3,1};
+        var dirResult = new Integer[] {0,1,2,4,3};
+        var undirResult = new Integer[] {0,1,2,4,3};
         var algo = new HamiltonianCycle();
+        doAlgorithmTest(algo, getHamiltonianDirectedGraph(), directed, dirResult);
+
+        doAlgorithmTest(algo, getHamiltonianUndirectedGraph(), undirected, undirResult);
+
+        //TODO
+        //var weighted_graph = getDirectedWeightedGraph();
+        //doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), directedWeighted, dirResult);
+
+        //weighted_graph = getUndirectedWeightedGraph();
+        //doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), undirectedWeighted, undirResult);
+
+    }
+
+    //TODO fix this
+    @Test
+    void AllHamiltonTest() throws InterruptedException {
+        var dirResult = new Integer[] {0,1,2,4,3};
+        var undirResult = new Integer[] {0,1,2,4,3};
+        var algo = new AllHamiltonianCycles();
         for (var representation : directed)
         {
-            representation.loadFromIncidenceList(getDirectedGraph());
-            var array = Arrays.toString(algo.run(representation).getPath().toArray());
-            System.out.println(array);
-            //assertArrayEquals(dirResult, dfs.run(representation).getPath().toArray());
+            representation.loadFromIncidenceList(getHamiltonianDirectedGraph());
+            List<ArrayList<Integer>> result = algo.run(representation).getMultiplePaths();
+            for (var list : result)
+                System.out.println(list);
         }
 
         for (var representation : undirected)
         {
-            representation.loadFromIncidenceList(getUndirectedGraph());
-            var array = Arrays.toString(algo.run(representation).getPath().toArray());
-            System.out.println(array);
-            //assertArrayEquals(undirResult, dfs.run(representation).getPath().toArray());
+            representation.loadFromIncidenceList(getHamiltonianUndirectedGraph());
+            List<ArrayList<Integer>> result = algo.run(representation).getMultiplePaths();
+        }
+        //TODO
+        //var weighted_graph = getDirectedWeightedGraph();
+        //doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), directedWeighted, dirResult);
+
+        //weighted_graph = getUndirectedWeightedGraph();
+        //doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), undirectedWeighted, undirResult);
+
+    }
+
+    @Test
+    void EulerCycleTest() throws InterruptedException {
+        var dirResult = new Integer[] {0, 6, 4, 1, 7, 3, 2, 0, 8, 7, 5, 4, 8, 5, 3, 1, 0};
+        var undirResult = new Integer[] {0, 2, 3, 8, 4, 6, 5, 8, 7, 3, 5, 4, 1, 0};
+        Arrays.sort(dirResult);
+        Arrays.sort(undirResult);
+        var algo = new EulerCycleAlgorithm();
+        for (var representation : directed)
+        {
+            representation.loadFromIncidenceList(getEulerianDirectedGraph());
+            Integer[] result = algo.run(representation).getPath().toArray(new Integer[0]);
+            Arrays.sort(result);
+            assertArrayEquals(dirResult, result, getInfo(representation, dirResult, result));
+        }
+
+        for (var representation : undirected)
+        {
+            representation.loadFromIncidenceList(getEulerianUndirectedGraph());
+            Integer[] result = algo.run(representation).getPath().toArray(new Integer[0]);
+            Arrays.sort(result);
+            assertArrayEquals(undirResult, result, getInfo(representation, undirResult, (Integer[]) result));
         }
     }
 
     @Test
-    void AllHamiltonTest() throws InterruptedException {
-        var dirResult = new Integer[] {0,3,1,4,2,5};
-        var undirResult = new Integer[] {0,2,4,5,3,1};
-        var algo = new AllHamiltonianCycles();
-        for (var representation : directed)
-        {
-            representation.loadFromIncidenceList(getDirectedGraph());
-            var array = Arrays.toString(algo.run(representation).getMultiplePaths().toArray());
-            System.out.println(array);
-            //assertArrayEquals(dirResult, algo.run(representation).getPath().toArray());
-        }
+    void TopologicalTest() throws InterruptedException {
+        var dirResult = new Integer[] {0,1,4,6,5,8,2,3,7};
+        var undirResult = new Integer[] {0,1,4,6,5,8,3,7,2};
+        var algo = new TopologicalSort();
 
-        for (var representation : undirected)
-        {
-            representation.loadFromIncidenceList(getUndirectedGraph());
-            var array = Arrays.toString(algo.run(representation).getMultiplePaths().toArray());
-            System.out.println(array);
-            //assertArrayEquals(undirResult, algo.run(representation).getPath().toArray());
-        }
+        doAlgorithmTest(algo, getConnectedDirectedGraph(), directed, dirResult);
+
+        doAlgorithmTest(algo, getConnectedUndirectedGraph(), undirected, undirResult);
+
+        var weighted_graph = getConnectedDirectedWeightedGraph();
+        doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), directedWeighted, dirResult);
+
+        weighted_graph = getConnectedUndirectedWeightedGraph();
+        doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), undirectedWeighted, undirResult);
+    }
+
+    @Test
+    void DijkstraTest() throws InterruptedException {
+        var dirResult = new Integer[] {0,7,1,8,12,20,19,9,10};
+        var undirResult = new Integer[] {0,9, 5, 8, 10, 15, 16, 12, 13};
+        var algo = new DijkstraAlgorithm();
+
+        var weighted_graph = getConnectedDirectedWeightedGraph();
+        doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), directedWeighted, dirResult);
+
+        weighted_graph = getConnectedUndirectedWeightedGraph();
+        doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), undirectedWeighted, undirResult);
+    }
+
+    @Test
+    void KruskalTest() throws InterruptedException {
+        var dirResult = new Integer[] {0,1,2,4,3};
+        var undirResult = new Integer[] {1, 4, 5, 8, 7, 8, 2, 3, 3, 7, 0, 2, 4, 5, 4, 6};
+        var algo = new KruskalAlgorithm();
+        var weighted_graph = getConnectedDirectedWeightedGraph();
+        //doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), directedWeighted, dirResult);
+
+        weighted_graph = getConnectedUndirectedWeightedGraph();
+        doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), undirectedWeighted, undirResult);
+    }
+
+    @Test
+    void PrimsTest() throws InterruptedException {
+        var dirResult = new Integer[] {0,1,2,4,3};
+        var undirResult = new Integer[] {-1, 4, 0, 2, 5, 8, 4, 3, 7};
+        var algo = new PrimsAlgorithm();
+
+        var weighted_graph = getConnectedDirectedWeightedGraph();
+        //doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), directedWeighted, dirResult);
+
+        weighted_graph = getConnectedUndirectedWeightedGraph();
+        doAlgorithmWeightsTest(algo, weighted_graph.getRepresentation(), weighted_graph.getWeights(), undirectedWeighted, undirResult);
     }
 /*
     @Test

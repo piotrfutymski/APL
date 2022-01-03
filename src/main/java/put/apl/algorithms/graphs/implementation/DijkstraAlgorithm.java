@@ -2,7 +2,7 @@ package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 
 import java.util.*;
 
@@ -11,18 +11,18 @@ public class DijkstraAlgorithm  extends GraphAlgorithm {
 
     PriorityQueue<Integer> queue;
 
-    GraphRepresentation graph;
+    GraphRepresentationInterface graph;
 
     HashSet<Integer> visited;
 
-    int[] dist;
+    Integer[] dist;
 
     @Override
-    public GraphResult run(GraphRepresentation graph) throws InterruptedException {
+    public GraphResult run(GraphRepresentationInterface graph) throws InterruptedException {
         graph.setOperations(0);
         this.graph = graph;
         int verticesSize = graph.getVerticesNumber();
-        dist = new int[verticesSize];
+        dist = new Integer[verticesSize];
         visited = new HashSet<Integer>();
         queue = new PriorityQueue<>();
 
@@ -40,7 +40,7 @@ public class DijkstraAlgorithm  extends GraphAlgorithm {
             visited.add(vertice);
             propagateNeighbours(vertice);
         }
-        return GraphResult.builder().path(new ArrayList<>(visited)).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
+        return GraphResult.builder().path(Arrays.asList(dist)).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
     private void propagateNeighbours(int vertice) throws InterruptedException {

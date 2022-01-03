@@ -2,7 +2,7 @@ package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 
 import java.util.*;
 
@@ -14,7 +14,7 @@ public class BreadthFirstSearch extends GraphAlgorithm {
     private Queue<Integer> queue;
     private boolean forceConnectedGraph = false;
 
-    public GraphResult run(GraphRepresentation graph) throws InterruptedException {
+    public GraphResult run(GraphRepresentationInterface graph) throws InterruptedException {
         graph.setOperations(0);
         visited = new boolean[graph.getVerticesNumber()];
         path = new ArrayList<Integer>();
@@ -37,7 +37,7 @@ public class BreadthFirstSearch extends GraphAlgorithm {
         return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
-    private void breadthFirstSearch(GraphRepresentation graph, int id) throws InterruptedException {
+    private void breadthFirstSearch(GraphRepresentationInterface graph, int id) throws InterruptedException {
        int[] successors = graph.getSuccessors(id);
        visited[id] = true;
        path.add(id);

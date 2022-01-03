@@ -4,9 +4,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public abstract class GraphDataGenerator {
+public abstract class GraphDataGenerator implements GraphDataGeneratorInterface {
 
-    public abstract List<List<Integer>> generate(GraphGeneratorConfig config) throws InterruptedException;
+    public abstract GeneratorResult generate(GraphGeneratorConfig config) throws InterruptedException;
 
     public void escape() throws InterruptedException{
         if (Thread.interrupted()) {
@@ -87,4 +87,5 @@ public abstract class GraphDataGenerator {
         toUse.remove(toUse.size()-1);
         return res;
     }
+
 }

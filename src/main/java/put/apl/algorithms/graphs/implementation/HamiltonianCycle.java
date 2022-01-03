@@ -2,7 +2,7 @@ package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,22 +13,19 @@ import java.util.Map;
 public class HamiltonianCycle extends GraphAlgorithm  {
 
     private List<Integer> path;
-    private GraphRepresentation graph;
+    private GraphRepresentationInterface graph;
 
-    public GraphResult run(GraphRepresentation graph) throws InterruptedException {
+    public GraphResult run(GraphRepresentationInterface graph) throws InterruptedException  {
         graph.setOperations(0);
         this.path = new ArrayList<Integer>();
         this.graph = graph;
         this.path.add(0);
         if (graph.getVerticesNumber() > 1) {
-            if (hamiltonianCycle(1)) {
-                return GraphResult.builder().path(path).build();
+            if (!hamiltonianCycle(1)) {
+                path = new ArrayList<Integer>();
             }
-            return GraphResult.builder().path(new ArrayList<Integer>()).build();
         }
-        else {
-            return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
-        }
+        return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
     private boolean hamiltonianCycle(int pos) throws InterruptedException {
@@ -36,17 +33,20 @@ public class HamiltonianCycle extends GraphAlgorithm  {
             int[] successors = graph.getSuccessors(this.path.get(pos-1));
             for (int s : successors) {
                 escape();
-                if (s == 0) {
+                if (s == this.path.get(0)) {
                     return true;
                 }
             }
             return false;
         }
-        for (int i = 1; i < graph.getVerticesNumber(); i++) {
+        for (var successor : graph.getSuccessors(this.path.get(pos-1)))
+        {
             escape();
-            if (graph.getEdge(i, this.path.get(pos-1)) > 0 && !path.contains(i)) {
-                path.add(i);
-                if (hamiltonianCycle(pos + 1)) {
+            if (!path.contains(successor))
+            {
+                path.add(successor);
+                if (hamiltonianCycle(pos+1))
+                {
                     return true;
                 }
                 path.remove(path.size() - 1);

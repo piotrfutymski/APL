@@ -8,7 +8,7 @@ import java.util.*;
 public class UndirectedGraphDataGenerator extends GraphDataGenerator {
 
     @Override
-    public List<List<Integer>> generate(GraphGeneratorConfig config) throws InterruptedException {
+    public GeneratorResult generate(GraphGeneratorConfig config) throws InterruptedException {
         Random random = new Random();
         List<List<Integer>> res = generateFull(config, false);
         int toRemove = vertexToDeleteCount(config, false);
@@ -24,6 +24,6 @@ public class UndirectedGraphDataGenerator extends GraphDataGenerator {
                 removeSet.remove(i);
             removed++;
         }
-        return res;
-    };
+        return GeneratorResult.builder().representation(res).build();
+    }
 }

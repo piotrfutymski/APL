@@ -2,16 +2,15 @@ package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Component("Prim Algorithm")
-public class PrimAlgorithm extends GraphAlgorithm  {
+@Component("Prims Algorithm")
+public class PrimsAlgorithm extends GraphAlgorithm  {
 
-    GraphRepresentation graph;
 
     List<Integer> MST;
 
@@ -22,9 +21,8 @@ public class PrimAlgorithm extends GraphAlgorithm  {
     int verticesSize;
 
     @Override
-    public GraphResult run(GraphRepresentation graph) throws InterruptedException {
+    public GraphResult run(GraphRepresentationInterface graph)throws InterruptedException {
         graph.setOperations(0);
-        this.graph = graph;
         verticesSize = graph.getVerticesNumber();
         key = new int[verticesSize];
         MST = new ArrayList<>();
