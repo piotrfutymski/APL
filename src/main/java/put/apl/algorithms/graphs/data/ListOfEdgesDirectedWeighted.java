@@ -29,29 +29,33 @@ public class ListOfEdgesDirectedWeighted extends ListOfEdgesDirected implements 
     private int[] weights;
 
     @Override
-    public void loadFromIncidenceList(List<List<Integer>> input)
-    {
+    public void loadFromIncidenceList(List<List<Integer>> input) throws InterruptedException {
         var weights = new ArrayList<List<Integer>>(input.size());
         for (var input_vertex : input)
         {
             var weights_vertex = new ArrayList<Integer>(input_vertex.size());
-            for (var input_edge : input_vertex)
+            for (var input_edge : input_vertex) {
+                escape();
                 weights_vertex.add(1);
+            }
             weights.add(weights_vertex);
         }
         loadFromIncidenceList(input, weights);
     }
 
-    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights_input) {
+    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights_input) throws InterruptedException {
         vertexNum = input.size();
 
-        for (var edges: input)
+        for (var edges: input) {
+            escape();
             edgeNum+=edges.size();
+        }
         int edgeNumber=0;
         edges = new int[edgeNum][];
         weights = new int[edgeNum];
         for (int i = 0; i < input.size(); i++) {
             for (int j = 0; j < input.get(i).size(); j++) {
+                escape();
                 var edge = new int[2];
                 edge[0] = i;
                 edge[1] = input.get(i).get(j);

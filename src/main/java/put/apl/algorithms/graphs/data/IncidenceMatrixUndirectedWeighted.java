@@ -25,33 +25,39 @@ public class IncidenceMatrixUndirectedWeighted extends IncidenceMatrix implement
     }
 
     @Override
-    public void loadFromIncidenceList(List<List<Integer>> input)
-    {
+    public void loadFromIncidenceList(List<List<Integer>> input) throws InterruptedException {
         var weights = new ArrayList<List<Integer>>(input.size());
         for (var input_vertex : input)
         {
+            escape();
             var weights_vertex = new ArrayList<Integer>(input_vertex.size());
-            for (var input_edge : input_vertex)
+            for (var input_edge : input_vertex) {
+                escape();
                 weights_vertex.add(1);
+            }
+
             weights.add(weights_vertex);
         }
         loadFromIncidenceList(input, weights);
     }
 
-    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights) {
+    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException {
         verticesSize = input.size();
         matrix = new int[verticesSize][];
         edgesSize = 0;
         for (List<Integer> integers : input) {
+            escape();
             edgesSize += integers.size();
         }
         for (int i=0; i< verticesSize; i++)
         {
+            escape();
             matrix[i] = new int[edgesSize];
         }
         int edgeNumber=0;
         for (int i = 0; i < input.size(); i++) {
             for (int j = 0; j < input.get(i).size(); j++) {
+                escape();
                 matrix[i][edgeNumber] = weights.get(i).get(j);
                 matrix[input.get(i).get(j)][edgeNumber] = weights.get(i).get(j);
                 edgeNumber++;
@@ -65,7 +71,7 @@ public class IncidenceMatrixUndirectedWeighted extends IncidenceMatrix implement
     }
 
     @Override
-    public int[][] getAllEdges() {
+    public int[][] getAllEdges() throws InterruptedException {
         int[][] result = new int[edgesSize][];
         for (int i=0; i<edgesSize; i++)
         {
@@ -80,6 +86,7 @@ public class IncidenceMatrixUndirectedWeighted extends IncidenceMatrix implement
                     weight = getEdgeInner(j,i);
                     for (int k=j+1; k<verticesSize;k++)
                     {
+                        escape();
                         if (getEdgeInner(k,i) != 0)
                         {
                             end = k;

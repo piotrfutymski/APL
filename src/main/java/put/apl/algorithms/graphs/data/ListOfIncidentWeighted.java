@@ -28,7 +28,7 @@ public abstract class ListOfIncidentWeighted extends GraphRepresentation impleme
         representation = new Edge[0][];
     }
 
-    public ListOfIncidentWeighted(List<List<Integer>> input, List<List<Integer>> weights) {
+    public ListOfIncidentWeighted(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException {
         loadFromIncidenceList(input, weights);
     }
 
@@ -42,29 +42,32 @@ public abstract class ListOfIncidentWeighted extends GraphRepresentation impleme
     }
 
     @Override
-    public void loadFromIncidenceList(List<List<Integer>> input)
-    {
+    public void loadFromIncidenceList(List<List<Integer>> input) throws InterruptedException {
         var weights = new ArrayList<List<Integer>>(input.size());
         for (var input_vertex : input)
         {
             var weights_vertex = new ArrayList<Integer>(input_vertex.size());
-            for (var input_edge : input_vertex)
+            for (var input_edge : input_vertex) {
+                escape();
                 weights_vertex.add(1);
+            }
             weights.add(weights_vertex);
         }
         loadFromIncidenceList(input, weights);
     }
 
-    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights) {
+    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException {
         vertexNum = input.size();
         edgeNum = 0;
         List<ArrayList<Edge>> edgesList = new ArrayList<>();
         for (int i = 0; i < vertexNum; i++) {
+            escape();
             edgesList.add(new ArrayList<Edge>());
         }
         representation = new Edge[vertexNum][];
         for (int i = 0; i < input.size(); i++) {
             for (int j = 0; j < input.get(i).size(); j++) {
+                escape();
                 addEdge(edgesList, i, input.get(i).get(j), weights.get(i).get(j));
                 edgeNum++;
             }
@@ -72,6 +75,7 @@ public abstract class ListOfIncidentWeighted extends GraphRepresentation impleme
         for (int i = 0; i < edgesList.size(); i++) {
             representation[i] = new Edge[edgesList.get(i).size()];
             for (int j = 0; j < edgesList.get(i).size(); j++) {
+                escape();
                 representation[i][j] = edgesList.get(i).get(j);
             }
         }
@@ -90,8 +94,7 @@ public abstract class ListOfIncidentWeighted extends GraphRepresentation impleme
         return new Edge(-1,-1);
     }
 
-    public Edge[] getIndirect(Integer id)
-    {
+    public Edge[] getIndirect(Integer id) throws InterruptedException {
         List<Edge> indirect = new ArrayList<Edge>();
         for (int i=0; i< vertexNum; i++)
         {
@@ -99,6 +102,7 @@ public abstract class ListOfIncidentWeighted extends GraphRepresentation impleme
                 continue;
             for (int j = 0; j< representation[i].length; j++)
             {
+                escape();
                 if (getEdgeInner(i,j).vertex == id)
                 {
                     indirect.add(new Edge(i, getEdgeInner(i,j).weight));
@@ -109,14 +113,14 @@ public abstract class ListOfIncidentWeighted extends GraphRepresentation impleme
         return indirect.toArray(new Edge[0]);
     }
 
-    public Edge getFirstIndirect(Integer id)
-    {
+    public Edge getFirstIndirect(Integer id) throws InterruptedException {
         for (int i=0; i< vertexNum; i++)
         {
             if (i==id)
                 continue;
             for (int j = 0; j< representation[i].length; j++)
             {
+                escape();
                 if (getEdgeInner(i,j).vertex == id)
                 {
                     return new Edge(i, getEdgeInner(i,j).weight);
@@ -126,17 +130,23 @@ public abstract class ListOfIncidentWeighted extends GraphRepresentation impleme
         return new Edge(-1,-1);
     }
 
-    public int[] getNonIncident(Integer id) {
+    public int[] getNonIncident(Integer id) throws InterruptedException {
         boolean[] nonIncident = new boolean[representation.length];
         List<Integer> nonIncidentIds = new ArrayList<Integer>();
         for(int i = 0; i < representation.length; i++) {
+            escape();
             nonIncident[i] = true;
         }
-        for (var index : getDirect(id))
+        for (var index : getDirect(id)) {
+            escape();
             nonIncident[index.vertex] = false;
-        for (var index : getIndirect(id))
+        }
+        for (var index : getIndirect(id)) {
+            escape();
             nonIncident[index.vertex] = false;
+        }
         for (int i = 0; i < representation.length; i++) {
+            escape();
             if (nonIncident[i]) {
                 nonIncidentIds.add(i);
             }
@@ -150,8 +160,10 @@ public abstract class ListOfIncidentWeighted extends GraphRepresentation impleme
         for (int i=0;i<vertexNum;i++)
         {
             result[i] = new int[representation[i].length];
-            for (int j=0; j<representation[i].length;j++)
+            for (int j=0; j<representation[i].length;j++) {
                 result[i][j] = representation[i][j].vertex;
+            }
+
         }
         return result;
     }

@@ -25,11 +25,11 @@ public class IncidenceMatrixDirectedWeighted extends IncidenceMatrix implements 
     }
 
     @Override
-    public void loadFromIncidenceList(List<List<Integer>> input)
-    {
+    public void loadFromIncidenceList(List<List<Integer>> input) throws InterruptedException {
         var weights = new ArrayList<List<Integer>>(input.size());
         for (var input_vertex : input)
         {
+            escape();
             var weights_vertex = new ArrayList<Integer>(input_vertex.size());
             for (var input_edge : input_vertex)
                 weights_vertex.add(1);
@@ -38,20 +38,23 @@ public class IncidenceMatrixDirectedWeighted extends IncidenceMatrix implements 
         loadFromIncidenceList(input, weights);
     }
 
-    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights) {
+    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException {
         verticesSize = input.size();
         matrix = new int[verticesSize][];
         edgesSize = 0;
         for (List<Integer> integers : input) {
+            escape();
             edgesSize += integers.size();
         }
         for (int i=0; i< verticesSize; i++)
         {
+            escape();
             matrix[i] = new int[edgesSize];
         }
         int edgeNumber=0;
         for (int i = 0; i < input.size(); i++) {
             for (int j = 0; j < input.get(i).size(); j++) {
+                escape();
                 matrix[i][edgeNumber] = weights.get(i).get(j);
                 matrix[input.get(i).get(j)][edgeNumber] = -1 * weights.get(i).get(j);
                 edgeNumber++;

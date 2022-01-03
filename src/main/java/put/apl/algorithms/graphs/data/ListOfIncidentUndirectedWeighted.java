@@ -18,7 +18,7 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfIncidentUndirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) {
+    public ListOfIncidentUndirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException {
         if (weights == null)
             loadFromIncidenceList(input);
         else
@@ -38,6 +38,28 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
     void addEdge(List<ArrayList<Edge>> edgesList, int start, int end, int weight) {
         edgesList.get(start).add(new Edge(end, weight));
         edgesList.get(end).add(new Edge(start, weight));
+    }
+
+    @Override
+    public int[] getNonIncident(Integer id) throws InterruptedException {
+        boolean[] nonIncident = new boolean[representation.length];
+        List<Integer> nonIncidentIds = new ArrayList<Integer>();
+        for(int i = 0; i < representation.length; i++) {
+            escape();
+            nonIncident[i] = true;
+        }
+        for (var index : getDirect(id)){
+            escape();
+            nonIncident[index.vertex] = false;
+        }
+
+        for (int i = 0; i < representation.length; i++) {
+            escape();
+            if (nonIncident[i]) {
+                nonIncidentIds.add(i);
+            }
+        }
+        return nonIncidentIds.stream().mapToInt(i->i).toArray();
     }
 
     @Override
@@ -61,8 +83,9 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
     }
 
     @Override
-    public int getEdge(Integer id1, Integer id2) {
+    public int getEdge(Integer id1, Integer id2) throws InterruptedException {
         for (var predecessor : getDirect(id1)) {
+            escape();
             if (predecessor.vertex == id2) {
                 return predecessor.weight;
             }
@@ -71,11 +94,12 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
     }
 
     @Override
-    public int[][] getAllEdges() {
+    public int[][] getAllEdges() throws InterruptedException {
         int[][] result = new int[edgeNum*2][];
         int edgeNumber=0;
         for (int i = 0; i < vertexNum; i++)
         {
+            escape();
             for (var vert : getDirect(i)){
                 result[edgeNumber++] = new int[] {i, vert.vertex, vert.weight};
             }
