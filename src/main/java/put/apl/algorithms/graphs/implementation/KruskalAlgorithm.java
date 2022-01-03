@@ -2,7 +2,7 @@ package put.apl.algorithms.graphs.implementation;
 
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,10 +11,6 @@ import java.util.Map;
 
 @Component("Kruskal Algorithm")
 public class KruskalAlgorithm extends GraphAlgorithm  {
-
-    GraphRepresentation graph;
-
-    int verticesSize;
 
     static class Edge implements Comparable<Edge> {
         public Edge(int src, int dest, int weight)
@@ -56,18 +52,15 @@ public class KruskalAlgorithm extends GraphAlgorithm  {
     }
 
     @Override
-    public GraphResult run(GraphRepresentation graph) throws InterruptedException {
+    public GraphResult run(GraphRepresentationInterface graph) throws InterruptedException  {
         graph.setOperations(0);
-        this.verticesSize = graph.getVerticesNumber();
-        this.graph = graph;
+        int verticesSize = graph.getVerticesNumber();
         Edge[] edges = new Edge[graph.getEdgesNumber()];
-        int edges_size=0;
-        for (int i = 0; i < verticesSize; i++)
-            for (int j=0; j < verticesSize; j++)
-                if (graph.getEdge(i,j) > 0)
-                    edges[edges_size++] = new Edge(i, j, graph.getEdge(i,j));
+        int edges_size = 0;
+        for (var edgeWeight : graph.getAllEdges())
+            edges[edges_size++] = new Edge(edgeWeight[0], edgeWeight[1], edgeWeight[2]);
 
-        Edge[] result = new Edge[edges_size];
+        Edge[] result = new Edge[verticesSize];
         Arrays.sort(edges);
         subset[] subsets = new subset[verticesSize];
         for (int i = 0; i < verticesSize; i++)
@@ -78,15 +71,17 @@ public class KruskalAlgorithm extends GraphAlgorithm  {
             subsets[v].parent = v;
             subsets[v].rank = 0;
         }
-        int i = 0, e = 0;
-        while (e < verticesSize - 1) {
+        int i = 0, edge_number = 0;
+        while (edge_number < verticesSize - 1) {
             escape();
             Edge next_edge = edges[i++];
-            int x = find(subsets, next_edge.src);
-            int y = find(subsets, next_edge.dest);
-            if (x != y) {
-                result[e++] = next_edge;
-                Union(subsets, x, y);
+
+            int first_subset = find(subsets, next_edge.src);
+            int second_subset = find(subsets, next_edge.dest);
+
+            if (first_subset != second_subset) {
+                result[edge_number++] = next_edge;
+                Union(subsets, first_subset, second_subset);
             }
         }
         List<Integer> final_result = new ArrayList<Integer>();

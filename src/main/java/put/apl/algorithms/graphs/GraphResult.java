@@ -1,6 +1,6 @@
 package put.apl.algorithms.graphs;
 import lombok.*;
-import put.apl.algorithms.graphs.data.GraphRepresentation;
+import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class GraphResult {
     private Integer acyclicCount;
     private Integer hamiltonCyclesCount;
     private Integer tableAccessCount;
-    protected GraphRepresentation minimumSpanningTree;
+    protected GraphRepresentationInterface minimumSpanningTree;
     protected List<Integer> path;
     protected List<ArrayList<Integer>> multiplePaths;
 }

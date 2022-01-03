@@ -5,17 +5,16 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.*;
+import put.apl.algorithms.graphs.data.generator.GeneratorResult;
 import put.apl.algorithms.graphs.data.generator.GraphDataGenerator;
 import put.apl.algorithms.graphs.data.generator.GraphGeneratorConfig;
 import put.apl.experiment.dto.AlgorithmFuture;
 import put.apl.algorithms.graphs.implementation.*;
 import put.apl.experiment.dto.GraphExperiment;
-import put.apl.experiment.dto.SortingExperiment;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,51 +89,83 @@ public class GraphService {
 
         groupedExperiments = groupedExperiments.stream().sorted(Comparator.comparingInt(e -> e.get(0).getNumberOfVertices() + e.get(0).getDensity().intValue() )).collect(Collectors.toList());
         for (List<GraphExperiment> groupedExperiment : groupedExperiments) {
-            GraphRepresentation data;
-            var gowno = generateDataFor(groupedExperiment.get(0));
+            var exampleExperiment = groupedExperiment.get(0);
+            GraphRepresentationInterface data;
+            GraphGeneratorConfig config = GraphGeneratorConfig.builder()
+                    .density(exampleExperiment.getDensity())
+                    .numberOfVertices(exampleExperiment.getNumberOfVertices())
+                    .type(exampleExperiment.getDataGenerator())
+                    .build();
+            var generatedData = generateDataFor(exampleExperiment, config);
+            for (GraphExperiment graphExperiment : groupedExperiment) {
+                if (checkIfWeighted(graphExperiment.getRepresentation()))
+                {
+                    generatedData.generateWeights(config);
+                    break;
+                }
+            }
+            //if (checkIfWeighted(exampleExperiment.getAlgorithmName()))
+            //    generatedData.generateWeights(config);
+            var generatedRepresentation = generatedData.getRepresentation();
+            var generatedWeights = generatedData.getWeights();
             for (GraphExperiment graphExperiment : groupedExperiment) {
                 switch (graphExperiment.getRepresentation()) {
                     case "List Of Edges Directed":
-                        data = new ListOfEdgesDirected(gowno);
+                        data = new ListOfEdgesDirected(generatedRepresentation);
                         break;
                     case "List Of Edges Undirected":
-                        data = new ListOfEdgesUndirected(gowno);
+                        data = new ListOfEdgesUndirected(generatedRepresentation);
                         break;
                     case "List Of Incident Undirected":
-                        data = new ListOfIncidentUndirected(gowno);
+                        data = new ListOfIncidentUndirected(generatedRepresentation);
                         break;
                     case "List Of Predecessors Directed":
-                        data = new ListOfPredecessorsDirected(gowno);
+                        data = new ListOfPredecessorsDirected(generatedRepresentation);
                         break;
                     case "List Of Successors Directed":
-                        data = new ListOfSuccessorsDirected(gowno);
+                        data = new ListOfSuccessorsDirected(generatedRepresentation);
                         break;
                     case "Adjacency Matrix Directed":
-                        data = new AdjacencyMatrixDirected(gowno);
+                        data = new AdjacencyMatrixDirected(generatedRepresentation);
                         break;
                     case "Adjacency Matrix Undirected":
-                        data = new AdjacencyMatrixUndirected(gowno);
-                        break;
-                    case "Weighted Adjacency Matrix Directed":
-                        data = new AdjacencyMatrixDirectedWeighted(gowno);
-                        break;
-                    case "Weighted Adjacency Matrix Undirected":
-                        data = new AdjacencyMatrixUndirectedWeighted(gowno);
+                        data = new AdjacencyMatrixUndirected(generatedRepresentation);
                         break;
                     case "Incidence Matrix Directed":
-                        data = new IncidenceMatrixDirected(gowno);
+                        data = new IncidenceMatrixDirected(generatedRepresentation);
                         break;
                     case "Incidence Matrix Undirected":
-                        data = new  IncidenceMatrixUndirected(gowno);
+                        data = new  IncidenceMatrixUndirected(generatedRepresentation);
                         break;
-                    case "Incidence Matrix Directed Weighted":
-                        data = new IncidenceMatrixDirectedWeighted(gowno);
+                    case "Weighted Adjacency Matrix Directed":
+                        data = new AdjacencyMatrixDirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
-                    case "Incidence Matrix Undirected Weighted":
-                        data = new IncidenceMatrixUndirectedWeighted(gowno);
+                    case "Weighted Adjacency Matrix Undirected":
+                        data = new AdjacencyMatrixUndirectedWeighted(generatedRepresentation, generatedWeights);
+                        break;
+                    case "Weighted Incidence Matrix Directed":
+                        data = new IncidenceMatrixDirectedWeighted(generatedRepresentation, generatedWeights);
+                        break;
+                    case "Weighted Incidence Matrix Undirected":
+                        data = new IncidenceMatrixUndirectedWeighted(generatedRepresentation, generatedWeights);
+                        break;
+                    case "Weighted List Of Edges Directed":
+                        data = new ListOfEdgesDirectedWeighted(generatedRepresentation, generatedWeights);
+                        break;
+                    case "Weighted List Of Edges Undirected":
+                        data = new ListOfEdgesUndirectedWeighted(generatedRepresentation, generatedWeights);
+                        break;
+                    case "Weighted List of Incident Undirected":
+                        data = new ListOfIncidentUndirectedWeighted(generatedRepresentation, generatedWeights);
+                        break;
+                    case "Weighted List of Predecessors Directed":
+                        data = new ListOfPredecessorsDirectedWeighted(generatedRepresentation, generatedWeights);
+                        break;
+                    case "Weighted List of Successors Directed":
+                        data = new ListOfSuccessorsDirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
                     default:
-                        data = new ListOfSuccessorsDirected(gowno);
+                        data = new ListOfSuccessorsDirected(generatedRepresentation);
                         break;
                 }
                 res.add(runExperiment(graphExperiment, data.clone(), bannedExperiments, experimentTimeout));
@@ -144,7 +175,11 @@ public class GraphService {
         return res;
     }
 
-    private GraphExperiment runExperiment(GraphExperiment e, GraphRepresentation data, List<GraphExperiment> bannedExperiments, float experimentTimeout) throws InterruptedException {
+    private boolean checkIfWeighted(String representationName) {
+        return representationName.contains("Weighted");
+    }
+
+    private GraphExperiment runExperiment(GraphExperiment e, GraphRepresentationInterface data, List<GraphExperiment> bannedExperiments, float experimentTimeout) throws InterruptedException {
         if(bannedExperiments.stream().anyMatch(
                 b->
                         b.getAlgorithmName().equals(e.getAlgorithmName()) &&
@@ -179,12 +214,7 @@ public class GraphService {
         return res;
     }
 
-    private List<List<Integer>> generateDataFor(GraphExperiment graphExperiment) throws InterruptedException {
-        GraphGeneratorConfig config = GraphGeneratorConfig.builder()
-                .density(graphExperiment.getDensity())
-                .numberOfVertices(graphExperiment.getNumberOfVertices())
-                .type(graphExperiment.getDataGenerator())
-                .build();
+    private GeneratorResult generateDataFor(GraphExperiment graphExperiment, GraphGeneratorConfig config) throws InterruptedException {
         GraphDataGenerator generator = (GraphDataGenerator) context.getBean(graphExperiment.getDataGenerator());
         return generator.generate(config);
     }

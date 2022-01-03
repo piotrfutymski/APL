@@ -60,46 +60,52 @@ export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[])
         result.measureSeries.msg="Number of measure series must be a number greater than 0"
         result.errorFlag=true
     }
-    else if(config.measureSeries >= 200){
+    else if(config.measureSeries > 200){
         result.measureSeries.status="ERROR"
-        result.measureSeries.msg="Number of measure series must be a number less than 200"
+        result.measureSeries.msg="Number of measure series can not be greater than 200"
         result.errorFlag=true
+    }
+    else if (config.densityOrVertices < config.measureSeries) 
+    {
+        if(config.measureByDensity === true){
+            result.measureSeries.status="ERROR"
+            result.measureSeries.msg="Number of measure series cannot be greater than maximum density"
+            result.errorFlag=true
+        }else{
+            result.measureSeries.status="ERROR"
+            result.measureSeries.msg="Number of measure series cannot be greater than maximum number of vertices"
+            result.errorFlag=true
+        }
     }
 
     if(config.measureByDensity === true){
         if(config.densityOrVertices <= 0)
         {
             result.densityOrVertices.status="ERROR"
-            result.densityOrVertices.msg="Density must be a number greater than 0"
+            result.densityOrVertices.msg="Maximum density must be a number greater than 0"
             result.errorFlag=true
         }
         else if(config.densityOrVertices > 100)
         {
             result.densityOrVertices.status="ERROR"
-            result.densityOrVertices.msg="Density must be a number below 100"
+            result.densityOrVertices.msg="Maximum density must be a number below 100"
             result.errorFlag=true
         }
         else if(foundEuler && config.densityOrVertices > 75){
             result.densityOrVertices.status="WARNING"
-            result.densityOrVertices.msg="Density should be less than 75 for Euler generated graphs"
+            result.densityOrVertices.msg="Maximum density should be less than 75 for Euler generated graphs"
             result.warningFlag=true
         }
     } else {
-        if (foundHamiltonian && config.densityOrVertices > 15) {
-            result.densityOrVertices.status="ERROR"
-            result.densityOrVertices.msg="Too many vertices for Hamiltonian Cycles algorithm of N * N! complexity"
-            result.errorFlag=true
-        }
         if(config.densityOrVertices <= 0)
         {
             result.densityOrVertices.status="ERROR"
             result.densityOrVertices.msg="Number of vertices must be a number greater than 0"
             result.errorFlag=true
         } 
-        else if (config.densityOrVertices < config.measureSeries) 
-        {
+        else if (foundHamiltonian && config.densityOrVertices > 15) {
             result.densityOrVertices.status="ERROR"
-            result.densityOrVertices.msg="Number of vertices is smaller than the number of series"
+            result.densityOrVertices.msg="For hamiltonian cycles algorithm number of vertices can not be greater than 15"
             result.errorFlag=true
         }
         else if (config.densityOrVertices > 1000)
@@ -107,12 +113,6 @@ export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[])
             result.densityOrVertices.status="ERROR"
             result.densityOrVertices.msg="Number of vertices can not be greater than 1000"
             result.errorFlag=true
-        } 
-        else if (config.densityOrVertices < 5 * config.measureSeries)
-        {
-            result.densityOrVertices.status="WARNING"
-            result.densityOrVertices.msg="Number of vertices is very small compared to number of series"
-            result.warningFlag=true
         }
         else if (config.densityOrVertices > 500)
         {
@@ -125,24 +125,17 @@ export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[])
 }
 
 export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig): GraphExperimentCheck => {
-    const paramInfos = getParamInfos(experiment)
     let result:GraphExperimentCheck = { warningFlag: false, errorFlag: false, numberOfVertices: {status: "CORRECT"}, density: {status: "CORRECT"}}
     if(config.measureByDensity === true){
-        if (experiment.algorithmName.includes("Hamiltonian") && experiment.numberOfVertices > 15) {
-            result.numberOfVertices.status="ERROR"
-            result.numberOfVertices.msg="Too many vertices for algorithm of N * N! complexity"
-            result.errorFlag=true
-        }
         if(experiment.numberOfVertices <= 0)
         {
             result.numberOfVertices.status="ERROR"
             result.numberOfVertices.msg="Number of vertices must be a number greater than 0"
             result.errorFlag=true
         } 
-        else if (experiment.numberOfVertices < config.measureSeries) 
-        {
+        else if (experiment.algorithmName.includes("Hamiltonian") && experiment.numberOfVertices > 15) {
             result.numberOfVertices.status="ERROR"
-            result.numberOfVertices.msg="Number of vertices is smaller than the number of series"
+            result.numberOfVertices.msg="Number of vertices can not be greater than 15 for algorithm of N * N! complexity"
             result.errorFlag=true
         }
         else if (experiment.numberOfVertices > 1000)
@@ -151,12 +144,7 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
             result.numberOfVertices.msg="Number of vertices can not be greater than 1000"
             result.errorFlag=true
         } 
-        else if (experiment.numberOfVertices < 5 * config.measureSeries)
-        {
-            result.numberOfVertices.status="WARNING"
-            result.numberOfVertices.msg="Number of vertices is very small compared to number of series"
-            result.warningFlag=true
-        }else if (experiment.numberOfVertices > 500)
+        else if (experiment.numberOfVertices > 500)
         {
             result.numberOfVertices.status="WARNING"
             result.numberOfVertices.msg="Number of vertices should not be greater than 500"

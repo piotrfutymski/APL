@@ -52,9 +52,15 @@ export const checkConfig = (config: SortingConfig): SortingConfigCheck => {
         result.measureSeries.msg="Number of measure series must be a number greater than 0"
         result.errorFlag=true
     }
-    else if(config.measureSeries >= 200){
+    else if(config.measureSeries > 200){
         result.measureSeries.status="ERROR"
-        result.measureSeries.msg="Number of measure series must be a number less than 200"
+        result.measureSeries.msg="Number of measure series can not be greater than 200"
+        result.errorFlag=true
+    }
+
+    if(config.measureSeries > config.n){
+        result.measureSeries.status="ERROR"
+        result.measureSeries.msg="Number of measure series can not be greater then Size of the largest instance (N)"
         result.errorFlag=true
     }
     return result
@@ -78,7 +84,7 @@ export const checkExperiment = (experiment: SortingExperiment, config: SortingCo
             result.maxValue.msg="Too big value range, consider changing maximum possible value"
             result.errorFlag=true
         }
-        else if(maxVal<100){
+        else if(config.n > 0 && (maxVal/config.n)<.1){
             result.maxValue.status="WARNING"
             result.maxValue.msg="Small value range, consider changing maximum possible value"
             result.warningFlag=true

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { ComplexityParameters, SortingExperimentResultLabel, SortingExperimentsResult } from "../Sorting.interface"
+import { ComplexityParameters, SortingExperiment, SortingExperimentResultLabel, SortingExperimentsResult } from "../Sorting.interface"
 import { calculateComplexityParameters, getNameForSortingExperiment } from "../SortingServices";
 import { SortingChart } from "./SortingChart";
 
@@ -59,8 +59,20 @@ export const SortingDoneView = (props: SortingExperimentsResult) => {
     useEffect(() => {
         let stoSet: SortingExperimentResultLabel[] = []
         if(props.results.length > 0){
-            const name0 = props.results[0].n;
-            props.results.filter(v => v.n === name0).forEach((v, index) => {
+            let tmp : SortingExperiment[] = [];
+            props.results.forEach((v : SortingExperiment) => {
+                let found : boolean = false;
+                const vName = getNameForSortingExperiment(v)
+                tmp.forEach((l : SortingExperiment) => {
+                    if (getNameForSortingExperiment(l) === vName) {
+                        found = true;
+                    }
+                });
+                if (!found) {
+                    tmp.push(v);
+                }
+            });
+            tmp.forEach((v, index) => {
                     stoSet.push({name: getNameForSortingExperiment(v), active: true, colorStr: colors[index%colors.length]})
             });
         }

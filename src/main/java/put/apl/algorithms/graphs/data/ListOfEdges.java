@@ -22,18 +22,8 @@ public abstract class ListOfEdges extends GraphRepresentation {
         loadFromIncidenceList(input);
     }
 
-    public ListOfEdges(int[][] edges, int vertexNum) throws InterruptedException {
+    public ListOfEdges(int[][] edges, int vertexNum){
         this.edges = edges;
-        int highestEdgeId = 0;
-        for (int[] edge : edges) {
-            escape();
-            if (edge[0] >= edge[1] && highestEdgeId < edge[0]) {
-                highestEdgeId = edge[0];
-            }
-            else if (edge[1] > edge[0] && highestEdgeId < edge[1]) {
-                highestEdgeId = edge[1];
-            }
-        }
         this.vertexNum = vertexNum;
         edgeNum = edges.length;
     }
@@ -165,14 +155,14 @@ public abstract class ListOfEdges extends GraphRepresentation {
             escape();
             int start = getEdgeInner(i, 0);
             int end = getEdgeInner(i, 1);
-            if (checkIfSTART(id1, getEdgeInner(i, 0), getEdgeInner(i, 1)) != -1 &&
-                    checkIfSTART(id2, getEdgeInner(i, 1), getEdgeInner(i, 0)) != -1 )
+            if (checkIfSTART(id1, start, end) != -1 &&
+                    checkIfSTART(id2, end, start) != -1 )
             {
-                return 1;
+                return getWeight(i);
             }
-            if (checkIfSTART(id2, getEdgeInner(i, 0), getEdgeInner(i, 1)) != -1 &&
-                    checkIfSTART(id1, getEdgeInner(i, 1), getEdgeInner(i, 0)) != -1 ) {
-                return -1;
+            if (checkIfSTART(id2, start, end) != -1 &&
+                    checkIfSTART(id1, end, start) != -1 ) {
+                return -1 * getWeight(i);
             }
         }
         return 0;
@@ -180,14 +170,19 @@ public abstract class ListOfEdges extends GraphRepresentation {
 
     @Override
     public int[][] getAllEdges() {
-        return edges;
+        return edges.clone();
     }
 
 
 
-    public int getEdgeInner(Integer index1, Integer index2) {
+    protected int getEdgeInner(Integer index1, Integer index2) {
         operations+=1;
         return edges[index1][index2];
+    }
+
+    protected int getWeight(int edgeNumber)
+    {
+        return 1;
     }
 
     @Override
@@ -211,7 +206,7 @@ public abstract class ListOfEdges extends GraphRepresentation {
     }
 
     @Override
-    public abstract GraphRepresentation clone();
+    public abstract GraphRepresentationInterface clone();
 
 
 }
