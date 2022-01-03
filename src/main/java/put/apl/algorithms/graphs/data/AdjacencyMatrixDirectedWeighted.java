@@ -25,11 +25,11 @@ public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix implements 
     }
 
     @Override
-    public void loadFromIncidenceList(List<List<Integer>> input)
-    {
+    public void loadFromIncidenceList(List<List<Integer>> input) throws InterruptedException {
         var weights = new ArrayList<List<Integer>>(input.size());
         for (var input_vertex : input)
         {
+            escape();
             var weights_vertex = new ArrayList<Integer>(input_vertex.size());
             for (var input_edge : input_vertex)
                 weights_vertex.add(1);
@@ -39,15 +39,17 @@ public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix implements 
     }
 
     @Override
-    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights)
-    {
+    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException {
         edgesNumber = 0;
         verticesNumber = input.size();
         matrix = new int[verticesNumber][];
-        for (int i = 0; i < verticesNumber; i++)
+        for (int i = 0; i < verticesNumber; i++) {
+            escape();
             matrix[i] = new int[verticesNumber];
+        }
         for (int i = 0; i < verticesNumber; i++) {
             for (int j = 0; j < input.get(i).size(); j++) {
+                escape();
                 matrix[i][input.get(i).get(j)] = weights.get(i).get(j);
                 edgesNumber+=1;
             }

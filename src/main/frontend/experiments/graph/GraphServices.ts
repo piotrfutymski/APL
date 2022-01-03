@@ -18,9 +18,11 @@ export const reducePossibleGenerators = (experiment: GraphExperiment, generators
     let res=[...generators]
     if(experiment.algorithmName === "Topological Sort"){
         res = ["Connected Directed Graph Generator", "Euler Directed Graph Generator"];
-    } else if(experiment.algorithmName === "All Hamiltonian Cycles" || experiment.algorithmName === "Hamiltonian Cycle" || experiment.algorithmName === "Dijkstra Algorithm" || experiment.algorithmName === "Prim Algorithm" || experiment.algorithmName === "Kruskal Algorithm"){
+    } else if(experiment.algorithmName === "All Hamiltonian Cycles" || experiment.algorithmName === "Hamiltonian Cycle" || experiment.algorithmName === "Dijkstra Algorithm"){
         res = ["Connected Directed Graph Generator", 
         "Euler Directed Graph Generator", "Connected Undirected Graph Generator", "Euler Undirected Graph Generator"];
+    } else if(experiment.algorithmName === "Prims Algorithm" || experiment.algorithmName === "Kruskal Algorithm") {
+        res = ["Connected Undirected Graph Generator", "Euler Undirected Graph Generator"];
     } else if(experiment.algorithmName === "Euler Cycle Finding Algorithm"){
         res = ["Euler Directed Graph Generator", 
         "Euler Undirected Graph Generator"];
@@ -30,16 +32,16 @@ export const reducePossibleGenerators = (experiment: GraphExperiment, generators
 
 export const reducePossibleRepresentations = (experiment: GraphExperiment, representations: string[]): string[] => {
     let res=[...representations]
-    if(experiment.algorithmName === "Dijkstra Algorithm" && experiment.dataGenerator === "Connected Directed Graph Generator"){
-        res = ["Weighted Adjacency Matrix Directed"]
-    } else if(experiment.algorithmName === "Dijkstra Algorithm" && experiment.dataGenerator === "Connected Undirected Graph Generator"){
-        res = ["Weighted Adjacency Matrix Undirected", "Incidence Matrix Undirected Weighted"]
+    if(experiment.algorithmName === "Dijkstra Algorithm" && (experiment.dataGenerator === "Connected Directed Graph Generator" || experiment.dataGenerator === "Euler Directed Graph Generator")){
+        res = ["Weighted Adjacency Matrix Directed", "Weighted Incidence Matrix Directed", "Weighted List Of Edges Directed", "Weighted List Of Predecessors Directed", "Weighted List Of Successors Directed"]
+    } else if(experiment.algorithmName === "Dijkstra Algorithm" && (experiment.dataGenerator === "Connected Undirected Graph Generator" || experiment.dataGenerator === "Euler Undirected Graph Generator")){
+        res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges Undirected", "Weighted List Of Incident Undirected"]
     } else if(experiment.algorithmName === "Prim Algorithm" || experiment.algorithmName === "Kruskal Algorithm"){
-        res = ["Weighted Adjacency Matrix Directed"]
+        res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges Undirected", "Weighted List Of Incident Undirected"]
     } else if(experiment.dataGenerator === "Connected Directed Graph Generator" || experiment.dataGenerator === "Directed Graph Generator" || experiment.dataGenerator === "Euler Directed Graph Generator"){
-        res = ["Adjacency Matrix Directed", "Weighted Adjacency Matrix Directed", "Incidence Matrix Directed", "Incidence Matrix Directed Weighted", "List Of Edges Directed", "List Of Predecessors Directed", "List Of Successors Directed"];
+        res = ["Adjacency Matrix Directed", "Incidence Matrix Directed", "List Of Edges Directed", "List Of Predecessors Directed", "List Of Successors Directed"];
     } else if(experiment.dataGenerator === "Connected Undirected Graph Generator" || experiment.dataGenerator === "Undirected Graph Generator" || experiment.dataGenerator === "Euler Undirected Graph Generator"){
-        res = ["Adjacency Matrix Undirected", "Weighted Adjacency Matrix Undirected", "Incidence Matrix Undirected", "Incidence Matrix Undirected Weighted", "List Of Edges Undirected", "List Of Incident Undirected"];
+        res = ["Adjacency Matrix Undirected", "Incidence Matrix Undirected", "List Of Edges Undirected", "List Of Incident Undirected"];
     } 
     return res
 }

@@ -47,7 +47,7 @@ public class AllHamiltonianCycles extends GraphAlgorithm  {
         }
         for (int i = 1; i < graph.getVerticesNumber(); i++) {
             escape();
-            if ((graph.getEdge(i, currentPath.get(pos-1)) > 0) && !currentPath.contains(i)) {
+            if ((graph.getEdge(currentPath.get(pos-1), i) > 0) && !currentPath.contains(i)) {
                 currentPath.add(i);
                 if (hamiltonianCycle(pos + 1)) {
                     return true;

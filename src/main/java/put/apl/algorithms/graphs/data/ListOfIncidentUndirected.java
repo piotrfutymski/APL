@@ -31,6 +31,28 @@ public class ListOfIncidentUndirected extends ListOfIncident {
         edges.get(end).add(start);
     }
 
+    @Override
+    public int[] getNonIncident(Integer id) throws InterruptedException {
+        boolean[] nonIncident = new boolean[edges.length];
+        List<Integer> nonIncidentIds = new ArrayList<Integer>();
+        for(int i = 0; i < edges.length; i++) {
+            escape();
+            nonIncident[i] = true;
+        }
+        for (var index : getDirect(id)){
+            escape();
+            nonIncident[index] = false;
+        }
+
+        for (int i = 0; i < edges.length; i++) {
+            escape();
+            if (nonIncident[i]) {
+                nonIncidentIds.add(i);
+            }
+        }
+        return nonIncidentIds.stream().mapToInt(i->i).toArray();
+    }
+
 
     @Override
     public int[] getSuccessors(Integer id) {
