@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { useCookies } from 'react-cookie'
 import { Navigate } from 'react-router-dom'
 
-import { checkConfig, checkExperiment, fetchAlgorithms, fetchDataGenerators, fetchRepresentations, getParamInfos, submitExperiments } from '../GraphServices'
+import { checkConfig, checkExperiment, fetchAlgorithms, fetchDataGenerators, fetchRepresentations, getParamInfos, reducePossibleGenerators, reducePossibleRepresentations, submitExperiments } from '../GraphServices'
 
 import { GraphExperimentCard} from './GraphExperimentCard'
 import { GraphHeader } from './GraphHeader'
@@ -37,9 +37,12 @@ export const GraphForm = () =>{
     //==========================================================
     //============================= experiments =============================
     const addExperiment = () =>{
-        let newExperiment: GraphExperiment = {algorithmName: algorithmOptions[0],
-            dataGenerator: dataOptions[0], 
-            representation: representationOptions[0],
+        const defAlgorithm = algorithmOptions[0]
+        const defGenerator = reducePossibleGenerators(defAlgorithm, dataOptions)[0]
+        const defRepresentation=reducePossibleRepresentations(defAlgorithm, defGenerator, representationOptions)[0]
+        let newExperiment: GraphExperiment = {algorithmName: defAlgorithm,
+            dataGenerator: defGenerator, 
+            representation: defRepresentation,
             numberOfVertices: config.measureByDensity ? config.measureSeries * 5 : config.densityOrVertices,
             density: config.measureByDensity ? config.densityOrVertices : 90, 
             algorithmParams: new Map<string, string>(), 
@@ -66,6 +69,17 @@ export const GraphForm = () =>{
     }
 
     const updateExperiment = (key: number, newExperiment: GraphExperiment) =>{
+        if(newExperiment.algorithmName !== experiments.at(key).algorithmName || newExperiment.dataGenerator !== experiments.at(key).dataGenerator)
+        {
+            const posGens = reducePossibleGenerators(newExperiment.algorithmName, dataOptions)
+            if(!posGens.includes(newExperiment.dataGenerator)){
+                newExperiment.dataGenerator=posGens[0]
+            }
+            const posReprs = reducePossibleRepresentations(newExperiment.algorithmName, newExperiment.dataGenerator, representationOptions)
+            if(!posReprs.includes(newExperiment.representation)){
+                newExperiment.representation=posReprs[0]
+            }
+        }
         prepareExperimentParams(newExperiment)
         setExperiments(experiments.map((experiment, i) => {
                 if(i === key){
