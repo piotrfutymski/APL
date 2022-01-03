@@ -20,7 +20,10 @@ public class ListOfSuccessorsDirectedWeighted extends ListOfIncidentWeighted {
 
     // Format: line number = vertex id, successors separated by comma
     public ListOfSuccessorsDirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) {
-        loadFromIncidenceList(input, weights);
+        if (weights == null)
+            loadFromIncidenceList(input);
+        else
+            loadFromIncidenceList(input, weights);
     }
 
     public ListOfSuccessorsDirectedWeighted(Edge[][] edges) {

@@ -214,10 +214,6 @@ public class GraphTest {
         return list;
     }
 
-    static List<Integer> BFS_RESULT = new ArrayList<Integer>();
-    static List<Integer> TOPO_SORT_RESULT = new ArrayList<Integer>();
-    static List<ArrayList<Integer>> ALL_HAMILTONIAN_RESULT = new ArrayList<ArrayList<Integer>>();
-
     List<GraphRepresentationInterface> undirected;
 
     List<GraphRepresentationInterface> directed;
@@ -228,36 +224,6 @@ public class GraphTest {
 
     @BeforeEach
     void initAll() throws InterruptedException {
-
-        BFS_RESULT.clear();
-        BFS_RESULT.add(0);
-        BFS_RESULT.add(1);
-        BFS_RESULT.add(2);
-        BFS_RESULT.add(4);
-        BFS_RESULT.add(5);
-        BFS_RESULT.add(3);
-
-        TOPO_SORT_RESULT.clear();
-        TOPO_SORT_RESULT.add(5);
-        TOPO_SORT_RESULT.add(4);
-        TOPO_SORT_RESULT.add(2);
-        TOPO_SORT_RESULT.add(3);
-        TOPO_SORT_RESULT.add(1);
-        TOPO_SORT_RESULT.add(0);
-
-        ALL_HAMILTONIAN_RESULT.clear();
-        ALL_HAMILTONIAN_RESULT.add(new ArrayList<Integer>());
-        ALL_HAMILTONIAN_RESULT.add(new ArrayList<Integer>());
-        ALL_HAMILTONIAN_RESULT.get(0).add(0);
-        ALL_HAMILTONIAN_RESULT.get(0).add(1);
-        ALL_HAMILTONIAN_RESULT.get(0).add(2);
-        ALL_HAMILTONIAN_RESULT.get(0).add(4);
-        ALL_HAMILTONIAN_RESULT.get(0).add(3);
-        ALL_HAMILTONIAN_RESULT.get(1).add(0);
-        ALL_HAMILTONIAN_RESULT.get(1).add(3);
-        ALL_HAMILTONIAN_RESULT.get(1).add(4);
-        ALL_HAMILTONIAN_RESULT.get(1).add(2);
-        ALL_HAMILTONIAN_RESULT.get(1).add(1);
 
         undirected = Arrays.asList(new ListOfIncidentUndirected(),
                 new ListOfEdgesUndirected(), new IncidenceMatrixUndirected(), new AdjacencyMatrixUndirected(),
@@ -355,6 +321,7 @@ public class GraphTest {
             for (var expected : expectedEdges)
             {
                 boolean found = false;
+                assertEquals(expectedEdges.length, result.length);
                 for (var r : result)
                 {
                     if (Arrays.equals(new int[] {r[0],r[1]},expected))
@@ -380,6 +347,7 @@ public class GraphTest {
             for (var expected : expectedEdges)
             {
                 boolean found = false;
+                assertEquals(expectedEdges.length, result.length);
                 for (var r : result)
                 {
                     if (Arrays.equals(new int[] {r[0],r[1]},expected))

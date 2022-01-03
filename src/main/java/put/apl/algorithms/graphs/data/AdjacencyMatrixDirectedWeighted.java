@@ -10,7 +10,10 @@ import java.util.List;
 public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix implements GraphRepresentationWeightedInterface {
 
     public AdjacencyMatrixDirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights)  throws InterruptedException  {
-        loadFromIncidenceList(input, weights);
+        if (weights == null)
+            loadFromIncidenceList(input);
+        else
+            loadFromIncidenceList(input, weights);
     }
 
     public AdjacencyMatrixDirectedWeighted(int[][] matrix) throws InterruptedException {

@@ -10,7 +10,10 @@ import java.util.List;
 public class IncidenceMatrixDirectedWeighted extends IncidenceMatrix implements GraphRepresentationWeightedInterface {
 
     public IncidenceMatrixDirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException  {
-        loadFromIncidenceList(input, weights);
+        if (weights == null)
+            loadFromIncidenceList(input);
+        else
+            loadFromIncidenceList(input, weights);
     }
 
     public IncidenceMatrixDirectedWeighted(int[][] matrix) {

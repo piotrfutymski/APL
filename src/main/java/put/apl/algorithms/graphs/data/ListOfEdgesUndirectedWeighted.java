@@ -14,7 +14,10 @@ public class ListOfEdgesUndirectedWeighted extends ListOfEdgesUndirected impleme
 
     // Format: line number = vertex id, successors separated by comma
     public ListOfEdgesUndirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException  {
-        loadFromIncidenceList(input, weights);
+        if (weights == null)
+            loadFromIncidenceList(input);
+        else
+            loadFromIncidenceList(input, weights);
     }
 
     public ListOfEdgesUndirectedWeighted(int[][] edges, int[] weights, int vertexNum){
