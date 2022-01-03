@@ -9,7 +9,6 @@ import java.util.List;
 public class AdjacencyMatrixDirected extends AdjacencyMatrix {
 
     private final static int START = 1;
-    private final static int END = -1;
 
     public AdjacencyMatrixDirected(List<List<Integer>> input) throws InterruptedException {
         super(input);
@@ -28,18 +27,18 @@ public class AdjacencyMatrixDirected extends AdjacencyMatrix {
         var edge = new int[2];
         var revEdge = new int[2];
         int edgesAdded=0;
-        if (checkIfSTART(i,j))
+        if (checkIfEdge(i,j))
         {
             edge[0] = i;
             edge[1] = j;
             result[edgeNumber++] = edge;
             edgesAdded+=1;
         }
-        if (checkIfSTART(j,i))
+        if (checkIfEdge(j,i))
         {
             revEdge[0] = j;
             revEdge[1] = i;
-            result[edgeNumber++] = revEdge;
+            result[edgeNumber] = revEdge;
             edgesAdded+=1;
         }
         return edgesAdded;
@@ -51,15 +50,9 @@ public class AdjacencyMatrixDirected extends AdjacencyMatrix {
     }
 
     @Override
-    public boolean checkIfSTART(int start, int end) {
+    public boolean checkIfEdge(int start, int end) {
         return getEdgeInner(start,end) == START;
     }
-
-    @Override
-    public boolean checkIfEND(int start, int end) {
-        return getEdgeInner(start,end) == END;
-    }
-
 
     @SneakyThrows
     @Override

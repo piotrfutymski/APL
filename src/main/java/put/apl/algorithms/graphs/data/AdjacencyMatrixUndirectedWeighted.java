@@ -57,12 +57,12 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix implement
     protected int getAllEdgesInner(int edgeNumber, int i, int j, int[][] result) {
         var edge = new int[3];
         int edgesAdded=0;
-        if (checkIfSTART(i, j))
+        if (checkIfEdge(i, j))
         {
             edge[0] = i;
             edge[1] = j;
             edge[2] = getEdgeInner(i,j);
-            result[edgeNumber++] = edge;
+            result[edgeNumber] = edge;
             edgesAdded+=1;
         }
         return edgesAdded;
@@ -73,12 +73,7 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix implement
     }
 
     @Override
-    public boolean checkIfSTART(int start, int end) {
-        return getEdgeInner(start, end) > 0;
-    }
-
-    @Override
-    public boolean checkIfEND(int start, int end) {
+    public boolean checkIfEdge(int start, int end) {
         return getEdgeInner(start, end) > 0;
     }
 

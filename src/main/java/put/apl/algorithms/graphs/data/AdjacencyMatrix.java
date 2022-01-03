@@ -10,8 +10,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
     int operations;
 
     public abstract void fillEdge(int start, int end);
-    public abstract boolean checkIfSTART(int start, int end);
-    public abstract boolean checkIfEND(int start, int end);
+    public abstract boolean checkIfEdge(int start, int end);
 
     public AdjacencyMatrix(List<List<Integer>> input) throws InterruptedException {
         loadFromIncidenceList(input);
@@ -26,7 +25,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
         {
             for (int j=0; j<matrix[i].length; j++) {
                 escape();
-                if (checkIfSTART(i, j))
+                if (checkIfEdge(i, j))
                     edgesNumber+=1;
             }
         }
@@ -61,7 +60,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
         for (int i = 0; i< verticesNumber; i++)
         {
             escape();
-            if (checkIfSTART(id, i))
+            if (checkIfEdge(id, i))
                 result.add(i);
         }
         return result.stream().mapToInt(i->i).toArray();
@@ -72,7 +71,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
         for (int i = 0; i< verticesNumber; i++)
         {
             escape();
-            if (checkIfSTART(id, i))
+            if (checkIfEdge(id, i))
                 return i;
         }
         return -1;
@@ -84,7 +83,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
         for (int i = 0; i< verticesNumber; i++)
         {
             escape();
-            if (checkIfSTART(i, id))
+            if (checkIfEdge(i, id))
                 result.add(i);
         }
         return result.stream().mapToInt(i->i).toArray();
@@ -94,9 +93,8 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
     public int getFirstPredecessor(Integer id) throws InterruptedException {
         for (int i = 0; i< verticesNumber; i++)
         {
-            if (checkIfSTART(i, id))
             escape();
-            if (checkIfSTART(i, id))
+            if (checkIfEdge(i, id))
                 return i;
         }
         return -1;

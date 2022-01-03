@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component("Incidence Matrix Directed Weighted")
+@Component("Weighted Incidence Matrix Directed")
 public class IncidenceMatrixDirectedWeighted extends IncidenceMatrix implements GraphRepresentationWeightedInterface {
 
     public IncidenceMatrixDirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException  {

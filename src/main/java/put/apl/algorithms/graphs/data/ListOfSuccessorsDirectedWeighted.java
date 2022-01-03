@@ -9,7 +9,7 @@ import java.util.List;
 /*
     Directed version
  */
-@Component("List Of Successors Directed Weighted")
+@Component("Weighted List Of Successors Directed")
 public class ListOfSuccessorsDirectedWeighted extends ListOfIncidentWeighted {
 
 

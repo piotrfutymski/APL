@@ -97,8 +97,15 @@ public class GraphService {
                     .type(exampleExperiment.getDataGenerator())
                     .build();
             var generatedData = generateDataFor(exampleExperiment, config);
-            if (checkIfWeighted(exampleExperiment.getAlgorithmName()))
-                generatedData.generateWeights(config);
+            for (GraphExperiment graphExperiment : groupedExperiment) {
+                if (checkIfWeighted(graphExperiment.getRepresentation()))
+                {
+                    generatedData.generateWeights(config);
+                    break;
+                }
+            }
+            //if (checkIfWeighted(exampleExperiment.getAlgorithmName()))
+            //    generatedData.generateWeights(config);
             var generatedRepresentation = generatedData.getRepresentation();
             var generatedWeights = generatedData.getWeights();
             for (GraphExperiment graphExperiment : groupedExperiment) {
@@ -124,37 +131,37 @@ public class GraphService {
                     case "Adjacency Matrix Undirected":
                         data = new AdjacencyMatrixUndirected(generatedRepresentation);
                         break;
-                    case "Weighted Adjacency Matrix Directed":
-                        data = new AdjacencyMatrixDirectedWeighted(generatedRepresentation, generatedWeights);
-                        break;
-                    case "Weighted Adjacency Matrix Undirected":
-                        data = new AdjacencyMatrixUndirectedWeighted(generatedRepresentation, generatedWeights);
-                        break;
                     case "Incidence Matrix Directed":
                         data = new IncidenceMatrixDirected(generatedRepresentation);
                         break;
                     case "Incidence Matrix Undirected":
                         data = new  IncidenceMatrixUndirected(generatedRepresentation);
                         break;
-                    case "Incidence Matrix Directed Weighted":
+                    case "Weighted Adjacency Matrix Directed":
+                        data = new AdjacencyMatrixDirectedWeighted(generatedRepresentation, generatedWeights);
+                        break;
+                    case "Weighted Adjacency Matrix Undirected":
+                        data = new AdjacencyMatrixUndirectedWeighted(generatedRepresentation, generatedWeights);
+                        break;
+                    case "Weighted Incidence Matrix Directed":
                         data = new IncidenceMatrixDirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
-                    case "Incidence Matrix Undirected Weighted":
+                    case "Weighted Incidence Matrix Undirected":
                         data = new IncidenceMatrixUndirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
-                    case "List Of Edges Directed Weighted":
+                    case "Weighted List Of Edges Directed":
                         data = new ListOfEdgesDirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
-                    case "List Of Edges Undirected Weighted":
+                    case "Weighted List Of Edges Undirected":
                         data = new ListOfEdgesUndirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
-                    case "List of Incident Undirected Weighted":
+                    case "Weighted List of Incident Undirected":
                         data = new ListOfIncidentUndirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
-                    case "List of Predecessors Directed Weighted":
+                    case "Weighted List of Predecessors Directed":
                         data = new ListOfPredecessorsDirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
-                    case "List of Successors Directed Weighted":
+                    case "Weighted List of Successors Directed":
                         data = new ListOfSuccessorsDirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
                     default:
@@ -168,16 +175,8 @@ public class GraphService {
         return res;
     }
 
-    private boolean checkIfWeighted(String algorithmName) {
-        switch(algorithmName)
-        {
-            case "Dijkstra Algorithm":
-            case "Kruskal Algorithm":
-            case "Prims Algorithm":
-                return true;
-            default:
-                return false;
-        }
+    private boolean checkIfWeighted(String representationName) {
+        return representationName.contains("Weighted");
     }
 
     private GraphExperiment runExperiment(GraphExperiment e, GraphRepresentationInterface data, List<GraphExperiment> bannedExperiments, float experimentTimeout) throws InterruptedException {

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component("List Of Edges Directed Weighted")
+@Component("Weighted List Of Edges Directed")
 public class ListOfEdgesDirectedWeighted extends ListOfEdgesDirected implements GraphRepresentationWeightedInterface {
     public ListOfEdgesDirectedWeighted() {
         super(new int[0][], 0);

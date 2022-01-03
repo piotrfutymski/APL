@@ -9,7 +9,7 @@ import java.util.List;
 /*
     Undirected version
  */
-@Component("List Of Incident Undirected Weighted")
+@Component("Weighted List Of Incident Undirected")
 public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
 
 
