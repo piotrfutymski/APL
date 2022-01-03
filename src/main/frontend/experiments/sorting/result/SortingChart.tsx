@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { CartesianGrid, Label, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { ComplexityParameters, SortingChartProps, SortingExperimentResultLabel } from "../Sorting.interface"
 import { SortingFormula } from "./SortingFormula"
 import { CSVLink } from "react-csv";
@@ -112,6 +112,20 @@ export const SortingChart = (props: SortingChartProps) => {
         
         return tab.filter(e=>e != 0);
     }
+    const getXAxisLabel = () =>{
+        return "Instance Size"
+    }
+    const getYAxisLabel = () =>{
+        if (props.dataLabel === "timeInMillis")
+            return "Time [ms]"
+        if (props.dataLabel === "swapCount")
+            return "Swap Count"
+        if (props.dataLabel === "recursionSize")
+            return "Recursion Size"
+        if (props.dataLabel === "comparisonCount")
+            return "Comparison Count"
+        return ""
+    }
 
     const getDataKeys = () => {
         let res = activeLabels.map(lab => lab.name)
@@ -153,10 +167,18 @@ export const SortingChart = (props: SortingChartProps) => {
             <div className={styles.Label}>{dataLabelToLabel()}</div>             
             <div className={styles.Chart}>
             <ResponsiveContainer width={"100%"} height={"100%"}>
-                <LineChart data={data} ref={ref}>
+                <LineChart data={data} ref={ref} margin={{top: 5, right:5, bottom: 20, left: 20}}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="N" />
-                    {logarithmScale ? <YAxis scale="log" domain={[Math.min(...getDomainTab())/2, Math.max(...getDomainTab())*2] }/> : <YAxis/>}
+                    <XAxis dataKey="N">
+                        <Label style={{fill: "gray", fontWeight: "bold", textAnchor: 'middle'}} position="bottom">
+                            {getXAxisLabel()}
+                        </Label>
+                    </XAxis>
+                    <YAxis {...(logarithmScale === true ? {scale:"log", domain: [Math.min(...getDomainTab())/2, Math.max(...getDomainTab())*2]} : {})} >
+                        <Label style={{fill: "gray", fontWeight: "bold", textAnchor: 'middle'}} angle={-90} position="left">
+                            {getYAxisLabel()}
+                        </Label>
+                    </YAxis>
                     <Tooltip labelFormatter={(n) => 'Instance size: ' + n} wrapperStyle={{zIndex: 1}} 
                     contentStyle={{background: '#202020', border: 0, borderRadius: "8px", whiteSpace: "normal", maxWidth: "400px"}} allowEscapeViewBox={{x: false, y: true }} />
                     {getLines()}

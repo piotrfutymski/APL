@@ -178,17 +178,23 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
 
 export const submitExperiments = (experiments: GraphExperiment[], config: GraphConfig, finite: boolean, onResponse: (arg0: string) => void) => {
     let res: any[] = []
+    let labels: string[] = []
     experiments.forEach(element => {
-        for(let i = 0; i < config.measureSeries; i++){
-            res.push({
-                algorithmName: element.algorithmName,
-                dataGenerator: element.dataGenerator,
-                representation: element.representation,
-                numberOfVertices: (config.measureByDensity) ? element.numberOfVertices : ((+element.numberOfVertices * (i+1)) / config.measureSeries),
-                density: (config.measureByDensity) ? ((+element.density * (i+1)) / config.measureSeries) : +element.density,
-                algorithmParams: Object.fromEntries(element.algorithmParams),
-                measureByDensity: config.measureByDensity
-            })
+        let label = getNameForGraphExperiment(element, config.measureByDensity)
+        if(!labels.includes(label))
+        {
+            labels.push(label)
+            for(let i = 0; i < config.measureSeries; i++){
+                res.push({
+                    algorithmName: element.algorithmName,
+                    dataGenerator: element.dataGenerator,
+                    representation: element.representation,
+                    numberOfVertices: (config.measureByDensity) ? element.numberOfVertices : ((+element.numberOfVertices * (i+1)) / config.measureSeries),
+                    density: (config.measureByDensity) ? ((+element.density * (i+1)) / config.measureSeries) : +element.density,
+                    algorithmParams: Object.fromEntries(element.algorithmParams),
+                    measureByDensity: config.measureByDensity
+                })
+            }
         }
     });
     axios.post(`/api/experiment/graph?finite=${finite}`, res)

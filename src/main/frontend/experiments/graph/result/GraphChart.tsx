@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { CartesianGrid, Label, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { ComplexityParameters, GraphChartProps, GraphExperimentResultLabel } from "../Graph.interface"
 import { GraphFormula } from "./GraphFormula"
 import { CSVLink } from "react-csv";
@@ -125,6 +125,20 @@ export const GraphChart = (props: GraphChartProps) => {
         
         return tab.filter(e=>e != 0);
     }
+    const getXAxisLabel = () =>{
+        return props.experiments.results[0].measureByDensity === true ? "Density [%]" : "Number Of Vertices"
+    }
+    const getYAxisLabel = () =>{
+        if (props.dataLabel === "timeInMillis")
+            return "Time [ms]"
+        if (props.dataLabel === "tableAccessCount")
+            return "Table Access Count"
+        if (props.dataLabel === "memoryOccupancyInBytes")
+            return "Memory Used [B]"
+        if (props.dataLabel === "hamiltionCyclesCount")
+            return "Cycles Count"
+        return ""
+    }
 
     const getDataKeys = () => {
         let res = activeLabels.map(lab => lab.name)
@@ -166,11 +180,19 @@ export const GraphChart = (props: GraphChartProps) => {
             <div className={styles.Label}>{dataLabelToLabel()}</div>             
             <div className={styles.Chart}>
             <ResponsiveContainer width={"100%"} height={"100%"}>
-                <LineChart data={data} ref={ref}>
+                <LineChart data={data} ref={ref} margin={{top: 5, right:5, bottom: 20, left: 20}}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="N" />
-                    {logarithmScale ? <YAxis scale="log" domain={[Math.min(...getDomainTab())/2, Math.max(...getDomainTab())*2] }/> : <YAxis/>}
-                    <Tooltip labelFormatter={(n) => headers[0].label + " " + n} wrapperStyle={{zIndex: 1}} 
+                    <XAxis dataKey="N">
+                        <Label style={{fill: "gray", fontWeight: "bold", textAnchor: 'middle'}} position="bottom">
+                            {getXAxisLabel()}
+                        </Label>
+                    </XAxis>
+                    <YAxis {...(logarithmScale === true ? {scale:"log", domain: [Math.min(...getDomainTab())/2, Math.max(...getDomainTab())*2]} : {})} >
+                        <Label style={{fill: "gray", fontWeight: "bold", textAnchor: 'middle'}} angle={-90} position="left">
+                            {getYAxisLabel()}
+                        </Label>
+                    </YAxis>
+                    <Tooltip labelFormatter={(n) => props.experiments.results[0].measureByDensity === true ? "Density: " + n+"%" : "Number Of Vertices: "+n} wrapperStyle={{zIndex: 1}} 
                     contentStyle={{background: '#202020', border: 0, borderRadius: "8px", whiteSpace: "normal", maxWidth: "400px"}} allowEscapeViewBox={{x: false, y: true }} />
                     {getLines()}
                 </LineChart>
