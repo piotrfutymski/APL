@@ -1,5 +1,6 @@
 package put.apl.algorithms.graphs.data;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class ListOfEdgesUndirected extends ListOfEdges{
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfEdgesUndirected(List<List<Integer>> input) {
+    public ListOfEdgesUndirected(List<List<Integer>> input) throws InterruptedException {
         super(input);
     }
 
@@ -32,8 +33,9 @@ public class ListOfEdgesUndirected extends ListOfEdges{
         return -1;
     }
 
+    @SneakyThrows
     @Override
-    public GraphRepresentationInterface clone() {
+    public GraphRepresentationInterface clone(){
         return new ListOfEdgesUndirected(this.edges.clone(), vertexNum);
     };
 }

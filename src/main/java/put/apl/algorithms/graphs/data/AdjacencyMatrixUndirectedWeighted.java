@@ -1,5 +1,6 @@
 package put.apl.algorithms.graphs.data;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -8,11 +9,11 @@ import java.util.List;
 @Component("Weighted Adjacency Matrix Undirected")
 public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix implements GraphRepresentationWeightedInterface {
 
-    public AdjacencyMatrixUndirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) {
+    public AdjacencyMatrixUndirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights)  throws InterruptedException  {
         loadFromIncidenceList(input, weights);
     }
 
-    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights) {
+    public void loadFromIncidenceList(List<List<Integer>> input, List<List<Integer>> weights)  throws InterruptedException  {
         edgesNumber = 0;
         verticesNumber = input.size();
         matrix = new int[verticesNumber][];
@@ -27,7 +28,7 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix implement
         }
     }
 
-    public AdjacencyMatrixUndirectedWeighted(int[][] matrix) {
+    public AdjacencyMatrixUndirectedWeighted(int[][] matrix)  throws InterruptedException {
         super(matrix);
     }
 
@@ -36,7 +37,7 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix implement
     }
 
     @Override
-    public void loadFromIncidenceList(List<List<Integer>> input)
+    public void loadFromIncidenceList(List<List<Integer>> input) throws InterruptedException
     {
         var weights = new ArrayList<List<Integer>>(input.size());
         for (var input_vertex : input)
@@ -78,6 +79,7 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix implement
         return getEdgeInner(start, end) > 0;
     }
 
+    @SneakyThrows
     @Override
     public GraphRepresentationInterface clone() {
         return new AdjacencyMatrixUndirectedWeighted(matrix.clone());

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
-import { ComplexityParameters, SortingChartProps } from "../Sorting.interface"
+import { ComplexityParameters, SortingChartProps, SortingExperimentResultLabel } from "../Sorting.interface"
 import { SortingFormula } from "./SortingFormula"
 import { CSVLink } from "react-csv";
 import { addCalculatedComplexity, calculateComplexityParameters, getNameForSortingExperiment } from "../SortingServices"
@@ -22,6 +22,26 @@ export const SortingChart = (props: SortingChartProps) => {
     useEffect(() => {
         recalculateDataTime()
     }, [props, logarithmScale])
+
+    const activeLabels : SortingExperimentResultLabel[] = []
+
+    props.labels.filter(label=> label.active).forEach(label => {
+        let tmp : SortingExperimentResultLabel = {...label};
+        if (props.dataLabel === "recursionSize") {
+            if (!(tmp.name.startsWith("Merge") || tmp.name.startsWith("Quick"))) {
+                return;
+            }
+        }
+        let found : boolean = false;
+        activeLabels.forEach(activeLabel => {
+            if (tmp.name === activeLabel.name) {
+                found = true;
+            }
+        });
+        if (!found) {
+            activeLabels.push(tmp);
+        }
+    });
 
     const recalculateDataTime = () => {
         const res: any[] = [];
@@ -94,16 +114,16 @@ export const SortingChart = (props: SortingChartProps) => {
     }
 
     const getDataKeys = () => {
-        let res = props.labels.map(lab => lab.name)
+        let res = activeLabels.map(lab => lab.name)
         return res;
     }
 
     const getLines = () => {
         return getDataKeys().map((element, index) => {
             return (
-                <Line key={index} type="monotone" dot={false} dataKey={element} stroke={props.labels[index].colorStr} />
+                <Line key={index} type="monotone" dot={false} dataKey={element} stroke={activeLabels[index].colorStr} />
             )
-        }).filter((_,index)=> props.labels[index].active)
+        })
     }
 
     const changeScaleType = () => {
@@ -129,7 +149,7 @@ export const SortingChart = (props: SortingChartProps) => {
         }
       }, [getPng]);
     return (
-        <div className={styles.Container}>
+        <div className={styles.Container} style={activeLabels.length > 0 ? {} : {display: "none"}}>
             <div className={styles.Label}>{dataLabelToLabel()}</div>             
             <div className={styles.Chart}>
             <ResponsiveContainer width={"100%"} height={"100%"}>

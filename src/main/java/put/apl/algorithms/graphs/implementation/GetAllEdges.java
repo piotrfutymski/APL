@@ -7,11 +7,10 @@ import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 import java.util.Map;
 
 @Component("Get All Edges")
-public class GetAllEdges implements GraphAlgorithm {
+public class GetAllEdges extends GraphAlgorithm {
 
-    public GraphResult run(GraphRepresentationInterface graph) {
+    public GraphResult run(GraphRepresentationInterface graph) throws InterruptedException {
         graph.setOperations(0);
-        int noOfVertices = graph.getVerticesNumber();
         graph.getAllEdges();
         return GraphResult.builder().memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }

@@ -102,6 +102,7 @@ export const SortingDoneView = (props: SortingExperimentsResult) => {
             <SortingChart experiments={props} labels={seriesWithTrend} dataLabel="timeInMillis" series={choosedSeries}/>
             <SortingChart experiments={props} labels={series} dataLabel="swapCount" />
             <SortingChart experiments={props} labels={series} dataLabel="comparisonCount" />
+            <SortingChart experiments={props} labels={series} dataLabel="recursionSize" />
         </div>
     </>
     )

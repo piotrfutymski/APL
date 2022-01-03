@@ -9,7 +9,7 @@ import java.util.List;
 @Component("Incidence Matrix Undirected Weighted")
 public class IncidenceMatrixUndirectedWeighted extends IncidenceMatrix implements GraphRepresentationWeightedInterface {
 
-    public IncidenceMatrixUndirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) {
+    public IncidenceMatrixUndirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException {
         loadFromIncidenceList(input, weights);
     }
 

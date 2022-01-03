@@ -12,7 +12,7 @@ public class ListOfEdgesDirectedWeighted extends ListOfEdgesDirected implements 
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfEdgesDirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) {
+    public ListOfEdgesDirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException  {
         loadFromIncidenceList(input, weights);
     }
 

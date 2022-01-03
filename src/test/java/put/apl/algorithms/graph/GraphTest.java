@@ -227,7 +227,7 @@ public class GraphTest {
     List<GraphRepresentationWeightedInterface> directedWeighted;
 
     @BeforeEach
-    void initAll() {
+    void initAll() throws InterruptedException {
 
         BFS_RESULT.clear();
         BFS_RESULT.add(0);
@@ -287,8 +287,7 @@ public class GraphTest {
     }
 
     void doAlgorithmTest(GraphAlgorithm algorithm, List<List<Integer>> graph,
-                         List<GraphRepresentationInterface> reps, Integer[] expectedResult)
-    {
+                         List<GraphRepresentationInterface> reps, Integer[] expectedResult) throws InterruptedException {
         for (var representation : reps)
         {
             representation.loadFromIncidenceList(graph);
@@ -299,8 +298,7 @@ public class GraphTest {
     }
 
     void doAlgorithmWeightsTest(GraphAlgorithm algorithm, List<List<Integer>> graph, List<List<Integer>> weights,
-                                List<GraphRepresentationWeightedInterface> reps, Integer[] expectedResult)
-    {
+                                List<GraphRepresentationWeightedInterface> reps, Integer[] expectedResult) throws InterruptedException {
         for (var representation : reps)
         {
             representation.loadFromIncidenceList(graph, weights);

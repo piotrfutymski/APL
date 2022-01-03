@@ -1,5 +1,6 @@
 package put.apl.algorithms.graphs.data;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,11 +16,11 @@ public class ListOfIncidentUndirected extends ListOfIncident {
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfIncidentUndirected(List<List<Integer>> input) {
+    public ListOfIncidentUndirected(List<List<Integer>> input) throws InterruptedException {
         super(input);
     }
 
-    public ListOfIncidentUndirected(int[][] edges) {
+    public ListOfIncidentUndirected(int[][] edges) throws InterruptedException {
         super(edges);
     }
 
@@ -52,8 +53,9 @@ public class ListOfIncidentUndirected extends ListOfIncident {
     }
 
     @Override
-    public int getEdge(Integer id1, Integer id2) {
+    public int getEdge(Integer id1, Integer id2) throws InterruptedException {
         for (int predecessor : getDirect(id1)) {
+            escape();
             if (predecessor == id2) {
                 return 1;
             }
@@ -62,12 +64,13 @@ public class ListOfIncidentUndirected extends ListOfIncident {
     }
 
     @Override
-    public int[][] getAllEdges() {
+    public int[][] getAllEdges() throws InterruptedException {
         int[][] result = new int[edgeNum][];
         int edgeNumber=0;
         for (int i = 0; i < vertexNum; i++)
         {
             for (int vert : getSuccessors(i)){
+                escape();
                 if (vert > i)
                     result[edgeNumber++] = new int[] {i, vert};
             }
@@ -75,6 +78,7 @@ public class ListOfIncidentUndirected extends ListOfIncident {
         return result;
     }
 
+    @SneakyThrows
     @Override
     public GraphRepresentationInterface clone() {
         return new ListOfIncidentUndirected(this.edges.clone());

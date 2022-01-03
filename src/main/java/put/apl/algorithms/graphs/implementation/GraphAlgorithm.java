@@ -5,9 +5,15 @@ import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 
 import java.util.Map;
 
-public interface GraphAlgorithm {
+public abstract class GraphAlgorithm {
 
-    GraphResult run(GraphRepresentationInterface graph);
+    public abstract GraphResult run(GraphRepresentationInterface graph) throws InterruptedException;
 
-    void setParams(Map<String, String> params);
+    abstract void setParams(Map<String, String> params);
+
+    public void escape() throws InterruptedException{
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
+        }
+    }
 }

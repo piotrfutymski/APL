@@ -3,6 +3,7 @@ package put.apl.experiment.service;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.*;
 import put.apl.algorithms.graphs.data.generator.GeneratorResult;
 import put.apl.algorithms.graphs.data.generator.GraphDataGenerator;
@@ -51,6 +52,15 @@ public class GraphService {
 
     public GraphExperiment averageExperiments(List<GraphExperiment> experiments){
         Double timeInMillis = garbageCollectorFighter.getTime(experiments.stream().map(GraphExperiment::getTimeInMillis).collect(Collectors.toList()));
+        Integer hamiltonCyclesCount = null;
+        Integer memoryOccupancy = null;
+        Integer tableAccessCount = null;
+        if(experiments.get(0).getGraphResult().getHamiltonCyclesCount() != null)
+            hamiltonCyclesCount = experiments.stream().collect(Collectors.averagingInt(e->e.getGraphResult().getHamiltonCyclesCount())).intValue();
+        if(experiments.get(0).getGraphResult().getMemoryOccupancyInBytes() != null)
+            memoryOccupancy = experiments.stream().collect(Collectors.averagingInt(e->e.getGraphResult().getMemoryOccupancyInBytes())).intValue();
+        if(experiments.get(0).getGraphResult().getTableAccessCount() != null)
+            tableAccessCount = experiments.stream().collect(Collectors.averagingInt(e->e.getGraphResult().getTableAccessCount())).intValue();
         return GraphExperiment
                 .builder()
                 .algorithmName(experiments.get(0).getAlgorithmName())
@@ -59,7 +69,12 @@ public class GraphService {
                 .numberOfVertices(experiments.get(0).getNumberOfVertices())
                 .density(experiments.get(0).getDensity())
                 .timeInMillis(timeInMillis)
-                .graphResult(experiments.get(0).getGraphResult())
+                .graphResult(GraphResult.builder()
+                        .memoryOccupancyInBytes(memoryOccupancy)
+                        .hamiltonCyclesCount(hamiltonCyclesCount)
+                        .tableAccessCount(tableAccessCount)
+                        .build()
+                )
                 .measureByDensity(experiments.get(0).getMeasureByDensity())
                 .build()
                 .clearForResponse();
@@ -190,6 +205,8 @@ public class GraphService {
         double t = (double)(end-start)/1000000.0;
         GraphExperiment res = e.clone();
         res.setTimeInMillis(t);
+        // So the browser doesn't receive megabytes/gigabytes of data
+        res.getGraphResult().setMultiplePaths(null);
         if(t > experimentTimeout){
             bannedExperiments.add(e);
             res.setTimeInMillis(-1.0);

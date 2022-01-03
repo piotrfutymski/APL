@@ -12,6 +12,7 @@ import java.util.Map;
 public class QuickSort implements SortingAlgorithm{
     String pivotStrategy = null;
     Integer medianCount = null;
+    int recursionDepth = 0;
     private int getPivotIndex(SortingData tab, int left, int right) throws InterruptedException {
         switch (pivotStrategy){
             case "First item":
@@ -22,7 +23,7 @@ public class QuickSort implements SortingAlgorithm{
                 return right;
             case "Random item":
                 return (int)(Math.random() * (right-left) + left);
-            case "Median of three":
+            case "Median of fixed three":
                 int l = left;
                 int m = (left+right)/2;
                 int r = right-1;
@@ -122,21 +123,24 @@ public class QuickSort implements SortingAlgorithm{
         return i;
     }
 
-    private void quickSort(SortingData tab, int l, int r) throws InterruptedException {
+    private void quickSort(SortingData tab, int l, int r, int recursion) throws InterruptedException {
+        recursionDepth = Math.max(recursion, recursionDepth);
         if(l<r){
             int m = partition(tab, l, r, getPivotIndex(tab, l, r));
-            quickSort(tab, l, m-1);
-            quickSort(tab, m+1, r);
+            quickSort(tab, l, m-1, recursion + 1);
+            quickSort(tab, m+1, r, recursion + 1);
         }
     }
 
     @Override
     public SortingResult sort(SortingData tab) throws InterruptedException {
-        quickSort(tab, 0, tab.length()-1);
+        recursionDepth = 0;
+        quickSort(tab, 0, tab.length()-1, 0);
 
         return SortingResult.builder()
                 .comparisonCount(tab.getCompCount())
                 .swapCount(tab.getSwapCount())
+                .recursionSize(recursionDepth)
                 .build();
     }
 

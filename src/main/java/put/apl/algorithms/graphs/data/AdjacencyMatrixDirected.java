@@ -1,5 +1,6 @@
 package put.apl.algorithms.graphs.data;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,12 +11,11 @@ public class AdjacencyMatrixDirected extends AdjacencyMatrix {
     private final static int START = 1;
     private final static int END = -1;
 
-    public AdjacencyMatrixDirected(List<List<Integer>> input) {
-
+    public AdjacencyMatrixDirected(List<List<Integer>> input) throws InterruptedException {
         super(input);
     }
 
-    public AdjacencyMatrixDirected(int[][] matrix) {
+    public AdjacencyMatrixDirected(int[][] matrix) throws InterruptedException {
         super(matrix);
     }
 
@@ -61,6 +61,7 @@ public class AdjacencyMatrixDirected extends AdjacencyMatrix {
     }
 
 
+    @SneakyThrows
     @Override
     public GraphRepresentationInterface clone() {
         return new AdjacencyMatrixDirected(matrix.clone());

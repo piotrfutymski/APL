@@ -1,5 +1,6 @@
 package put.apl.algorithms.graphs.data;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -7,16 +8,16 @@ import java.util.List;
 
 @Component("List Of Edges Undirected Weighted")
 public class ListOfEdgesUndirectedWeighted extends ListOfEdgesUndirected implements GraphRepresentationWeightedInterface {
-    public ListOfEdgesUndirectedWeighted() {
+    public ListOfEdgesUndirectedWeighted() throws InterruptedException  {
         super(new int[0][], 0);
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfEdgesUndirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) {
+    public ListOfEdgesUndirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException  {
         loadFromIncidenceList(input, weights);
     }
 
-    public ListOfEdgesUndirectedWeighted(int[][] edges, int[] weights, int vertexNum) {
+    public ListOfEdgesUndirectedWeighted(int[][] edges, int[] weights, int vertexNum){
         this.edges = edges;
         this.weights = weights;
         this.vertexNum = vertexNum;
@@ -80,7 +81,7 @@ public class ListOfEdgesUndirectedWeighted extends ListOfEdgesUndirected impleme
     }
 
     @Override
-    public GraphRepresentationInterface clone() {
+    public GraphRepresentationInterface clone(){
         return new ListOfEdgesUndirectedWeighted(this.edges.clone(), this.weights.clone(), vertexNum);
     }
 }

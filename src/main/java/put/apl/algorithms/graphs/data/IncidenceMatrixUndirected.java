@@ -10,7 +10,7 @@ public class IncidenceMatrixUndirected extends IncidenceMatrix {
     private final static int START=1;
     private final static int END=1;
 
-    public IncidenceMatrixUndirected(List<List<Integer>> input) {
+    public IncidenceMatrixUndirected(List<List<Integer>> input) throws InterruptedException {
         super(input);
     }
 

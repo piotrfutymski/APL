@@ -9,19 +9,20 @@ import java.util.List;
 import java.util.Map;
 
 @Component("Depth First Search")
-public class DepthFirstSearch implements GraphAlgorithm {
+public class DepthFirstSearch extends GraphAlgorithm {
 
     private boolean[] visited;
     private List<Integer> path;
     private boolean forceConnectedGraph = false;
 
-    public GraphResult run(GraphRepresentationInterface graph) {
+    public GraphResult run(GraphRepresentationInterface graph) throws InterruptedException {
         graph.setOperations(0);
         visited = new boolean[graph.getVerticesNumber()];
         path = new ArrayList<Integer>();
         // For non-connected graphs DFS procedure will run multiple times
         if (!forceConnectedGraph) {
             for (int i = 0; i < graph.getVerticesNumber(); i++) {
+                escape();
                 if (!visited[i]) {
                     depthFirstSearch(graph, i);
                 }
@@ -32,11 +33,12 @@ public class DepthFirstSearch implements GraphAlgorithm {
         return GraphResult.builder().path(path).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
 
-    private void depthFirstSearch(GraphRepresentationInterface graph, int id) {
+    private void depthFirstSearch(GraphRepresentationInterface graph, int id) throws InterruptedException {
        int[] successors = graph.getSuccessors(id);
        visited[id] = true;
        path.add(id);
        for (int i = 0; i < successors.length; i++) {
+           escape();
            if (!visited[successors[i]]) {
                depthFirstSearch(graph, successors[i]);
            }

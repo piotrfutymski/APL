@@ -1,5 +1,6 @@
 package put.apl.algorithms.graphs.data;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -8,11 +9,11 @@ import java.util.List;
 @Component("Weighted Adjacency Matrix Directed")
 public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix implements GraphRepresentationWeightedInterface {
 
-    public AdjacencyMatrixDirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) {
+    public AdjacencyMatrixDirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights)  throws InterruptedException  {
         loadFromIncidenceList(input, weights);
     }
 
-    public AdjacencyMatrixDirectedWeighted(int[][] matrix) {
+    public AdjacencyMatrixDirectedWeighted(int[][] matrix) throws InterruptedException {
         super(matrix);
     }
 
@@ -90,6 +91,7 @@ public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix implements 
         return getEdgeInner(start, end) < 0;
     }
 
+    @SneakyThrows
     @Override
     public GraphRepresentationInterface clone() {
         return new AdjacencyMatrixDirectedWeighted(matrix.clone());

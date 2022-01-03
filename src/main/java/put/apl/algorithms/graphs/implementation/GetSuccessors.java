@@ -7,9 +7,9 @@ import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
 import java.util.Map;
 
 @Component("Get Successors")
-public class GetSuccessors implements GraphAlgorithm {
+public class GetSuccessors extends GraphAlgorithm {
 
-    public GraphResult run(GraphRepresentationInterface graph) {
+    public GraphResult run(GraphRepresentationInterface graph) throws InterruptedException  {
         graph.setOperations(0);
         int noOfVertices = graph.getVerticesNumber();
         for (int i = 0; i < noOfVertices; i++) {

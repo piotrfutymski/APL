@@ -48,9 +48,12 @@ export const reducePossibleRepresentations = (experiment: GraphExperiment, repre
 export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[]): GraphConfigCheck => {
     let result:GraphConfigCheck = {warningFlag: false, errorFlag: false,  measureSeries: {status: "CORRECT"}, densityOrVertices: {status: "CORRECT"}}
     let foundEuler=false
+    let foundHamiltonian=false
         experiments.forEach(e=>{
             if(e.dataGenerator.includes("Euler"))
                 foundEuler=true
+            if(e.algorithmName.includes("Hamiltonian"))
+                foundHamiltonian=true
         })
     if(config.measureSeries <= 0){
         result.measureSeries.status="ERROR"
@@ -82,6 +85,11 @@ export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[])
             result.warningFlag=true
         }
     } else {
+        if (foundHamiltonian && config.densityOrVertices > 15) {
+            result.densityOrVertices.status="ERROR"
+            result.densityOrVertices.msg="Too many vertices for Hamiltonian Cycles algorithm of N * N! complexity"
+            result.errorFlag=true
+        }
         if(config.densityOrVertices <= 0)
         {
             result.densityOrVertices.status="ERROR"
@@ -120,6 +128,11 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
     const paramInfos = getParamInfos(experiment)
     let result:GraphExperimentCheck = { warningFlag: false, errorFlag: false, numberOfVertices: {status: "CORRECT"}, density: {status: "CORRECT"}}
     if(config.measureByDensity === true){
+        if (experiment.algorithmName.includes("Hamiltonian") && experiment.numberOfVertices > 15) {
+            result.numberOfVertices.status="ERROR"
+            result.numberOfVertices.msg="Too many vertices for algorithm of N * N! complexity"
+            result.errorFlag=true
+        }
         if(experiment.numberOfVertices <= 0)
         {
             result.numberOfVertices.status="ERROR"
@@ -169,7 +182,6 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
             result.warningFlag=true
         }
     }
-    
     return result
 }
 
@@ -258,8 +270,8 @@ export const addCalculatedComplexity = (data: any[], series:string, calculatedIn
         let n = parseInt(e.N)
         if(calculatedInfo.complexityType === "N^2"){
             res[series] = calculatedInfo.data[0]*n*n
-        } else if(calculatedInfo.complexityType === "NlogN") {
-            res[series] = calculatedInfo.data[0]*n*Math.log2(n)
+        } else if(calculatedInfo.complexityType === "N^3") {
+            res[series] = calculatedInfo.data[0]*n*n*n
         } else {
             res[series] = calculatedInfo.data[0]*n + calculatedInfo.data[1]
         }
@@ -282,24 +294,24 @@ export const calculateComplexityParameters = (data: any[], series:string): Compl
     }
 
     let n_2_data = minf(n,t,fb_n_2_a)
-    let n_log_n_data = minf(n,t,fb_log_n_a)
+    let n_3_data = minf(n,t,fb_n_3_a)
     let n_k_data = linearRegresion(n, t)
 
     let n_2_res = fb_n_2(n_2_data[0], n, t)
-    let n_log_n_res = fb_log_n(n_log_n_data[0], n, t)
+    let n_3_res = fb_n_3(n_3_data[0], n, t)
     let n_k_res = fb_n_k(n_k_data[0], n_k_data[1], n, t)
 
-    if(n_2_res < n_log_n_res){
+    if(n_2_res < n_3_res){
         if(n_k_res < n_2_res){
             return {data: n_k_data, complexityType: "N+K"}
         }else{
             return {data: n_2_data, complexityType: "N^2"}
         }    
     }else{
-        if(n_k_res < n_log_n_res){
+        if(n_k_res < n_3_res){
             return {data: n_k_data, complexityType: "N+K"}
         }else{
-            return {data: n_log_n_data, complexityType: "NlogN"}
+            return {data: n_3_data, complexityType: "N^3"}
         }
     }
 
@@ -379,18 +391,18 @@ const fb_n_2_a = (a:number, n:number[], t:number[]):number => {
     return 2*res
 }
 
-const fb_log_n = (a:number, n:number[], t:number[]):number => {
+const fb_n_3 = (a:number, n:number[], t:number[]):number => {
     let res = 0
     for(let i = 0; i < n.length; i++){
-        res += Math.pow(t[i] - a*n[i]*Math.log2(n[i]), 2)
+        res += Math.pow(t[i] - a*n[i]*n[i]*n[i], 2)
     }
     return res
 }
 
-const fb_log_n_a = (a:number, n:number[], t:number[]):number => {
+const fb_n_3_a = (a:number, n:number[], t:number[]):number => {
     let res = 0
     for(let i = 0; i < n.length; i++){
-        let f = n[i]*Math.log2(n[i])
+        let f = n[i]*n[i]*n[i]
         res -= (t[i] - a*f)*f
     }
     return 2*res

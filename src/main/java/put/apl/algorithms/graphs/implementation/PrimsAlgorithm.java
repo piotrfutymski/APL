@@ -9,9 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 @Component("Prims Algorithm")
-public class PrimsAlgorithm implements GraphAlgorithm  {
+public class PrimsAlgorithm extends GraphAlgorithm  {
 
-    GraphRepresentationInterface graph;
 
     List<Integer> MST;
 
@@ -22,9 +21,8 @@ public class PrimsAlgorithm implements GraphAlgorithm  {
     int verticesSize;
 
     @Override
-    public GraphResult run(GraphRepresentationInterface graph) {
+    public GraphResult run(GraphRepresentationInterface graph)throws InterruptedException {
         graph.setOperations(0);
-        this.graph = graph;
         verticesSize = graph.getVerticesNumber();
         key = new int[verticesSize];
         MST = new ArrayList<>();
@@ -32,6 +30,7 @@ public class PrimsAlgorithm implements GraphAlgorithm  {
 
         for (int i=0; i < verticesSize; i++)
         {
+            escape();
             key[i] = Integer.MAX_VALUE;
             visited[i] = false;
             MST.add(0);
@@ -46,6 +45,7 @@ public class PrimsAlgorithm implements GraphAlgorithm  {
             visited[u] = true;
             for (int v : graph.getSuccessors(u))
             {
+                escape();
                 if (!visited[v] && graph.getEdge(u,v) < key[v])
                 {
                     MST.set(v, u);
@@ -55,16 +55,19 @@ public class PrimsAlgorithm implements GraphAlgorithm  {
         }
         return GraphResult.builder().path(MST).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
-    private int findKey()
-    {
+    private int findKey() throws InterruptedException {
         // Initialize min value
         int min = Integer.MAX_VALUE, min_index = -1;
 
         for (int v = 0; v < verticesSize; v++)
+        {
+            escape();
             if (!visited[v] && key[v] < min) {
                 min = key[v];
                 min_index = v;
             }
+        }
+
         return min_index;
     }
 

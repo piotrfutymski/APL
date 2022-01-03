@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component("Kruskal Algorithm")
-public class KruskalAlgorithm implements GraphAlgorithm  {
+public class KruskalAlgorithm extends GraphAlgorithm  {
 
     static class Edge implements Comparable<Edge> {
         public Edge(int src, int dest, int weight)
@@ -30,13 +30,14 @@ public class KruskalAlgorithm implements GraphAlgorithm  {
         int parent, rank;
     };
 
-    int find(subset[] subsets, int i) {
+    int find(subset[] subsets, int i) throws InterruptedException {
+        escape();
         if (subsets[i].parent != i)
             subsets[i].parent = find(subsets, subsets[i].parent);
         return subsets[i].parent;
     }
 
-    void Union(subset[] subsets, int x, int y) {
+    void Union(subset[] subsets, int x, int y) throws InterruptedException {
         int xroot = find(subsets, x);
         int yroot = find(subsets, y);
 
@@ -51,7 +52,7 @@ public class KruskalAlgorithm implements GraphAlgorithm  {
     }
 
     @Override
-    public GraphResult run(GraphRepresentationInterface graph) {
+    public GraphResult run(GraphRepresentationInterface graph) throws InterruptedException  {
         graph.setOperations(0);
         int verticesSize = graph.getVerticesNumber();
         Edge[] edges = new Edge[graph.getEdgesNumber()];
@@ -66,11 +67,13 @@ public class KruskalAlgorithm implements GraphAlgorithm  {
             subsets[i] = new subset();
 
         for (int v = 0; v < verticesSize; ++v) {
+            escape();
             subsets[v].parent = v;
             subsets[v].rank = 0;
         }
         int i = 0, edge_number = 0;
         while (edge_number < verticesSize - 1) {
+            escape();
             Edge next_edge = edges[i++];
 
             int first_subset = find(subsets, next_edge.src);
@@ -84,6 +87,7 @@ public class KruskalAlgorithm implements GraphAlgorithm  {
         List<Integer> final_result = new ArrayList<Integer>();
         for (Edge edge_result : result)
         {
+            escape();
             if (edge_result != null)
             {
                 final_result.add(edge_result.src);
