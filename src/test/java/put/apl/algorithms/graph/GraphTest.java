@@ -228,7 +228,7 @@ public class GraphTest {
         undirected = Arrays.asList(new ListOfIncidentUndirected(),
                 new ListOfEdgesUndirected(), new IncidenceMatrixUndirected(), new AdjacencyMatrixUndirected(),
                 new IncidenceMatrixUndirectedWeighted(), new AdjacencyMatrixUndirectedWeighted(),
-                new ListOfEdgesUndirectedWeighted());
+                new ListOfEdgesUndirectedWeighted(), new ListOfIncidentUndirectedWeighted());
 
         directed = Arrays.asList(new ListOfEdgesDirected(), new ListOfPredecessorsDirected(),
                 new ListOfSuccessorsDirected(), new AdjacencyMatrixDirected(), new IncidenceMatrixDirected(),
@@ -237,7 +237,7 @@ public class GraphTest {
                 new ListOfEdgesDirectedWeighted());
 
         undirectedWeighted = Arrays.asList(new IncidenceMatrixUndirectedWeighted(), new AdjacencyMatrixUndirectedWeighted(),
-                new ListOfEdgesUndirectedWeighted());
+                new ListOfEdgesUndirectedWeighted(), new ListOfIncidentUndirectedWeighted());
 
         directedWeighted = Arrays.asList(new AdjacencyMatrixDirectedWeighted(), new IncidenceMatrixDirectedWeighted(),
                 new ListOfSuccessorsDirectedWeighted(), new ListOfPredecessorsDirectedWeighted(),

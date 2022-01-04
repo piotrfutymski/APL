@@ -70,7 +70,7 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
     @Override
     public int getFirstSuccessor(Integer id) {
         return getFirstDirect(id).vertex;
-    };
+    }
 
     @Override
     public int[] getPredecessors(Integer id) {
@@ -95,13 +95,14 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
 
     @Override
     public int[][] getAllEdges() throws InterruptedException {
-        int[][] result = new int[edgeNum*2][];
+        int[][] result = new int[edgeNum][];
         int edgeNumber=0;
         for (int i = 0; i < vertexNum; i++)
         {
             escape();
             for (var vert : getDirect(i)){
-                result[edgeNumber++] = new int[] {i, vert.vertex, vert.weight};
+                if (vert.vertex > i)
+                    result[edgeNumber++] = new int[] {i, vert.vertex, vert.weight};
             }
         }
         return result;

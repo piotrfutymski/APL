@@ -13,7 +13,10 @@ public class DijkstraAlgorithm  extends GraphAlgorithm {
 
     GraphRepresentationInterface graph;
 
-    HashSet<Integer> visited;
+    //HashSet<Integer> visited;
+
+    boolean[] visited;
+    int visited_number;
 
     Integer[] dist;
 
@@ -23,22 +26,29 @@ public class DijkstraAlgorithm  extends GraphAlgorithm {
         this.graph = graph;
         int verticesSize = graph.getVerticesNumber();
         dist = new Integer[verticesSize];
-        visited = new HashSet<Integer>();
+        visited = new boolean[verticesSize];
+
         queue = new PriorityQueue<>();
 
         queue.add(0);
         dist[0] = 0;
+        visited_number=0;
         for (int i=1; i < verticesSize; i++)
         {
             escape();
             dist[i] = Integer.MAX_VALUE;
         }
-        while (visited.size() != verticesSize)
+        while (visited_number < verticesSize)
         {
             escape();
             int vertice = queue.remove();
-            visited.add(vertice);
-            propagateNeighbours(vertice);
+            if (!visited[vertice])
+            {
+                visited_number+=1;
+                visited[vertice]=true;
+                propagateNeighbours(vertice);
+            }
+
         }
         return GraphResult.builder().path(Arrays.asList(dist)).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
@@ -47,7 +57,7 @@ public class DijkstraAlgorithm  extends GraphAlgorithm {
         for (int node : graph.getSuccessors(vertice))
         {
             escape();
-            if (!visited.contains(node))
+            if (!visited[node])
             {
                 int distance = dist[vertice] + graph.getEdge(vertice, node);
 
