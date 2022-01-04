@@ -70,7 +70,7 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
     @Override
     public int getFirstSuccessor(Integer id) {
         return getFirstDirect(id).vertex;
-    };
+    }
 
     @Override
     public int[] getPredecessors(Integer id) {
