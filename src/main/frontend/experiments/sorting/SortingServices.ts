@@ -174,7 +174,9 @@ export const fetchDataDistributions = (onResponse:(alg:string[])=>void) => {
 export const fetchSortingExperiments = (id:string, onResponse:(args: SortingExperimentsResult)=>void) => {
     axios.get(`/api/experiment/${id}`)
         .then((response: AxiosResponse)=>{
-            onResponse(response.data)
+            let result:SortingExperimentsResult = response.data
+            result.results.forEach(e=> e.algorithmParams = new Map<string,string>(Object.entries(e.algorithmParams)))
+            onResponse(result)
         })
         .catch((error: AxiosError) =>{
         })
@@ -190,8 +192,8 @@ export const deleteSortingExperiment = (id:string) => {
 
 export const getNameForSortingExperiment = (v: SortingExperiment) => {
     let series = v.algorithmName + " : " + v.dataDistribution + " : " + v.maxValue.toString();
-    for (let [key, val] of Object.entries(v.algorithmParams)) {
-        if(key != "maxValue"){
+    for (let [key, val] of v.algorithmParams.entries()) {
+        if(key !== "maxValue"){
             series += " : [ " +key + " - " + val + " ]"
         }
     }
