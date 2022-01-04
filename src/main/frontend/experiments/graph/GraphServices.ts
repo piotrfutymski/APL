@@ -235,7 +235,9 @@ export const fetchRepresentations = (onResponse:(alg:string[])=>void) => {
 export const fetchGraphExperiments = (id:string, onResponse:(args: GraphExperimentsResult)=>void) => {
     axios.get(`/api/experiment/${id}`)
         .then((response: AxiosResponse)=>{
-            onResponse(response.data)
+            let result: GraphExperimentsResult = response.data
+            result.results.forEach(e=> e.algorithmParams= new Map<string,string>(Object.entries(e.algorithmParams)))
+            onResponse(result)
         })
         .catch((error: AxiosError) =>{
         })
@@ -252,7 +254,7 @@ export const deleteGraphExperiment = (id:string) => {
 export const getNameForGraphExperiment = (v: GraphExperiment, densityXAxis: boolean) => {
     let series = v.algorithmName + " : " + v.dataGenerator + " : " + v.representation + " : " + (densityXAxis === true ? v.numberOfVertices : v.density);
     if (v.algorithmParams) {
-        for (let [key, val] of Object.entries(v.algorithmParams)) {
+        for (let [key, val] of v.algorithmParams.entries()) {
             series += " : [ " +key + " - " + val + " ]"
         }
     }
