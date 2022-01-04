@@ -236,7 +236,12 @@ export const fetchGraphExperiments = (id:string, onResponse:(args: GraphExperime
     axios.get(`/api/experiment/${id}`)
         .then((response: AxiosResponse)=>{
             let result: GraphExperimentsResult = response.data
-            result.results.forEach(e=> e.algorithmParams= new Map<string,string>(Object.entries(e.algorithmParams)))
+            result.results.forEach(e=> {
+                if(e.algorithmParams !== null)
+                    e.algorithmParams = new Map<string,string>(Object.entries(e.algorithmParams))
+                else
+                    e.algorithmParams = new Map<string,string>()
+            })
             onResponse(result)
         })
         .catch((error: AxiosError) =>{

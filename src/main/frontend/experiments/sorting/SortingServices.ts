@@ -175,7 +175,12 @@ export const fetchSortingExperiments = (id:string, onResponse:(args: SortingExpe
     axios.get(`/api/experiment/${id}`)
         .then((response: AxiosResponse)=>{
             let result:SortingExperimentsResult = response.data
-            result.results.forEach(e=> e.algorithmParams = new Map<string,string>(Object.entries(e.algorithmParams)))
+            result.results.forEach(e=> {
+                if(e.algorithmParams !== null)
+                    e.algorithmParams = new Map<string,string>(Object.entries(e.algorithmParams))
+                else
+                    e.algorithmParams = new Map<string,string>()
+            })
             onResponse(result)
         })
         .catch((error: AxiosError) =>{
