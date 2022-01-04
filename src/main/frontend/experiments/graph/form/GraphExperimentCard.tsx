@@ -56,7 +56,7 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                     <label>Data Generator</label>
                     <select id="generator" value={experiment.dataGenerator} onChange={updateData}>
                         {
-                            reducePossibleGenerators(experiment, props.dataOptions).map(name => <option id={"generator_" + name} key={name} value={name}>{name}</option>)
+                            reducePossibleGenerators(experiment.algorithmName, props.dataOptions).map(name => <option id={"generator_" + name} key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>
@@ -64,7 +64,7 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                     <label>Representation</label>
                     <select id="representation" value={experiment.representation} onChange={updateRepresentation}>
                         {
-                            reducePossibleRepresentations(experiment, props.representationOptions).map(name => <option id={"representation_" + name} key={name} value={name}>{name}</option>)
+                            reducePossibleRepresentations(experiment.algorithmName, experiment.dataGenerator, props.representationOptions).map(name => <option id={"representation_" + name} key={name} value={name}>{name}</option>)
                         }
                     </select>
                 </div>

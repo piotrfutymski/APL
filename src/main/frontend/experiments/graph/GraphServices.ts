@@ -14,33 +14,33 @@ export const getParamInfos = (experiment: GraphExperiment): paramInfo[]=>{
     return res
 }
 
-export const reducePossibleGenerators = (experiment: GraphExperiment, generators: string[]): string[] => {
+export const reducePossibleGenerators = (algorithmName: string, generators: string[]): string[] => {
     let res=[...generators]
-    if(experiment.algorithmName === "Topological Sort"){
+    if(algorithmName === "Topological Sort"){
         res = ["Connected Directed Graph Generator", "Euler Directed Graph Generator"];
-    } else if(experiment.algorithmName === "All Hamiltonian Cycles" || experiment.algorithmName === "Hamiltonian Cycle" || experiment.algorithmName === "Dijkstra Algorithm"){
+    } else if(algorithmName === "All Hamiltonian Cycles" || algorithmName === "Hamiltonian Cycle" || algorithmName === "Dijkstra Algorithm"){
         res = ["Connected Directed Graph Generator", 
         "Euler Directed Graph Generator", "Connected Undirected Graph Generator", "Euler Undirected Graph Generator"];
-    } else if(experiment.algorithmName === "Prims Algorithm" || experiment.algorithmName === "Kruskal Algorithm") {
+    } else if(algorithmName === "Prims Algorithm" || algorithmName === "Kruskal Algorithm") {
         res = ["Connected Undirected Graph Generator", "Euler Undirected Graph Generator"];
-    } else if(experiment.algorithmName === "Euler Cycle Finding Algorithm"){
+    } else if(algorithmName === "Euler Cycle Finding Algorithm"){
         res = ["Euler Directed Graph Generator", 
         "Euler Undirected Graph Generator"];
     }
     return res
 }
 
-export const reducePossibleRepresentations = (experiment: GraphExperiment, representations: string[]): string[] => {
+export const reducePossibleRepresentations = (algorithmName: string, dataGenerator: string, representations: string[]): string[] => {
     let res=[...representations]
-    if(experiment.algorithmName === "Dijkstra Algorithm" && (experiment.dataGenerator === "Connected Directed Graph Generator" || experiment.dataGenerator === "Euler Directed Graph Generator")){
+    if(algorithmName === "Dijkstra Algorithm" && (dataGenerator === "Connected Directed Graph Generator" || dataGenerator === "Euler Directed Graph Generator")){
         res = ["Weighted Adjacency Matrix Directed", "Weighted Incidence Matrix Directed", "Weighted List Of Edges Directed", "Weighted List Of Predecessors Directed", "Weighted List Of Successors Directed"]
-    } else if(experiment.algorithmName === "Dijkstra Algorithm" && (experiment.dataGenerator === "Connected Undirected Graph Generator" || experiment.dataGenerator === "Euler Undirected Graph Generator")){
+    } else if(algorithmName === "Dijkstra Algorithm" && (dataGenerator === "Connected Undirected Graph Generator" || dataGenerator === "Euler Undirected Graph Generator")){
         res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges Undirected", "Weighted List Of Incident Undirected"]
-    } else if(experiment.algorithmName === "Prim Algorithm" || experiment.algorithmName === "Kruskal Algorithm"){
+    } else if(algorithmName === "Prims Algorithm" || algorithmName === "Kruskal Algorithm"){
         res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges Undirected", "Weighted List Of Incident Undirected"]
-    } else if(experiment.dataGenerator === "Connected Directed Graph Generator" || experiment.dataGenerator === "Directed Graph Generator" || experiment.dataGenerator === "Euler Directed Graph Generator"){
+    } else if(dataGenerator === "Connected Directed Graph Generator" || dataGenerator === "Directed Graph Generator" || dataGenerator === "Euler Directed Graph Generator"){
         res = ["Adjacency Matrix Directed", "Incidence Matrix Directed", "List Of Edges Directed", "List Of Predecessors Directed", "List Of Successors Directed"];
-    } else if(experiment.dataGenerator === "Connected Undirected Graph Generator" || experiment.dataGenerator === "Undirected Graph Generator" || experiment.dataGenerator === "Euler Undirected Graph Generator"){
+    } else if(dataGenerator === "Connected Undirected Graph Generator" || dataGenerator === "Undirected Graph Generator" || dataGenerator === "Euler Undirected Graph Generator"){
         res = ["Adjacency Matrix Undirected", "Incidence Matrix Undirected", "List Of Edges Undirected", "List Of Incident Undirected"];
     } 
     return res
@@ -235,7 +235,14 @@ export const fetchRepresentations = (onResponse:(alg:string[])=>void) => {
 export const fetchGraphExperiments = (id:string, onResponse:(args: GraphExperimentsResult)=>void) => {
     axios.get(`/api/experiment/${id}`)
         .then((response: AxiosResponse)=>{
-            onResponse(response.data)
+            let result: GraphExperimentsResult = response.data
+            result.results.forEach(e=> {
+                if(e.algorithmParams !== null)
+                    e.algorithmParams = new Map<string,string>(Object.entries(e.algorithmParams))
+                else
+                    e.algorithmParams = new Map<string,string>()
+            })
+            onResponse(result)
         })
         .catch((error: AxiosError) =>{
         })
@@ -252,7 +259,7 @@ export const deleteGraphExperiment = (id:string) => {
 export const getNameForGraphExperiment = (v: GraphExperiment, densityXAxis: boolean) => {
     let series = v.algorithmName + " : " + v.dataGenerator + " : " + v.representation + " : " + (densityXAxis === true ? v.numberOfVertices : v.density);
     if (v.algorithmParams) {
-        for (let [key, val] of Object.entries(v.algorithmParams)) {
+        for (let [key, val] of v.algorithmParams.entries()) {
             series += " : [ " +key + " - " + val + " ]"
         }
     }

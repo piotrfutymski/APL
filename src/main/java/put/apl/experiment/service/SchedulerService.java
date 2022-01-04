@@ -176,6 +176,13 @@ public class SchedulerService {
                 cancel(value);
                 value.setExpired(true);
             }
+            if(
+                    (now.getTime() - value.getLastCallForResult().getTime() > AlgorithmFuture.DEFAULT_LASTCALL_MS) &&
+                    !value.getFuture().isDone()
+            ){
+                cancel(value);
+                value.setExpired(true);
+            }
         });
 
     }
