@@ -118,7 +118,9 @@ export const GraphExperimentCard = (props:GraphExperimentCardProps) =>{
                         }
                     </div> : ""
             }
-            <div className={styles.DeleteBtn} onClick={props.removeExperiment}>X</div>
+            <div className={styles.DeleteBtn} onClick={props.removeExperiment}>
+                <i className="material-icons">delete</i>
+            </div>
         </div>
     )
 }

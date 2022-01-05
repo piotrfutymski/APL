@@ -81,7 +81,7 @@ export interface GraphExperimentsResult {
     id?: string;
 }
 
-export type ComplexityType = "N^2" | "N^3" | "N+K"
+export type ComplexityType = "N^2" | "N^3" | "N^4" | "N+K" | "N!"
 
 export interface GraphChartProps {
     experiments: GraphExperimentsResult;
@@ -102,4 +102,5 @@ export interface GraphHeaderProps{
 export interface ComplexityParameters {
     complexityType: ComplexityType
     data: number[]
+    density?: boolean
 }
