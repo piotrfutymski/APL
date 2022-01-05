@@ -25,7 +25,7 @@ public class GeneratorResult {
         {
             List<Integer> vertexWeights= new ArrayList<>();
             for (int i=0; i<vertex.size(); i++)
-                vertexWeights.add(gen.nextInt(max));
+                vertexWeights.add(gen.nextInt(max)+1);
             weights.add(vertexWeights);
         }
         this.weights = weights;
