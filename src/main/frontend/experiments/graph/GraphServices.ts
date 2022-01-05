@@ -46,7 +46,17 @@ export const reducePossibleRepresentations = (algorithmName: string, dataGenerat
               || algorithmName === "Get Memory Occupancy"
               || algorithmName === "Get Non Incident"
               || algorithmName === "Get Successors"
-              || algorithmName === "Get Predecessors"){
+              || algorithmName === "Get Predecessors") {
+        if (dataGenerator === "Connected Directed Graph Generator" || dataGenerator === "Directed Graph Generator" || dataGenerator === "Euler Directed Graph Generator") {
+            res = ["Adjacency Matrix Directed", "Incidence Matrix Directed", "List Of Edges Directed", "List Of Predecessors Directed", 
+                   "List Of Successors Directed", "Weighted Adjacency Matrix Directed", "Weighted Incidence Matrix Directed", 
+                   "Weighted List Of Edges Directed", "Weighted List Of Predecessors Directed", "Weighted List Of Successors Directed"];
+        }
+        else if (dataGenerator === "Connected Undirected Graph Generator" || dataGenerator === "Undirected Graph Generator" || dataGenerator === "Euler Undirected Graph Generator") {
+            res = ["Adjacency Matrix Undirected", "Incidence Matrix Undirected", "List Of Edges Undirected", "List Of Incident Undirected", 
+                   "Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges Undirected", 
+                   "Weighted List Of Incident Undirected"];
+        }
         return res;
     } else if(dataGenerator === "Connected Directed Graph Generator" || dataGenerator === "Directed Graph Generator" || dataGenerator === "Euler Directed Graph Generator"){
         res = ["Adjacency Matrix Directed", "Incidence Matrix Directed", "List Of Edges Directed", "List Of Predecessors Directed", "List Of Successors Directed"];
