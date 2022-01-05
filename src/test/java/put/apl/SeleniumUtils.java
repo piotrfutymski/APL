@@ -20,6 +20,7 @@ public class SeleniumUtils {
     //String DRIVER_LOCATION = "/usr/local/bin/chromedriver";
 
     public final int SUPPORTED_VERTEX = 500;
+    public final int MIN_VERTEX = 10;
 
     void clickWithName(String name){
         normalWait.until(presenceOfElementLocated(By.xpath("//*[text()='" + name + "']"))).click();
