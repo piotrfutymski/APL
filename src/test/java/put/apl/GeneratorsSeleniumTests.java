@@ -53,6 +53,7 @@ public class GeneratorsSeleniumTests {
             if(density > 80)
                 continue;
             utils.testGraphAlgorithm(algorithm, generators[1], representations[0], utils.SUPPORTED_VERTEX, density);
+            utils.testGraphAlgorithm(algorithm, generators[1], representations[0], utils.MIN_VERTEX, density);
         }
     }
 
