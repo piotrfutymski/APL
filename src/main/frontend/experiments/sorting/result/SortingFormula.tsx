@@ -7,19 +7,19 @@ export const SortingFormula = (props: ComplexityParameters) => {
     if(props.complexityType === "N^2")
     return (
         <>
-            time(n) = {props.data[0].toExponential()} * N^2
+            time(N) = {props.data[0].toExponential(3)} * N^2
         </>
     )
     else if(props.complexityType === "NlogN")
     return (
         <>
-            time(n) = {props.data[0].toExponential()} * N log_2(N)
+            time(N) = {props.data[0].toExponential(3)} * N log_2(N)
         </>
     )
     else if(props.complexityType === "N+K")
     return (
         <>
-            time(n) = {props.data[0].toExponential()} * N + {props.data[1].toExponential()}
+            time(N) = {props.data[0].toExponential(3)} * N + {props.data[1].toExponential(3)}
         </>
     )
 }
