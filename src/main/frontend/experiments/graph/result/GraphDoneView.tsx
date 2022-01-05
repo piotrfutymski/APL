@@ -54,7 +54,7 @@ export const GraphDoneView = (props: GraphExperimentsResult) => {
             i++
         });
             let complexityInfo = calculateComplexityParameters(res, choosedSeries)
-            setComplexityParams(complexityInfo)
+            setComplexityParams({...complexityInfo, density: densityAsX})
         }else{
             setComplexityParams(null)
         }

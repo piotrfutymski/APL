@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { ComplexityType } from "../graph/Graph.interface";
 import { ComplexityParameters, paramInfo, GraphConfig, GraphConfigCheck, GraphExperimentCheck, GraphExperiment, GraphExperimentsResult } from "./Graph.interface";
 
 export const getParamInfos = (experiment: GraphExperiment): paramInfo[]=>{
@@ -278,7 +279,11 @@ export const addCalculatedComplexity = (data: any[], series:string, calculatedIn
             res[series] = calculatedInfo.data[0]*n*n
         } else if(calculatedInfo.complexityType === "N^3") {
             res[series] = calculatedInfo.data[0]*n*n*n
-        } else {
+        } else if(calculatedInfo.complexityType === "N^4") {
+            res[series] = calculatedInfo.data[0]*n*n*n*n
+        }else if(calculatedInfo.complexityType === "N!") {
+            res[series] = calculatedInfo.data[0]*factorialize(n)
+        }else {
             res[series] = calculatedInfo.data[0]*n + calculatedInfo.data[1]
         }
         return res
@@ -299,27 +304,40 @@ export const calculateComplexityParameters = (data: any[], series:string): Compl
         i++
     }
 
-    let n_2_data = minf(n,t,fb_n_2_a)
-    let n_3_data = minf(n,t,fb_n_3_a)
-    let n_k_data = linearRegresion(n, t)
-
-    let n_2_res = fb_n_2(n_2_data[0], n, t)
-    let n_3_res = fb_n_3(n_3_data[0], n, t)
-    let n_k_res = fb_n_k(n_k_data[0], n_k_data[1], n, t)
-
-    if(n_2_res < n_3_res){
-        if(n_k_res < n_2_res){
-            return {data: n_k_data, complexityType: "N+K"}
-        }else{
-            return {data: n_2_data, complexityType: "N^2"}
-        }    
-    }else{
-        if(n_k_res < n_3_res){
-            return {data: n_k_data, complexityType: "N+K"}
-        }else{
-            return {data: n_3_data, complexityType: "N^3"}
+    const dataMap = new Map();
+    dataMap.set("N+K", linearRegresion(n, t));
+    dataMap.set("N^2", minf(n,t,fb_n_2_a));
+    dataMap.set("N^3", minf(n,t,fb_n_3_a));
+    dataMap.set("N^4", minf(n,t,fb_n_4_a));
+    if(n[n.length - 1] < 20){
+        dataMap.set("N!", minf(n,t,fb_n_n_a));
+    }
+    
+    let complexityType: ComplexityType = "N+K"
+    let minRes = fb_n_k(dataMap.get("N+K")[0], dataMap.get("N+K")[1], n, t)
+    let tmp = fb_n_2(dataMap.get("N^2")[0], n, t)
+    if(tmp < minRes){
+        minRes = tmp;
+        complexityType = "N^2"
+    }
+    tmp = fb_n_3(dataMap.get("N^3")[0], n, t)
+    if(tmp < minRes){
+        minRes = tmp;
+        complexityType = "N^3"
+    }
+    tmp = fb_n_4(dataMap.get("N^4")[0], n, t)
+    if(tmp < minRes){
+        minRes = tmp;
+        complexityType = "N^4"
+    }
+    if(n[n.length - 1] < 20){
+        tmp = fb_n_n(dataMap.get("N!")[0], n, t)
+        if(tmp < minRes){
+            minRes = tmp;
+            complexityType = "N!"
         }
     }
+    return {data: dataMap.get(complexityType), complexityType: complexityType}
 
 }
 
@@ -409,6 +427,50 @@ const fb_n_3_a = (a:number, n:number[], t:number[]):number => {
     let res = 0
     for(let i = 0; i < n.length; i++){
         let f = n[i]*n[i]*n[i]
+        res -= (t[i] - a*f)*f
+    }
+    return 2*res
+}
+
+const fb_n_4 = (a:number, n:number[], t:number[]):number => {
+    let res = 0
+    for(let i = 0; i < n.length; i++){
+        res += Math.pow(t[i] - a*n[i]*n[i]*n[i]*n[i], 2)
+    }
+    return res
+}
+
+const fb_n_4_a = (a:number, n:number[], t:number[]):number => {
+    let res = 0
+    for(let i = 0; i < n.length; i++){
+        let f = n[i]*n[i]*n[i]*n[i]
+        res -= (t[i] - a*f)*f
+    }
+    return 2*res
+}
+
+const factorialize = (num: number): number => {
+    if (num < 0) 
+          return -1;
+    else if (num == 0) 
+        return 1;
+    else {
+        return (num * factorialize(num - 1));
+    }
+}
+
+const fb_n_n = (a:number, n:number[], t:number[]):number => {
+    let res = 0
+    for(let i = 0; i < n.length; i++){
+        res += Math.pow(t[i] - a*factorialize(n[i]), 2)
+    }
+    return res
+}
+
+const fb_n_n_a = (a:number, n:number[], t:number[]):number => {
+    let res = 0
+    for(let i = 0; i < n.length; i++){
+        let f = factorialize(n[i])
         res -= (t[i] - a*f)*f
     }
     return 2*res
