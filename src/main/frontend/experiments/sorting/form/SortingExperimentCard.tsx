@@ -95,7 +95,9 @@ export const SortingExperimentCard = (props:SortingExperimentCardProps) =>{
                         }
                     </div> : ""
             }
-            <div className={styles.DeleteBtn} onClick={props.removeExperiment}>X</div>
+            <div className={styles.DeleteBtn} onClick={props.removeExperiment}>
+                <i className="material-icons">delete</i>
+            </div>
         </div>
     )
 }

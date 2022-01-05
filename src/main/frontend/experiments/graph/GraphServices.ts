@@ -108,7 +108,7 @@ export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[])
         } 
         else if (foundHamiltonian && config.densityOrVertices > 15) {
             result.densityOrVertices.status="ERROR"
-            result.densityOrVertices.msg="For hamiltonian cycles algorithm number of vertices can not be greater than 15"
+            result.densityOrVertices.msg="For Hamiltonian cycles algorithm number of vertices can not be greater than 15"
             result.errorFlag=true
         }
         else if (config.densityOrVertices > 1000)

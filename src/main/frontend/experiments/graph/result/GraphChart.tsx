@@ -110,7 +110,7 @@ export const GraphChart = (props: GraphChartProps) => {
             return "Table Access Count"
         if (props.dataLabel === "memoryOccupancyInBytes")
             return "Memory Used [B]"
-        if (props.dataLabel === "hamiltionCyclesCount")
+        if (props.dataLabel === "hamiltonCyclesCount")
             return "Cycles Count"
     }
 
@@ -135,7 +135,7 @@ export const GraphChart = (props: GraphChartProps) => {
             return "Table Access Count"
         if (props.dataLabel === "memoryOccupancyInBytes")
             return "Memory Used [B]"
-        if (props.dataLabel === "hamiltionCyclesCount")
+        if (props.dataLabel === "hamiltonCyclesCount")
             return "Cycles Count"
         return ""
     }
