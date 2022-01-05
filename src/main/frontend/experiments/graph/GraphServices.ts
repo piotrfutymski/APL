@@ -39,6 +39,15 @@ export const reducePossibleRepresentations = (algorithmName: string, dataGenerat
         res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges Undirected", "Weighted List Of Incident Undirected"]
     } else if(algorithmName === "Prims Algorithm" || algorithmName === "Kruskal Algorithm"){
         res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges Undirected", "Weighted List Of Incident Undirected"]
+    } else if (algorithmName === "Get All Edges" 
+              || algorithmName === "Get All Relations"
+              || algorithmName === "Get First Predecessor"
+              || algorithmName === "Get First Successor"
+              || algorithmName === "Get Memory Occupancy"
+              || algorithmName === "Get Non Incident"
+              || algorithmName === "Get Successors"
+              || algorithmName === "Get Predecessors"){
+        return res;
     } else if(dataGenerator === "Connected Directed Graph Generator" || dataGenerator === "Directed Graph Generator" || dataGenerator === "Euler Directed Graph Generator"){
         res = ["Adjacency Matrix Directed", "Incidence Matrix Directed", "List Of Edges Directed", "List Of Predecessors Directed", "List Of Successors Directed"];
     } else if(dataGenerator === "Connected Undirected Graph Generator" || dataGenerator === "Undirected Graph Generator" || dataGenerator === "Euler Undirected Graph Generator"){
