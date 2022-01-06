@@ -3,6 +3,7 @@ package put.apl.algorithms.graphs.implementation;
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
+import put.apl.algorithms.graphs.data.GraphRepresentationWeightedInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,11 +54,14 @@ public class KruskalAlgorithm extends GraphAlgorithm  {
 
     @Override
     public GraphResult run(GraphRepresentationInterface graph) throws InterruptedException  {
-        graph.setOperations(0);
-        int verticesSize = graph.getVerticesNumber();
-        Edge[] edges = new Edge[graph.getEdgesNumber()];
+
+        GraphRepresentationWeightedInterface graph_weighted = (GraphRepresentationWeightedInterface) graph;
+
+        graph_weighted.setOperations(0);
+        int verticesSize = graph_weighted.getVerticesNumber();
+        Edge[] edges = new Edge[graph_weighted.getEdgesNumber()];
         int edges_size = 0;
-        for (var edgeWeight : graph.getAllEdges())
+        for (var edgeWeight : graph_weighted.getAllEdges())
             edges[edges_size++] = new Edge(edgeWeight[0], edgeWeight[1], edgeWeight[2]);
 
         Edge[] result = new Edge[verticesSize];
@@ -94,7 +98,7 @@ public class KruskalAlgorithm extends GraphAlgorithm  {
                 final_result.add(edge_result.dest);
             }
         }
-        return GraphResult.builder().path(final_result).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
+        return GraphResult.builder().path(final_result).memoryOccupancyInBytes(graph_weighted.getMemoryOccupancy()).tableAccessCount(graph_weighted.getOperations()).build();
     }
 
     @Override

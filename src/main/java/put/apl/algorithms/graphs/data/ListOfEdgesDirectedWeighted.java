@@ -66,11 +66,24 @@ public class ListOfEdgesDirectedWeighted extends ListOfEdgesDirected implements 
     }
 
     @Override
+    public Edge[] getSuccessorsWeighted(int vertex) throws InterruptedException {
+        List<Edge> successors = new ArrayList<>();
+        for (int i=0;i < edgeNum;i++) {
+            escape();
+            int result = checkIfSTART(vertex, getEdgeInner(i, 0),getEdgeInner(i, 1));
+            if (result != -1) {
+                successors.add(new Edge(result, getWeight(i)));
+            }
+        }
+        return successors.toArray(new Edge[0]);
+    }
+
+    @Override
     public int[][] getAllEdges() {
         int[][] result = new int[edges.length][];
         for (int i=0; i<edges.length;i++)
         {
-            result[i] = new int[] {getEdgeInner(i,0), getEdgeInner(i,1), weights[i]};
+            result[i] = new int[] {getEdgeInner(i,0), getEdgeInner(i,1), getWeight(i)};
         }
         return result;
     }
@@ -83,6 +96,7 @@ public class ListOfEdgesDirectedWeighted extends ListOfEdgesDirected implements 
     @Override
     protected int getWeight(int edgeNumber)
     {
+        operations+=1;
         return weights[edgeNumber];
     }
 

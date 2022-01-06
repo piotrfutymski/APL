@@ -57,6 +57,19 @@ public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix implements 
     }
 
     @Override
+    public Edge[] getSuccessorsWeighted(int vertex) throws InterruptedException {
+        List<Edge> result = new ArrayList<>();
+
+        for (int i = 0; i< verticesNumber; i++)
+        {
+            escape();
+            if (checkIfEdge(vertex, i))
+                result.add(new Edge(i, getEdgeInner(vertex, i)));
+        }
+        return result.toArray(new Edge[0]);
+    }
+
+    @Override
     protected int getAllEdgesInner(int edgeNumber, int i, int j, int[][] result) {
 
         int edgesAdded=0;

@@ -1,20 +1,11 @@
 package put.apl.algorithms.graphs.data;
 
-import lombok.AllArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
 public abstract class ListOfIncidentWeighted extends GraphRepresentation implements GraphRepresentationWeightedInterface {
 
-    @AllArgsConstructor
-    protected static class Edge
-    {
-        public int vertex;
-        public int weight;
-
-    }
 
     protected Edge[][] representation;
 
@@ -130,7 +121,7 @@ public abstract class ListOfIncidentWeighted extends GraphRepresentation impleme
         return new Edge(-1,-1);
     }
 
-    public int[] getNonIncident(Integer id) throws InterruptedException {
+    public int[] getNonIncident(int id) throws InterruptedException {
         boolean[] nonIncident = new boolean[representation.length];
         List<Integer> nonIncidentIds = new ArrayList<Integer>();
         for(int i = 0; i < representation.length; i++) {
