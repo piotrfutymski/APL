@@ -23,13 +23,11 @@ public abstract class ListOfIncidentWeighted extends GraphRepresentation impleme
         loadFromIncidenceList(input, weights);
     }
 
-    public ListOfIncidentWeighted(Edge[][] edges) {
+    public ListOfIncidentWeighted(Edge[][] edges, int edgeNumber)
+    {
         this.representation = edges;
         this.vertexNum = edges.length;
-        edgeNum = 0;
-        for (var vertex : edges)
-            for (var edge : vertex)
-                edgeNum+=1;
+        edgeNum = edgeNumber;
     }
 
     @Override

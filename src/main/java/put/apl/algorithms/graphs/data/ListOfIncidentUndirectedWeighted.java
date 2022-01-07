@@ -25,13 +25,9 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
             loadFromIncidenceList(input, weights);
     }
 
-    public ListOfIncidentUndirectedWeighted(Edge[][] edges)
+    public ListOfIncidentUndirectedWeighted(Edge[][] edges, int edgeNumber)
     {
-        this.representation = edges;
-        this.vertexNum = edges.length;
-        edgeNum = 0;
-        for (var vertex : edges)
-            edgeNum+=vertex.length;
+        super(edges,edgeNumber);
     }
 
     @Override
@@ -115,7 +111,7 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
 
     @Override
     public GraphRepresentationInterface clone() {
-        return new ListOfIncidentUndirectedWeighted(this.representation.clone());
+        return new ListOfIncidentUndirectedWeighted(this.representation.clone(), this.edgeNum);
     }
 
 }

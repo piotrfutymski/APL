@@ -23,12 +23,8 @@ public class ListOfPredecessorsDirectedWeighted extends ListOfIncidentWeighted {
             loadFromIncidenceList(input, weights);
     }
 
-    public ListOfPredecessorsDirectedWeighted(Edge[][] edges) {
-        this.representation = edges;
-        this.vertexNum = edges.length;
-        edgeNum = 0;
-        for (var vertex : representation)
-            edgeNum+=vertex.length;
+    public ListOfPredecessorsDirectedWeighted(Edge[][] edges, int edgeNumber) {
+        super(edges, edgeNumber);
     }
 
     @Override
@@ -91,6 +87,6 @@ public class ListOfPredecessorsDirectedWeighted extends ListOfIncidentWeighted {
 
     @Override
     public GraphRepresentationInterface clone() {
-        return new ListOfPredecessorsDirectedWeighted(this.representation);
+        return new ListOfPredecessorsDirectedWeighted(this.representation.clone(), this.edgeNum);
     }
 }
