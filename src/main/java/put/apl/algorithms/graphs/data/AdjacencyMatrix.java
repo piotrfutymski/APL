@@ -16,19 +16,11 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
         loadFromIncidenceList(input);
     }
 
-    public AdjacencyMatrix(int[][] matrix) throws InterruptedException {
+    public AdjacencyMatrix(int[][] matrix, int edges) throws InterruptedException {
         operations = 0;
         verticesNumber = matrix.length;
         this.matrix = matrix;
-        edgesNumber = 0;
-        for (int i=0; i<matrix.length; i++)
-        {
-            for (int j=0; j<matrix[i].length; j++) {
-                escape();
-                if (checkIfEdge(i, j))
-                    edgesNumber+=1;
-            }
-        }
+        edgesNumber = edges;
     }
 
     public AdjacencyMatrix() {
@@ -54,7 +46,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int[] getSuccessors(Integer id) throws InterruptedException {
+    public int[] getSuccessors(int id) throws InterruptedException {
         List<Integer> result = new ArrayList<>();
 
         for (int i = 0; i< verticesNumber; i++)
@@ -67,7 +59,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int getFirstSuccessor(Integer id) throws InterruptedException {
+    public int getFirstSuccessor(int id) throws InterruptedException {
         for (int i = 0; i< verticesNumber; i++)
         {
             escape();
@@ -78,7 +70,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int[] getPredecessors(Integer id) throws InterruptedException {
+    public int[] getPredecessors(int id) throws InterruptedException {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i< verticesNumber; i++)
         {
@@ -90,7 +82,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int getFirstPredecessor(Integer id) throws InterruptedException {
+    public int getFirstPredecessor(int id) throws InterruptedException {
         for (int i = 0; i< verticesNumber; i++)
         {
             escape();
@@ -101,7 +93,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int[] getNonIncident(Integer id) throws InterruptedException {
+    public int[] getNonIncident(int id) throws InterruptedException {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i< verticesNumber; i++) {
             escape();
@@ -122,7 +114,7 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int getEdge(Integer id1, Integer id2) {
+    public int getEdge(int id1, int id2) {
         if (getEdgeInner(id1, id2) > 0)
             return getEdgeInner(id1,id2);
         else if (getEdgeInner(id1,id2) > 0) {

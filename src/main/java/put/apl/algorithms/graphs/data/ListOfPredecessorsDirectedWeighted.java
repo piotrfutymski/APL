@@ -23,12 +23,8 @@ public class ListOfPredecessorsDirectedWeighted extends ListOfIncidentWeighted {
             loadFromIncidenceList(input, weights);
     }
 
-    public ListOfPredecessorsDirectedWeighted(Edge[][] edges) {
-        this.representation = edges;
-        this.vertexNum = edges.length;
-        edgeNum = 0;
-        for (var vertex : representation)
-            edgeNum+=vertex.length;
+    public ListOfPredecessorsDirectedWeighted(Edge[][] edges, int edgeNumber) {
+        super(edges, edgeNumber);
     }
 
     @Override
@@ -37,27 +33,32 @@ public class ListOfPredecessorsDirectedWeighted extends ListOfIncidentWeighted {
     }
 
     @Override
-    public int[] getSuccessors(Integer id) throws InterruptedException {
+    public int[] getSuccessors(int id) throws InterruptedException {
         return Arrays.stream(getIndirect(id)).mapToInt(i->i.vertex).toArray();
     }
 
     @Override
-    public int getFirstSuccessor(Integer id) throws InterruptedException {
+    public int getFirstSuccessor(int id) throws InterruptedException {
         return getFirstIndirect(id).vertex;
-    };
+    }
 
     @Override
-    public int[] getPredecessors(Integer id) {
+    public Edge[] getSuccessorsWeighted(int vertex) throws InterruptedException {
+        return getIndirect(vertex);
+    }
+
+    @Override
+    public int[] getPredecessors(int id) {
         return Arrays.stream(getDirect(id)).mapToInt(i->i.vertex).toArray();
     }
 
     @Override
-    public int getFirstPredecessor(Integer id) {
+    public int getFirstPredecessor(int id) {
         return getFirstDirect(id).vertex;
     }
 
     @Override
-    public int getEdge(Integer id1, Integer id2) throws InterruptedException {
+    public int getEdge(int id1, int id2) throws InterruptedException {
         for (var predecessor : getDirect(id1)) {
             if (predecessor.vertex == id2) {
                 return -1 * predecessor.weight;
@@ -86,6 +87,6 @@ public class ListOfPredecessorsDirectedWeighted extends ListOfIncidentWeighted {
 
     @Override
     public GraphRepresentationInterface clone() {
-        return new ListOfPredecessorsDirectedWeighted(this.representation);
+        return new ListOfPredecessorsDirectedWeighted(this.representation.clone(), this.edgeNum);
     }
 }

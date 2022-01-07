@@ -3,6 +3,7 @@ package put.apl.algorithms.graphs.implementation;
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
+import put.apl.algorithms.graphs.data.GraphRepresentationWeightedInterface;
 
 import java.util.*;
 
@@ -11,7 +12,7 @@ public class DijkstraAlgorithm  extends GraphAlgorithm {
 
     PriorityQueue<Integer> queue;
 
-    GraphRepresentationInterface graph;
+    GraphRepresentationWeightedInterface graph_weighted;
 
     //HashSet<Integer> visited;
 
@@ -21,10 +22,13 @@ public class DijkstraAlgorithm  extends GraphAlgorithm {
     Integer[] dist;
 
     @Override
-    public GraphResult run(GraphRepresentationInterface graph) throws InterruptedException {
-        graph.setOperations(0);
-        this.graph = graph;
-        int verticesSize = graph.getVerticesNumber();
+    public GraphResult run(GraphRepresentationInterface graph) throws InterruptedException  {
+
+        GraphRepresentationWeightedInterface graph_weighted = (GraphRepresentationWeightedInterface) graph;
+
+        graph_weighted.setOperations(0);
+        this.graph_weighted = graph_weighted;
+        int verticesSize = graph_weighted.getVerticesNumber();
         dist = new Integer[verticesSize];
         visited = new boolean[verticesSize];
 
@@ -50,16 +54,18 @@ public class DijkstraAlgorithm  extends GraphAlgorithm {
             }
 
         }
-        return GraphResult.builder().path(Arrays.asList(dist)).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
+        return GraphResult.builder().path(Arrays.asList(dist)).memoryOccupancyInBytes(graph_weighted.getMemoryOccupancy()).tableAccessCount(graph_weighted.getOperations()).build();
     }
 
-    private void propagateNeighbours(int vertice) throws InterruptedException {
-        for (int node : graph.getSuccessors(vertice))
+    private void propagateNeighbours(int vertex) throws InterruptedException {
+        for (var edge : graph_weighted.getSuccessorsWeighted(vertex))
         {
+            int node = edge.vertex;
+            int weight = edge.weight;
             escape();
             if (!visited[node])
             {
-                int distance = dist[vertice] + graph.getEdge(vertice, node);
+                int distance = dist[vertex] + weight;
 
                 if (distance < dist[node])
                     dist[node] = distance;

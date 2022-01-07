@@ -25,13 +25,9 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
             loadFromIncidenceList(input, weights);
     }
 
-    public ListOfIncidentUndirectedWeighted(Edge[][] edges)
+    public ListOfIncidentUndirectedWeighted(Edge[][] edges, int edgeNumber)
     {
-        this.representation = edges;
-        this.vertexNum = edges.length;
-        edgeNum = 0;
-        for (var vertex : edges)
-            edgeNum+=vertex.length;
+        super(edges,edgeNumber);
     }
 
     @Override
@@ -41,7 +37,7 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
     }
 
     @Override
-    public int[] getNonIncident(Integer id) throws InterruptedException {
+    public int[] getNonIncident(int id) throws InterruptedException {
         boolean[] nonIncident = new boolean[representation.length];
         List<Integer> nonIncidentIds = new ArrayList<Integer>();
         for(int i = 0; i < representation.length; i++) {
@@ -63,27 +59,32 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
     }
 
     @Override
-    public int[] getSuccessors(Integer id) {
+    public int[] getSuccessors(int id) {
         return Arrays.stream(getDirect(id)).mapToInt(i->i.vertex).toArray();
     }
 
     @Override
-    public int getFirstSuccessor(Integer id) {
+    public int getFirstSuccessor(int id) {
         return getFirstDirect(id).vertex;
     }
 
     @Override
-    public int[] getPredecessors(Integer id) {
+    public Edge[] getSuccessorsWeighted(int vertex) throws InterruptedException {
+        return getDirect(vertex);
+    }
+
+    @Override
+    public int[] getPredecessors(int id) {
         return Arrays.stream(getDirect(id)).mapToInt(i->i.vertex).toArray();
     }
 
     @Override
-    public int getFirstPredecessor(Integer id) {
+    public int getFirstPredecessor(int id) {
         return getFirstDirect(id).vertex;
     }
 
     @Override
-    public int getEdge(Integer id1, Integer id2) throws InterruptedException {
+    public int getEdge(int id1, int id2) throws InterruptedException {
         for (var predecessor : getDirect(id1)) {
             escape();
             if (predecessor.vertex == id2) {
@@ -110,6 +111,7 @@ public class ListOfIncidentUndirectedWeighted extends ListOfIncidentWeighted{
 
     @Override
     public GraphRepresentationInterface clone() {
-        return new ListOfIncidentUndirectedWeighted(this.representation.clone());
+        return new ListOfIncidentUndirectedWeighted(this.representation.clone(), this.edgeNum);
     }
+
 }

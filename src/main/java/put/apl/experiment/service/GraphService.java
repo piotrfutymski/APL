@@ -159,13 +159,13 @@ public class GraphService {
                     case "Weighted List Of Edges Undirected":
                         data = new ListOfEdgesUndirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
-                    case "Weighted List of Incident Undirected":
+                    case "Weighted List Of Incident Undirected":
                         data = new ListOfIncidentUndirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
-                    case "Weighted List of Predecessors Directed":
+                    case "Weighted List Of Predecessors Directed":
                         data = new ListOfPredecessorsDirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
-                    case "Weighted List of Successors Directed":
+                    case "Weighted List Of Successors Directed":
                         data = new ListOfSuccessorsDirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
                     default:

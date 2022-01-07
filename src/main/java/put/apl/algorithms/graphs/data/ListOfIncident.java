@@ -106,7 +106,7 @@ public abstract class ListOfIncident extends GraphRepresentation {
         return -1;
     }
 
-    public int[] getNonIncident(Integer id) throws InterruptedException {
+    public int[] getNonIncident(int id) throws InterruptedException {
         boolean[] nonIncident = new boolean[edges.length];
         List<Integer> nonIncidentIds = new ArrayList<Integer>();
         for(int i = 0; i < edges.length; i++) {

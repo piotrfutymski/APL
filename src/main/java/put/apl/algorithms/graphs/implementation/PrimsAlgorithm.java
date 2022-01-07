@@ -3,6 +3,7 @@ package put.apl.algorithms.graphs.implementation;
 import org.springframework.stereotype.Component;
 import put.apl.algorithms.graphs.GraphResult;
 import put.apl.algorithms.graphs.data.GraphRepresentationInterface;
+import put.apl.algorithms.graphs.data.GraphRepresentationWeightedInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,12 @@ public class PrimsAlgorithm extends GraphAlgorithm  {
     int verticesSize;
 
     @Override
-    public GraphResult run(GraphRepresentationInterface graph)throws InterruptedException {
-        graph.setOperations(0);
-        verticesSize = graph.getVerticesNumber();
+    public GraphResult run(GraphRepresentationInterface graph) throws InterruptedException  {
+
+        GraphRepresentationWeightedInterface graph_weighted = (GraphRepresentationWeightedInterface) graph;
+
+        graph_weighted.setOperations(0);
+        verticesSize = graph_weighted.getVerticesNumber();
         key = new int[verticesSize];
         MST = new ArrayList<>();
         visited = new boolean[verticesSize];
@@ -43,17 +47,19 @@ public class PrimsAlgorithm extends GraphAlgorithm  {
             int u = findKey();
 
             visited[u] = true;
-            for (int v : graph.getSuccessors(u))
+            for (var v : graph_weighted.getSuccessorsWeighted(u))
             {
+                int vertex = v.vertex;
+                int weight = v.weight;
                 escape();
-                if (!visited[v] && graph.getEdge(u,v) < key[v])
+                if (!visited[vertex] && weight < key[vertex])
                 {
-                    MST.set(v, u);
-                    key[v] = graph.getEdge(u,v);
+                    MST.set(vertex, u);
+                    key[vertex] = graph_weighted.getEdge(u,vertex);
                 }
             }
         }
-        return GraphResult.builder().path(MST).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
+        return GraphResult.builder().path(MST).memoryOccupancyInBytes(graph_weighted.getMemoryOccupancy()).tableAccessCount(graph_weighted.getOperations()).build();
     }
     private int findKey() throws InterruptedException {
         // Initialize min value
