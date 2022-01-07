@@ -78,7 +78,7 @@ public class SortingService {
                                                        List<SortingExperiment> bannedExperiments,
                                                        AlgorithmFuture algorithmFuture) throws InterruptedException {
         List<SortingExperiment> res = new ArrayList<>();
-        float experimentTimeout = (AlgorithmFuture.DEFAULT_TIMEOUT_MS * 2) / ((float)REPEAT_COUNT * experiments.size());
+        float experimentTimeout = (AlgorithmFuture.DEFAULT_TIMEOUT_MS * 3) / ((float)REPEAT_COUNT * experiments.size());
         float begPercent = algorithmFuture.getDonePercentInfo();
         int i = 0;
         List<List<SortingExperiment>> groupedExperiments =
