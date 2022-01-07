@@ -78,6 +78,7 @@ export interface GraphExperimentsResult {
     results: GraphExperiment[];
     queuePosition: number;
     errorCause: string;
+    donePercent?: number;
     id?: string;
 }
 

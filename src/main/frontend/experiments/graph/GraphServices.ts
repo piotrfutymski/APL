@@ -118,6 +118,11 @@ export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[])
             result.densityOrVertices.msg="Maximum density should be less than 75 for Euler generated graphs"
             result.warningFlag=true
         }
+        else if(foundEuler && config.densityOrVertices > 90){
+            result.densityOrVertices.status="ERROR"
+            result.densityOrVertices.msg="Maximum density must be less than 90 for Euler generated graphs"
+            result.errorFlag=true
+        }
     } else {
         if(config.densityOrVertices <= 0)
         {
@@ -202,6 +207,12 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
             result.density.status="WARNING"
             result.density.msg="Density should be less than 75 for Euler generated graphs"
             result.warningFlag=true
+        }
+        else if(experiment.dataGenerator.includes("Euler") && experiment.density > 90)
+        {
+            result.density.status="ERROR"
+            result.density.msg="Density must be less than 90 for Euler generated graphs"
+            result.errorFlag=true
         }
     }
     return result

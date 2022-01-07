@@ -26,12 +26,13 @@ public class SortingService {
     ApplicationContext context;
     GarbageCollectorFighter garbageCollectorFighter;
 
-    public List<Object> runExperiments(List<SortingExperiment> experiments) throws InterruptedException {
+    public List<Object> runExperiments(List<SortingExperiment> experiments, AlgorithmFuture algorithmFuture) throws InterruptedException {
         List<Object> res = new ArrayList<>();
         List<List<SortingExperiment>> results = new ArrayList<>();
         List<SortingExperiment> bannedExperiments = new ArrayList<>();
         for (int i = 0; i < REPEAT_COUNT; i++) {
-            results.add(runExperimentsOnce(experiments, bannedExperiments));
+            results.add(runExperimentsOnce(experiments, bannedExperiments, algorithmFuture));
+            algorithmFuture.setDonePercentInfo((float)(i + 1) / REPEAT_COUNT);
         }
         for (int i = 0; i < experiments.size(); i++) {
             List<SortingExperiment> resultsForIExperiment = new ArrayList<>();
@@ -73,10 +74,13 @@ public class SortingService {
                 .build();
     }
 
-    private List<SortingExperiment> runExperimentsOnce(List<SortingExperiment> experiments, List<SortingExperiment> bannedExperiments) throws InterruptedException {
+    private List<SortingExperiment> runExperimentsOnce(List<SortingExperiment> experiments,
+                                                       List<SortingExperiment> bannedExperiments,
+                                                       AlgorithmFuture algorithmFuture) throws InterruptedException {
         List<SortingExperiment> res = new ArrayList<>();
         float experimentTimeout = (AlgorithmFuture.DEFAULT_TIMEOUT_MS * 2) / ((float)REPEAT_COUNT * experiments.size());
-
+        float begPercent = algorithmFuture.getDonePercentInfo();
+        int i = 0;
         List<List<SortingExperiment>> groupedExperiments =
                 new ArrayList<>(
                         experiments.stream()
@@ -90,6 +94,8 @@ public class SortingService {
             for (SortingExperiment sortingExperiment : groupedExperiment) {
                 res.add(runExperiment(sortingExperiment, toSort, bannedExperiments, experimentTimeout));
                 toSort.restoreFromTemplate(data);
+                i++;
+                algorithmFuture.setDonePercentInfo(begPercent + (float)i/(experiments.size()*REPEAT_COUNT));
             }
         }
 
