@@ -14,7 +14,7 @@ import java.util.concurrent.Future;
 public class AlgorithmFuture {
 
     public static int DEFAULT_TIMEOUT_MS = 30000;
-    public static int DEFAULT_LASTCALL_MS = 60000;
+    public static int DEFAULT_LASTCALL_MS = 10000;
     public static int INFINITE_TIMEOUT = -1;
 
     Future<List<Object>> future;
@@ -24,4 +24,5 @@ public class AlgorithmFuture {
     Integer timeout;
     Long jobNumber;
     Boolean finite;
+    Float donePercentInfo;
 }

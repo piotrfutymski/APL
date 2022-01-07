@@ -46,6 +46,7 @@ export const SortingExperimentResultView = () =>{
                         errorCause={experimentsResults.errorCause}
                         status={experimentsResults.status}
                         results={experimentsResults.results}
+                        donePercent={experimentsResults.donePercent}
                         id={id}
                     /> : 
                     <SortingDoneView

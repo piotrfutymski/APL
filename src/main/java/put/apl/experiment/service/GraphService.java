@@ -26,13 +26,14 @@ public class GraphService {
     ApplicationContext context;
     GarbageCollectorFighter garbageCollectorFighter;
 
-    public List<Object> runExperiments(List<GraphExperiment> experiments) throws InterruptedException {
+    public List<Object> runExperiments(List<GraphExperiment> experiments, AlgorithmFuture algorithmFuture) throws InterruptedException {
 
         List<Object> res = new ArrayList<>();
         List<List<GraphExperiment>> results = new ArrayList<>();
         List<GraphExperiment> bannedExperiments = new ArrayList<>();
         for (int i = 0; i < REPEAT_COUNT; i++) {
-            results.add(runExperimentsOnce(experiments, bannedExperiments));
+            results.add(runExperimentsOnce(experiments, bannedExperiments, algorithmFuture));
+            algorithmFuture.setDonePercentInfo((float)(i + 1) / REPEAT_COUNT);
         }
         for (int i = 0; i < experiments.size(); i++) {
             boolean t_is_minus = false;
@@ -80,10 +81,13 @@ public class GraphService {
                 .clearForResponse();
     }
 
-    private List<GraphExperiment> runExperimentsOnce(List<GraphExperiment> experiments, List<GraphExperiment> bannedExperiments) throws InterruptedException {
+    private List<GraphExperiment> runExperimentsOnce(List<GraphExperiment> experiments,
+                                                     List<GraphExperiment> bannedExperiments,
+                                                     AlgorithmFuture algorithmFuture) throws InterruptedException {
         List<GraphExperiment> res = new ArrayList<>();
         float experimentTimeout = (AlgorithmFuture.DEFAULT_TIMEOUT_MS * 2) / ((float)REPEAT_COUNT * experiments.size());
-
+        float begPercent = algorithmFuture.getDonePercentInfo();
+        int i = 0;
         List<List<GraphExperiment>> groupedExperiments =
                 new ArrayList<>(experiments.stream().collect(Collectors.groupingBy(GraphExperiment::dataGeneratorGroupingString)).values());
 
@@ -169,6 +173,8 @@ public class GraphService {
                         break;
                 }
                 res.add(runExperiment(graphExperiment, data.clone(), bannedExperiments, experimentTimeout));
+                i++;
+                algorithmFuture.setDonePercentInfo(begPercent + (float)i/(experiments.size()*REPEAT_COUNT));
             }
         }
 

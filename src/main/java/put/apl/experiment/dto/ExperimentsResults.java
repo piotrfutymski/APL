@@ -23,4 +23,5 @@ public class ExperimentsResults {
     private List<Object> results;
     private Long queuePosition;
     private String errorCause;
+    private Float donePercent;
 }

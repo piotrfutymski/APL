@@ -43,11 +43,11 @@ public class SchedulerService {
     }
 
     public String scheduleSoritng(List<SortingExperiment> experiments, Boolean finite) {
-        return scheduleOperation(experiments, finite, e->sortingService.runExperiments(e));
+        return scheduleOperation(experiments, finite, (e,f)->sortingService.runExperiments(e,f));
     }
 
     public String scheduleGraph(List<GraphExperiment> experiments, Boolean finite) {
-        return scheduleOperation(experiments, finite, e->graphService.runExperiments(e));
+        return scheduleOperation(experiments, finite, (e,f)->graphService.runExperiments(e,f));
     }
 
     public ExperimentsResults getExperimentsResults(String id){
@@ -59,6 +59,7 @@ public class SchedulerService {
             if(getQueuePosition(algorithmFuture) <= 0L){
                 return ExperimentsResults.builder()
                         .status(ExperimentsResults.ExperimentStatus.CALCULATING)
+                        .donePercent(algorithmFuture.getDonePercentInfo())
                         .queuePosition(0L)
                         .build();
             }else{
@@ -96,7 +97,7 @@ public class SchedulerService {
         }
     }
 
-    private  <T> String scheduleOperation(List<T> experiments, Boolean finite, CheckedFunction<List<T>, List<Object>> operation) {
+    private  <T> String scheduleOperation(List<T> experiments, Boolean finite, CheckedFunction<List<T>, AlgorithmFuture, List<Object>> operation) {
         if(experiments.size() == 0)
             return null;
         String id = UUID.randomUUID().toString();
@@ -109,6 +110,7 @@ public class SchedulerService {
                 .expired(false)
                 .timeout(timeout)
                 .finite(finite)
+                .donePercentInfo(0.0f)
                 .jobNumber(finite ? finiteJobCounter++ : infiniteJobCounter++)
                 .build();
 
@@ -116,8 +118,9 @@ public class SchedulerService {
             List<Object> res = null;
             try{
                 algorithmFuture.setStart(Date.from(Instant.now()));
-                res = operation.apply(experiments);
+                res = operation.apply(experiments, algorithmFuture);
                 incrementJobDone(algorithmFuture);
+                algorithmFuture.setDonePercentInfo(1.0f);
             }catch(Throwable e){
                 incrementJobDone(algorithmFuture);
                 throw e;
@@ -188,7 +191,7 @@ public class SchedulerService {
     }
 
     @FunctionalInterface
-    private interface CheckedFunction<T, R> {
-        R apply(T t) throws InterruptedException;
+    private interface CheckedFunction<T, U, R> {
+        R apply(T t, U u) throws InterruptedException;
     }
 }
