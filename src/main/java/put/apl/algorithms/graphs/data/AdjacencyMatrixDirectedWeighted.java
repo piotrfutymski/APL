@@ -16,8 +16,8 @@ public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix implements 
             loadFromIncidenceList(input, weights);
     }
 
-    public AdjacencyMatrixDirectedWeighted(int[][] matrix) throws InterruptedException {
-        super(matrix);
+    public AdjacencyMatrixDirectedWeighted(int[][] matrix, int edges) throws InterruptedException {
+        super(matrix, edges);
     }
 
     public AdjacencyMatrixDirectedWeighted() {
@@ -54,6 +54,19 @@ public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix implements 
                 edgesNumber+=1;
             }
         }
+    }
+
+    @Override
+    public Edge[] getSuccessorsWeighted(int vertex) throws InterruptedException {
+        List<Edge> result = new ArrayList<>();
+
+        for (int i = 0; i< verticesNumber; i++)
+        {
+            escape();
+            if (checkIfEdge(vertex, i))
+                result.add(new Edge(i, getEdgeInner(vertex, i)));
+        }
+        return result.toArray(new Edge[0]);
     }
 
     @Override
@@ -94,6 +107,6 @@ public class AdjacencyMatrixDirectedWeighted extends AdjacencyMatrix implements 
     @SneakyThrows
     @Override
     public GraphRepresentationInterface clone() {
-        return new AdjacencyMatrixDirectedWeighted(matrix.clone());
+        return new AdjacencyMatrixDirectedWeighted(matrix.clone(), edgesNumber);
     }
 }

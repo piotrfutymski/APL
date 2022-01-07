@@ -26,12 +26,8 @@ public class ListOfSuccessorsDirectedWeighted extends ListOfIncidentWeighted {
             loadFromIncidenceList(input, weights);
     }
 
-    public ListOfSuccessorsDirectedWeighted(Edge[][] edges) {
-        this.representation = edges;
-        this.vertexNum = edges.length;
-        edgeNum = 0;
-        for (var vertex : edges)
-            edgeNum+=vertex.length;
+    public ListOfSuccessorsDirectedWeighted(Edge[][] edges, int edgeNumber) {
+        super(edges, edgeNumber);
     }
 
     @Override
@@ -40,27 +36,32 @@ public class ListOfSuccessorsDirectedWeighted extends ListOfIncidentWeighted {
     }
 
     @Override
-    public int[] getSuccessors(Integer id) {
+    public int[] getSuccessors(int id) {
         return Arrays.stream(getDirect(id)).mapToInt(i->i.vertex).toArray();
     };
 
     @Override
-    public int getFirstSuccessor(Integer id) {
+    public int getFirstSuccessor(int id) {
         return getFirstDirect(id).vertex;
     };
 
     @Override
-    public int[] getPredecessors(Integer id) throws InterruptedException {
+    public Edge[] getSuccessorsWeighted(int vertex) throws InterruptedException {
+        return getDirect(vertex);
+    }
+
+    @Override
+    public int[] getPredecessors(int id) throws InterruptedException {
         return Arrays.stream(getIndirect(id)).mapToInt(i->i.vertex).toArray();
     }
 
     @Override
-    public int getFirstPredecessor(Integer id) throws InterruptedException {
+    public int getFirstPredecessor(int id) throws InterruptedException {
         return getFirstIndirect(id).vertex;
     }
 
     @Override
-    public int getEdge(Integer id1, Integer id2) throws InterruptedException {
+    public int getEdge(int id1, int id2) throws InterruptedException {
         for (var successor : getDirect(id1)) {
             if (successor.vertex == id2) {
                 return successor.weight;
@@ -88,6 +89,6 @@ public class ListOfSuccessorsDirectedWeighted extends ListOfIncidentWeighted {
     }
     @Override
     public GraphRepresentationInterface clone() {
-        return new ListOfSuccessorsDirectedWeighted(this.representation.clone());
+        return new ListOfSuccessorsDirectedWeighted(this.representation.clone(), this.edgeNum);
     }
 }

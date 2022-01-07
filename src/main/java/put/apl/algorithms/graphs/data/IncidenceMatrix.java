@@ -53,7 +53,7 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int[] getSuccessors(Integer id) throws InterruptedException {
+    public int[] getSuccessors(int id) throws InterruptedException {
         List<Integer> result = new ArrayList<>();
         for (int i=0; i<edgesSize;i++)
         {
@@ -75,7 +75,7 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int getFirstSuccessor(Integer id) throws InterruptedException {
+    public int getFirstSuccessor(int id) throws InterruptedException {
         for (int i=0; i<edgesSize;i++)
         {
             if (checkIfSTART(id,i))
@@ -95,7 +95,7 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int[] getPredecessors(Integer id) throws InterruptedException {
+    public int[] getPredecessors(int id) throws InterruptedException {
         List<Integer> result = new ArrayList<>();
         for (int i=0; i<edgesSize;i++)
         {
@@ -117,7 +117,7 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int getFirstPredecessor(Integer id) throws InterruptedException {
+    public int getFirstPredecessor(int id) throws InterruptedException {
         for (int i=0; i<edgesSize;i++)
         {
             if (checkIfEND(id,i))
@@ -137,7 +137,7 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int[] getNonIncident(Integer id) throws InterruptedException {
+    public int[] getNonIncident(int id) throws InterruptedException {
         boolean[] vertices = new boolean[verticesSize];
         List<Integer> result = new ArrayList<>();
         for (int i=0; i<edgesSize;i++)
@@ -177,7 +177,7 @@ public abstract class IncidenceMatrix extends GraphRepresentation {
     }
 
     @Override
-    public int getEdge(Integer id1, Integer id2) throws InterruptedException {
+    public int getEdge(int id1, int id2) throws InterruptedException {
         for (int i=0; i<edgesSize;i++) {
             escape();
             if (getEdgeInner(id1, i) != 0) {

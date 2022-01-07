@@ -59,7 +59,8 @@ public abstract class ListOfEdges extends GraphRepresentation {
         return -1;
     }
 
-    public int[] getSuccessors(Integer id) throws InterruptedException {
+    @Override
+    public int[] getSuccessors(int id) throws InterruptedException {
         List<Integer> successors = new ArrayList<Integer>();
         for (int i=0;i<edgeNum;i++) {
             escape();
@@ -73,7 +74,7 @@ public abstract class ListOfEdges extends GraphRepresentation {
 
 
 
-    public int getFirstSuccessor(Integer id) throws InterruptedException {
+    public int getFirstSuccessor(int id) throws InterruptedException {
         for (int i=0;i<edgeNum;i++) {
             escape();
             int result = checkIfSTART(id, getEdgeInner(i, 0),getEdgeInner(i, 1));
@@ -84,7 +85,7 @@ public abstract class ListOfEdges extends GraphRepresentation {
         return -1;
     }
 
-    public int[] getPredecessors(Integer id) throws InterruptedException {
+    public int[] getPredecessors(int id) throws InterruptedException {
         List<Integer> predecessors = new ArrayList<Integer>();
         for (int i=0;i<edgeNum;i++) {
             escape();
@@ -97,7 +98,7 @@ public abstract class ListOfEdges extends GraphRepresentation {
         return predecessors.stream().mapToInt(i->i).toArray();
     };
 
-    public int getFirstPredecessor(Integer id) throws InterruptedException {
+    public int getFirstPredecessor(int id) throws InterruptedException {
         for (int i=0;i<edgeNum;i++) {
             escape();
             int result = checkIfSTART(id, getEdgeInner(i, 1),getEdgeInner(i, 0));
@@ -108,7 +109,7 @@ public abstract class ListOfEdges extends GraphRepresentation {
         return -1;
     };
 
-    public int[] getNonIncident(Integer id) throws InterruptedException {
+    public int[] getNonIncident(int id) throws InterruptedException {
         boolean[] nonIncident = new boolean[edges.length];
         List<Integer> nonIncidentIds = new ArrayList<Integer>();
         for (int i=0;i<edgeNum;i++) {
@@ -146,7 +147,7 @@ public abstract class ListOfEdges extends GraphRepresentation {
     };
 
     @Override
-    public int getEdge(Integer id1, Integer id2) throws InterruptedException {
+    public int getEdge(int id1, int id2) throws InterruptedException {
         for (int i=0;i<edgeNum;i++) {
             escape();
             int start = getEdgeInner(i, 0);

@@ -30,27 +30,27 @@ public class ListOfPredecessorsDirected extends ListOfIncident {
     }
 
     @Override
-    public int[] getSuccessors(Integer id) throws InterruptedException  {
+    public int[] getSuccessors(int id) throws InterruptedException  {
         return getIndirect(id);
     }
 
     @Override
-    public int getFirstSuccessor(Integer id) throws InterruptedException  {
+    public int getFirstSuccessor(int id) throws InterruptedException  {
         return getFirstIndirect(id);
     };
 
     @Override
-    public int[] getPredecessors(Integer id) {
+    public int[] getPredecessors(int id) {
         return getDirect(id);
     }
 
     @Override
-    public int getFirstPredecessor(Integer id) {
+    public int getFirstPredecessor(int id) {
         return getFirstDirect(id);
     }
 
     @Override
-    public int getEdge(Integer id1, Integer id2) throws InterruptedException {
+    public int getEdge(int id1, int id2) throws InterruptedException {
         for (int predecessor : getDirect(id1)) {
             escape();
             if (predecessor == id2) {
