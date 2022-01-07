@@ -56,9 +56,7 @@ public class SortingData {
     public void restoreFromTemplate(SortingData sortingData){
         compCount = 0L;
         swapCount = 0L;
-        for (int i = 0; i < tab.length; i++) {
-            tab[i] = sortingData.tab[i];
-        }
+        System.arraycopy(sortingData.tab, 0, tab, 0, tab.length);
     }
     public void escape() throws InterruptedException{
         if (Thread.interrupted()) {

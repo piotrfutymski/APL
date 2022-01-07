@@ -66,6 +66,7 @@ public abstract class GraphDataGenerator implements GraphDataGeneratorInterface 
             escape();
             res.put(list.get(i), list.get(i+1));
         }
+        res.put(list.get(list.size()-1), list.get(0));
         return res;
     }
 
