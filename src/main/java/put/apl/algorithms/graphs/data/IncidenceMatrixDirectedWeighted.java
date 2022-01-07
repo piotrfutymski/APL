@@ -63,6 +63,28 @@ public class IncidenceMatrixDirectedWeighted extends IncidenceMatrix implements 
     }
 
     @Override
+    public Edge[] getSuccessorsWeighted(int vertex) throws InterruptedException {
+        List<Edge> result = new ArrayList<>();
+        for (int i=0; i<edgesSize;i++)
+        {
+            if (checkIfSTART(vertex,i))
+            {
+                for (int j = 0; j < verticesSize; j++)
+                {
+                    escape();
+                    if (j == vertex) continue;
+                    if (checkIfEND(j,i))
+                    {
+                        result.add(new Edge(j, getEdgeInner(vertex, i)));
+                        break;
+                    }
+                }
+            }
+        }
+        return result.toArray(new Edge[0]);
+    }
+
+    @Override
     public int[][] getAllEdges() {
         int[][] result = new int[edgesSize][];
         for (int i=0; i<edgesSize; i++)
