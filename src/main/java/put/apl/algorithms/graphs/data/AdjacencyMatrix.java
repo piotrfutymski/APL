@@ -16,19 +16,11 @@ public abstract class AdjacencyMatrix extends GraphRepresentation {
         loadFromIncidenceList(input);
     }
 
-    public AdjacencyMatrix(int[][] matrix) throws InterruptedException {
+    public AdjacencyMatrix(int[][] matrix, int edges) throws InterruptedException {
         operations = 0;
         verticesNumber = matrix.length;
         this.matrix = matrix;
-        edgesNumber = 0;
-        for (int i=0; i<matrix.length; i++)
-        {
-            for (int j=0; j<matrix[i].length; j++) {
-                escape();
-                if (checkIfEdge(i, j))
-                    edgesNumber+=1;
-            }
-        }
+        edgesNumber = edges;
     }
 
     public AdjacencyMatrix() {

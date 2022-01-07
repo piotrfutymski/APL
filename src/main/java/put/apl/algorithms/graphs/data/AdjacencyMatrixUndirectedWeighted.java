@@ -34,8 +34,8 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix implement
         }
     }
 
-    public AdjacencyMatrixUndirectedWeighted(int[][] matrix)  throws InterruptedException {
-        super(matrix);
+    public AdjacencyMatrixUndirectedWeighted(int[][] matrix, int edges) throws InterruptedException {
+        super(matrix, edges);
     }
 
     public AdjacencyMatrixUndirectedWeighted() {
@@ -72,10 +72,10 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix implement
 
     @Override
     protected int getAllEdgesInner(int edgeNumber, int i, int j, int[][] result) {
-        var edge = new int[3];
         int edgesAdded=0;
         if (checkIfEdge(i, j))
         {
+            var edge = new int[3];
             edge[0] = i;
             edge[1] = j;
             edge[2] = getEdgeInner(i,j);
@@ -97,6 +97,6 @@ public class AdjacencyMatrixUndirectedWeighted extends AdjacencyMatrix implement
     @SneakyThrows
     @Override
     public GraphRepresentationInterface clone() {
-        return new AdjacencyMatrixUndirectedWeighted(matrix.clone());
+        return new AdjacencyMatrixUndirectedWeighted(matrix.clone(), edgesNumber);
     }
 }

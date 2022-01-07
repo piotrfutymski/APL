@@ -14,8 +14,8 @@ public class AdjacencyMatrixDirected extends AdjacencyMatrix {
         super(input);
     }
 
-    public AdjacencyMatrixDirected(int[][] matrix) throws InterruptedException {
-        super(matrix);
+    public AdjacencyMatrixDirected(int[][] matrix, int edges) throws InterruptedException {
+        super(matrix, edges);
     }
 
     public AdjacencyMatrixDirected() {
@@ -57,6 +57,6 @@ public class AdjacencyMatrixDirected extends AdjacencyMatrix {
     @SneakyThrows
     @Override
     public GraphRepresentationInterface clone() {
-        return new AdjacencyMatrixDirected(matrix.clone());
+        return new AdjacencyMatrixDirected(matrix.clone(), edgesNumber);
     }
 }
