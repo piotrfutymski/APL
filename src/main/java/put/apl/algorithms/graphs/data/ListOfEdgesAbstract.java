@@ -11,8 +11,6 @@ public abstract class ListOfEdgesAbstract extends GraphRepresentation {
     protected int edgeNum;
     protected int operations;
 
-    protected abstract int checkIfSTART(Integer id, int start, int end);
-
     public ListOfEdgesAbstract() {
         edges = new int[0][];
     }
@@ -59,55 +57,13 @@ public abstract class ListOfEdgesAbstract extends GraphRepresentation {
         return -1;
     }
 
-    @Override
-    public int[] getSuccessors(int id) throws InterruptedException {
-        List<Integer> successors = new ArrayList<Integer>();
-        for (int i=0;i<edgeNum;i++) {
-            escape();
-            int result = checkIfSTART(id, getEdgeInner(i, 0),getEdgeInner(i, 1));
-            if (result != -1) {
-                successors.add(result);
-            }
-        }
-        return successors.stream().mapToInt(i->i).toArray();
-    }
+    abstract public int[] getSuccessors(int id) throws InterruptedException;
 
+    public abstract int getFirstSuccessor(int id) throws InterruptedException;
 
+    abstract public int[] getPredecessors(int id) throws InterruptedException;
 
-    public int getFirstSuccessor(int id) throws InterruptedException {
-        for (int i=0;i<edgeNum;i++) {
-            escape();
-            int result = checkIfSTART(id, getEdgeInner(i, 0),getEdgeInner(i, 1));
-            if (result != -1) {
-                return result;
-            }
-        }
-        return -1;
-    }
-
-    public int[] getPredecessors(int id) throws InterruptedException {
-        List<Integer> predecessors = new ArrayList<Integer>();
-        for (int i=0;i<edgeNum;i++) {
-            escape();
-            //if id is end, then start is predecessor
-            int result = checkIfSTART(id, getEdgeInner(i, 1),getEdgeInner(i, 0));
-            if (result != -1) {
-                predecessors.add(result);
-            }
-        }
-        return predecessors.stream().mapToInt(i->i).toArray();
-    };
-
-    public int getFirstPredecessor(int id) throws InterruptedException {
-        for (int i=0;i<edgeNum;i++) {
-            escape();
-            int result = checkIfSTART(id, getEdgeInner(i, 1),getEdgeInner(i, 0));
-            if (result != -1) {
-                return result;
-            }
-        }
-        return -1;
-    };
+    abstract public int getFirstPredecessor(int id) throws InterruptedException;
 
     public int[] getNonIncident(int id) throws InterruptedException {
         boolean[] nonIncident = new boolean[edges.length];
@@ -146,24 +102,7 @@ public abstract class ListOfEdgesAbstract extends GraphRepresentation {
         return Integer.BYTES * edges.length * 2;
     };
 
-    @Override
-    public int getEdge(int id1, int id2) throws InterruptedException {
-        for (int i=0;i<edgeNum;i++) {
-            escape();
-            int start = getEdgeInner(i, 0);
-            int end = getEdgeInner(i, 1);
-            if (checkIfSTART(id1, start, end) != -1 &&
-                    checkIfSTART(id2, end, start) != -1 )
-            {
-                return getWeight(i);
-            }
-            if (checkIfSTART(id2, start, end) != -1 &&
-                    checkIfSTART(id1, end, start) != -1 ) {
-                return -1 * getWeight(i);
-            }
-        }
-        return 0;
-    }
+    abstract public int getEdge(int id1, int id2) throws InterruptedException;
 
     @Override
     public int[][] getAllEdges() {

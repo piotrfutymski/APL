@@ -3,6 +3,7 @@ package put.apl.algorithms.graphs.data;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -25,13 +26,53 @@ public class ListOfEdges extends ListOfEdgesAbstract {
     }
 
     @Override
-    protected int checkIfSTART(Integer id, int start, int end) {
-        if (id == start)
-            return end;
-        if (id == end)
-            return start;
-        return -1;
+    public int[] getSuccessors(int id) throws InterruptedException {
+        List<Integer> successors= new ArrayList<>();
+        for (int i=0; i<edgeNum; i++)
+        {
+            escape();
+            if (getEdgeInner(i, 0) == id)
+                successors.add(getEdgeInner(i,1));
+            else if (getEdgeInner(i,1) == id)
+                successors.add(getEdgeInner(i,0));
+        }
+        return successors.stream().mapToInt(i->i).toArray();
     }
+
+    @Override
+    public int getFirstSuccessor(int id) throws InterruptedException {
+        for (int i=0; i<edgeNum; i++)
+        {
+            escape();
+            if (getEdgeInner(i, 0) == id)
+                return getEdgeInner(i,1);
+            else if (getEdgeInner(i,1) == id)
+                return getEdgeInner(i,0);
+        }
+        return 0;
+    }
+
+    @Override
+    public int[] getPredecessors(int id) throws InterruptedException {
+        return getSuccessors(id);
+    }
+
+    @Override
+    public int getFirstPredecessor(int id) throws InterruptedException {
+        return getFirstSuccessor(id);
+    }
+
+    @Override
+    public int getEdge(int id1, int id2) throws InterruptedException {
+        for (int i=0; i<edgeNum; i++)
+        {
+            escape();
+            if (getEdgeInner(i, 0) == id1 && getEdgeInner(i,1) == id2 || getEdgeInner(i, 1) == id1 && getEdgeInner(i,0) == id2)
+                return getWeight(i);
+        }
+        return 0;
+    }
+
 
     @SneakyThrows
     @Override

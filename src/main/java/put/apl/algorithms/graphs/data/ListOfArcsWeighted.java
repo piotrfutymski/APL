@@ -68,12 +68,10 @@ public class ListOfArcsWeighted extends ListOfArcs implements GraphRepresentatio
     @Override
     public Edge[] getSuccessorsWeighted(int vertex) throws InterruptedException {
         List<Edge> successors = new ArrayList<>();
-        for (int i=0;i < edgeNum;i++) {
+        for (int i=0;i < edgeNum;i++)         {
             escape();
-            int result = checkIfSTART(vertex, getEdgeInner(i, 0),getEdgeInner(i, 1));
-            if (result != -1) {
-                successors.add(new Edge(result, getWeight(i)));
-            }
+            if (getEdgeInner(i, 0) == vertex)
+                successors.add(new Edge(getEdgeInner(i,1), getWeight(i)));
         }
         return successors.toArray(new Edge[0]);
     }
@@ -81,8 +79,7 @@ public class ListOfArcsWeighted extends ListOfArcs implements GraphRepresentatio
     @Override
     public int[][] getAllEdges() {
         int[][] result = new int[edges.length][];
-        for (int i=0; i<edges.length;i++)
-        {
+        for (int i=0; i<edges.length;i++) {
             result[i] = new int[] {getEdgeInner(i,0), getEdgeInner(i,1), getWeight(i)};
         }
         return result;
