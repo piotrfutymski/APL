@@ -1,11 +1,27 @@
 .Container{
-    height: 100%;
+    height: 60vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.Message{
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    h1{
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: center;
+    }
+    p{
+        text-align: center;
+    }
 }
-.Message{
-    font-size: 2rem;
+
+.progressBar{
+    width: 50%
 }

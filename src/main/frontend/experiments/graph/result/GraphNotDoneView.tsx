@@ -1,3 +1,4 @@
+import classNames from "classnames"
 import React, { useState } from "react"
 import { Navigate } from "react-router-dom"
 import { deleteSortingExperiment } from "../../sorting/SortingServices"
@@ -11,7 +12,7 @@ export const GraphNotDoneView = (props: GraphExperimentsResult) => {
     const NoExperiment = () => {
         return (
             <div className={styles.Message}>
-                Experiment doesn't exists
+                <h1>Experiment doesn't exist</h1>
             </div>
         )
     }
@@ -19,7 +20,7 @@ export const GraphNotDoneView = (props: GraphExperimentsResult) => {
     const ExperimentQueued = () => {
         return (
             <div className={styles.Message}>
-                {`Experiment queued at position: ${props.queuePosition}`}
+                <h1>{`Experiment queued at position: ${props.queuePosition}`}</h1>
             </div>
         )
     }
@@ -27,7 +28,7 @@ export const GraphNotDoneView = (props: GraphExperimentsResult) => {
     const ExperimentCalculating = () => {
         return (
             <div className={styles.Message}>
-                Calculating your experiment
+                <h1>Calculating your experiment</h1>
             </div>
         )
     }
@@ -35,7 +36,8 @@ export const GraphNotDoneView = (props: GraphExperimentsResult) => {
     const ExperimentExpired = () => {
         return (
             <div className={styles.Message}>
-                Experiment too long - check option for longer experiments or try to change parameters for shorter calculation time
+                <h1>Experiment took too much time to calculate</h1>
+                <p>Change configuration and try again</p>
             </div>
         )
     }
@@ -43,7 +45,12 @@ export const GraphNotDoneView = (props: GraphExperimentsResult) => {
     const ExperimentError = () => {
         return (
             <div className={styles.Message}>
-                {`There was an exception while calculating your experiment: ${props.errorCause}`}
+                <h1>
+                    There was an error while calculating your experiment
+                </h1>
+                <p>
+                    {props.errorCause}
+                </p>
             </div>
         )
     }
@@ -57,13 +64,20 @@ export const GraphNotDoneView = (props: GraphExperimentsResult) => {
 
     return (
     <div className={styles.Container}>
-        {canceled ? <Navigate to={`/experiments/sorting/`} /> : ""}
+        {canceled ? <Navigate to={`/experiments/graph/`} /> : ""}
         {props.status === 'CALCULATING' && ExperimentCalculating()}
         {props.status === 'QUEUED' && ExperimentQueued()}
         {props.status === 'ERROR' && ExperimentError()}
         {props.status === 'EXPIRED' && ExperimentExpired()}
         {props.status === 'REMOVED' && NoExperiment()}
-        {props.donePercent ? <>Done in {(props.donePercent * 100).toFixed(0)}%</> : <></>}
+        {props.donePercent ? 
+        <div className={classNames(styles.progressBar, "progressBarStyling")}>
+            <div className="text">
+                {(props.donePercent * 100).toFixed(0)}%
+            </div>
+            <div className="progress" style={{width: `${(props.donePercent * 100).toFixed(0)}%`}}>
+            </div>
+        </div>:<></>}
         {['CALCULATING', 'QUEUED'].includes(props.status) ? <button type="button" onClick={() => cancel()}>Cancel Experiment</button> : ""}
     </div>)
 }
