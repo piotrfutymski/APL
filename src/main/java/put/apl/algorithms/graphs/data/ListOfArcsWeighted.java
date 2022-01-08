@@ -5,21 +5,21 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component("Weighted List Of Edges Directed")
-public class ListOfEdgesDirectedWeighted extends ListOfEdgesDirected implements GraphRepresentationWeightedInterface {
-    public ListOfEdgesDirectedWeighted() {
+@Component("Weighted List Of Arcs")
+public class ListOfArcsWeighted extends ListOfArcs implements GraphRepresentationWeightedInterface {
+    public ListOfArcsWeighted() {
         super(new int[0][], 0);
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfEdgesDirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException  {
+    public ListOfArcsWeighted(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException  {
         if (weights == null)
             loadFromIncidenceList(input);
         else
             loadFromIncidenceList(input, weights);
     }
 
-    public ListOfEdgesDirectedWeighted(int[][] edges, int[] weights, int vertexNum) {
+    public ListOfArcsWeighted(int[][] edges, int[] weights, int vertexNum) {
         this.edges = edges;
         this.weights = weights;
         this.vertexNum = vertexNum;
@@ -102,6 +102,6 @@ public class ListOfEdgesDirectedWeighted extends ListOfEdgesDirected implements 
 
     @Override
     public GraphRepresentationInterface clone() {
-        return new ListOfEdgesDirectedWeighted(this.edges.clone(), this.weights.clone(), vertexNum);
+        return new ListOfArcsWeighted(this.edges.clone(), this.weights.clone(), vertexNum);
     }
 }

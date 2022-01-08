@@ -1,26 +1,25 @@
 package put.apl.algorithms.graphs.data;
 
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component("Weighted List Of Edges Undirected")
-public class ListOfEdgesUndirectedWeighted extends ListOfEdgesUndirected implements GraphRepresentationWeightedInterface {
-    public ListOfEdgesUndirectedWeighted() throws InterruptedException  {
+@Component("Weighted List Of Edges")
+public class ListOfEdgesWeighted extends ListOfEdges implements GraphRepresentationWeightedInterface {
+    public ListOfEdgesWeighted() throws InterruptedException  {
         super(new int[0][], 0);
     }
 
     // Format: line number = vertex id, successors separated by comma
-    public ListOfEdgesUndirectedWeighted(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException  {
+    public ListOfEdgesWeighted(List<List<Integer>> input, List<List<Integer>> weights) throws InterruptedException  {
         if (weights == null)
             loadFromIncidenceList(input);
         else
             loadFromIncidenceList(input, weights);
     }
 
-    public ListOfEdgesUndirectedWeighted(int[][] edges, int[] weights, int vertexNum){
+    public ListOfEdgesWeighted(int[][] edges, int[] weights, int vertexNum){
         this.edges = edges;
         this.weights = weights;
         this.vertexNum = vertexNum;
@@ -102,6 +101,6 @@ public class ListOfEdgesUndirectedWeighted extends ListOfEdgesUndirected impleme
 
     @Override
     public GraphRepresentationInterface clone(){
-        return new ListOfEdgesUndirectedWeighted(this.edges.clone(), this.weights.clone(), vertexNum);
+        return new ListOfEdgesWeighted(this.edges.clone(), this.weights.clone(), vertexNum);
     }
 }

@@ -226,22 +226,22 @@ public class GraphTest {
     void initAll() throws InterruptedException {
 
         undirected = Arrays.asList(new ListOfIncidentUndirected(),
-                new ListOfEdgesUndirected(), new IncidenceMatrixUndirected(), new AdjacencyMatrixUndirected(),
+                new ListOfEdges(), new IncidenceMatrixUndirected(), new AdjacencyMatrixUndirected(),
                 new IncidenceMatrixUndirectedWeighted(), new AdjacencyMatrixUndirectedWeighted(),
-                new ListOfEdgesUndirectedWeighted(), new ListOfIncidentUndirectedWeighted());
+                new ListOfEdgesWeighted(), new ListOfIncidentUndirectedWeighted());
 
-        directed = Arrays.asList(new ListOfEdgesDirected(), new ListOfPredecessorsDirected(),
+        directed = Arrays.asList(new ListOfArcs(), new ListOfPredecessorsDirected(),
                 new ListOfSuccessorsDirected(), new AdjacencyMatrixDirected(), new IncidenceMatrixDirected(),
                 new AdjacencyMatrixDirectedWeighted(), new IncidenceMatrixDirectedWeighted(),
                 new ListOfSuccessorsDirectedWeighted(), new ListOfPredecessorsDirectedWeighted(),
-                new ListOfEdgesDirectedWeighted());
+                new ListOfArcsWeighted());
 
         undirectedWeighted = Arrays.asList(new IncidenceMatrixUndirectedWeighted(), new AdjacencyMatrixUndirectedWeighted(),
-                new ListOfEdgesUndirectedWeighted(), new ListOfIncidentUndirectedWeighted());
+                new ListOfEdgesWeighted(), new ListOfIncidentUndirectedWeighted());
 
         directedWeighted = Arrays.asList(new AdjacencyMatrixDirectedWeighted(), new IncidenceMatrixDirectedWeighted(),
                 new ListOfSuccessorsDirectedWeighted(), new ListOfPredecessorsDirectedWeighted(),
-                new ListOfEdgesDirectedWeighted());
+                new ListOfArcsWeighted());
     }
 
 
