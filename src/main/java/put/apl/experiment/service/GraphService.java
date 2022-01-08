@@ -114,11 +114,11 @@ public class GraphService {
             var generatedWeights = generatedData.getWeights();
             for (GraphExperiment graphExperiment : groupedExperiment) {
                 switch (graphExperiment.getRepresentation()) {
-                    case "List Of Edges Directed":
-                        data = new ListOfEdgesDirected(generatedRepresentation);
+                    case "List Of Arcs":
+                        data = new ListOfArcs(generatedRepresentation);
                         break;
-                    case "List Of Edges Undirected":
-                        data = new ListOfEdgesUndirected(generatedRepresentation);
+                    case "List Of Edges":
+                        data = new ListOfEdges(generatedRepresentation);
                         break;
                     case "List Of Incident Undirected":
                         data = new ListOfIncidentUndirected(generatedRepresentation);
@@ -153,11 +153,11 @@ public class GraphService {
                     case "Weighted Incidence Matrix Undirected":
                         data = new IncidenceMatrixUndirectedWeighted(generatedRepresentation, generatedWeights);
                         break;
-                    case "Weighted List Of Edges Directed":
-                        data = new ListOfEdgesDirectedWeighted(generatedRepresentation, generatedWeights);
+                    case "Weighted List Of Arcs":
+                        data = new ListOfArcsWeighted(generatedRepresentation, generatedWeights);
                         break;
-                    case "Weighted List Of Edges Undirected":
-                        data = new ListOfEdgesUndirectedWeighted(generatedRepresentation, generatedWeights);
+                    case "Weighted List Of Edges":
+                        data = new ListOfEdgesWeighted(generatedRepresentation, generatedWeights);
                         break;
                     case "Weighted List Of Incident Undirected":
                         data = new ListOfIncidentUndirectedWeighted(generatedRepresentation, generatedWeights);

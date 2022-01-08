@@ -34,11 +34,11 @@ export const reducePossibleGenerators = (algorithmName: string, generators: stri
 export const reducePossibleRepresentations = (algorithmName: string, dataGenerator: string, representations: string[]): string[] => {
     let res=[...representations]
     if(algorithmName === "Dijkstra Algorithm" && (dataGenerator === "Connected Directed Graph Generator" || dataGenerator === "Euler Directed Graph Generator")){
-        res = ["Weighted Adjacency Matrix Directed", "Weighted Incidence Matrix Directed", "Weighted List Of Edges Directed", "Weighted List Of Predecessors Directed", "Weighted List Of Successors Directed"]
+        res = ["Weighted Adjacency Matrix Directed", "Weighted Incidence Matrix Directed", "Weighted List Of Arcs", "Weighted List Of Predecessors Directed", "Weighted List Of Successors Directed"]
     } else if(algorithmName === "Dijkstra Algorithm" && (dataGenerator === "Connected Undirected Graph Generator" || dataGenerator === "Euler Undirected Graph Generator")){
-        res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges Undirected", "Weighted List Of Incident Undirected"]
+        res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges", "Weighted List Of Incident Undirected"]
     } else if(algorithmName === "Prims Algorithm" || algorithmName === "Kruskal Algorithm"){
-        res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges Undirected", "Weighted List Of Incident Undirected"]
+        res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges", "Weighted List Of Incident Undirected"]
     } else if (algorithmName === "Get All Edges" 
               || algorithmName === "Get All Relations"
               || algorithmName === "Get First Predecessor"
@@ -48,20 +48,20 @@ export const reducePossibleRepresentations = (algorithmName: string, dataGenerat
               || algorithmName === "Get Successors"
               || algorithmName === "Get Predecessors") {
         if (dataGenerator === "Connected Directed Graph Generator" || dataGenerator === "Directed Graph Generator" || dataGenerator === "Euler Directed Graph Generator") {
-            res = ["Adjacency Matrix Directed", "Incidence Matrix Directed", "List Of Edges Directed", "List Of Predecessors Directed", 
+            res = ["Adjacency Matrix Directed", "Incidence Matrix Directed", "List Of Arcs", "List Of Predecessors Directed", 
                    "List Of Successors Directed", "Weighted Adjacency Matrix Directed", "Weighted Incidence Matrix Directed", 
-                   "Weighted List Of Edges Directed", "Weighted List Of Predecessors Directed", "Weighted List Of Successors Directed"];
+                   "Weighted List Of Arcs", "Weighted List Of Predecessors Directed", "Weighted List Of Successors Directed"];
         }
         else if (dataGenerator === "Connected Undirected Graph Generator" || dataGenerator === "Undirected Graph Generator" || dataGenerator === "Euler Undirected Graph Generator") {
-            res = ["Adjacency Matrix Undirected", "Incidence Matrix Undirected", "List Of Edges Undirected", "List Of Incident Undirected", 
-                   "Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges Undirected", 
+            res = ["Adjacency Matrix Undirected", "Incidence Matrix Undirected", "List Of Edges", "List Of Incident Undirected", 
+                   "Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges", 
                    "Weighted List Of Incident Undirected"];
         }
         return res;
     } else if(dataGenerator === "Connected Directed Graph Generator" || dataGenerator === "Directed Graph Generator" || dataGenerator === "Euler Directed Graph Generator"){
-        res = ["Adjacency Matrix Directed", "Incidence Matrix Directed", "List Of Edges Directed", "List Of Predecessors Directed", "List Of Successors Directed"];
+        res = ["Adjacency Matrix Directed", "Incidence Matrix Directed", "List Of Arcs", "List Of Predecessors Directed", "List Of Successors Directed"];
     } else if(dataGenerator === "Connected Undirected Graph Generator" || dataGenerator === "Undirected Graph Generator" || dataGenerator === "Euler Undirected Graph Generator"){
-        res = ["Adjacency Matrix Undirected", "Incidence Matrix Undirected", "List Of Edges Undirected", "List Of Incident Undirected"];
+        res = ["Adjacency Matrix Undirected", "Incidence Matrix Undirected", "List Of Edges", "List Of Incident Undirected"];
     } 
     return res
 }
