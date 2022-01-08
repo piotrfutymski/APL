@@ -17,6 +17,8 @@ public class RandomHeapDataGenerator implements  SortingDataGenerator{
         for (int i = tab.length()/2 - 1; i>= 0; i--) {
             HeapUtility.buildHeap(tab, i, tab.length());
         }
+        tab.setCompCount(0L);
+        tab.setSwapCount(0L);
         return tab;
     }
 
