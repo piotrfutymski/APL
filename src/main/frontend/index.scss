@@ -26,6 +26,33 @@ input, select{
   color: $text-color;
 }
 
+.progressBarStyling{
+  border-radius: 8px;
+  background: $progress-bar-bg;
+  position: relative;
+
+  height: 2rem;
+  .text{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left:0;
+    top:0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+  }
+  .progress{
+    border-radius: inherit;
+    height: 100%;
+    background: $progress-bar-color;
+    transition-duration: $trans-duration;
+  }
+}
+
 .checkboxStyling {
   display: block;
   position: relative;
