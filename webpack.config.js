@@ -2,8 +2,7 @@ var path = require('path');
 
 module.exports = {
     entry: './src/main/frontend/index.tsx',
-    cache: true,
-    mode: 'development',
+    mode: 'production',
     output: {
         path: __dirname,
         filename: './src/main/resources/static/built/bundle.js'
