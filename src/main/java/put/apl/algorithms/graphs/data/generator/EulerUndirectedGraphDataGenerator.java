@@ -17,22 +17,16 @@ public class EulerUndirectedGraphDataGenerator extends GraphDataGenerator {
         int added = 0;
 
         List<Integer> toUse = IntStream.range(0, config.getNumberOfVertices()).boxed().collect(Collectors.toList());
-        if(toUse.size() % 3 == 1)
-            toUse.add(0);
-        if(toUse.size() % 3 == 2)
-            toUse.add(1);
         Collections.shuffle(toUse);
 
         while (added < toAdd || toUse.size() > 0){
             escape();
-            int i = getNext(toUse, res, random);
-            int j = getNext(toUse, res, random);
-            int k = getNext(toUse, res, random);
-            if(i == j || j == k || i == k)
-                continue;
-            if(res.get(i).contains(j) || res.get(j).contains(k) || res.get(k).contains(i) ||
-                    res.get(j).contains(i) || res.get(k).contains(j) || res.get(i).contains(k))
-                continue;
+            List<Integer> ijk = getNextEuler(toUse, res, random, false);
+            if(ijk.isEmpty())
+                break;
+            int i = ijk.get(0);
+            int j = ijk.get(1);
+            int k = ijk.get(2);
             if(i < j)
                 res.get(i).add(j);
             else
@@ -48,7 +42,7 @@ public class EulerUndirectedGraphDataGenerator extends GraphDataGenerator {
             added+=3;
         }
         return GeneratorResult.builder().representation(setsToLists(res)).build();
-    };
+    }
 
 
 }

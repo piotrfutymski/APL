@@ -113,15 +113,10 @@ export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[])
             result.densityOrVertices.msg="Maximum density must be a number below 100"
             result.errorFlag=true
         }
-        else if(foundEuler && config.densityOrVertices > 90){
+        else if(foundEuler && config.densityOrVertices > 80){
             result.densityOrVertices.status="ERROR"
-            result.densityOrVertices.msg="Maximum density must be less than 90 for Euler generated graphs"
+            result.densityOrVertices.msg="Maximum density must be less than 80 for Euler generated graphs"
             result.errorFlag=true
-        }
-        else if(foundEuler && config.densityOrVertices > 75){
-            result.densityOrVertices.status="WARNING"
-            result.densityOrVertices.msg="Maximum density should be less than 75 for Euler generated graphs"
-            result.warningFlag=true
         }
     } else {
         if(config.densityOrVertices <= 0)
@@ -141,7 +136,7 @@ export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[])
             result.densityOrVertices.msg="Number of vertices can not be greater than 1000"
             result.errorFlag=true
         }
-        else if (config.densityOrVertices / config.measureSeries < 7 && foundEuler)
+        else if (config.densityOrVertices / config.measureSeries < 6 && foundEuler)
         {
             result.densityOrVertices.status="ERROR"
             result.densityOrVertices.msg="Too low vertices for generating Euler graph"
@@ -177,12 +172,12 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
             result.numberOfVertices.msg="Number of vertices can not be greater than 1000"
             result.errorFlag=true
         }
-        else if (experiment.numberOfVertices < 7 && experiment.dataGenerator.includes("Euler"))
+        else if (experiment.numberOfVertices < 6 && experiment.dataGenerator.includes("Euler"))
         {
             result.numberOfVertices.status="ERROR"
             result.numberOfVertices.msg="Too low vertices for generating Euler graph"
             result.errorFlag=true
-        } 
+        }
         else if (experiment.numberOfVertices > 500)
         {
             result.numberOfVertices.status="WARNING"
@@ -202,18 +197,12 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
             result.density.msg="Density must be a number below 100"
             result.errorFlag=true
         }
-        else if(experiment.dataGenerator.includes("Euler") && experiment.density > 90)
+        else if(experiment.dataGenerator.includes("Euler") && experiment.density > 80)
         {
             result.density.status="ERROR"
-            result.density.msg="Density must be less than 90 for Euler generated graphs"
+            result.density.msg="Density must be less than 80 for Euler generated graphs"
             result.errorFlag=true
         }
-        else if(experiment.dataGenerator.includes("Euler") && experiment.density > 75)
-        {
-            result.density.status="WARNING"
-            result.density.msg="Density should be less than 75 for Euler generated graphs"
-            result.warningFlag=true
-        } 
     }
     return result
 }

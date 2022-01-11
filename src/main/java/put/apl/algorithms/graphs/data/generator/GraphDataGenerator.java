@@ -1,5 +1,6 @@
 package put.apl.algorithms.graphs.data.generator;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -81,12 +82,42 @@ public abstract class GraphDataGenerator implements GraphDataGeneratorInterface 
         return sets.stream().map(ArrayList::new).collect(Collectors.toList());
     }
 
-    int getNext(List<Integer> toUse, List<Set<Integer>> sets, Random random) {
-        if(toUse.isEmpty())
-            return random.nextInt(sets.size());
-        int res = toUse.get(toUse.size()-1);
-        toUse.remove(toUse.size()-1);
-        return res;
+    List<Integer> getNextEuler(List<Integer> toUse, List<Set<Integer>> sets, Random random, boolean directed) throws InterruptedException {
+        List<Integer> toReturn = new ArrayList<>();
+        int howManyToDelete = 0;
+        int ile = 0;
+        while (toReturn.size() < 3){
+            escape();
+            if(toUse.size()-toReturn.size()>0){
+                toReturn.add(toUse.get(toUse.size()-1- toReturn.size()));
+                if(toReturn.size() < 3)
+                    howManyToDelete++;
+            }else{
+                Integer randed = random.nextInt(sets.size());
+                if(!toReturn.contains(randed)){
+                    toReturn.add(randed);
+                }
+            }
+            if(toReturn.size() == 3){
+                int i = toReturn.get(0);
+                int j = toReturn.get(1);
+                int k = toReturn.get(2);
+                if( (directed && (sets.get(i).contains(j) || sets.get(j).contains(k) || sets.get(k).contains(i))) ||
+                        (!directed &&(sets.get(i).contains(j) || sets.get(j).contains(k) || sets.get(k).contains(i) ||
+                                sets.get(j).contains(i) || sets.get(k).contains(j) || sets.get(i).contains(k)))){
+                    howManyToDelete = 0;
+                    toReturn.clear();
+                }
+            }
+            ile ++;
+            if(ile == 50* sets.size()){
+                return new ArrayList<>();
+            }
+        }
+        for (int i = 0; i < howManyToDelete; i++) {
+            toUse.remove(toUse.size()-1);
+        }
+        return toReturn;
     }
 
 }
