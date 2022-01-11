@@ -7,7 +7,7 @@ public abstract class GraphRepresentation implements GraphRepresentationInterfac
     @Override
     public void escape() throws InterruptedException{
         if (Thread.interrupted()) {
-            //throw new InterruptedException();
+            throw new InterruptedException();
         }
     }
 

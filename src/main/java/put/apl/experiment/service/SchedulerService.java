@@ -169,6 +169,7 @@ public class SchedulerService {
     @Scheduled(cron = "0/5 * * * * *")
     private void clearTasks(){
         Date now = Date.from(Instant.now());
+        List<String> toRemove= new ArrayList<>();
         futures.forEach((key, value) -> {
             if (
                     value.getTimeout() != AlgorithmFuture.INFINITE_TIMEOUT &&
@@ -184,10 +185,10 @@ public class SchedulerService {
                     !value.getFuture().isDone()
             ){
                 cancel(value);
-                value.setExpired(true);
+                toRemove.add(key);
             }
         });
-
+        toRemove.forEach(k -> futures.remove(k) );
     }
 
     @FunctionalInterface
