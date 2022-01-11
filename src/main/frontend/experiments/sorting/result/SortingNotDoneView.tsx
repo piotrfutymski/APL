@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { SortingExperimentsResult } from "../Sorting.interface"
 import { deleteSortingExperiment } from "../SortingServices"
 import { Navigate } from 'react-router-dom'
@@ -8,6 +8,21 @@ import styles from './SortingNotDoneView.module.scss'
 import classNames from "classnames"
 
 export const SortingNotDoneView = (props: SortingExperimentsResult) => {
+    const [time, setTime] = useState<number>(0)
+    const [intervalV, setIntervalV] = useState<NodeJS.Timer>();
+
+    const updateTime=()=>{
+        setTime(oldTime => oldTime+1)
+    }
+    useEffect(()=>{
+        let intervalId = setInterval(updateTime, 1000)
+        setIntervalV(intervalId)
+    }, [])
+    useEffect(()=>{
+        if(props.status==="CALCULATING"){
+            setTime(0)
+        }
+    }, [props.status])
 
     const NoExperiment = () => {
         return (
@@ -26,9 +41,12 @@ export const SortingNotDoneView = (props: SortingExperimentsResult) => {
     }
 
     const ExperimentCalculating = () => {
+        let minutes = ((time/60) | 0).toString().padStart(2, '0')
+        let seconds = (time%60).toString().padStart(2, '0')
         return (
             <div className={styles.Message}>
                 <h1>Calculating your experiment</h1>
+                <p>{`Elapsed time: ${minutes}:${seconds}`}</p>
             </div>
         )
     }
@@ -66,6 +84,7 @@ export const SortingNotDoneView = (props: SortingExperimentsResult) => {
     <div className={styles.Container}>
         {canceled ? <Navigate to={`/experiments/sorting/`} /> : ""}
         {props.status === 'CALCULATING' && ExperimentCalculating()}
+    
         {props.status === 'QUEUED' && ExperimentQueued()}
         {props.status === 'ERROR' && ExperimentError()}
         {props.status === 'EXPIRED' && ExperimentExpired()}
