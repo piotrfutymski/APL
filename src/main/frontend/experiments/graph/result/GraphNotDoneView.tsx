@@ -46,10 +46,10 @@ export const GraphNotDoneView = (props: GraphExperimentsResult) => {
         return (
             <div className={styles.Message}>
                 <h1>
-                    There was an error while calculating your experiment
+                    There was an unexpected error while calculating your experiment
                 </h1>
                 <p>
-                    {props.errorCause}
+                    Please check experiment configuration and try again
                 </p>
             </div>
         )
