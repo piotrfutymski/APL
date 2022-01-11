@@ -112,8 +112,8 @@ export const checkExperiment = (experiment: SortingExperiment, config: SortingCo
                     medianCountCheck.msg="Quick Sort's median count parameter must be a number greater than 0"
                     result.errorFlag=true
                 }else if(medianCount > config.n){
-                    medianCountCheck.status="WARNING"
-                    medianCountCheck.msg="Quick Sort's median count parameter will be limited to the largest instance size value (N)"
+                    medianCountCheck.status="ERROR"
+                    medianCountCheck.msg="Quick Sort's median count parameter can not be larger than instance size value (N)"
                     result.warningFlag=true
                 }
                 result.algorithmParams.set("medianCount", medianCountCheck)

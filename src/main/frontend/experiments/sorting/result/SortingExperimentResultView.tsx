@@ -19,7 +19,7 @@ export const SortingExperimentResultView = () =>{
     }
 
     useEffect(() => {
-        let intervalId = setInterval(getExperimentsResult, 1000)
+        let intervalId = setInterval(getExperimentsResult, 300)
         setIntervalV(intervalId)
         return () => {
             clearInterval(intervalId)
