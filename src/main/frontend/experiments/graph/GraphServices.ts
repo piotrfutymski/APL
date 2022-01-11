@@ -177,7 +177,7 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
             result.numberOfVertices.status="ERROR"
             result.numberOfVertices.msg="Too low vertices for generating Euler graph"
             result.errorFlag=true
-        } 
+        }
         else if (experiment.numberOfVertices > 500)
         {
             result.numberOfVertices.status="WARNING"
