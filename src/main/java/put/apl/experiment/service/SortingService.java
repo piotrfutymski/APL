@@ -78,7 +78,7 @@ public class SortingService {
                                                        List<SortingExperiment> bannedExperiments,
                                                        AlgorithmFuture algorithmFuture) throws InterruptedException {
         List<SortingExperiment> res = new ArrayList<>();
-        float experimentTimeout = (AlgorithmFuture.DEFAULT_TIMEOUT_MS * 4) / ((float)REPEAT_COUNT * experiments.size());
+        float experimentTimeout = (AlgorithmFuture.DEFAULT_TIMEOUT_MS * 3) / ((float)REPEAT_COUNT * experiments.size());
         float begPercent = algorithmFuture.getDonePercentInfo();
         int i = 0;
         List<List<SortingExperiment>> groupedExperiments =
@@ -102,14 +102,15 @@ public class SortingService {
         return res;
     }
 
-    private SortingExperiment runExperiment(SortingExperiment e, SortingData data, List<SortingExperiment> bannedExperiments, float experimentTimeout) throws InterruptedException {
+    private SortingExperiment runExperiment(SortingExperiment e,
+                                            SortingData data,
+                                            List<SortingExperiment> bannedExperiments,
+                                            float experimentTimeout) throws InterruptedException {
         if(bannedExperiments.stream().anyMatch(
-                b->
-                        b.getAlgorithmName().equals(e.getAlgorithmName()) &&
-                        b.getMaxValue().equals(e.getMaxValue()) &&
-                        b.getDataDistribution().equals(e.getDataDistribution())
-
-        )){
+                b->  b.getAlgorithmName().equals(e.getAlgorithmName()) &&
+                            b.getMaxValue().equals(e.getMaxValue()) &&
+                            b.getDataDistribution().equals(e.getDataDistribution()) &&
+                            b.getN() < e.getN())) {
             SortingExperiment res = e.clone();
             res.setTimeInMillis(-1.0);
             return res;
@@ -123,7 +124,7 @@ public class SortingService {
         long start = System.nanoTime();
         SortingResult result = algorithm.sort(data);
         long end = System.nanoTime();
-        double t = (double)(end-start)/1000000.0;
+        double t = (end-start)/1000000.0;
         SortingExperiment res = e.clone();
         res.setSortingResult(result);
         res.setTimeInMillis(t);
