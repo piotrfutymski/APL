@@ -85,7 +85,7 @@ public class GraphService {
                                                      List<GraphExperiment> bannedExperiments,
                                                      AlgorithmFuture algorithmFuture) throws InterruptedException {
         List<GraphExperiment> res = new ArrayList<>();
-        float experimentTimeout = (AlgorithmFuture.DEFAULT_TIMEOUT_MS * 2) / ((float)REPEAT_COUNT * experiments.size());
+        float experimentTimeout = (AlgorithmFuture.DEFAULT_TIMEOUT_MS * 3) / ((float)REPEAT_COUNT * experiments.size());
         float begPercent = algorithmFuture.getDonePercentInfo();
         int i = 0;
         List<List<GraphExperiment>> groupedExperiments =
@@ -189,9 +189,10 @@ public class GraphService {
         if(bannedExperiments.stream().anyMatch(
                 b->
                         b.getAlgorithmName().equals(e.getAlgorithmName()) &&
-                                b.getNumberOfVertices().equals(e.getNumberOfVertices()) &&
-                                b.getDensity().equals(e.getDensity()) &&
+                                b.getNumberOfVertices() <= e.getNumberOfVertices() &&
+                                b.getDensity() <= e.getDensity() &&
                                 b.getDataGenerator().equals(e.getDataGenerator())
+
 
         )){
             GraphExperiment res = e.clone();
