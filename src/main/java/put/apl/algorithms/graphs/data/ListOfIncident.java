@@ -61,7 +61,7 @@ public abstract class ListOfIncident extends GraphRepresentation {
     public int[] getDirect(Integer id)
     {
         operations +=edges.length;
-        return edges[id];
+        return edges[id].clone();
     }
     public int getFirstDirect(Integer id)
     {
