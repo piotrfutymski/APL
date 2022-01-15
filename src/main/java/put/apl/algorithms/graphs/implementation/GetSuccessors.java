@@ -13,7 +13,7 @@ public class GetSuccessors extends GraphAlgorithm {
         graph.setOperations(0);
         int noOfVertices = graph.getVerticesNumber();
         for (int i = 0; i < noOfVertices; i++) {
-            graph.getPredecessors(i);
+            graph.getSuccessors(i);
         }
         return GraphResult.builder().memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
     }
