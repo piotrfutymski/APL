@@ -34,15 +34,14 @@ public class DepthFirstSearch extends GraphAlgorithm {
     }
 
     private void depthFirstSearch(GraphRepresentationInterface graph, int id) throws InterruptedException {
-       int[] successors = graph.getSuccessors(id);
        visited[id] = true;
        path.add(id);
-       for (int i = 0; i < successors.length; i++) {
-           escape();
-           if (!visited[successors[i]]) {
-               depthFirstSearch(graph, successors[i]);
-           }
-       }
+        for (int successor : graph.getSuccessors(id)) {
+            escape();
+            if (!visited[successor]) {
+                depthFirstSearch(graph, successor);
+            }
+        }
     }
 
     @Override
