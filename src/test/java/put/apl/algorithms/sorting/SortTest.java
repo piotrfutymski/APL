@@ -15,6 +15,7 @@ public class SortTest {
     static SortingData TEST_NUMBERS_ASHAPE = new SortingData(new int[]{1,3,5,7,9,8,6,4,2});
     static SortingData TEST_NUMBERS_VSHAPE = new SortingData(new int[]{9,7,5,3,1,2,4,6,8});
     static SortingData TEST_NUMBERS_SORTED = new SortingData(new int[]{1,2,3,4,5,6,7,8,9});
+    static SortingData TEST_NUMBERS_SORTED_DESC = new SortingData(new int[]{9,8,7,6,5,4,3,2,1});
     static SortingData TEST_NUMBERS_CONSTANT = new SortingData(new int[]{5,5,5,5,5,5,5,5,5});
     static SortingData SORTED_NUMBERS = new SortingData(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
   
@@ -22,6 +23,7 @@ public class SortTest {
     private SortingData numbersAShape = null;
     private SortingData numbersVShape = null;
     private SortingData numbersSorted = null;
+    private SortingData numbersSortedDesc = null;
     private SortingData numbersConstant = null;
 
 
@@ -32,6 +34,7 @@ public class SortTest {
         numbersAShape = new SortingData(TEST_NUMBERS_ASHAPE.getTab().clone());
         numbersVShape = new SortingData(TEST_NUMBERS_VSHAPE.getTab().clone());
         numbersSorted = new SortingData(TEST_NUMBERS_SORTED.getTab().clone());
+        numbersSortedDesc = new SortingData(TEST_NUMBERS_SORTED_DESC.getTab().clone());
         numbersConstant = new SortingData(TEST_NUMBERS_CONSTANT.getTab().clone());
 
     }
@@ -49,6 +52,9 @@ public class SortTest {
 
         sortingAlgorithm.sort(numbersSorted);
         assertArrayEquals(numbersSorted.getTab(), SORTED_NUMBERS.getTab());
+
+        sortingAlgorithm.sort(numbersSortedDesc);
+        assertArrayEquals(numbersSortedDesc.getTab(), SORTED_NUMBERS.getTab());
 
         sortingAlgorithm.sort(numbersConstant);
         assertArrayEquals(numbersConstant.getTab(), TEST_NUMBERS_CONSTANT.getTab());
