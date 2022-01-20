@@ -118,7 +118,7 @@ public class SortingService {
         SortingAlgorithm algorithm = (SortingAlgorithm) context.getBean(e.getAlgorithmName());
         if(e.getAlgorithmParams() != null && !e.getAlgorithmParams().containsKey("maxValue"))
             e.getAlgorithmParams().putAll(Map.of("maxValue", e.getMaxValue().toString()));
-        else
+        else if(e.getAlgorithmParams() == null)
             e.setAlgorithmParams(Map.of("maxValue", e.getMaxValue().toString()));
         algorithm.setParams(e.getAlgorithmParams());
         long start = System.nanoTime();
