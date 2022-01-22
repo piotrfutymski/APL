@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Random;
 
-@Component("Constant Data Generator")
+@Component("Constant Data")
 public class ConstantDataGenerator implements  SortingDataGenerator{
     @Override
     public SortingData generate(DataGeneratorConfig config) {
