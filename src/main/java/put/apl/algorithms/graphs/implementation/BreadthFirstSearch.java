@@ -19,10 +19,6 @@ public class BreadthFirstSearch extends GraphAlgorithm {
         visited = new boolean[graph.getVerticesNumber()];
         path = new ArrayList<Integer>();
         queue = new LinkedList<Integer>();
-        for (int i = 0; i < graph.getVerticesNumber(); i++) {
-            escape();
-            visited[i] = false;
-        }
         // For non-connected graphs BFS procedure will run multiple times
         if (!forceConnectedGraph) {
             for (int i = 0; i < graph.getVerticesNumber(); i++) {
@@ -38,13 +34,12 @@ public class BreadthFirstSearch extends GraphAlgorithm {
     }
 
     private void breadthFirstSearch(GraphRepresentationInterface graph, int id) throws InterruptedException {
-       int[] successors = graph.getSuccessors(id);
        visited[id] = true;
        path.add(id);
-       for (int i = 0; i < successors.length; i++) {
-           escape();
-           queue.add(successors[i]);
-       }
+        for (int successor : graph.getSuccessors(id)) {
+            escape();
+            queue.add(successor);
+        }
        while (!queue.isEmpty()) {
            escape();
            int nextId = queue.poll();

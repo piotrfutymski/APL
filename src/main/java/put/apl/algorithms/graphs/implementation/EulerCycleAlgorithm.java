@@ -25,10 +25,6 @@ public class EulerCycleAlgorithm extends GraphAlgorithm  {
         for (int i=0; i<verticesSize; i++)
         {
             visitedEdges[i] = new boolean[verticesSize];
-            for (int j=0; j<verticesSize; j++) {
-                escape();
-                visitedEdges[i][j] = false;
-            }
         }
         DFSEuler(0);
         return GraphResult.builder().path(stack).memoryOccupancyInBytes(graph.getMemoryOccupancy()).tableAccessCount(graph.getOperations()).build();
