@@ -18,26 +18,26 @@ export const getParamInfos = (experiment: GraphExperiment): paramInfo[]=>{
 export const reducePossibleGenerators = (algorithmName: string, generators: string[]): string[] => {
     let res=[...generators]
     if(algorithmName === "Topological Sort"){
-        res = ["Connected Directed Graph", "Euler Directed Graph"];
-    } else if(algorithmName === "All Hamiltonian Cycles" || algorithmName === "Hamiltonian Cycle" || algorithmName === "Dijkstra Algorithm"){
+        res = ["Connected Directed Graph", "Eulerian Directed Graph"];
+    } else if(algorithmName === "All Hamiltonian Cycles" || algorithmName === "Hamiltonian Cycle" || algorithmName === "Dijkstra's Algorithm"){
         res = ["Connected Directed Graph", 
-        "Euler Directed Graph", "Connected Undirected Graph", "Euler Undirected Graph"];
-    } else if(algorithmName === "Prims Algorithm" || algorithmName === "Kruskal Algorithm") {
-        res = ["Connected Undirected Graph", "Euler Undirected Graph"];
-    } else if(algorithmName === "Euler Cycle Finding Algorithm"){
-        res = ["Euler Directed Graph", 
-        "Euler Undirected Graph"];
+        "Eulerian Directed Graph", "Connected Undirected Graph", "Eulerian Undirected Graph"];
+    } else if(algorithmName === "Prim's Algorithm" || algorithmName === "Kruskal's Algorithm") {
+        res = ["Connected Undirected Graph", "Eulerian Undirected Graph"];
+    } else if(algorithmName === "Eulerian Cycle Finding Algorithm"){
+        res = ["Eulerian Directed Graph",
+        "Eulerian Undirected Graph"];
     }
     return res
 }
 
 export const reducePossibleRepresentations = (algorithmName: string, dataGenerator: string, representations: string[]): string[] => {
     let res=[...representations]
-    if(algorithmName === "Dijkstra Algorithm" && (dataGenerator === "Connected Directed Graph" || dataGenerator === "Euler Directed Graph")){
+    if(algorithmName === "Dijkstra's Algorithm" && (dataGenerator === "Connected Directed Graph" || dataGenerator === "Eulerian Directed Graph")){
         res = ["Weighted Adjacency Matrix Directed", "Weighted Incidence Matrix Directed", "Weighted List Of Arcs", "Weighted List Of Predecessors Directed", "Weighted List Of Successors Directed"]
-    } else if(algorithmName === "Dijkstra Algorithm" && (dataGenerator === "Connected Undirected Graph" || dataGenerator === "Euler Undirected Graph")){
+    } else if(algorithmName === "Dijkstra's Algorithm" && (dataGenerator === "Connected Undirected Graph" || dataGenerator === "Eulerian Undirected Graph")){
         res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges", "Weighted List Of Incident Undirected"]
-    } else if(algorithmName === "Prims Algorithm" || algorithmName === "Kruskal Algorithm"){
+    } else if(algorithmName === "Prim's Algorithm" || algorithmName === "Kruskal's Algorithm"){
         res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges", "Weighted List Of Incident Undirected"]
     } else if (algorithmName === "Get All Edges" 
               || algorithmName === "Get All Relations"
@@ -47,20 +47,20 @@ export const reducePossibleRepresentations = (algorithmName: string, dataGenerat
               || algorithmName === "Get Non Incident"
               || algorithmName === "Get Successors"
               || algorithmName === "Get Predecessors") {
-        if (dataGenerator === "Connected Directed Graph" || dataGenerator === "Directed Graph" || dataGenerator === "Euler Directed Graph") {
+        if (dataGenerator === "Connected Directed Graph" || dataGenerator === "Directed Graph" || dataGenerator === "Eulerian Directed Graph") {
             res = ["Adjacency Matrix Directed", "Incidence Matrix Directed", "List Of Arcs", "List Of Predecessors Directed", 
                    "List Of Successors Directed", "Weighted Adjacency Matrix Directed", "Weighted Incidence Matrix Directed", 
                    "Weighted List Of Arcs", "Weighted List Of Predecessors Directed", "Weighted List Of Successors Directed"];
         }
-        else if (dataGenerator === "Connected Undirected Graph" || dataGenerator === "Undirected Graph" || dataGenerator === "Euler Undirected Graph") {
+        else if (dataGenerator === "Connected Undirected Graph" || dataGenerator === "Undirected Graph" || dataGenerator === "Eulerian Undirected Graph") {
             res = ["Adjacency Matrix Undirected", "Incidence Matrix Undirected", "List Of Edges", "List Of Incident Undirected", 
                    "Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges", 
                    "Weighted List Of Incident Undirected"];
         }
         return res;
-    } else if(dataGenerator === "Connected Directed Graph" || dataGenerator === "Directed Graph" || dataGenerator === "Euler Directed Graph"){
+    } else if(dataGenerator === "Connected Directed Graph" || dataGenerator === "Directed Graph" || dataGenerator === "Eulerian Directed Graph"){
         res = ["Adjacency Matrix Directed", "Incidence Matrix Directed", "List Of Arcs", "List Of Predecessors Directed", "List Of Successors Directed"];
-    } else if(dataGenerator === "Connected Undirected Graph" || dataGenerator === "Undirected Graph" || dataGenerator === "Euler Undirected Graph"){
+    } else if(dataGenerator === "Connected Undirected Graph" || dataGenerator === "Undirected Graph" || dataGenerator === "Eulerian Undirected Graph"){
         res = ["Adjacency Matrix Undirected", "Incidence Matrix Undirected", "List Of Edges", "List Of Incident Undirected"];
     } 
     return res
@@ -72,7 +72,7 @@ export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[])
     let foundEuler=false
     let foundHamiltonian=false
         experiments.forEach(e=>{
-            if(e.dataGenerator.includes("Euler"))
+            if(e.dataGenerator.includes("Eulerian"))
                 foundEuler=true
             if(e.algorithmName.includes("Hamiltonian"))
                 foundHamiltonian=true
@@ -115,7 +115,7 @@ export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[])
         }
         else if(foundEuler && config.densityOrVertices > 80){
             result.densityOrVertices.status="ERROR"
-            result.densityOrVertices.msg="Maximum density must be less than 80 for Euler generated graphs"
+            result.densityOrVertices.msg="Maximum density must be less than 80 for generating Eulerian graphs"
             result.errorFlag=true
         }
     } else {
@@ -139,7 +139,12 @@ export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[])
         else if (config.densityOrVertices / config.measureSeries < 6 && foundEuler)
         {
             result.densityOrVertices.status="ERROR"
-            result.densityOrVertices.msg="Too low vertices for generating Euler graph"
+            result.densityOrVertices.msg="Too low vertices for generating Eulerian graph"
+            result.errorFlag=true
+        }
+        else if (foundEuler && config.densityOrVertices > 100) {
+            result.densityOrVertices.status="ERROR"
+            result.densityOrVertices.msg="Number of vertices for finding Eulerian cycle can not be greater than 100"
             result.errorFlag=true
         }
         else if (config.densityOrVertices > 500)
@@ -172,11 +177,17 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
             result.numberOfVertices.msg="Number of vertices can not be greater than 1000"
             result.errorFlag=true
         }
-        else if (experiment.numberOfVertices < 6 && experiment.dataGenerator.includes("Euler"))
+        else if (experiment.numberOfVertices < 6 && experiment.dataGenerator.includes("Eulerian"))
         {
             result.numberOfVertices.status="ERROR"
-            result.numberOfVertices.msg="Too low vertices for generating Euler graph"
+            result.numberOfVertices.msg="Too few vertices for generating Eulerian graph"
             result.errorFlag=true
+        }
+        else if (experiment.algorithmName.includes("Eulerian") && experiment.numberOfVertices > 100)
+        {
+                    result.numberOfVertices.status="ERROR"
+                    result.numberOfVertices.msg="Number of vertices for finding Eulerian cycle can not be greater than 100"
+                    result.errorFlag=true
         }
         else if (experiment.numberOfVertices > 500)
         {
@@ -197,10 +208,10 @@ export const checkExperiment = (experiment: GraphExperiment, config: GraphConfig
             result.density.msg="Density must be a number below 100"
             result.errorFlag=true
         }
-        else if(experiment.dataGenerator.includes("Euler") && experiment.density > 80)
+        else if(experiment.dataGenerator.includes("Eulerian") && experiment.density > 80)
         {
             result.density.status="ERROR"
-            result.density.msg="Density must be less than 80 for Euler generated graphs"
+            result.density.msg="Density must be less than 80 for Eulerian generated graphs"
             result.errorFlag=true
         }
     }

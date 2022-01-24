@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Component("Prims Algorithm")
+@Component("Prim's Algorithm")
 public class PrimsAlgorithm extends GraphAlgorithm  {
 
 

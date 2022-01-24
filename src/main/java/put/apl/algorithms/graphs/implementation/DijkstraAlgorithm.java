@@ -7,7 +7,7 @@ import put.apl.algorithms.graphs.data.GraphRepresentationWeightedInterface;
 
 import java.util.*;
 
-@Component("Dijkstra Algorithm")
+@Component("Dijkstra's Algorithm")
 public class DijkstraAlgorithm  extends GraphAlgorithm {
 
     PriorityQueue<Integer> queue;

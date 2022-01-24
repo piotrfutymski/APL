@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
-@Component("Euler Directed Graph")
+@Component("Eulerian Directed Graph")
 public class EulerDirectedGraphDataGenerator extends GraphDataGenerator {
 
     @Override
