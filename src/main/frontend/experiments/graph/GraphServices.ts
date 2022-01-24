@@ -293,10 +293,8 @@ export const deleteGraphExperiment = (id:string) => {
 
 export const getNameForGraphExperiment = (v: GraphExperiment, densityXAxis: boolean) => {
     let series = v.algorithmName + " : " + v.dataGenerator + " : " + v.representation + " : " + (densityXAxis === true ? v.numberOfVertices : v.density);
-    if (v.algorithmParams) {
-        for (let [key, val] of v.algorithmParams.entries()) {
-            series += " : [ " +key + " - " + val + " ]"
-        }
+    for (let [key, val] of v.algorithmParams.entries()) {
+        series += " : [ " +key + " - " + val + " ]"
     }
     return series
 }

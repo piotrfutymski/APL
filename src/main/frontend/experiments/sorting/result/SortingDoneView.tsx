@@ -93,8 +93,9 @@ export const SortingDoneView = (props: SortingExperimentsResult) => {
     return (
     <>
         <div className={styles.Header}>
-            <div className={styles.TrendContainer}>
-                <p>Choose data series for trend line</p>
+            <p className={styles.HeaderText}>
+                Choose data series for trend line
+            </p>
                 <select className={styles.SeriesSelect} value={choosedSeries} onChange={handleChangeSeries}>
                     <option key="emptyOpt" value=""></option>
                     {
@@ -102,7 +103,9 @@ export const SortingDoneView = (props: SortingExperimentsResult) => {
                     }
                 </select>
                 {complexityParams && <SortingFormula {...complexityParams}/>}
-            </div>
+            <p className={styles.HeaderText}>
+                Legend
+            </p>
             <div className={styles.LabelContainer}>
                 {
                     series.map((lab, index) => <p key={index} className={styles.Label} style={{color: lab.active? lab.colorStr : "#808080"}} onClick={()=>toggleSeries(index)}>{lab.name}</p>)
