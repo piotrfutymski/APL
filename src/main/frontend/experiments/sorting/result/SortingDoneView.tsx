@@ -67,8 +67,11 @@ export const SortingDoneView = (props: SortingExperimentsResult) => {
                 tmp.forEach((l : SortingExperiment, lindex) => {
                     if (getNameForSortingExperiment(l) === vName) {
                         found = true;
-                        if(v.n>l.n){
-                            replace=lindex
+                        if(v.timeInMillis !== -1)
+                        {
+                            if(v.n>l.n){
+                                replace=lindex
+                            }
                         }
                     }
                 });

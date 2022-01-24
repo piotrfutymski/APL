@@ -76,12 +76,15 @@ export const GraphDoneView = (props: GraphExperimentsResult) => {
                 tmp.forEach((l : GraphExperiment, lindex) => {
                     if (getNameForGraphExperiment(l, densityAsX) === getNameForGraphExperiment(v, densityAsX)) {
                         found = true;
-                        if(densityAsX){
-                            if(v.density > l.density)
+                        if(v.timeInMillis !== -1)
+                        {
+                            if(densityAsX){
+                                if(v.density > l.density)
+                                    replace=lindex
+                            }
+                            else if(v.numberOfVertices > l.numberOfVertices)
                                 replace=lindex
                         }
-                        else if(v.numberOfVertices > l.numberOfVertices)
-                            replace=lindex
                     }
                 });
                 if (!found) {
