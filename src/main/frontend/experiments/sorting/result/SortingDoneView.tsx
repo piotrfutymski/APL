@@ -62,16 +62,24 @@ export const SortingDoneView = (props: SortingExperimentsResult) => {
             let tmp : SortingExperiment[] = [];
             props.results.forEach((v : SortingExperiment) => {
                 let found : boolean = false;
+                let replace = -1
                 const vName = getNameForSortingExperiment(v)
-                tmp.forEach((l : SortingExperiment) => {
+                tmp.forEach((l : SortingExperiment, lindex) => {
                     if (getNameForSortingExperiment(l) === vName) {
                         found = true;
+                        if(v.n>l.n){
+                            replace=lindex
+                        }
                     }
                 });
                 if (!found) {
                     tmp.push(v);
                 }
+                else if(replace!==-1){
+                    tmp[replace]=v
+                }
             });
+            tmp.sort((a,b)=>b.timeInMillis - a.timeInMillis)
             tmp.forEach((v, index) => {
                     stoSet.push({name: getNameForSortingExperiment(v), active: true, colorStr: colors[index%colors.length]})
             });

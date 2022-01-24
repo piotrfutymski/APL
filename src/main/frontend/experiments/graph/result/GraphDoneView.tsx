@@ -72,15 +72,26 @@ export const GraphDoneView = (props: GraphExperimentsResult) => {
             let tmp : GraphExperiment[] = [];
             props.results.forEach((v : GraphExperiment) => {
                 let found : boolean = false;
-                tmp.forEach((l : GraphExperiment) => {
+                let replace = -1
+                tmp.forEach((l : GraphExperiment, lindex) => {
                     if (getNameForGraphExperiment(l, densityAsX) === getNameForGraphExperiment(v, densityAsX)) {
                         found = true;
+                        if(densityAsX){
+                            if(v.density > l.density)
+                                replace=lindex
+                        }
+                        else if(v.numberOfVertices > l.numberOfVertices)
+                            replace=lindex
                     }
                 });
                 if (!found) {
                     tmp.push(v);
                 }
+                else if(replace!==-1){
+                    tmp[replace]=v
+                }
             });
+            tmp.sort((a,b)=>b.timeInMillis - a.timeInMillis)
             tmp.forEach((v, index) => {
                     stoSet.push({name: getNameForGraphExperiment(v, densityAsX), active: true, colorStr: colors[index%colors.length]})
             });
