@@ -5,7 +5,7 @@ import put.apl.algorithms.sorting.data.SortingData;
 import put.apl.algorithms.sorting.SortingResult;
 
 import java.util.Map;
-@Component("Bubble Sort Very Aware")
+@Component("Bubble Sort Opt. 2")
 public class BubbleSortVeryAware implements SortingAlgorithm  {
     @Override
     public SortingResult sort(SortingData tab) throws InterruptedException {

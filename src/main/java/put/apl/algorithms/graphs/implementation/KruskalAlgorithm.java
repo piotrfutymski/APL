@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-@Component("Kruskal Algorithm")
+@Component("Kruskal's Algorithm")
 public class KruskalAlgorithm extends GraphAlgorithm  {
 
     static class Edge implements Comparable<Edge> {
