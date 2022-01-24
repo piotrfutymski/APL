@@ -43,11 +43,11 @@ public class SubmitingSeleniumTests {
         try{
             utils.clickWithName("GRAPH ALGORITHMS");
             utils.setNewGraphAlgorithm("Dijkstra Algorithm",
-                    "Euler Directed Graph Generator",
+                    "Euler Directed Graph",
                     "List Of Edges Directed",
                     50,80);
             utils.setNewGraphAlgorithm("Dijkstra Algorithm",
-                    "Euler Directed Graph Generator",
+                    "Euler Directed Graph",
                     "Weighted Adjacency Matrix Directed",
                     50,80);
             utils.normalWait.until(presenceOfElementLocated(By.xpath("//*[text()='Submit']"))).click();

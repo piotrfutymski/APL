@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 
-@Component("Directed Graph Generator")
+@Component("Directed Graph")
 public class DirectedGraphDataGenerator extends GraphDataGenerator {
 
     @Override

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 
-@Component("Connected Undirected Graph Generator")
+@Component("Connected Undirected Graph")
 public class ConnectedUndirectedGraphDataGenerator extends GraphDataGenerator {
 
     @Override
