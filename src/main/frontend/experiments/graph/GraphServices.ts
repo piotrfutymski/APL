@@ -18,24 +18,24 @@ export const getParamInfos = (experiment: GraphExperiment): paramInfo[]=>{
 export const reducePossibleGenerators = (algorithmName: string, generators: string[]): string[] => {
     let res=[...generators]
     if(algorithmName === "Topological Sort"){
-        res = ["Connected Directed Graph Generator", "Euler Directed Graph Generator"];
+        res = ["Connected Directed Graph", "Euler Directed Graph"];
     } else if(algorithmName === "All Hamiltonian Cycles" || algorithmName === "Hamiltonian Cycle" || algorithmName === "Dijkstra Algorithm"){
-        res = ["Connected Directed Graph Generator", 
-        "Euler Directed Graph Generator", "Connected Undirected Graph Generator", "Euler Undirected Graph Generator"];
+        res = ["Connected Directed Graph", 
+        "Euler Directed Graph", "Connected Undirected Graph", "Euler Undirected Graph"];
     } else if(algorithmName === "Prims Algorithm" || algorithmName === "Kruskal Algorithm") {
-        res = ["Connected Undirected Graph Generator", "Euler Undirected Graph Generator"];
+        res = ["Connected Undirected Graph", "Euler Undirected Graph"];
     } else if(algorithmName === "Euler Cycle Finding Algorithm"){
-        res = ["Euler Directed Graph Generator", 
-        "Euler Undirected Graph Generator"];
+        res = ["Euler Directed Graph", 
+        "Euler Undirected Graph"];
     }
     return res
 }
 
 export const reducePossibleRepresentations = (algorithmName: string, dataGenerator: string, representations: string[]): string[] => {
     let res=[...representations]
-    if(algorithmName === "Dijkstra Algorithm" && (dataGenerator === "Connected Directed Graph Generator" || dataGenerator === "Euler Directed Graph Generator")){
+    if(algorithmName === "Dijkstra Algorithm" && (dataGenerator === "Connected Directed Graph" || dataGenerator === "Euler Directed Graph")){
         res = ["Weighted Adjacency Matrix Directed", "Weighted Incidence Matrix Directed", "Weighted List Of Arcs", "Weighted List Of Predecessors Directed", "Weighted List Of Successors Directed"]
-    } else if(algorithmName === "Dijkstra Algorithm" && (dataGenerator === "Connected Undirected Graph Generator" || dataGenerator === "Euler Undirected Graph Generator")){
+    } else if(algorithmName === "Dijkstra Algorithm" && (dataGenerator === "Connected Undirected Graph" || dataGenerator === "Euler Undirected Graph")){
         res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges", "Weighted List Of Incident Undirected"]
     } else if(algorithmName === "Prims Algorithm" || algorithmName === "Kruskal Algorithm"){
         res = ["Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges", "Weighted List Of Incident Undirected"]
@@ -47,20 +47,20 @@ export const reducePossibleRepresentations = (algorithmName: string, dataGenerat
               || algorithmName === "Get Non Incident"
               || algorithmName === "Get Successors"
               || algorithmName === "Get Predecessors") {
-        if (dataGenerator === "Connected Directed Graph Generator" || dataGenerator === "Directed Graph Generator" || dataGenerator === "Euler Directed Graph Generator") {
+        if (dataGenerator === "Connected Directed Graph" || dataGenerator === "Directed Graph" || dataGenerator === "Euler Directed Graph") {
             res = ["Adjacency Matrix Directed", "Incidence Matrix Directed", "List Of Arcs", "List Of Predecessors Directed", 
                    "List Of Successors Directed", "Weighted Adjacency Matrix Directed", "Weighted Incidence Matrix Directed", 
                    "Weighted List Of Arcs", "Weighted List Of Predecessors Directed", "Weighted List Of Successors Directed"];
         }
-        else if (dataGenerator === "Connected Undirected Graph Generator" || dataGenerator === "Undirected Graph Generator" || dataGenerator === "Euler Undirected Graph Generator") {
+        else if (dataGenerator === "Connected Undirected Graph" || dataGenerator === "Undirected Graph" || dataGenerator === "Euler Undirected Graph") {
             res = ["Adjacency Matrix Undirected", "Incidence Matrix Undirected", "List Of Edges", "List Of Incident Undirected", 
                    "Weighted Adjacency Matrix Undirected", "Weighted Incidence Matrix Undirected", "Weighted List Of Edges", 
                    "Weighted List Of Incident Undirected"];
         }
         return res;
-    } else if(dataGenerator === "Connected Directed Graph Generator" || dataGenerator === "Directed Graph Generator" || dataGenerator === "Euler Directed Graph Generator"){
+    } else if(dataGenerator === "Connected Directed Graph" || dataGenerator === "Directed Graph" || dataGenerator === "Euler Directed Graph"){
         res = ["Adjacency Matrix Directed", "Incidence Matrix Directed", "List Of Arcs", "List Of Predecessors Directed", "List Of Successors Directed"];
-    } else if(dataGenerator === "Connected Undirected Graph Generator" || dataGenerator === "Undirected Graph Generator" || dataGenerator === "Euler Undirected Graph Generator"){
+    } else if(dataGenerator === "Connected Undirected Graph" || dataGenerator === "Undirected Graph" || dataGenerator === "Euler Undirected Graph"){
         res = ["Adjacency Matrix Undirected", "Incidence Matrix Undirected", "List Of Edges", "List Of Incident Undirected"];
     } 
     return res
@@ -293,10 +293,8 @@ export const deleteGraphExperiment = (id:string) => {
 
 export const getNameForGraphExperiment = (v: GraphExperiment, densityXAxis: boolean) => {
     let series = v.algorithmName + " : " + v.dataGenerator + " : " + v.representation + " : " + (densityXAxis === true ? v.numberOfVertices : v.density);
-    if (v.algorithmParams) {
-        for (let [key, val] of v.algorithmParams.entries()) {
-            series += " : [ " +key + " - " + val + " ]"
-        }
+    for (let [key, val] of v.algorithmParams.entries()) {
+        series += " : [ " +key + " - " + val + " ]"
     }
     return series
 }

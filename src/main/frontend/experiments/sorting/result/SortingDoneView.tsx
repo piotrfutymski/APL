@@ -62,16 +62,27 @@ export const SortingDoneView = (props: SortingExperimentsResult) => {
             let tmp : SortingExperiment[] = [];
             props.results.forEach((v : SortingExperiment) => {
                 let found : boolean = false;
+                let replace = -1
                 const vName = getNameForSortingExperiment(v)
-                tmp.forEach((l : SortingExperiment) => {
+                tmp.forEach((l : SortingExperiment, lindex) => {
                     if (getNameForSortingExperiment(l) === vName) {
                         found = true;
+                        if(v.timeInMillis !== -1)
+                        {
+                            if(v.n>l.n){
+                                replace=lindex
+                            }
+                        }
                     }
                 });
                 if (!found) {
                     tmp.push(v);
                 }
+                else if(replace!==-1){
+                    tmp[replace]=v
+                }
             });
+            tmp.sort((a,b)=>b.timeInMillis - a.timeInMillis)
             tmp.forEach((v, index) => {
                     stoSet.push({name: getNameForSortingExperiment(v), active: true, colorStr: colors[index%colors.length]})
             });
@@ -93,8 +104,9 @@ export const SortingDoneView = (props: SortingExperimentsResult) => {
     return (
     <>
         <div className={styles.Header}>
-            <div className={styles.TrendContainer}>
-                <p>Choose data series for trend line</p>
+            <p className={styles.HeaderText}>
+                Choose data series for trend line
+            </p>
                 <select className={styles.SeriesSelect} value={choosedSeries} onChange={handleChangeSeries}>
                     <option key="emptyOpt" value=""></option>
                     {
@@ -102,7 +114,9 @@ export const SortingDoneView = (props: SortingExperimentsResult) => {
                     }
                 </select>
                 {complexityParams && <SortingFormula {...complexityParams}/>}
-            </div>
+            <p className={styles.HeaderText}>
+                Legend
+            </p>
             <div className={styles.LabelContainer}>
                 {
                     series.map((lab, index) => <p key={index} className={styles.Label} style={{color: lab.active? lab.colorStr : "#808080"}} onClick={()=>toggleSeries(index)}>{lab.name}</p>)
