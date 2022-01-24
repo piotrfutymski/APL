@@ -5,7 +5,7 @@ import put.apl.algorithms.sorting.implementation.MergeSort;
 
 import java.util.Random;
 
-@Component("VShaped Data Generator")
+@Component("VShaped Data")
 public class VShapeDataGenerator implements  SortingDataGenerator{
     @Override
     public SortingData generate(DataGeneratorConfig config) throws InterruptedException {
