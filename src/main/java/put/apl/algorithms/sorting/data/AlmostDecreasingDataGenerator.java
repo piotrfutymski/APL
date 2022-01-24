@@ -5,8 +5,8 @@ import put.apl.algorithms.sorting.implementation.MergeSort;
 
 import java.util.Random;
 
-@Component("Decreasing Data")
-public class DecreasingDataGenerator implements  SortingDataGenerator{
+@Component("Almost Decreasing Data")
+public class AlmostDecreasingDataGenerator implements  SortingDataGenerator{
     @Override
     public SortingData generate(DataGeneratorConfig config) throws InterruptedException {
         int[] tab = new Random()
@@ -20,6 +20,16 @@ public class DecreasingDataGenerator implements  SortingDataGenerator{
 
         for (int i=0; i<data.length()/2; i++)
             data.swap(i, data.length() - 1 - i);
+
+        int elementsNotInOrder = (int)(data.length() * 0.05);
+        if (elementsNotInOrder < 1) {
+            elementsNotInOrder = 1;
+        }
+        for (int i = 0; i < elementsNotInOrder; i++) {
+            int randomMin = data.length() / (elementsNotInOrder) - (data.length() / (elementsNotInOrder - 1));
+            int randomMax = data.length() / (elementsNotInOrder);
+            data.getTab()[(int) ((Math.random() * (randomMax - randomMin)) + randomMin)] = (int) (Math.random() * config.getMaxValue());
+        }
 
         data.setCompCount(0L);
         data.setSwapCount(0L);

@@ -5,8 +5,8 @@ import put.apl.algorithms.sorting.implementation.MergeSort;
 
 import java.util.Random;
 
-@Component("Ascending Data With Min On End")
-public class AscendingMinDataGenerator implements  SortingDataGenerator{
+@Component("Increasing Data With Min On End")
+public class IncreasingMinDataGenerator implements  SortingDataGenerator{
     @Override
     public SortingData generate(DataGeneratorConfig config) throws InterruptedException {
         int[] data = new Random()
