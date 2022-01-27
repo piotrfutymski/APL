@@ -19,15 +19,11 @@ public class AlmostIncreasingDataGenerator implements  SortingDataGenerator{
         mergeSort.sort(data);
 
         int elementsNotInOrder = (int)(data.length() * 0.05);
-        if (elementsNotInOrder < 1) {
-            elementsNotInOrder = 1;
-        }
-        for (int i = 0; i < elementsNotInOrder; i++) {
-            int randomMin = data.length() / (elementsNotInOrder) - (data.length() / (elementsNotInOrder - 1));
-            int randomMax = data.length() / (elementsNotInOrder);
+        for (int i = 1; i <= elementsNotInOrder; i++) {
+            int randomMin = data.length() / (elementsNotInOrder) * (i-1);
+            int randomMax = data.length() / (elementsNotInOrder) * i;
             data.getTab()[(int) ((Math.random() * (randomMax - randomMin)) + randomMin)] = (int) (Math.random() * config.getMaxValue());
         }
-
         data.setCompCount(0L);
         data.setSwapCount(0L);
 
