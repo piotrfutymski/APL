@@ -70,12 +70,15 @@ export const reducePossibleRepresentations = (algorithmName: string, dataGenerat
 export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[]): GraphConfigCheck => {
     let result:GraphConfigCheck = {warningFlag: false, errorFlag: false,  measureSeries: {status: "CORRECT"}, densityOrVertices: {status: "CORRECT"}}
     let foundEuler=false
+    let foundEulerAlgorithm=false
     let foundHamiltonian=false
         experiments.forEach(e=>{
             if(e.dataGenerator.includes("Eulerian"))
                 foundEuler=true
             if(e.algorithmName.includes("Hamiltonian"))
                 foundHamiltonian=true
+            if(e.algorithmName.includes("Eulerian"))
+                foundEulerAlgorithm=true
         })
     if(config.measureSeries <= 0){
         result.measureSeries.status="ERROR"
@@ -142,7 +145,7 @@ export const checkConfig = (config: GraphConfig, experiments: GraphExperiment[])
             result.densityOrVertices.msg="Too low vertices for generating Eulerian graph"
             result.errorFlag=true
         }
-        else if (foundEuler && config.densityOrVertices > 100) {
+        else if (foundEulerAlgorithm && config.densityOrVertices > 100) {
             result.densityOrVertices.status="ERROR"
             result.densityOrVertices.msg="Number of vertices for finding Eulerian cycle can not be greater than 100"
             result.errorFlag=true

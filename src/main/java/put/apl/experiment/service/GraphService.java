@@ -65,6 +65,7 @@ public class GraphService {
         return GraphExperiment
                 .builder()
                 .algorithmName(experiments.get(0).getAlgorithmName())
+                .algorithmParams(experiments.get(0).getAlgorithmParams())
                 .representation(experiments.get(0).getRepresentation())
                 .dataGenerator(experiments.get(0).getDataGenerator())
                 .numberOfVertices(experiments.get(0).getNumberOfVertices())
