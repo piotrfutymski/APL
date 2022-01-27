@@ -72,15 +72,29 @@ export const GraphDoneView = (props: GraphExperimentsResult) => {
             let tmp : GraphExperiment[] = [];
             props.results.forEach((v : GraphExperiment) => {
                 let found : boolean = false;
-                tmp.forEach((l : GraphExperiment) => {
+                let replace = -1
+                tmp.forEach((l : GraphExperiment, lindex) => {
                     if (getNameForGraphExperiment(l, densityAsX) === getNameForGraphExperiment(v, densityAsX)) {
                         found = true;
+                        if(v.timeInMillis !== -1)
+                        {
+                            if(densityAsX){
+                                if(v.density > l.density)
+                                    replace=lindex
+                            }
+                            else if(v.numberOfVertices > l.numberOfVertices)
+                                replace=lindex
+                        }
                     }
                 });
                 if (!found) {
                     tmp.push(v);
                 }
+                else if(replace!==-1){
+                    tmp[replace]=v
+                }
             });
+            tmp.sort((a,b)=>b.timeInMillis - a.timeInMillis)
             tmp.forEach((v, index) => {
                     stoSet.push({name: getNameForGraphExperiment(v, densityAsX), active: true, colorStr: colors[index%colors.length]})
             });
@@ -102,8 +116,9 @@ export const GraphDoneView = (props: GraphExperimentsResult) => {
     return (
     <>
         <div className={styles.Header}>
-            <div className={styles.TrendContainer}>
-                <p>Choose data series for trend line</p>
+            <p className={styles.HeaderText}>
+                Choose data series for trend line
+            </p>
                 <select className={styles.SeriesSelect} value={choosedSeries} onChange={handleChangeSeries}>
                     <option key="emptyOpt" value=""></option>
                     {
@@ -111,7 +126,9 @@ export const GraphDoneView = (props: GraphExperimentsResult) => {
                     }
                 </select>
                 {complexityParams && <GraphFormula {...complexityParams}/>}
-            </div>
+            <p className={styles.HeaderText}>
+                Legend
+            </p>
             <div className={styles.LabelContainer}>
                 {
                     series.map((lab, index) => <p key={index} className={styles.Label} style={{color: lab.active? lab.colorStr : "#808080"}} onClick={()=>toggleSeries(index)}>{lab.name}</p>)

@@ -21,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class GeneratorsSeleniumTests {
 
-    final String[] generators = {"Connected Directed Graph Generator", "Euler Directed Graph Generator", "Connected Undirected Graph Generator",
-            "Euler Undirected Graph Generator", "Directed Graph Generator", "Undirected Graph Generator"};
+    final String[] generators = {"Connected Directed Graph", "Eulerian Directed Graph", "Connected Undirected Graph",
+            "Eulerian Undirected Graph", "Directed Graph", "Undirected Graph"};
 
     final String algorithm = "Breadth First Search";
 

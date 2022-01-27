@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 
-@Component("Connected Directed Graph Generator")
+@Component("Connected Directed Graph")
 public class ConnectedDirectedGraphDataGenerator extends GraphDataGenerator {
 
     @Override

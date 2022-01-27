@@ -8,7 +8,7 @@ export const getParamInfos = (experiment: SortingExperiment): paramInfo[]=>{
             algorithm: "QuickSort",
             name: "pivotStrategy",
             isSelect: true,
-            options: ["Median", "First item", "Middle item", "Last item", "Random item", "Median of fixed three"]
+            options: ["First item", "Middle item", "Last item", "Random item", "Median", "Median of fixed three"]
         })
         if(experiment.algorithmParams.get("pivotStrategy") === "Median"){
             res.push({
@@ -114,7 +114,7 @@ export const checkExperiment = (experiment: SortingExperiment, config: SortingCo
                 }else if(medianCount > config.n){
                     medianCountCheck.status="ERROR"
                     medianCountCheck.msg="Quick Sort's median count parameter can not be larger than instance size value (N)"
-                    result.warningFlag=true
+                    result.errorFlag=true
                 }
                 result.algorithmParams.set("medianCount", medianCountCheck)
             }

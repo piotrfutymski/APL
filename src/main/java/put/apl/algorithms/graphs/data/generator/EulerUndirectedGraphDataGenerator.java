@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
-@Component("Euler Undirected Graph Generator")
+
+@Component("Eulerian Undirected Graph")
+
 public class EulerUndirectedGraphDataGenerator extends GraphDataGenerator {
 
     @Override

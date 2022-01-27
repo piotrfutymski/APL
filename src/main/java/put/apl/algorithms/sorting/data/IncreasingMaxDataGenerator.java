@@ -5,8 +5,8 @@ import put.apl.algorithms.sorting.implementation.MergeSort;
 
 import java.util.Random;
 
-@Component("Ascending Data With Max at Beginning")
-public class AscendingMaxDataGenerator implements  SortingDataGenerator{
+@Component("Increasing Data With Max at Beginning")
+public class IncreasingMaxDataGenerator implements  SortingDataGenerator{
     @Override
     public SortingData generate(DataGeneratorConfig config) throws InterruptedException {
         int[] data = new Random()

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Component("Euler Cycle Finding Algorithm")
+@Component("Eulerian Cycle Finding Algorithm")
 public class EulerCycleAlgorithm extends GraphAlgorithm  {
 
     GraphRepresentationInterface graph;

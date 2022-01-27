@@ -5,7 +5,7 @@ import put.apl.algorithms.sorting.implementation.MergeSort;
 
 import java.util.Random;
 
-@Component("Decreasing Data Generator")
+@Component("Decreasing Data")
 public class DecreasingDataGenerator implements  SortingDataGenerator{
     @Override
     public SortingData generate(DataGeneratorConfig config) throws InterruptedException {

@@ -94,7 +94,7 @@ export const SortingChart = (props: SortingChartProps) => {
         if (props.dataLabel === "swapCount")
             return "Swap Count"
         if (props.dataLabel === "recursionSize")
-            return "Recursion Size"
+            return "Recursion Level"
         if (props.dataLabel === "comparisonCount")
             return "Comparison Count"
     }
@@ -121,7 +121,7 @@ export const SortingChart = (props: SortingChartProps) => {
         if (props.dataLabel === "swapCount")
             return "Swap Count"
         if (props.dataLabel === "recursionSize")
-            return "Recursion Size"
+            return "Recursion Level"
         if (props.dataLabel === "comparisonCount")
             return "Comparison Count"
         return ""

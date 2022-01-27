@@ -5,7 +5,7 @@ import put.apl.algorithms.sorting.implementation.MergeSort;
 
 import java.util.Random;
 
-@Component("AShaped Data Generator")
+@Component("AShaped Data")
 public class AShapeDataGenerator implements  SortingDataGenerator{
     @Override
     public SortingData generate(DataGeneratorConfig config) throws InterruptedException {
@@ -16,13 +16,13 @@ public class AShapeDataGenerator implements  SortingDataGenerator{
         if (size % 2 == 1)
             size_first +=1;
         int[] data_first = new Random()
-                .ints(1, config.getMaxValue() + 1)
-                .limit(size_first)
-                .toArray();
-        int[] data_second = new Random()
-                .ints(1, config.getMaxValue() + 1)
-                .limit(size_second)
-                .toArray();
+                    .ints(1, config.getMaxValue() + 1)
+                    .limit(size_first)
+                    .toArray();
+            int[] data_second = new Random()
+                    .ints(1, config.getMaxValue() + 1)
+                    .limit(size_second)
+                    .toArray();
 
         SortingData tab_first = new SortingData(data_first);
         SortingData tab_second = new SortingData(data_second);
